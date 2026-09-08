@@ -1,0 +1,535 @@
+/* ===================================
+   BURIFY LABS — AI AUTOMATION PAGE
+   =================================== */
+
+/* ----- HERO ----- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: 120px;
+  padding-bottom: 80px;
+  background: linear-gradient(180deg, var(--color-background-dark) 0%, var(--color-background-dark-secondary) 100%);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding-top: 160px;
+    padding-bottom: 120px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding-top: 200px;
+    padding-bottom: 160px;
+  }
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.heroGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(107, 95, 169, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(107, 95, 169, 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+
+.heroGlow {
+  position: absolute;
+  top: -20%;
+  left: -10%;
+  width: 70%;
+  height: 80%;
+  background: radial-gradient(ellipse at center, rgba(107, 95, 169, 0.12) 0%, transparent 60%);
+  border-radius: var(--radius-3xl);
+}
+
+.heroOrb {
+  position: absolute;
+  bottom: -10%;
+  right: -5%;
+  width: 40%;
+  height: 50%;
+  background: radial-gradient(ellipse at center, rgba(212, 132, 178, 0.1) 0%, transparent 60%);
+  border-radius: var(--radius-3xl);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .heroContent {
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+}
+
+.heroText {
+  max-width: 640px;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .heroTitle {
+    font-size: 3.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroTitle {
+    font-size: 4.5rem;
+  }
+}
+
+.titleAccent {
+  background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-accent-pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroEyebrow {
+  display: inline-block;
+  color: var(--color-primary-light);
+}
+
+.heroSub {
+  max-width: 560px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.heroVisual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.systemDiagram {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+  width: 100%;
+  max-width: 280px;
+}
+
+@media (min-width: 768px) {
+  .systemDiagram {
+    flex-direction: row;
+    max-width: 100%;
+    gap: 8px;
+  }
+}
+
+.systemNode {
+  flex: 1;
+  padding: var(--space-4) var(--space-3);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  transition: all 300ms ease;
+}
+
+.systemNode:hover {
+  border-color: rgba(107, 95, 169, 0.5);
+  background: rgba(107, 95, 169, 0.1);
+}
+
+.systemNodeAccent {
+  border-color: rgba(107, 95, 169, 0.4);
+  background: rgba(107, 95, 169, 0.15);
+}
+
+.systemArrow {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary-light);
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .systemArrow {
+    display: flex;
+  }
+}
+
+/* ----- WHAT SECTION ----- */
+.whatSection {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+@media (min-width: 768px) {
+  .whatSection {
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-32);
+  }
+}
+
+.transformationVisual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.transformBox {
+  width: 100%;
+  max-width: 320px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+  transition: all 300ms ease;
+}
+
+.transformBox:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.transformBoxAccent {
+  border-color: var(--color-primary-light);
+  background: linear-gradient(135deg, rgba(107, 95, 169, 0.05) 0%, rgba(212, 132, 178, 0.05) 100%);
+}
+
+.transformLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+
+.transformItems {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.transformItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.transformArrow {
+  color: var(--color-primary);
+  transform: rotate(90deg);
+}
+
+@media (min-width: 640px) {
+  .transformArrow {
+    transform: rotate(0deg);
+  }
+}
+
+/* ----- PROBLEMS SECTION ----- */
+.problemsSection {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+@media (min-width: 768px) {
+  .problemsSection {
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-32);
+  }
+}
+
+.problemCard {
+  position: relative;
+  overflow: hidden;
+}
+
+.problemNumber {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-border-light);
+  pointer-events: none;
+}
+
+.problemCard:hover .problemNumber {
+  color: rgba(107, 95, 169, 0.15);
+}
+
+/* ----- EXAMPLES SECTION ----- */
+.examplesSection {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+@media (min-width: 768px) {
+  .examplesSection {
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-32);
+  }
+}
+
+.exampleCard {
+  border-radius: var(--radius-xl);
+}
+
+.exampleSteps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.exampleStep {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  position: relative;
+  padding-left: var(--space-2);
+}
+
+.exampleStepNode {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent-pink));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.exampleStepLine {
+  position: absolute;
+  left: 13px;
+  top: 28px;
+  width: 2px;
+  height: calc(100% + 12px);
+  background: linear-gradient(180deg, var(--color-primary), var(--color-accent-pink));
+  opacity: 0.2;
+}
+
+.exampleStep:last-child .exampleStepLine {
+  display: none;
+}
+
+/* ----- INTEGRATIONS ----- */
+.integrationsSection {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+@media (min-width: 768px) {
+  .integrationsSection {
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-32);
+  }
+}
+
+.integrationItem {
+  border-radius: var(--radius-xl);
+  transition: all 200ms ease;
+}
+
+.integrationItem:hover {
+  border-color: var(--color-primary-light);
+  transform: translateY(-2px);
+}
+
+/* ----- PROCESS ----- */
+.processSection {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+@media (min-width: 768px) {
+  .processSection {
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-32);
+  }
+}
+
+.processCard {
+  position: relative;
+}
+
+.processStepNumber {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent-pink));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin: 0 auto var(--space-6);
+}
+
+.processConnector {
+  display: none;
+  position: absolute;
+  top: 28px;
+  left: calc(50% + 32px);
+  width: calc(100% - 64px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent-pink));
+  opacity: 0.25;
+}
+
+@media (min-width: 1024px) {
+  .processConnector {
+    display: block;
+  }
+}
+
+/* ----- AGENTS SECTION ----- */
+.agentsSection {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+@media (min-width: 768px) {
+  .agentsSection {
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-32);
+  }
+}
+
+.agentsGlow {
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 70%;
+  height: 80%;
+  background: radial-gradient(ellipse at center, rgba(107, 95, 169, 0.2) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ----- DELIVERABLES ----- */
+.deliverablesSection {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+@media (min-width: 768px) {
+  .deliverablesSection {
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-32);
+  }
+}
+
+.deliverableItem {
+  border-radius: var(--radius-xl);
+}
+
+/* ----- WHY SECTION ----- */
+.whySection {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+@media (min-width: 768px) {
+  .whySection {
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-32);
+  }
+}
+
+.whyCard {
+  border-radius: var(--radius-xl);
+}
+
+/* ----- FAQ ----- */
+.faqSection {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+@media (min-width: 768px) {
+  .faqSection {
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-32);
+  }
+}
+
+.faqItem {
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faqQuestion {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+}
+
+.faqAnswer {
+  overflow: hidden;
+}
+
+/* ----- FINAL CTA ----- */
+.finalCta {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+@media (min-width: 768px) {
+  .finalCta {
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-32);
+  }
+}
+
+.ctaGlow {
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 70%;
+  height: 80%;
+  background: radial-gradient(ellipse at center, rgba(107, 95, 169, 0.2) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ----- MAIN ----- */
+.main {
+  min-height: 100vh;
+}

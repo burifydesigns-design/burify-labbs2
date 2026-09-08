@@ -1,0 +1,50 @@
+/* ===================================
+   BURIFY LABS — HOMEPAGE STYLES
+   =================================== */
+
+/* Hero background */
+#hero {
+  background-image: url('/images/hero.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Workflow arrows */
+.workflow-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+/* Process connector */
+.process-connector {
+  position: relative;
+}
+
+.process-connector::after {
+  content: "";
+  position: absolute;
+  top: 28px;
+  left: calc(50% + 28px);
+  width: calc(100% - 56px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent-pink));
+  opacity: 0.25;
+}
+
+@media (max-width: 767px) {
+  .process-connector::after {
+    display: none;
+  }
+}
+
+/* Empty states */
+.empty-state {
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-16) var(--space-8);
+  text-align: center;
+}

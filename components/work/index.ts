@@ -1,0 +1,11 @@
+export { WorkProjectCard } from "./ProjectCard";
+export { ProjectHero } from "./ProjectHero";
+export { ProjectOverview } from "./ProjectOverview";
+export { ProjectChallenge } from "./ProjectChallenge";
+export { ProjectApproach } from "./ProjectApproach";
+export { ProjectDeliverables } from "./ProjectDeliverables";
+export { ProjectGallery } from "./ProjectGallery";
+export { ProjectOutcome } from "./ProjectOutcome";
+export { RelatedProjects } from "./RelatedProjects";
+export { ServicesUsed } from "./ServicesUsed";
+export { WorkflowDiagram, defaultAutomationWorkflow } from "./WorkflowDiagram";
