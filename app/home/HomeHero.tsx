@@ -2,8 +2,12 @@ import { Button } from "@/components/ui/Button";
 
 export function HomeHero() {
   return (
-    <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 lg:pt-48 lg:pb-36 overflow-hidden" id="hero">
-      <div className="max-w-container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
+    <section
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 md:pt-24"
+      id="hero"
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/30 to-background/60" aria-hidden="true" />
+      <div className="max-w-container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center relative z-10">
         <p className="text-caption font-medium text-primary uppercase tracking-widest mb-4">
           Web Design &amp; AI Automation
         </p>
