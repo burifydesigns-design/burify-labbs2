@@ -35,6 +35,8 @@ const faqs = [
   },
 ];
 
+export const webDesignFaqs = faqs;
+
 export function WebDesignPageClient() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [scrolled, setScrolled] = useState(false);

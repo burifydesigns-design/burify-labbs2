@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/Button";
 
 export default function WorkError({
-  error: _error,
+  error: _error, // eslint-disable-line @typescript-eslint/no-unused-vars
   reset,
 }: {
   error: Error & { digest?: string };

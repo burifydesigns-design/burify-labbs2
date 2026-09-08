@@ -39,6 +39,8 @@ const faqs = [
   },
 ];
 
+export const aiAutomationFaqs = faqs;
+
 export function AiAutomationPageClient() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [scrolled, setScrolled] = useState(false);

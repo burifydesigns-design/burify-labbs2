@@ -46,6 +46,8 @@ const defaultFaqs: FaqItem[] = [
   },
 ];
 
+export const homeFaqs = defaultFaqs;
+
 export function HomeFAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const faqs = defaultFaqs;

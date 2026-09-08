@@ -1,5 +1,5 @@
 import { StructuredData } from "@/components/seo/StructuredData";
-import { createStructuredDataForPage } from "@/lib/structured-data";
+import { createFaqPageJsonLd, createStructuredDataForPage } from "@/lib/structured-data";
 import { createPageMetadata } from "@/lib/seo";
 import { pageArchitecture } from "@/config/page-architecture";
 import { HomeNavigation } from "@/app/home/HomeNavigation";
@@ -15,6 +15,7 @@ import { HomeTestimonials } from "@/app/home/HomeTestimonials";
 import { HomeFAQ } from "@/app/home/HomeFAQ";
 import { HomeCTA } from "@/app/home/HomeCTA";
 import { HomeFooter } from "@/app/home/HomeFooter";
+import { homeFaqs } from "@/app/home/HomeFAQ";
 import "./home/home.css";
 
 const page = pageArchitecture.home;
@@ -22,11 +23,17 @@ const page = pageArchitecture.home;
 export const metadata = createPageMetadata(page);
 
 export default function HomePage() {
+  const faqSchema = createFaqPageJsonLd(homeFaqs);
+  const structuredData = [
+    ...createStructuredDataForPage(page),
+    ...(faqSchema ? [faqSchema] : []),
+  ];
+
   return (
     <>
-      <StructuredData data={createStructuredDataForPage(page)} />
+      <StructuredData data={structuredData} />
       <HomeNavigation />
-      <main>
+      <main id="main-content">
         <HomeHero />
         <HomeTrust />
         <HomeProblem />

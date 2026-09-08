@@ -39,6 +39,8 @@ const faqs = [
   },
 ];
 
+export const workflowAutomationFaqs = faqs;
+
 export function WorkflowAutomationPageClient() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [scrolled, setScrolled] = useState(false);
