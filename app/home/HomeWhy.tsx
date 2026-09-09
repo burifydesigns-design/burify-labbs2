@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/Button";
-
 const reasons = [
   {
     title: "Strategy before technology",
@@ -56,12 +54,6 @@ export function HomeWhy() {
               <p className="text-body text-text-secondary">{reason.description}</p>
             </div>
           ))}
-        </div>
-
-        <div className="mt-12 md:mt-16 text-center">
-          <Button variant="primary" size="lg" href="/contact">
-            Start a Project
-          </Button>
         </div>
       </div>
     </section>

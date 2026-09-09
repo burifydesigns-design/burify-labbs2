@@ -340,7 +340,6 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
       "Project Overview",
       "The Challenge",
       "Our Approach",
-      "What We Built",
       "Visual Showcase",
       "Outcome",
       "Services Used",

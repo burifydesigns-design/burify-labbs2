@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { ContactForm } from "@/components/forms/ContactForm";
 
 const contactOptions = [
   {
@@ -12,21 +11,17 @@ const contactOptions = [
     description: "hello@burifylabs.com",
     href: "mailto:hello@burifylabs.com",
   },
-  {
-    title: "Response Time",
-    description: "Within one business day",
-    href: null,
-  },
-  {
-    title: "Availability",
-    description: "Remote, worldwide",
-    href: null,
-  },
 ];
+
+const CALENDLY_URL = "https://calendly.com/burify-designs/new-meeting";
 
 export function ContactPageClient() {
   const [scrolled, setScrolled] = useState(false);
   const revealRefs = useRef<HTMLElement[]>([]);
+  const [bookingName, setBookingName] = useState("");
+  const [bookingEmail, setBookingEmail] = useState("");
+  const [bookingError, setBookingError] = useState("");
+  const [isBooking, setIsBooking] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -53,6 +48,48 @@ export function ContactPageClient() {
 
     return () => observer.disconnect();
   }, []);
+
+  const handleBookingSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setBookingError("");
+
+    const name = bookingName.trim();
+    const email = bookingEmail.trim();
+
+    if (!name) {
+      setBookingError("Please enter your name.");
+      return;
+    }
+
+    if (!email) {
+      setBookingError("Please enter your email.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setBookingError("Please enter a valid email address.");
+      return;
+    }
+
+    const params = new URLSearchParams();
+    params.set("name", name);
+    params.set("email", email);
+    const calendlyUrl = `${CALENDLY_URL}?${params.toString()}`;
+
+    setIsBooking(true);
+    const newTab = window.open(calendlyUrl, "_blank", "noopener,noreferrer");
+
+    if (!newTab) {
+      setBookingError(
+        "Your browser blocked the new tab. Please allow pop-ups for this site and try again."
+      );
+      setIsBooking(false);
+      return;
+    }
+
+    setIsBooking(false);
+  };
 
   return (
     <>
@@ -88,7 +125,7 @@ export function ContactPageClient() {
         {/* ===== CONTACT SECTION ===== */}
         <section className="section bg-background">
           <div className="container">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
               {/* Contact Info */}
               <div
                 ref={(el) => { if (el) revealRefs.current[3] = el; }}
@@ -98,7 +135,7 @@ export function ContactPageClient() {
                   Contact options
                 </h2>
                 <p className="text-body text-text-secondary mb-8 leading-relaxed">
-                  Fill out the form and we will get back to you within one business day.
+                  Book a discovery call to discuss your project, goals, and how Burify Labs can help.
                   You can also reach us directly via email.
                 </p>
 
@@ -123,40 +160,66 @@ export function ContactPageClient() {
                     </div>
                   ))}
                 </div>
-
-                <div className="mt-12 p-6 rounded-xl border border-border bg-background-secondary">
-                  <h3 className="text-h5 text-text-primary mb-3">What happens next?</h3>
-                  <ol className="space-y-3">
-                    {[
-                      "You submit the form with your project details",
-                      "We review and respond within one business day",
-                      "We schedule a discovery call if it makes sense",
-                      "You receive a clear proposal with scope and pricing",
-                    ].map((step, i) => (
-                      <li key={i} className="flex items-start gap-3 text-body text-text-secondary">
-                        <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-body-sm font-medium text-primary">
-                          {i + 1}
-                        </span>
-                        {step}
-                      </li>
-                    ))}
-                  </ol>
-                </div>
               </div>
 
-              {/* Contact Form */}
+              {/* Discovery Call Booking Card */}
               <div
                 ref={(el) => { if (el) revealRefs.current[4] = el; }}
-                className="lg:col-span-2"
+                className="lg:col-span-1"
               >
                 <div className="p-8 rounded-2xl border border-border bg-background">
                   <h2 className="text-h3 text-text-primary mb-2">
-                    Tell us about your project
+                    Book a Discovery Call
                   </h2>
-                  <p className="text-body text-text-secondary mb-8">
-                    The more detail you provide, the better we can understand your needs.
+                  <p className="text-body text-text-secondary mb-6">
+                    Tell us who you are and we&apos;ll take you straight to our calendar to choose a time that works for you.
                   </p>
-                  <ContactForm />
+                  <form onSubmit={handleBookingSubmit} className="space-y-5" noValidate>
+                    <div>
+                      <label htmlFor="booking-name" className="block text-body-sm font-medium text-text-primary mb-2">
+                        Name <span className="text-accent-pink ml-1">*</span>
+                      </label>
+                      <input
+                        id="booking-name"
+                        type="text"
+                        autoComplete="name"
+                        value={bookingName}
+                        onChange={(e) => setBookingName(e.target.value)}
+                        placeholder="Your name"
+                        required
+                        aria-invalid={!!bookingError && !bookingName.trim()}
+                        className="w-full px-4 py-3 bg-background text-text-primary border border-border rounded-xl text-body placeholder:text-primary-dark/50 transition-all duration-200 ease-out focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="booking-email" className="block text-body-sm font-medium text-text-primary mb-2">
+                        Email <span className="text-accent-pink ml-1">*</span>
+                      </label>
+                      <input
+                        id="booking-email"
+                        type="email"
+                        autoComplete="email"
+                        value={bookingEmail}
+                        onChange={(e) => setBookingEmail(e.target.value)}
+                        placeholder="you@company.com"
+                        required
+                        aria-invalid={!!bookingError && bookingEmail.trim() !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(bookingEmail)}
+                        className="w-full px-4 py-3 bg-background text-text-primary border border-border rounded-xl text-body placeholder:text-primary-dark/50 transition-all duration-200 ease-out focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                      />
+                    </div>
+                    {bookingError && (
+                      <p className="text-body-sm text-red-500" role="alert">
+                        {bookingError}
+                      </p>
+                    )}
+                    <button
+                      type="submit"
+                      disabled={isBooking}
+                      className="w-full px-8 py-4 text-body-sm font-medium rounded-xl bg-primary text-white hover:bg-primary-dark active:bg-primary-dark disabled:bg-primary/50 disabled:cursor-not-allowed transition-all duration-200 ease-out"
+                    >
+                      {isBooking ? "Opening calendar..." : "Book a Discovery Call"}
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>

@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/Button";
-
 const problems = [
   {
     title: "Outdated websites",
@@ -50,15 +48,6 @@ export function HomeProblem() {
               <p className="text-body text-text-secondary">{problem.description}</p>
             </div>
           ))}
-        </div>
-
-        <div className="mt-12 md:mt-16 text-center">
-          <p className="text-body text-text-secondary mb-6">
-            Burify Labs fixes these problems with modern websites and intelligent automation.
-          </p>
-          <Button variant="primary" size="lg" href="/contact">
-            Start a Project
-          </Button>
         </div>
       </div>
     </section>

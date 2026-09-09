@@ -18,9 +18,6 @@ export function HomeHero() {
           Burify Labs designs modern, conversion-focused websites and builds intelligent AI automation systems for businesses that want to grow without hitting operational ceilings.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button variant="primary" size="lg" href="/contact">
-            Start a Project
-          </Button>
           <Button variant="outline" size="lg" href="/work">
             View Our Work
           </Button>

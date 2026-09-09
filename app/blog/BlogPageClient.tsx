@@ -195,9 +195,6 @@ export function BlogPageClient() {
             <div className="relative overflow-hidden rounded-3xl bg-background-dark text-white px-8 py-16 md:px-16 md:py-24">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent-pink/20" aria-hidden="true" />
               <div className="relative z-10 max-w-2xl">
-                <p className="text-caption font-medium uppercase tracking-widest text-primary-light mb-4">
-                  Start a Project
-                </p>
                 <h2 className="text-h2 md:text-h3 text-white mb-6">
                   Ready to build something better?
                 </h2>
@@ -205,9 +202,6 @@ export function BlogPageClient() {
                   Tell us about your project. We will respond within one business day with initial thoughts on how we can help.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button variant="primary" size="lg" href="/contact">
-                    Start a Project
-                  </Button>
                   <Button variant="outline" size="lg" href="/contact" className="!border-white/30 !text-white hover:!bg-white/10">
                     Contact Us
                   </Button>

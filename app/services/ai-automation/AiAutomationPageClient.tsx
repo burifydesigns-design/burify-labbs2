@@ -100,9 +100,6 @@ export function AiAutomationPageClient() {
                 Less time spent on admin. More time spent on growth.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button variant="primary" size="lg" href="/contact">
-                  Start a Project
-                </Button>
                 <Button variant="outline" size="lg" href="/services/workflow-automation" className="!border-white/30 !text-white hover:!bg-white/10">
                   View Related Services
                 </Button>
@@ -141,9 +138,6 @@ export function AiAutomationPageClient() {
                   No delays. No missed steps. No one spending hours on tasks a system can handle.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button variant="primary" size="md" href="/contact">
-                    Start a Project
-                  </Button>
                   <Button variant="ghost" size="md" href="/services/ai-agents">
                     Explore AI Agents
                   </Button>
@@ -503,7 +497,6 @@ export function AiAutomationPageClient() {
             >
               <div className={styles.ctaGlow} aria-hidden="true" />
               <div className="relative z-10 max-w-2xl">
-                <p className={`text-caption font-medium uppercase tracking-widest text-primary-light mb-4`}>Start a Project</p>
                 <h2 className="text-h2 md:text-h3 text-white mb-6">
                   Ready to eliminate the repetitive work?
                 </h2>
@@ -511,9 +504,6 @@ export function AiAutomationPageClient() {
                   Tell us about your operations. We&apos;ll respond within one business day with initial thoughts on how automation can help.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button variant="primary" size="lg" href="/contact">
-                    Start a Project
-                  </Button>
                   <Button variant="outline" size="lg" href="/contact" className="!border-white/30 !text-white hover:!bg-white/10">
                     Talk to Burify Labs
                   </Button>

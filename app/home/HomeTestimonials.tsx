@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/Button";
-
 const testimonials = [
   {
     quote: "Burify Labs transformed our online presence. The new website has significantly improved our conversion rate and the automation tools have saved our team hours every week.",
@@ -55,12 +53,6 @@ export function HomeTestimonials() {
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="mt-12 text-center">
-          <Button variant="outline" size="md" href="/contact">
-            Start a Project
-          </Button>
         </div>
       </div>
     </section>

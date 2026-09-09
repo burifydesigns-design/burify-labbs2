@@ -3,7 +3,6 @@ export { ProjectHero } from "./ProjectHero";
 export { ProjectOverview } from "./ProjectOverview";
 export { ProjectChallenge } from "./ProjectChallenge";
 export { ProjectApproach } from "./ProjectApproach";
-export { ProjectDeliverables } from "./ProjectDeliverables";
 export { ProjectGallery } from "./ProjectGallery";
 export { ProjectOutcome } from "./ProjectOutcome";
 export { RelatedProjects } from "./RelatedProjects";

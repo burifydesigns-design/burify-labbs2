@@ -95,9 +95,6 @@ export function WebDesignPageClient() {
                 Every page, interaction, and flow is built to help visitors understand what you do and take the next step.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button variant="primary" size="lg" href="/contact">
-                  Start a Project
-                </Button>
                 <Button variant="outline" size="lg" href="/work">
                   View Our Work
                 </Button>
@@ -186,9 +183,6 @@ export function WebDesignPageClient() {
                   better mobile experiences, and conversion paths that actually work.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button variant="primary" size="md" href="/contact">
-                    Start a Project
-                  </Button>
                   <Button variant="ghost" size="md" href="/services/ai-automation">
                     Explore AI Automation
                   </Button>
@@ -562,7 +556,6 @@ export function WebDesignPageClient() {
             >
               <div className={styles.ctaGlow} aria-hidden="true" />
               <div className="relative z-10 max-w-2xl">
-                <p className={`text-caption font-medium uppercase tracking-widest text-primary-light mb-4`}>Start a Project</p>
                 <h2 className="text-h2 md:text-h3 text-white mb-6">
                   Have a problem worth solving?
                 </h2>
@@ -570,9 +563,6 @@ export function WebDesignPageClient() {
                   Tell us about your project. We&apos;ll respond within one business day with initial thoughts on how we can help.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button variant="primary" size="lg" href="/contact">
-                    Start a Project
-                  </Button>
                   <Button variant="outline" size="lg" href="/contact" className="!border-white/30 !text-white hover:!bg-white/10">
                     Talk to Burify Labs
                   </Button>

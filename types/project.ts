@@ -8,7 +8,6 @@ export interface Project {
   services: string[];
   challenge: string;
   approach: string;
-  deliverables: string[];
   outcome: string;
   status: string;
   featuredImage: string;

@@ -115,9 +115,6 @@ export function WorkflowAutomationPageClient() {
                 Burify Labs connects the tools your business already uses and streamlines repetitive processes into efficient automated workflows that save time and reduce errors.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button variant="primary" size="lg" href="/contact">
-                  Start a Project
-                </Button>
                 <Button variant="outline" size="lg" href="/services/ai-automation">
                   Explore AI Automation
                 </Button>
@@ -163,9 +160,6 @@ export function WorkflowAutomationPageClient() {
                   The result is wasted time, human error, and a team that spends energy on admin instead of growth.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button variant="primary" size="md" href="/contact">
-                    Start a Project
-                  </Button>
                   <Button variant="ghost" size="md" href="/services/ai-automation">
                     Explore AI Automation
                   </Button>
@@ -454,7 +448,6 @@ export function WorkflowAutomationPageClient() {
             >
               <div className={styles.ctaGlow} aria-hidden="true" />
               <div className="relative z-10 max-w-2xl">
-                <p className={`text-caption font-medium uppercase tracking-widest text-primary-light mb-4`}>Start a Project</p>
                 <h2 className="text-h2 md:text-h3 text-white mb-6">
                   Ready to connect your tools?
                 </h2>
@@ -462,9 +455,6 @@ export function WorkflowAutomationPageClient() {
                   Tell us about your current processes. We&apos;ll respond within one business day with initial thoughts on how workflow automation can help.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button variant="primary" size="lg" href="/contact">
-                    Start a Project
-                  </Button>
                   <Button variant="outline" size="lg" href="/contact" className="!border-white/30 !text-white hover:!bg-white/10">
                     Talk to Burify Labs
                   </Button>

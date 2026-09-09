@@ -12,9 +12,6 @@ export function HomeCTA() {
             Tell us about your website or automation needs. We will respond with clear next steps.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button variant="primary" size="lg" href="/contact">
-              Start a Project
-            </Button>
             <Button variant="outline" size="lg" href="/contact">
               Contact Us
             </Button>

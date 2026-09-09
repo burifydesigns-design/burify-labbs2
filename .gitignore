@@ -11,3 +11,5 @@ Thumbs.db
 burify-labbs/
 
 .vercel
+.env*
+tsconfig.tsbuildinfo

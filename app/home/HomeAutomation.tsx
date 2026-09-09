@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/Button";
-
 const workflowSteps = [
   { label: "Manual Task", description: "Repetitive entry, follow-up, data sync, and notification work done by hand." },
   { label: "AI + Automation", description: "Intelligent systems identify, qualify, route, and execute the same work without manual input." },
@@ -52,12 +50,6 @@ export function HomeAutomation() {
                 <p className="text-body-sm text-text-secondary">{example}</p>
               </div>
             ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <Button variant="primary" size="lg" href="/contact">
-              Start a Project
-            </Button>
           </div>
         </div>
       </div>

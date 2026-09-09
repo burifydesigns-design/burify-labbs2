@@ -15,18 +15,6 @@ export const projects: Project[] = [
       "Cavari operates across sophisticated financial and investment-related services. The website needed to communicate complexity without making the user experience complicated. The challenge was creating a digital presence that felt premium, institutional, credible, modern, structured and technology-forward, while still making the organisation's different divisions easy to understand.",
     approach:
       "The design approach focused on strong visual hierarchy, premium corporate positioning, clear division architecture, strategic content structure, sophisticated typography, strong information hierarchy, clear calls to action, and a technology-led presentation. The website communicates Cavari's integrated model rather than treating every division as a completely separate business.",
-    deliverables: [
-      "Corporate website design",
-      "Homepage architecture",
-      "Division/service architecture",
-      "About/company presentation",
-      "Investment/advisory content structure",
-      "Insights/content structure",
-      "Contact and enquiry experience",
-      "Responsive layouts",
-      "Premium visual direction",
-      "SEO-friendly information architecture",
-    ],
     outcome:
       "A sophisticated digital platform designed to communicate Cavari Group's integrated model and position the organisation with a modern, institutional-quality online presence.",
     status: "published",
@@ -51,17 +39,6 @@ export const projects: Project[] = [
       "Hillview Physiotherapy Group needed a professional digital presence that clearly communicated who they were, what services they offered, and why prospective patients should choose the clinic. The website needed to make healthcare information easy to understand while creating a modern, welcoming impression.",
     approach:
       "The website was structured around clarity, trust and conversion. The design focuses on clear communication, professional presentation, easy service discovery, strong calls to action, local business positioning, mobile-friendly browsing, clear pathways toward booking an appointment, and introducing the team and clinic.",
-    deliverables: [
-      "Custom website design",
-      "Homepage",
-      "About section",
-      "Services structure",
-      "Team presentation",
-      "Contact section",
-      "Appointment-focused calls to action",
-      "Responsive layouts",
-      "Local business-focused content structure",
-    ],
     outcome:
       "A modern digital presence designed to make Hillview Physiotherapy Group's services easier to understand and make the path from discovering the clinic to booking an appointment clearer.",
     status: "published",
@@ -86,17 +63,6 @@ export const projects: Project[] = [
       "Precision Auto Centre needed a website that could communicate its experience, services and local positioning while making it simple for potential customers to take the next step and book a service. The challenge was to present a large range of automotive services without overwhelming visitors.",
     approach:
       "The website was designed around trust, local credibility, service clarity, strong calls to action, simple navigation, professional presentation and mobile usability. Important business strengths such as experience, customer-focused service and convenient appointment options were presented clearly.",
-    deliverables: [
-      "Custom website design",
-      "Service architecture",
-      "Automotive service pages/sections",
-      "Appointment-focused CTAs",
-      "About section",
-      "Customer testimonials section",
-      "Contact/booking experience",
-      "Responsive website layouts",
-      "Local SEO-focused page structure",
-    ],
     outcome:
       "A professional website that organizes Precision Auto Centre's services into a clearer digital experience and gives prospective customers a straightforward path toward requesting or booking automotive services.",
     status: "published",
@@ -121,16 +87,6 @@ export const projects: Project[] = [
       "The real estate business had repetitive operational processes that could be improved through workflow automation. The goal was to reduce manual administrative work, connect different tools and create a more reliable flow of information between business processes.",
     approach:
       "Burify Labs designed an automated workflow using n8n. The workflow was structured to receive data from a trigger, validate and process it through business logic, execute automated actions, and route results to notifications, CRM, database or team follow-up. Conditional branches were used to handle different process paths.",
-    deliverables: [
-      "n8n workflow architecture",
-      "Automated workflow logic",
-      "Data processing",
-      "Conditional workflow branches",
-      "Automated notifications/actions",
-      "System-to-system communication",
-      "Error handling",
-      "Workflow monitoring structure",
-    ],
     outcome:
       "A more structured operational workflow designed to reduce repetitive manual tasks, improve consistency and help the real estate team move information through their processes more efficiently.",
     status: "published",

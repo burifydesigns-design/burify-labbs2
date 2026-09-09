@@ -9,16 +9,6 @@ import { WorkProjectCard } from "@/components/work";
 import { publishedProjects } from "@/data/projects";
 import "./work.css";
 
-const primaryCta = {
-  label: "Start a Project",
-  href: "/contact",
-};
-
-const secondaryCta = {
-  label: "Explore Services",
-  href: "/services",
-};
-
 export function WorkPageClient() {
   const [scrolled, setScrolled] = useState(false);
   const revealRefs = useRef<HTMLElement[]>([]);
@@ -101,11 +91,8 @@ export function WorkPageClient() {
                 ref={(el) => { if (el) revealRefs.current[3] = el; }}
                 className="flex flex-col sm:flex-row items-center justify-center gap-4"
               >
-                <Button variant="primary" size="lg" href={primaryCta.href}>
-                  {primaryCta.label}
-                </Button>
-                <Button variant="outline" size="lg" href={secondaryCta.href}>
-                  {secondaryCta.label}
+                <Button variant="outline" size="lg" href="/work">
+                  View Our Work
                 </Button>
               </div>
             </div>
@@ -137,17 +124,14 @@ export function WorkPageClient() {
             >
               <div className="work-cta__glow" aria-hidden="true" />
               <div className="relative z-10 max-w-2xl">
-                <p className="text-caption font-medium uppercase tracking-widest text-primary-light mb-4">
-                  Start a Project
-                </p>
                 <h2 className="text-h2 md:text-h3 text-white mb-6">
                   Have a project in mind?
                 </h2>
                 <p className="text-body-lg text-white/70 mb-8 leading-relaxed">
                   Let&apos;s build something that works. Tell us about your project and we will respond within one business day.
                 </p>
-                <Button variant="primary" size="lg" href="/contact">
-                  Start a Project
+                <Button variant="outline" size="lg" href="/contact">
+                  Contact Us
                 </Button>
               </div>
             </div>

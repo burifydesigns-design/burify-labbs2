@@ -10,7 +10,6 @@ import {
   ProjectOverview,
   ProjectChallenge,
   ProjectApproach,
-  ProjectDeliverables,
   ProjectGallery,
   ProjectOutcome,
   ServicesUsed,
@@ -90,32 +89,25 @@ export function CaseStudyClient({ project }: CaseStudyClientProps) {
           ref={(el) => { if (el) revealRefs.current[3] = el; }}
           data-reveal
         >
-          <ProjectDeliverables project={project} />
+          <ProjectGallery project={project} />
         </div>
 
         <div
           ref={(el) => { if (el) revealRefs.current[4] = el; }}
           data-reveal
         >
-          <ProjectGallery project={project} />
+          <ProjectOutcome project={project} />
         </div>
 
         <div
           ref={(el) => { if (el) revealRefs.current[5] = el; }}
           data-reveal
         >
-          <ProjectOutcome project={project} />
-        </div>
-
-        <div
-          ref={(el) => { if (el) revealRefs.current[6] = el; }}
-          data-reveal
-        >
           <ServicesUsed project={project} />
         </div>
 
         <div
-          ref={(el) => { if (el) revealRefs.current[7] = el; }}
+          ref={(el) => { if (el) revealRefs.current[6] = el; }}
           data-reveal
         >
           <RelatedProjects currentSlug={project.slug} />
@@ -133,8 +125,8 @@ export function CaseStudyClient({ project }: CaseStudyClientProps) {
                 <p className="text-body-lg text-white/70 mb-8 leading-relaxed">
                   Let&apos;s build something that works.
                 </p>
-                <Button variant="primary" size="lg" href="/contact">
-                  Start a Project
+                <Button variant="outline" size="lg" href="/contact">
+                  Contact Us
                 </Button>
               </div>
             </div>
