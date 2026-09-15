@@ -95,7 +95,7 @@ export function ServicesPageClient() {
   return (
     <>
       <Navbar variant={scrolled ? "light" : "transparent"} showCta />
-      <main>
+      <main id="main-content">
         {/* ===== HERO ===== */}
         <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 lg:pt-48 lg:pb-36 overflow-hidden">
           <div className="absolute inset-0" aria-hidden="true">

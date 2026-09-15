@@ -51,7 +51,7 @@ export function CaseStudyClient({ project }: CaseStudyClientProps) {
   return (
     <>
       <Navbar variant="light" showCta />
-      <main>
+      <main id="main-content">
         <ProjectHero project={project} />
 
         <ProjectOverview project={project} />

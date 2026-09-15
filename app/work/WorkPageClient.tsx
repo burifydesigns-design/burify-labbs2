@@ -52,7 +52,7 @@ export function WorkPageClient() {
   return (
     <>
       <Navbar variant={scrolled ? "light" : "transparent"} showCta />
-      <main>
+      <main id="main-content">
         {/* ===== HERO ===== */}
         <section className="work-hero">
           <div className="absolute inset-0" aria-hidden="true">

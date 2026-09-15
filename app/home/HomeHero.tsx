@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 
 export function HomeHero() {
@@ -6,6 +7,15 @@ export function HomeHero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 md:pt-24"
       id="hero"
     >
+      <Image
+        src="/images/burify-labs-hero.webp"
+        alt=""
+        fill
+        sizes="100vw"
+        className="object-cover -z-10"
+        priority
+        fetchPriority="high"
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/30 to-background/60" aria-hidden="true" />
       <div className="max-w-container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center relative z-10">
         <p className="text-caption font-medium text-primary uppercase tracking-widest mb-4">

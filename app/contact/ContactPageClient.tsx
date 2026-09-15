@@ -5,6 +5,9 @@ import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
+type BookingField = "name" | "email";
+type BookingFieldErrors = Partial<Record<BookingField, string>>;
+
 const contactOptions = [
   {
     title: "Email",
@@ -20,8 +23,12 @@ export function ContactPageClient() {
   const revealRefs = useRef<HTMLElement[]>([]);
   const [bookingName, setBookingName] = useState("");
   const [bookingEmail, setBookingEmail] = useState("");
+  const [bookingFieldErrors, setBookingFieldErrors] = useState<BookingFieldErrors>({});
   const [bookingError, setBookingError] = useState("");
+  const [bookingSuccess, setBookingSuccess] = useState("");
+  const [bookingUrl, setBookingUrl] = useState(CALENDLY_URL);
   const [isBooking, setIsBooking] = useState(false);
+  const submissionInProgress = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -49,52 +56,77 @@ export function ContactPageClient() {
     return () => observer.disconnect();
   }, []);
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
+  const handleBookingSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (submissionInProgress.current) return;
+
     setBookingError("");
+    setBookingSuccess("");
 
     const name = bookingName.trim();
-    const email = bookingEmail.trim();
+    const email = bookingEmail.trim().toLowerCase();
+    const fieldErrors: BookingFieldErrors = {};
 
     if (!name) {
-      setBookingError("Please enter your name.");
-      return;
+      fieldErrors.name = "Please enter your name.";
+    } else if (name.length > 100) {
+      fieldErrors.name = "Name must be 100 characters or fewer.";
     }
 
     if (!email) {
-      setBookingError("Please enter your email.");
-      return;
+      fieldErrors.email = "Please enter your email.";
+    } else if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      fieldErrors.email = "Please enter a valid email address.";
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setBookingError("Please enter a valid email address.");
-      return;
-    }
+    setBookingFieldErrors(fieldErrors);
+    if (Object.keys(fieldErrors).length > 0) return;
 
-    const params = new URLSearchParams();
-    params.set("name", name);
-    params.set("email", email);
-    const calendlyUrl = `${CALENDLY_URL}?${params.toString()}`;
-
+    submissionInProgress.current = true;
     setIsBooking(true);
-    const newTab = window.open(calendlyUrl, "_blank", "noopener,noreferrer");
+    try {
+      const formData = new FormData(e.currentTarget);
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          websiteUrl: formData.get("websiteUrl") ?? "",
+        }),
+      });
 
-    if (!newTab) {
-      setBookingError(
-        "Your browser blocked the new tab. Please allow pop-ups for this site and try again."
+      const result: unknown = await response.json().catch(() => null);
+      if (
+        !response.ok ||
+        !result ||
+        typeof result !== "object" ||
+        (result as { success?: unknown }).success !== true
+      ) {
+        throw new Error("Submission failed");
+      }
+
+      const params = new URLSearchParams({ name, email });
+      setBookingUrl(`${CALENDLY_URL}?${params.toString()}`);
+      setBookingName("");
+      setBookingEmail("");
+      setBookingFieldErrors({});
+      setBookingSuccess(
+        "Thanks! Your project inquiry has been received. Choose a time for your discovery call when you are ready."
       );
+    } catch {
+      setBookingError("Something went wrong while sending your message. Please try again.");
+    } finally {
       setIsBooking(false);
-      return;
+      submissionInProgress.current = false;
     }
-
-    setIsBooking(false);
   };
 
   return (
     <>
       <Navbar variant={scrolled ? "light" : "transparent"} showCta />
-      <main>
+      <main id="main-content">
         {/* ===== HERO ===== */}
         <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 lg:pt-48 lg:pb-36 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-radial from-primary/5 to-transparent" aria-hidden="true" />
@@ -175,6 +207,16 @@ export function ContactPageClient() {
                     Tell us who you are and we&apos;ll take you straight to our calendar to choose a time that works for you.
                   </p>
                   <form onSubmit={handleBookingSubmit} className="space-y-5" noValidate>
+                    <div className="sr-only" aria-hidden="true">
+                      <label htmlFor="website-url">Leave this field empty</label>
+                      <input
+                        id="website-url"
+                        name="websiteUrl"
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                      />
+                    </div>
                     <div>
                       <label htmlFor="booking-name" className="block text-body-sm font-medium text-text-primary mb-2">
                         Name <span className="text-accent-pink ml-1">*</span>
@@ -184,12 +226,24 @@ export function ContactPageClient() {
                         type="text"
                         autoComplete="name"
                         value={bookingName}
-                        onChange={(e) => setBookingName(e.target.value)}
+                        onChange={(e) => {
+                          setBookingName(e.target.value);
+                          if (bookingFieldErrors.name) {
+                            setBookingFieldErrors((errors) => ({ ...errors, name: undefined }));
+                          }
+                        }}
                         placeholder="Your name"
                         required
-                        aria-invalid={!!bookingError && !bookingName.trim()}
+                        maxLength={100}
+                        aria-invalid={!!bookingFieldErrors.name}
+                        aria-describedby={bookingFieldErrors.name ? "booking-name-error" : undefined}
                         className="w-full px-4 py-3 bg-background text-text-primary border border-border rounded-xl text-body placeholder:text-primary-dark/50 transition-all duration-200 ease-out focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                       />
+                      {bookingFieldErrors.name && (
+                        <p id="booking-name-error" className="mt-2 text-body-sm text-red-500" role="alert">
+                          {bookingFieldErrors.name}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label htmlFor="booking-email" className="block text-body-sm font-medium text-text-primary mb-2">
@@ -200,24 +254,50 @@ export function ContactPageClient() {
                         type="email"
                         autoComplete="email"
                         value={bookingEmail}
-                        onChange={(e) => setBookingEmail(e.target.value)}
+                        onChange={(e) => {
+                          setBookingEmail(e.target.value);
+                          if (bookingFieldErrors.email) {
+                            setBookingFieldErrors((errors) => ({ ...errors, email: undefined }));
+                          }
+                        }}
                         placeholder="you@company.com"
                         required
-                        aria-invalid={!!bookingError && bookingEmail.trim() !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(bookingEmail)}
+                        maxLength={254}
+                        aria-invalid={!!bookingFieldErrors.email}
+                        aria-describedby={bookingFieldErrors.email ? "booking-email-error" : undefined}
                         className="w-full px-4 py-3 bg-background text-text-primary border border-border rounded-xl text-body placeholder:text-primary-dark/50 transition-all duration-200 ease-out focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                       />
+                      {bookingFieldErrors.email && (
+                        <p id="booking-email-error" className="mt-2 text-body-sm text-red-500" role="alert">
+                          {bookingFieldErrors.email}
+                        </p>
+                      )}
                     </div>
                     {bookingError && (
                       <p className="text-body-sm text-red-500" role="alert">
                         {bookingError}
                       </p>
                     )}
+                    {bookingSuccess && (
+                      <div className="text-body-sm text-green-700" role="status" aria-live="polite">
+                        <p>{bookingSuccess}</p>
+                        <a
+                          href={bookingUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block mt-2 font-medium text-primary hover:text-primary-dark transition-colors duration-200"
+                        >
+                          Choose a time on Calendly
+                        </a>
+                      </div>
+                    )}
                     <button
                       type="submit"
                       disabled={isBooking}
+                      aria-disabled={isBooking}
                       className="w-full px-8 py-4 text-body-sm font-medium rounded-xl bg-primary text-white hover:bg-primary-dark active:bg-primary-dark disabled:bg-primary/50 disabled:cursor-not-allowed transition-all duration-200 ease-out"
                     >
-                      {isBooking ? "Opening calendar..." : "Book a Discovery Call"}
+                      {isBooking ? "Sending..." : "Book a Discovery Call"}
                     </button>
                   </form>
                 </div>

@@ -19,10 +19,6 @@ export function ArticleHeader({ post }: ArticleHeaderProps) {
               <Link href="/blog">Blog</Link>
             </li>
             <li aria-hidden="true">/</li>
-            <li>
-              <Link href={`/blog?category=${encodeURIComponent(post.category)}`}>{post.category}</Link>
-            </li>
-            <li aria-hidden="true">/</li>
             <li aria-current="page">
               <span>{post.title}</span>
             </li>

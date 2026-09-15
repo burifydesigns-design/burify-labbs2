@@ -24,8 +24,13 @@ export const structuredDataPlan = {
   },
   Article: {
     appliesTo: ["blog-post"],
-    status: "planned",
+    status: "active",
     notes: "Generated only for published blog posts with real article data.",
+  },
+  CreativeWork: {
+    appliesTo: ["work-detail"],
+    status: "active",
+    notes: "Represents the visible project case study without invented results or ratings.",
   },
   BreadcrumbList: {
     appliesTo: [

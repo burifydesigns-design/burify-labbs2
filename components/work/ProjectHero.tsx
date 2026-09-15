@@ -1,4 +1,5 @@
 import type { Project } from "@/types/project";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 interface ProjectHeroProps {
   project: Project;
@@ -21,6 +22,7 @@ export function ProjectHero({ project }: ProjectHeroProps) {
       <div className="case-study-hero__glow" aria-hidden="true" />
       <div className="container relative">
         <div className="max-w-3xl mx-auto text-center">
+          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Work", href: "/work" }, { label: project.title }]} />
           <span className="case-study-label">{project.category}</span>
           <h1 className="text-h1 md:text-display text-text-primary mb-4 leading-tight">
             {project.title}

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import styles from "./workflow-automation.module.css";
 
 const faqs = [
@@ -95,7 +96,7 @@ export function WorkflowAutomationPageClient() {
   return (
     <>
       <Navbar variant={scrolled ? "light" : "transparent"} showCta />
-      <main className={styles.main}>
+      <main id="main-content" className={styles.main}>
         {/* ===== HERO ===== */}
         <section className={`${styles.hero} ${scrolled ? styles.heroScrolled : ""}`}>
           <div className={styles.heroBg} aria-hidden="true">
@@ -105,6 +106,7 @@ export function WorkflowAutomationPageClient() {
           </div>
           <div className={`container ${styles.heroContent}`}>
             <div className={styles.heroText}>
+              <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Services", href: "/services" }, { label: "Workflow Automation" }]} />
               <p className={`text-caption font-medium uppercase tracking-widest text-primary mb-4`}>
                 Workflow Automation
               </p>

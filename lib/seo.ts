@@ -39,7 +39,7 @@ export function createPageMetadata(page: PageArchitecture): Metadata {
       images: image ? [{ url: image, alt: `${page.label} Open Graph image` }] : [defaultOpenGraphImage],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
       description,
       images: image ? [image] : ["/images/og-image.png"],
@@ -73,7 +73,8 @@ export function createResourceMetadata({
   type?: "article" | "website";
 }): Metadata {
   const url = canonicalUrl(path);
-  const displayTitle = `${title} | ${siteConfig.name}`;
+  const brandSuffix = ` | ${siteConfig.name}`;
+  const displayTitle = title.endsWith(brandSuffix) ? title : `${title}${brandSuffix}`;
   const image = openGraphImage ? { url: openGraphImage, alt: `${title} Open Graph image` } : defaultOpenGraphImage;
   const openGraph =
     type === "article"
@@ -107,7 +108,7 @@ export function createResourceMetadata({
     robots,
     openGraph,
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: displayTitle,
       description,
       images: [openGraphImage ?? "/images/og-image.png"],

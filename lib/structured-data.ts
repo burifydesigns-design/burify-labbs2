@@ -21,13 +21,13 @@ const organizationIdentity = {
   "@type": "Organization",
   name: siteConfig.name,
   url: siteConfig.url,
+  description: siteConfig.description,
   logo: `${siteConfig.url}/images/logo/logo.jpeg`,
-  sameAs: [
-    "https://twitter.com/burifylabs",
-    "https://linkedin.com/company/burifylabs",
-    "https://instagram.com/burifylabs",
-    "https://dribbble.com/burifylabs",
-  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "hello@burifylabs.com",
+    contactType: "sales and customer service",
+  },
 };
 
 export function createOrganizationJsonLd(): JsonLd {
@@ -64,13 +64,43 @@ export function createArticleJsonLd(post: BlogPost): JsonLd {
 
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
     url: canonicalUrl(path),
+    mainEntityOfPage: canonicalUrl(path),
+    author: {
+      "@type": "Organization",
+      name: post.author.name,
+      url: siteConfig.url,
+    },
+    ...(post.featuredImage
+      ? { image: canonicalUrl(post.featuredImage) }
+      : {}),
     ...(post.publishedAt ? { datePublished: post.publishedAt } : {}),
     dateModified: post.updatedAt ?? post.publishedAt,
     publisher: organizationIdentity,
+  };
+}
+
+export function createCaseStudyJsonLd(project: Project): JsonLd {
+  const path = project.canonicalPath ?? `/work/${project.slug}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    headline: project.title,
+    description: project.shortDescription,
+    url: canonicalUrl(path),
+    mainEntityOfPage: canonicalUrl(path),
+    image: canonicalUrl(project.featuredImage),
+    dateCreated: project.year,
+    creator: organizationIdentity,
+    about: project.services.map((service) => ({
+      "@type": "Service",
+      name: service,
+    })),
   };
 }
 

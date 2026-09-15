@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import styles from "./ai-automation.module.css";
 
 const faqs = [
@@ -79,7 +80,7 @@ export function AiAutomationPageClient() {
   return (
     <>
       <Navbar variant={scrolled ? "light" : "transparent"} showCta />
-      <main className={styles.main}>
+      <main id="main-content" className={styles.main}>
         {/* ===== HERO ===== */}
         <section className={`${styles.hero} ${scrolled ? styles.heroScrolled : ""}`}>
           <div className={styles.heroBg} aria-hidden="true">
@@ -89,6 +90,7 @@ export function AiAutomationPageClient() {
           </div>
           <div className={`container ${styles.heroContent}`}>
             <div className={styles.heroText}>
+              <Breadcrumbs inverse items={[{ label: "Home", href: "/" }, { label: "Services", href: "/services" }, { label: "AI Automation" }]} />
               <p className={`text-caption font-medium uppercase tracking-widest text-primary-light mb-4`}>
                 AI Automation
               </p>

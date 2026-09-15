@@ -11,7 +11,6 @@ import { HomeWhy } from "@/app/home/HomeWhy";
 import { HomeProcess } from "@/app/home/HomeProcess";
 import { HomeWork } from "@/app/home/HomeWork";
 import { HomeAutomation } from "@/app/home/HomeAutomation";
-import { HomeTestimonials } from "@/app/home/HomeTestimonials";
 import { HomeFAQ } from "@/app/home/HomeFAQ";
 import { HomeCTA } from "@/app/home/HomeCTA";
 import { HomeFooter } from "@/app/home/HomeFooter";
@@ -42,7 +41,6 @@ export default function HomePage() {
         <HomeProcess />
         <HomeWork />
         <HomeAutomation />
-        <HomeTestimonials />
         <HomeFAQ />
         <HomeCTA />
       </main>

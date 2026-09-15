@@ -2,14 +2,6 @@
    BURIFY LABS — HOMEPAGE STYLES
    =================================== */
 
-/* Hero background */
-#hero {
-  background-image: url('/images/burify-labs-hero.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
 /* Workflow arrows */
 .workflow-arrow {
   display: flex;

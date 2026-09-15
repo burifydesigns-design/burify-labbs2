@@ -20,7 +20,7 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
     indexable: true,
     h1: "Burify Labs",
     seo: {
-      title: "Burify Labs | Web Design & AI Automation Agency",
+      title: "Web Design & AI Automation Agency | Burify Labs",
       description:
         "Burify Labs builds high-converting websites, AI automation, AI agents, and workflow automation that help businesses grow.",
       primaryTopic: "web design and AI automation agency",

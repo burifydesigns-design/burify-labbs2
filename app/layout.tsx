@@ -1,14 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
 
 type RootLayoutProps = Readonly<{
   children: ReactNode;
@@ -65,14 +58,17 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Burify Labs | Web Design + AI Automation Agency",
     description: "Burify Labs builds high-converting websites, AI automation systems, AI agents and workflows that help businesses grow and operate smarter.",
     images: ["/images/og-image.png"],
-    creator: "@burifylabs",
   },
   alternates: {
     canonical: baseUrl,
+  },
+  icons: {
+    icon: "/images/logo/logo.jpeg",
+    apple: "/images/logo/logo.jpeg",
   },
 };
 
@@ -87,13 +83,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" className={inter.variable}>
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="preload" as="image" href="/images/burify-labs-hero.webp" type="image/webp" />
-      </head>
+    <html lang="en">
       <body className="font-sans antialiased bg-background text-text-primary">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-lg">
           Skip to main content

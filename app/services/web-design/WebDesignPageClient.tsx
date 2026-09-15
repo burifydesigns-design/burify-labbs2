@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import styles from "./web-design.module.css";
 
 const faqs = [
@@ -75,7 +76,7 @@ export function WebDesignPageClient() {
   return (
     <>
       <Navbar variant={scrolled ? "light" : "transparent"} showCta />
-      <main className={styles.main}>
+      <main id="main-content" className={styles.main}>
         {/* ===== HERO ===== */}
         <section className={`${styles.hero} ${scrolled ? styles.heroScrolled : ""}`}>
           <div className={styles.heroBg} aria-hidden="true">
@@ -84,6 +85,7 @@ export function WebDesignPageClient() {
           </div>
           <div className={`container ${styles.heroContent}`}>
             <div className={styles.heroText}>
+              <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Services", href: "/services" }, { label: "Web Design" }]} />
               <p className={`text-caption font-medium uppercase tracking-widest text-primary mb-4 ${styles.heroEyebrow}`}>
                 Web Design
               </p>

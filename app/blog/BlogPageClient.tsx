@@ -72,7 +72,7 @@ export function BlogPageClient() {
   return (
     <>
       <Navbar variant="light" showCta />
-      <main>
+      <main id="main-content">
         <BlogHeader
           title="Web design and AI automation insights"
           description="Practical guidance on building websites, implementing automation, and growing with intelligent systems."

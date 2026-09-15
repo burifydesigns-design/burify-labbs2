@@ -15,10 +15,10 @@ export const blogPosts: BlogPost[] = [
 <blockquote><p>The most effective AI automation implementations are those that augment human capability rather than replace it entirely.</p></blockquote>
 
 <h2 id="key-benefits">Key Benefits for Modern Businesses</h2>
-<p>Organizations implementing AI automation report significant improvements across multiple dimensions:</p>
+<p>Well-scoped AI automation can improve several parts of day-to-day operations:</p>
 
 <ul>
-  <li><strong>Operational efficiency</strong> — Reduction in manual processing time by 40–60%.</li>
+  <li><strong>Operational efficiency</strong> — Less time spent moving information between repetitive steps.</li>
   <li><strong>Error reduction</strong> — Consistent outputs that minimize costly rework.</li>
   <li><strong>Scalability</strong> — Systems that grow with demand without linear cost increases.</li>
   <li><strong>Data-driven decisions</strong> — Real-time insights supporting strategic choices.</li>

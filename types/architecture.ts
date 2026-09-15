@@ -36,6 +36,7 @@ export type StructuredDataType =
   | "WebSite"
   | "Service"
   | "Article"
+  | "CreativeWork"
   | "BreadcrumbList"
   | "FAQPage";
 

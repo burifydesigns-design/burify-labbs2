@@ -35,7 +35,7 @@ export default function CookiesPage() {
   return (
     <>
       <Navbar variant="light" showCta={false} />
-      <main>
+      <main id="main-content">
         <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 lg:pt-48 lg:pb-36 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-radial from-primary/5 to-transparent" aria-hidden="true" />
           <div className="container relative">

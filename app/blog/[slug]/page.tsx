@@ -58,7 +58,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         data={[createArticleJsonLd(post), createBlogPostBreadcrumbJsonLd(post)]}
       />
       <Navbar variant="light" showCta />
-      <main>
+      <main id="main-content">
         <ArticleClient post={post} />
       </main>
       <Footer />
