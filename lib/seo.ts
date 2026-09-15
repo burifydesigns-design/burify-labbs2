@@ -2,6 +2,14 @@ import type { Metadata } from "next";
 import type { PageArchitecture } from "@/types/architecture";
 import { siteConfig } from "@/config/site";
 
+const defaultOpenGraphImage = {
+  url: "/images/og-image.png",
+  width: 1200,
+  height: 630,
+  alt: `${siteConfig.name} - Web Design and AI Automation Agency`,
+  type: "image/png",
+};
+
 export function canonicalUrl(path: string) {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
 
@@ -28,13 +36,13 @@ export function createPageMetadata(page: PageArchitecture): Metadata {
       url,
       siteName: siteConfig.name,
       type: "website",
-      ...(image ? { images: [{ url: image, alt: `${page.label} Open Graph image` }] } : {}),
+      images: image ? [{ url: image, alt: `${page.label} Open Graph image` }] : [defaultOpenGraphImage],
     },
     twitter: {
-      card: image ? "summary_large_image" : "summary",
+      card: "summary",
       title,
       description,
-      ...(image ? { images: [image] } : {}),
+      images: image ? [image] : ["/images/og-image.png"],
     },
   };
 }
@@ -66,6 +74,7 @@ export function createResourceMetadata({
 }): Metadata {
   const url = canonicalUrl(path);
   const displayTitle = `${title} | ${siteConfig.name}`;
+  const image = openGraphImage ? { url: openGraphImage, alt: `${title} Open Graph image` } : defaultOpenGraphImage;
   const openGraph =
     type === "article"
       ? {
@@ -76,9 +85,7 @@ export function createResourceMetadata({
           type: "article" as const,
           ...(publishedTime ? { publishedTime } : {}),
           ...(modifiedTime ? { modifiedTime } : {}),
-          ...(openGraphImage
-            ? { images: [{ url: openGraphImage, alt: `${title} Open Graph image` }] }
-            : {}),
+          images: [image],
         }
       : {
           title: displayTitle,
@@ -86,9 +93,7 @@ export function createResourceMetadata({
           url,
           siteName: siteConfig.name,
           type: "website" as const,
-          ...(openGraphImage
-            ? { images: [{ url: openGraphImage, alt: `${title} Open Graph image` }] }
-            : {}),
+          images: [image],
         };
 
   return {
@@ -102,10 +107,10 @@ export function createResourceMetadata({
     robots,
     openGraph,
     twitter: {
-      card: openGraphImage ? "summary_large_image" : "summary",
+      card: "summary",
       title: displayTitle,
       description,
-      ...(openGraphImage ? { images: [openGraphImage] } : {}),
+      images: [openGraphImage ?? "/images/og-image.png"],
     },
   };
 }

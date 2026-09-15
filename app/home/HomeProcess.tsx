@@ -5,25 +5,25 @@ const steps = [
     step: "01",
     title: "Discover",
     description:
-      "Understand your business, audience, goals, and the operational workflows that need attention.",
+      "Understand your business, audience, goals, and the operational workflows that need attention. This shapes every decision that follows.",
   },
   {
     step: "02",
     title: "Design",
     description:
-      "Map the website structure and automation logic before any development begins.",
+      "Map the website structure and automation logic before any development begins. A clear blueprint prevents costly changes later.",
   },
   {
     step: "03",
     title: "Build",
     description:
-      "Develop the website and implement automation systems with clear milestones and reviews.",
+      "Develop the website and implement automation systems with clear milestones and regular reviews. You see progress throughout.",
   },
   {
     step: "04",
     title: "Optimize",
     description:
-      "Refine performance, conversions, and automation efficiency based on real-world results.",
+      "Refine performance, conversions, and automation efficiency based on real-world results. Your system keeps improving after launch.",
   },
 ];
 
@@ -37,6 +37,10 @@ export function HomeProcess() {
           </h2>
           <p className="text-body-lg text-text-secondary">
             A repeatable process that keeps projects on track and aligned with your goals.
+          </p>
+          <p className="text-body text-text-secondary mt-4 max-w-2xl mx-auto leading-relaxed">
+            We use a four-stage process that has been refined across multiple website and automation projects.
+            Each stage has clear outputs and checkpoints, so there are no surprises and no wasted effort.
           </p>
         </div>
 

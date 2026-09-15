@@ -28,14 +28,14 @@ const faqs = [
       "Yes. We implement connections between your existing platforms — CRM, email, calendars, forms, databases — so data flows automatically between them.",
   },
   {
-    question: "How long does an automation project take?",
-    answer:
-      "Automation projects typically range from 2–8 weeks depending on complexity. We provide a scoped timeline after our discovery conversation.",
+      question: "How long does an implementation take?",
+      answer:
+        "Implementation timelines typically range from 2–8 weeks depending on complexity. We provide a scoped plan after our discovery conversation.",
   },
   {
-    question: "What happens after launch?",
-    answer:
-      "We monitor the system, provide recommendations, and support iterations. Automation can be expanded over time as your business and tools evolve.",
+      question: "What happens after launch?",
+      answer:
+        "We monitor the system, provide recommendations, and support iterations. The setup can be expanded over time as your business and tools evolve.",
   },
 ];
 

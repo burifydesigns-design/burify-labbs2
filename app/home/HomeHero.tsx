@@ -15,7 +15,8 @@ export function HomeHero() {
           We build websites that convert and automation that scales.
         </h1>
         <p className="text-body-lg text-text-secondary mb-8 leading-relaxed max-w-2xl">
-          Burify Labs designs modern, conversion-focused websites and builds intelligent AI automation systems for businesses that want to grow without hitting operational ceilings.
+          Burify Labs builds conversion-focused websites and intelligent automation systems for businesses ready to grow.
+          From landing pages that turn attention into enquiries, to AI workflows that handle repetitive tasks — we build for measurable outcomes.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button variant="outline" size="lg" href="/work">

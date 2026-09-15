@@ -3,7 +3,7 @@ export const siteConfig = {
   domain: "burifylabs.com",
   url: "https://burifylabs.com",
   description:
-    "Burify Labs is a web design and AI automation agency focused on websites, AI agents, and workflow automation.",
+    "Burify Labs builds high-converting websites, AI automation systems, AI agents and workflows that help businesses grow and operate smarter.",
   primaryCta: {
     id: "start-project",
     label: "Start a Project",

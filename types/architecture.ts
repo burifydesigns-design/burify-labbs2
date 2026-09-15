@@ -11,6 +11,10 @@ export type PageId =
   | "blog"
   | "blog-post"
   | "contact"
+  | "privacy"
+  | "terms"
+  | "cookies"
+  | "editorial-policy"
   | "not-found";
 
 export type PageKind =
@@ -23,6 +27,8 @@ export type PageKind =
   | "article"
   | "company"
   | "conversion"
+  | "legal"
+  | "editorial"
   | "system";
 
 export type StructuredDataType =
@@ -40,6 +46,7 @@ export type SearchIntent =
   | "Informational"
   | "Brand Trust"
   | "Lead Generation"
+  | "Legal"
   | "System";
 
 export type PublicationStatus = "draft" | "published";

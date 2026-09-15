@@ -1,8 +1,35 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { createNoIndexMetadata } from "@/lib/seo";
+import { createPageMetadata } from "@/lib/seo";
+import { pageArchitecture } from "@/config/page-architecture";
 
-export const metadata = createNoIndexMetadata();
+const page = pageArchitecture.cookies ?? {
+  id: "cookies",
+  path: "/cookies",
+  label: "Cookie Policy",
+  kind: "legal",
+  purpose: "Cookie policy for Burify Labs website.",
+  indexable: true,
+  h1: "Cookie Policy",
+  seo: {
+    title: "Cookie Policy | Burify Labs",
+    description: "How Burify Labs uses cookies and similar technologies on this website.",
+    primaryTopic: "cookie policy",
+    primaryKeywords: ["cookie policy"],
+    secondaryKeywords: [],
+    intent: "Legal",
+    canonicalPath: "/cookies",
+    robots: { index: true, follow: true },
+    openGraphImageStatus: "planned",
+  },
+  plannedSections: [],
+  structuredData: [],
+  internalLinks: [],
+  primaryCta: "contact",
+  secondaryCtas: [],
+};
+
+export const metadata = createPageMetadata(page);
 
 export default function CookiesPage() {
   return (
@@ -20,8 +47,8 @@ export default function CookiesPage() {
                 Cookie Policy
               </h1>
               <p className="text-body-lg text-text-secondary mb-8 leading-relaxed">
-                This cookie policy explains how Burify Labs uses cookies and similar technologies on this website.
-                This page is a placeholder and should be reviewed by legal counsel before publication.
+                This cookie policy explains how Burify Labs uses cookies and similar technologies
+                on this website to improve your experience.
               </p>
               <div className="space-y-8">
                 <div>
@@ -49,8 +76,8 @@ export default function CookiesPage() {
                 <div>
                   <h2 className="text-h2 text-text-primary mb-4">Managing Cookies</h2>
                   <p className="text-body text-text-secondary leading-relaxed">
-                    You can manage your cookie preferences at any time through the cookie banner or
-                    by contacting us at hello@burifylabs.com.
+                    You can manage your cookie preferences at any time through your browser settings
+                    or by contacting us at hello@burifylabs.com.
                   </p>
                 </div>
               </div>

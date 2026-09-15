@@ -22,7 +22,7 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
     seo: {
       title: "Burify Labs | Web Design & AI Automation Agency",
       description:
-        "Burify Labs builds websites, AI automation systems, AI agents, and workflow automation for businesses.",
+        "Burify Labs builds high-converting websites, AI automation, AI agents, and workflow automation that help businesses grow.",
       primaryTopic: "web design and AI automation agency",
       primaryKeywords: ["web design and AI automation agency"],
       secondaryKeywords: [
@@ -67,7 +67,7 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
     seo: {
       title: "Web Design & AI Automation Services | Burify Labs",
       description:
-        "Explore Burify Labs services across web design, AI automation, AI agents, and workflow automation.",
+        "Explore Burify Labs services: web design, AI automation, AI agents, and workflow automation — all built around business outcomes.",
       primaryTopic: "web design & AI automation services",
       primaryKeywords: ["web design & AI automation services"],
       secondaryKeywords: [
@@ -115,7 +115,7 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
     seo: {
       title: "Web Design Agency | Burify Labs",
       description:
-        "Web design services for custom websites, redesigns, responsive builds, and conversion-focused business websites.",
+        "Web design services for conversion-focused business websites, redesigns, landing pages, and digital platforms built to perform.",
       primaryTopic: "web design agency",
       primaryKeywords: ["web design agency"],
       secondaryKeywords: [
@@ -161,7 +161,7 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
     seo: {
       title: "AI Automation Agency | Burify Labs",
       description:
-        "AI automation services for business automation, workflow automation, process automation, and small business operations.",
+        "AI automation services for business process automation, workflow automation, and intelligent systems that handle repetitive tasks.",
       primaryTopic: "AI automation agency",
       primaryKeywords: ["AI automation agency"],
       secondaryKeywords: [
@@ -205,7 +205,7 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
     seo: {
       title: "AI Agents for Business | Burify Labs",
       description:
-        "AI agent development architecture for lead qualification, support, operations, research, and data tasks.",
+        "AI agent development for lead qualification, customer support, internal operations, and data tasks. Intelligent systems that act on your behalf.",
       primaryTopic: "AI agents for business",
       primaryKeywords: ["AI agents for business"],
       secondaryKeywords: [
@@ -249,7 +249,7 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
     seo: {
       title: "Workflow Automation Services | Burify Labs",
       description:
-        "Workflow automation services for automated workflows, AI workflow automation, and business process automation.",
+        "Workflow automation services that connect business tools, automate repetitive processes, and keep data flowing across your operations.",
       primaryTopic: "workflow automation",
       primaryKeywords: ["workflow automation"],
       secondaryKeywords: [
@@ -362,7 +362,7 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
     seo: {
       title: "About Burify Labs",
       description:
-        "Background architecture for the Burify Labs mission, approach, values, design philosophy, AI philosophy, and technology philosophy.",
+        "Burify Labs is a technology studio focused on web design and AI automation. Learn about our approach, values, and how we work with clients.",
       primaryTopic: "Burify Labs",
       primaryKeywords: ["Burify Labs"],
       secondaryKeywords: [
@@ -479,7 +479,7 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
     seo: {
       title: "Start a Project | Burify Labs",
       description:
-        "Contact Burify Labs to start a web design, AI automation, AI agent, or workflow automation project.",
+        "Contact Burify Labs to discuss your web design, AI automation, AI agent, or workflow automation project. We respond within one business day.",
       primaryTopic: "start a project",
       primaryKeywords: ["contact Burify Labs", "start a project"],
       secondaryKeywords: ["web design consultation", "AI automation consultation"],
@@ -492,6 +492,110 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
     structuredData: ["BreadcrumbList"],
     internalLinks: ["services", "work"],
     primaryCta: "start-project",
+  },
+  privacy: {
+    id: "privacy",
+    path: "/privacy",
+    label: "Privacy Policy",
+    kind: "legal",
+    purpose: "Privacy policy explaining data handling practices.",
+    indexable: true,
+    h1: "Privacy Policy",
+    seo: {
+      title: "Privacy Policy | Burify Labs",
+      description:
+        "How Burify Labs handles information collected through this website.",
+      primaryTopic: "privacy policy",
+      primaryKeywords: ["privacy policy"],
+      secondaryKeywords: [],
+      intent: "Legal",
+      canonicalPath: "/privacy",
+      robots: publicRobots,
+      openGraphImageStatus: "planned",
+    },
+    plannedSections: [],
+    structuredData: [],
+    internalLinks: [],
+    primaryCta: "contact",
+    secondaryCtas: [],
+  },
+  terms: {
+    id: "terms",
+    path: "/terms",
+    label: "Terms of Service",
+    kind: "legal",
+    purpose: "Terms of service for website use.",
+    indexable: true,
+    h1: "Terms of Service",
+    seo: {
+      title: "Terms of Service | Burify Labs",
+      description:
+        "Terms governing your use of the Burify Labs website.",
+      primaryTopic: "terms of service",
+      primaryKeywords: ["terms of service"],
+      secondaryKeywords: [],
+      intent: "Legal",
+      canonicalPath: "/terms",
+      robots: publicRobots,
+      openGraphImageStatus: "planned",
+    },
+    plannedSections: [],
+    structuredData: [],
+    internalLinks: [],
+    primaryCta: "contact",
+    secondaryCtas: [],
+  },
+  "editorial-policy": {
+    id: "editorial-policy",
+    path: "/editorial-policy",
+    label: "Editorial Policy",
+    kind: "editorial",
+    purpose: "Policy explaining how content on the Burify Labs website is researched, written, reviewed, and maintained.",
+    indexable: true,
+    h1: "Editorial Policy",
+    seo: {
+      title: "Editorial Policy | Burify Labs",
+      description:
+        "How Burify Labs researches, writes, reviews, and maintains content published on the website.",
+      primaryTopic: "editorial policy",
+      primaryKeywords: ["editorial policy"],
+      secondaryKeywords: [],
+      intent: "Informational",
+      canonicalPath: "/editorial-policy",
+      robots: publicRobots,
+      openGraphImageStatus: "planned",
+    },
+    plannedSections: [],
+    structuredData: [],
+    internalLinks: [],
+    primaryCta: "contact",
+    secondaryCtas: [],
+  },
+  cookies: {
+    id: "cookies",
+    path: "/cookies",
+    label: "Cookie Policy",
+    kind: "legal",
+    purpose: "Cookie policy for website tracking technologies.",
+    indexable: true,
+    h1: "Cookie Policy",
+    seo: {
+      title: "Cookie Policy | Burify Labs",
+      description:
+        "How Burify Labs uses cookies and similar technologies on this website.",
+      primaryTopic: "cookie policy",
+      primaryKeywords: ["cookie policy"],
+      secondaryKeywords: [],
+      intent: "Legal",
+      canonicalPath: "/cookies",
+      robots: publicRobots,
+      openGraphImageStatus: "planned",
+    },
+    plannedSections: [],
+    structuredData: [],
+    internalLinks: [],
+    primaryCta: "contact",
+    secondaryCtas: [],
   },
   "not-found": {
     id: "not-found",

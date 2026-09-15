@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,15 +22,16 @@ export const metadata: Metadata = {
     default: "Burify Labs | Web Design + AI Automation Agency",
     template: "%s | Burify Labs",
   },
-  description: "We design exceptional digital experiences and build intelligent automation systems that drive growth. Premium web design and AI automation solutions.",
+  description: "Burify Labs builds high-converting websites, AI automation systems, AI agents and workflows that help businesses grow and operate smarter.",
   keywords: [
     "web design",
     "AI automation",
+    "AI agents",
+    "workflow automation",
     "digital agency",
-    "creative studio",
-    "brand identity",
-    "e-commerce",
-    "mobile app development",
+    "business automation",
+    "conversion-focused websites",
+    "n8n automation",
   ],
   authors: [{ name: "Burify Labs" }],
   creator: "Burify Labs",
@@ -51,20 +53,21 @@ export const metadata: Metadata = {
     url: baseUrl,
     siteName: "Burify Labs",
     title: "Burify Labs | Web Design + AI Automation Agency",
-    description: "We design exceptional digital experiences and build intelligent automation systems that drive growth.",
+    description: "Burify Labs builds high-converting websites, AI automation systems, AI agents and workflows that help businesses grow and operate smarter.",
     images: [
       {
         url: "/images/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Burify Labs",
+        alt: "Burify Labs - Web Design & AI Automation Agency",
+        type: "image/png",
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "Burify Labs | Web Design + AI Automation Agency",
-    description: "We design exceptional digital experiences and build intelligent automation systems that drive growth.",
+    description: "Burify Labs builds high-converting websites, AI automation systems, AI agents and workflows that help businesses grow and operate smarter.",
     images: ["/images/og-image.png"],
     creator: "@burifylabs",
   },
@@ -89,12 +92,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="preload" as="image" href="/images/burify-labs-hero.webp" type="image/webp" />
       </head>
       <body className="font-sans antialiased bg-background text-text-primary">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-lg">
           Skip to main content
         </a>
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );

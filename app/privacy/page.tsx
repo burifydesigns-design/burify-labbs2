@@ -1,8 +1,11 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { createNoIndexMetadata } from "@/lib/seo";
+import { createPageMetadata } from "@/lib/seo";
+import { pageArchitecture } from "@/config/page-architecture";
 
-export const metadata = createNoIndexMetadata();
+const page = pageArchitecture.privacy;
+
+export const metadata = createPageMetadata(page);
 
 export default function PrivacyPage() {
   return (
@@ -20,25 +23,32 @@ export default function PrivacyPage() {
                 Privacy Policy
               </h1>
               <p className="text-body-lg text-text-secondary mb-8 leading-relaxed">
-                This privacy policy explains how Burify Labs handles information collected through this website.
-                This page is a placeholder and should be reviewed by legal counsel before publication.
+                This privacy policy explains how Burify Labs collects, uses, and protects personal information submitted through this website.
               </p>
               <div className="prose prose-lg max-w-none text-text-secondary space-y-6">
                 <p>
-                  We collect information you provide directly through our contact form, including your name,
-                  email address, company name, and project details. This information is used solely to respond
-                  to your enquiry and provide the services you request.
+                  <strong>Information we collect.</strong> When you contact us through our form, we collect your name, email address, company name, and project details. This information is used solely to respond to your enquiry and provide the services you request.
                 </p>
                 <p>
-                  We do not sell, trade, or otherwise transfer your personal information to third parties
-                  except as necessary to provide our services or as required by law.
+                  <strong>How we use your information.</strong> Your details are used to communicate about your enquiry, prepare proposals, and deliver the services you engage us for. We do not use your information for marketing purposes unless you explicitly consent.
                 </p>
                 <p>
-                  You may request access to, correction of, or deletion of your personal data by contacting
-                  us at hello@burifylabs.com.
+                  <strong>Data sharing.</strong> We do not sell, trade, or transfer your personal information to third parties except as necessary to provide our services or as required by law. Service providers such as hosting and email platforms may process data on our behalf under strict confidentiality obligations.
                 </p>
                 <p>
-                  For questions about this policy, contact us at hello@burifylabs.com.
+                  <strong>Data retention.</strong> We retain enquiry data for as long as is necessary to respond to your request and manage any resulting project relationship. You may request deletion of your data at any time.
+                </p>
+                <p>
+                  <strong>Your rights.</strong> You may request access to, correction of, or deletion of your personal data by contacting us at hello@burifylabs.com.
+                </p>
+                <p>
+                  <strong>Cookies.</strong> This website uses essential cookies for functionality. Analytics tools may collect anonymized usage data. See our Cookie Policy for details.
+                </p>
+                <p>
+                  <strong>Contact.</strong> For questions about this policy, contact us at hello@burifylabs.com.
+                </p>
+                <p className="text-text-muted text-sm">
+                  Last updated: September 2026
                 </p>
               </div>
             </div>

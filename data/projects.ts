@@ -18,9 +18,9 @@ export const projects: Project[] = [
     outcome:
       "A sophisticated digital platform designed to communicate Cavari Group's integrated model and position the organisation with a modern, institutional-quality online presence.",
     status: "published",
-    featuredImage: "/images/projects/caavari.png",
+    featuredImage: "/images/projects/burify-labs-cavari-group.webp",
     gallery: [
-      "/images/projects/caavari.png",
+      "/images/projects/burify-labs-cavari-group.webp",
     ],
     year: "2026",
     canonicalPath: "/work/cavari-group",
@@ -42,9 +42,9 @@ export const projects: Project[] = [
     outcome:
       "A modern digital presence designed to make Hillview Physiotherapy Group's services easier to understand and make the path from discovering the clinic to booking an appointment clearer.",
     status: "published",
-    featuredImage: "/images/projects/hillview.png",
+    featuredImage: "/images/projects/burify-labs-hillview-physiotherapy.webp",
     gallery: [
-      "/images/projects/hillview.png",
+      "/images/projects/burify-labs-hillview-physiotherapy.webp",
     ],
     year: "2026",
     canonicalPath: "/work/hillview-physiotherapy-group",
@@ -66,9 +66,9 @@ export const projects: Project[] = [
     outcome:
       "A professional website that organizes Precision Auto Centre's services into a clearer digital experience and gives prospective customers a straightforward path toward requesting or booking automotive services.",
     status: "published",
-    featuredImage: "/images/projects/precision-auto.png",
+    featuredImage: "/images/projects/burify-labs-precision-auto.webp",
     gallery: [
-      "/images/projects/precision-auto.png",
+      "/images/projects/burify-labs-precision-auto.webp",
     ],
     year: "2026",
     canonicalPath: "/work/precision-auto-centre",
@@ -90,9 +90,9 @@ export const projects: Project[] = [
     outcome:
       "A more structured operational workflow designed to reduce repetitive manual tasks, improve consistency and help the real estate team move information through their processes more efficiently.",
     status: "published",
-    featuredImage: "/images/projects/real-estate.png",
+    featuredImage: "/images/projects/burify-labs-real-estate-workflow.webp",
     gallery: [
-      "/images/projects/real-estate.png",
+      "/images/projects/burify-labs-real-estate-workflow.webp",
     ],
     year: "2026",
     canonicalPath: "/work/real-estate-n8n-automation",

@@ -12,6 +12,13 @@ export const baseMetadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   openGraph: {
     title: siteConfig.name,
@@ -19,10 +26,20 @@ export const baseMetadata: Metadata = {
     url: siteConfig.url,
     siteName: siteConfig.name,
     type: "website",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} - Web Design and AI Automation Agency`,
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary",
     title: siteConfig.name,
     description: siteConfig.description,
+    images: ["/images/og-image.png"],
   },
 };

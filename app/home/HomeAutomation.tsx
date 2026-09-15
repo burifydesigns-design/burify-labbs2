@@ -1,8 +1,8 @@
 const workflowSteps = [
-  { label: "Manual Task", description: "Repetitive entry, follow-up, data sync, and notification work done by hand." },
-  { label: "AI + Automation", description: "Intelligent systems identify, qualify, route, and execute the same work without manual input." },
-  { label: "Automated Workflow", description: "Connected tools run on triggers, conditions, and schedules across your stack." },
-  { label: "Business Result", description: "Faster response, fewer errors, and more capacity for higher-value work." },
+  { label: "Manual Task", description: "Repetitive entry, follow-up, data sync, and notification work done by hand. Slow, inconsistent, and expensive as the business grows." },
+  { label: "AI + Automation", description: "Intelligent systems identify, qualify, route, and execute the same work without manual input. Consistent, fast, and available around the clock." },
+  { label: "Automated Workflow", description: "Connected tools run on triggers, conditions, and schedules across your stack. Your CRM, email, forms, and calendar communicate without human intervention." },
+  { label: "Business Result", description: "Faster response, fewer errors, and more capacity for higher-value work. Your team shifts from processing to deciding, from administering to growing." },
 ];
 
 export function HomeAutomation() {
@@ -16,6 +16,10 @@ export function HomeAutomation() {
           <p className="text-body-lg text-text-secondary">
             From manual tasks to automated workflows that run themselves.
           </p>
+          <p className="text-body text-text-secondary mt-4 max-w-2xl mx-auto leading-relaxed">
+            Burify Labs designs AI-powered automation systems that connect your existing tools,
+            reduce repetitive work, and create consistent, reliable processes across your business operations.
+          </p>
         </div>
 
         <div className="max-w-4xl mx-auto">
@@ -27,7 +31,7 @@ export function HomeAutomation() {
                     {String(index + 1).padStart(2, "0")}
                   </p>
                   <h3 className="text-h5 text-text-primary mb-2">{step.label}</h3>
-                  <p className="text-body-sm text-text-secondary">{step.description}</p>
+                  <p className="text-body-sm text-text-secondary leading-relaxed">{step.description}</p>
                 </div>
 
                 {index < workflowSteps.length - 1 && (
@@ -51,6 +55,14 @@ export function HomeAutomation() {
               </div>
             ))}
           </div>
+        </div>
+
+        <div className="mt-12 max-w-3xl mx-auto">
+          <p className="text-body text-text-secondary text-center leading-relaxed">
+            Every automation we build starts with a clear understanding of your current workflows.
+            We identify the tasks that consume the most time, map the connections between your tools,
+            and design a system that handles those tasks reliably — so your team can focus on the work that requires human judgment.
+          </p>
         </div>
       </div>
     </section>

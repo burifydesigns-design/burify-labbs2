@@ -32,6 +32,13 @@ const values = [
   },
 ];
 
+const services = [
+  { title: "Web Design", desc: "Conversion-focused websites built for business results, not just visual appeal." },
+  { title: "AI Automation", desc: "Intelligent systems that handle repetitive tasks across your business operations." },
+  { title: "AI Agents", desc: "Autonomous systems for customer support, lead qualification, and data tasks." },
+  { title: "Workflow Automation", desc: "Connected tools that communicate and route data automatically across your stack." },
+];
+
 const stats = [
   { value: "4+", label: "Core services" },
   { value: "100%", label: "In-house delivery" },
@@ -93,18 +100,50 @@ export function AboutPageClient() {
                 ref={(el) => { if (el) revealRefs.current[2] = el; }}
                 className="text-body-lg text-text-secondary mb-8 leading-relaxed max-w-2xl mx-auto"
               >
-                Burify Labs is a technology studio focused on two things: building websites that convert, and implementing automation systems that save meaningful time.
+                Burify Labs is a technology studio focused on two things: building websites that convert,
+                and implementing automation systems that save meaningful time. We combine web design, AI automation,
+                AI agents, and workflow automation under one roof for businesses that want to grow without hitting operational ceilings.
               </p>
             </div>
           </div>
         </section>
 
-        {/* ===== MISSION ===== */}
+        {/* ===== WHAT WE DO ===== */}
         <section className="section bg-background">
+          <div className="container">
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <p className="text-caption font-medium uppercase tracking-widest text-primary mb-4">
+                What We Do
+              </p>
+              <h2 className="text-h2 text-text-primary mb-4">
+                Four capabilities. One team.
+              </h2>
+              <p className="text-body-lg text-text-secondary">
+                We offer web design, AI automation, AI agents, and workflow automation services.
+                Together, they form a complete capability for businesses that want to improve their digital presence and operational efficiency.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {services.map((service) => (
+                <div
+                  key={service.title}
+                  className="p-6 rounded-xl border border-border bg-background transition-all duration-200 hover:border-primary-light hover:shadow-lg"
+                >
+                  <h3 className="text-h5 text-text-primary mb-3">{service.title}</h3>
+                  <p className="text-body text-text-secondary leading-relaxed">{service.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== MISSION ===== */}
+        <section className="section bg-background-secondary">
           <div className="container">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <div
-                ref={(el) => { if (el) revealRefs.current[3] = el; }}
+                ref={(el) => { if (el) revealRefs.current[5] = el; }}
               >
                 <p className="text-caption font-medium uppercase tracking-widest text-primary mb-4">
                   Mission
@@ -113,10 +152,15 @@ export function AboutPageClient() {
                   Help businesses grow without hitting operational ceilings.
                 </h2>
                 <p className="text-body-lg text-text-secondary mb-6 leading-relaxed">
-                  Most businesses have untapped potential. Their website could convert better. Their team could spend less time on repetitive work. Their tools could work together instead of in silos.
+                  Most businesses have untapped potential. Their website could convert better.
+                  Their team could spend less time on repetitive work.
+                  Their tools could work together instead of in silos.
                 </p>
                 <p className="text-body text-text-secondary mb-8 leading-relaxed">
-                  Burify Labs exists to close those gaps. We design digital experiences that attract customers and build automation systems that free your team to focus on higher-value work.
+                  Burify Labs exists to close those gaps.
+                  We design digital experiences that attract customers and build automation systems
+                  that free your team to focus on higher-value work.
+                  Every project starts with a clear business goal — then we work backwards to the technology.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button variant="outline" size="md" href="/services">
@@ -125,7 +169,7 @@ export function AboutPageClient() {
                 </div>
               </div>
               <div
-                ref={(el) => { if (el) revealRefs.current[4] = el; }}
+                ref={(el) => { if (el) revealRefs.current[6] = el; }}
                 className="grid grid-cols-2 gap-4"
               >
                 {stats.map((stat) => (
@@ -140,10 +184,10 @@ export function AboutPageClient() {
         </section>
 
         {/* ===== APPROACH ===== */}
-        <section className="section bg-background-secondary">
+        <section className="section bg-background">
           <div className="container">
             <div
-              ref={(el) => { if (el) revealRefs.current[5] = el; }}
+              ref={(el) => { if (el) revealRefs.current[7] = el; }}
               className="max-w-3xl mx-auto text-center mb-16"
             >
               <p className="text-caption font-medium uppercase tracking-widest text-primary mb-4">
@@ -154,6 +198,10 @@ export function AboutPageClient() {
               </h2>
               <p className="text-body-lg text-text-secondary">
                 A repeatable process that keeps projects on track and aligned with your goals.
+              </p>
+              <p className="text-body text-text-secondary mt-4 max-w-2xl mx-auto leading-relaxed">
+                Whether we are building a website or an automation system, the same four stages apply.
+                Clear milestones, regular check-ins, and a focus on outcomes over outputs.
               </p>
             </div>
 
@@ -167,7 +215,7 @@ export function AboutPageClient() {
                 ].map((item, index) => (
                   <div
                     key={item.step}
-                    ref={(el) => { if (el) revealRefs.current[index + 6] = el; }}
+                    ref={(el) => { if (el) revealRefs.current[index + 8] = el; }}
                     className="flex gap-6 items-start"
                   >
                     <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -185,10 +233,10 @@ export function AboutPageClient() {
         </section>
 
         {/* ===== VALUES ===== */}
-        <section className="section bg-background">
+        <section className="section bg-background-secondary">
           <div className="container">
             <div
-              ref={(el) => { if (el) revealRefs.current[10] = el; }}
+              ref={(el) => { if (el) revealRefs.current[12] = el; }}
               className="max-w-3xl mx-auto text-center mb-16"
             >
               <p className="text-caption font-medium uppercase tracking-widest text-primary mb-4">
@@ -197,19 +245,70 @@ export function AboutPageClient() {
               <h2 className="text-h2 text-text-primary mb-4">
                 What guides every decision
               </h2>
+              <p className="text-body-lg text-text-secondary">
+                These values shape how we work with clients, approach problems, and build systems.
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {values.map((value, i) => (
                 <div
                   key={value.title}
-                  ref={(el) => { if (el) revealRefs.current[i + 11] = el; }}
+                  ref={(el) => { if (el) revealRefs.current[i + 13] = el; }}
                   className="p-6 rounded-xl border border-border bg-background transition-all duration-200 hover:border-primary-light hover:shadow-lg"
                 >
-                  <h3 className="text-h5 text-text-primary mb-2">{value.title}</h3>
+                  <h3 className="text-h5 text-text-primary mb-3">{value.title}</h3>
                   <p className="text-body text-text-secondary leading-relaxed">{value.description}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ===== EXPERTISE ===== */}
+        <section className="section bg-background">
+          <div className="container">
+            <div
+              ref={(el) => { if (el) revealRefs.current[19] = el; }}
+              className="max-w-3xl mx-auto text-center mb-16"
+            >
+              <p className="text-caption font-medium uppercase tracking-widest text-primary mb-4">
+                Expertise
+              </p>
+              <h2 className="text-h2 text-text-primary mb-4">
+                Where our focus lies
+              </h2>
+              <p className="text-body-lg text-text-secondary">
+                We specialise in digital experiences and automation systems for small and medium businesses.
+                Our expertise covers the full stack: strategy, design, development, and ongoing optimisation.
+              </p>
+            </div>
+
+            <div className="max-w-3xl mx-auto space-y-6">
+              <div className="p-6 rounded-xl border border-border bg-background">
+                <h3 className="text-h5 text-text-primary mb-3">Web Design and Development</h3>
+                <p className="text-body text-text-secondary leading-relaxed">
+                  From business websites to custom platforms, every build is structured around your audience and goals.
+                  We use modern frameworks and clean architecture to deliver fast, accessible, and maintainable websites.
+                  Every project includes performance testing, responsive design, and SEO foundations from the start.
+                </p>
+              </div>
+              <div className="p-6 rounded-xl border border-border bg-background">
+                <h3 className="text-h5 text-text-primary mb-3">AI Automation and Intelligent Systems</h3>
+                <p className="text-body text-text-secondary leading-relaxed">
+                  We design and implement automation systems using established platforms.
+                  These systems handle lead qualification, data processing, customer follow-up,
+                  internal notifications, and more. The goal is always to reduce manual work and improve consistency.
+                </p>
+              </div>
+              <div className="p-6 rounded-xl border border-border bg-background">
+                <h3 className="text-h5 text-text-primary mb-3">Integration and Tooling</h3>
+                <p className="text-body text-text-secondary leading-relaxed">
+                  We connect the tools your business already uses — CRMs, email platforms, calendars, forms, databases —
+                  so data flows automatically between them. No rip-and-replace approach. Just smarter connections
+                  that extend the value of your existing technology stack.
+                </p>
+              </div>
             </div>
           </div>
         </section>
@@ -218,7 +317,7 @@ export function AboutPageClient() {
         <section className="section bg-background-secondary">
           <div className="container">
             <div
-              ref={(el) => { if (el) revealRefs.current[17] = el; }}
+              ref={(el) => { if (el) revealRefs.current[23] = el; }}
               className="relative overflow-hidden rounded-3xl bg-background-dark text-white px-8 py-16 md:px-16 md:py-24"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent-pink/20" aria-hidden="true" />

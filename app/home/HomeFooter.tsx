@@ -16,6 +16,13 @@ const navigation = [
   { label: "Contact", href: "/contact" },
 ];
 
+const legalLinks = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
+  { label: "Cookie Policy", href: "/cookies" },
+  { label: "Editorial Policy", href: "/editorial-policy" },
+];
+
 export function HomeFooter() {
   const currentYear = new Date().getFullYear();
 
@@ -75,6 +82,17 @@ export function HomeFooter() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-border-dark flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            {legalLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-body-sm text-white/50 hover:text-white/70 transition-colors duration-200"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
           <p className="text-body-sm text-white/50">
             &copy; {currentYear} Burify Labs. All rights reserved.
           </p>

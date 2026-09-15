@@ -21,6 +21,13 @@ const organizationIdentity = {
   "@type": "Organization",
   name: siteConfig.name,
   url: siteConfig.url,
+  logo: `${siteConfig.url}/images/logo/logo.jpeg`,
+  sameAs: [
+    "https://twitter.com/burifylabs",
+    "https://linkedin.com/company/burifylabs",
+    "https://instagram.com/burifylabs",
+    "https://dribbble.com/burifylabs",
+  ],
 };
 
 export function createOrganizationJsonLd(): JsonLd {

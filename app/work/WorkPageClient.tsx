@@ -57,12 +57,13 @@ export function WorkPageClient() {
         <section className="work-hero">
           <div className="absolute inset-0" aria-hidden="true">
             <Image
-              src="/images/work-background.png"
+              src="/images/burify-labs-work-background.png"
               alt=""
               fill
               sizes="100vw"
               className="object-cover"
               priority
+              fetchPriority="high"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background" />
           </div>
@@ -85,8 +86,9 @@ export function WorkPageClient() {
                 ref={(el) => { if (el) revealRefs.current[2] = el; }}
                 className="text-body-lg text-text-secondary mb-8 leading-relaxed max-w-2xl mx-auto"
               >
-                Websites, digital experiences and automation systems built to solve real business problems.
-              </p>
+                 Websites, digital experiences and automation systems built to solve real business problems.
+                 Each project reflects a business-first approach: strategy defined before design, and outcomes measured from day one.
+               </p>
               <div
                 ref={(el) => { if (el) revealRefs.current[3] = el; }}
                 className="flex flex-col sm:flex-row items-center justify-center gap-4"
@@ -127,8 +129,9 @@ export function WorkPageClient() {
                 <h2 className="text-h2 md:text-h3 text-white mb-6">
                   Have a project in mind?
                 </h2>
-                <p className="text-body-lg text-white/70 mb-8 leading-relaxed">
-                  Let&apos;s build something that works. Tell us about your project and we will respond within one business day.
+                  <p className="text-body-lg text-white/70 mb-8 leading-relaxed">
+                  Let&apos;s build something that works. Tell us about your project and we will respond within one business day with initial thoughts on how we can help.
+                  Every engagement begins with understanding your goals and current setup — no templates, no generic proposals.
                 </p>
                 <Button variant="outline" size="lg" href="/contact">
                   Contact Us

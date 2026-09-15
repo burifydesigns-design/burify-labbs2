@@ -100,12 +100,13 @@ export function ServicesPageClient() {
         <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 lg:pt-48 lg:pb-36 overflow-hidden">
           <div className="absolute inset-0" aria-hidden="true">
             <Image
-              src="/images/services-background.jpg"
+              src="/images/burify-labs-services-background.jpg"
               alt=""
               fill
               sizes="100vw"
               className="object-cover"
               priority
+              fetchPriority="high"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/90 to-background" />
           </div>

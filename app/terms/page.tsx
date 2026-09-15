@@ -1,8 +1,11 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { createNoIndexMetadata } from "@/lib/seo";
+import { createPageMetadata } from "@/lib/seo";
+import { pageArchitecture } from "@/config/page-architecture";
 
-export const metadata = createNoIndexMetadata();
+const page = pageArchitecture.terms;
+
+export const metadata = createPageMetadata(page);
 
 export default function TermsPage() {
   return (
@@ -20,23 +23,53 @@ export default function TermsPage() {
                 Terms of Service
               </h1>
               <p className="text-body-lg text-text-secondary mb-8 leading-relaxed">
-                These terms of service govern your use of the Burify Labs website.
-                This page is a placeholder and should be reviewed by legal counsel before publication.
+                These terms govern your use of the Burify Labs website and the services we provide.
               </p>
               <div className="space-y-6">
-                <p className="text-body text-text-secondary leading-relaxed">
-                  By using this website, you agree to these terms. If you do not agree, please do not use this website.
-                </p>
-                <p className="text-body text-text-secondary leading-relaxed">
-                  The content on this website is provided for general information purposes only.
-                  It is not intended to constitute legal, financial, or professional advice.
-                </p>
-                <p className="text-body text-text-secondary leading-relaxed">
-                  We reserve the right to modify these terms at any time. Your continued use of the website
-                  following any changes indicates your acceptance of the new terms.
-                </p>
-                <p className="text-body text-text-secondary leading-relaxed">
-                  For questions about these terms, contact us at hello@burifylabs.com.
+                <div>
+                  <h2 className="text-h2 text-text-primary mb-3">Agreement to terms</h2>
+                  <p className="text-body text-text-secondary leading-relaxed">
+                    By accessing or using this website, you agree to be bound by these terms. If you do not agree, please do not use this website.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="text-h2 text-text-primary mb-3">Services</h2>
+                  <p className="text-body text-text-secondary leading-relaxed">
+                    Burify Labs provides web design, AI automation, AI agent development, and workflow automation services. Service scope, pricing, and timelines are agreed individually for each project.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="text-h2 text-text-primary mb-3">Intellectual property</h2>
+                  <p className="text-body text-text-secondary leading-relaxed">
+                    Unless otherwise agreed in writing, completed work is transferred to the client upon full payment. Burify Labs retains the right to display completed work in its portfolio.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="text-h2 text-text-primary mb-3">Content and accuracy</h2>
+                  <p className="text-body text-text-secondary leading-relaxed">
+                    Content on this website is provided for general information purposes. It is not intended as legal, financial, or professional advice. We aim to keep information accurate and current but make no guarantees about completeness or suitability.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="text-h2 text-text-primary mb-3">Limitation of liability</h2>
+                  <p className="text-body text-text-secondary leading-relaxed">
+                    Burify Labs is not liable for any loss or damage arising from reliance on information published on this website or from the use of services provided. Our total liability is limited to fees paid for the specific service in question.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="text-h2 text-text-primary mb-3">Changes to terms</h2>
+                  <p className="text-body text-text-secondary leading-relaxed">
+                    We may update these terms from time to time. Changes take effect when published on this page. Continued use of the website following any changes indicates your acceptance of the updated terms.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="text-h2 text-text-primary mb-3">Contact</h2>
+                  <p className="text-body text-text-secondary leading-relaxed">
+                    For questions about these terms, contact us at hello@burifylabs.com.
+                  </p>
+                </div>
+                <p className="text-text-muted text-sm">
+                  Last updated: September 2026
                 </p>
               </div>
             </div>

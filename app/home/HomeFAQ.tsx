@@ -22,12 +22,12 @@ const defaultFaqs: FaqItem[] = [
   {
     question: "What is AI automation?",
     answer:
-      "AI automation uses intelligent systems to handle repetitive business processes, from lead capture and qualification to customer follow-up, data entry, and internal workflows.",
+      "AI automation uses intelligent systems to handle repetitive business processes — from lead capture and qualification to customer follow-up, data entry, and internal workflows — without manual intervention.",
   },
   {
-    question: "Can you automate existing business processes?",
+    question: "Can you improve existing business processes?",
     answer:
-      "Yes. We analyze current workflows, identify automation opportunities, and implement systems that connect your tools and reduce manual work.",
+      "Yes. We analyse current workflows, identify efficiency gains, and implement systems that connect your tools and reduce repetitive work.",
   },
   {
     question: "Do you build AI agents?",
@@ -77,6 +77,7 @@ export function HomeFAQ() {
                 >
                   <button
                     onClick={() => toggle(index)}
+                    id={`faq-question-${index}`}
                     className="w-full flex items-center justify-between p-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl"
                     aria-expanded={isOpen}
                     aria-controls={`faq-answer-${index}`}

@@ -21,6 +21,10 @@ export function HomeWork() {
           <p className="text-body-lg text-text-secondary">
             Projects where design meets function and performance.
           </p>
+          <p className="text-body text-text-secondary mt-4 max-w-2xl mx-auto leading-relaxed">
+            Each project below was built around a specific business challenge. The approach, design decisions,
+            and outcomes reflect what happens when strategy leads and technology follows.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
