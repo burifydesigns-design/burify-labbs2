@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A1625"/>
+      <stop offset="50%" stop-color="#241E33"/>
+      <stop offset="100%" stop-color="#1A1625"/>
+    </linearGradient>
+    <linearGradient id="accent1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6B5FA9" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#8D81E3" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="accent2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D484B2" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#8D81E3" stop-opacity="0.5"/>
+    </linearGradient>
+    <linearGradient id="accent3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6B5FA9" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#D484B2" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="screenGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#CBC5DC" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#6B5FA9" stop-opacity="0.03"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="12" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="screenClip">
+      <rect x="180" y="100" width="840" height="380" rx="16"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle background grid pattern -->
+  <g opacity="0.04">
+    <line x1="0" y1="100" x2="1200" y2="100" stroke="#CBC5DC" stroke-width="0.5"/>
+    <line x1="0" y1="200" x2="1200" y2="200" stroke="#CBC5DC" stroke-width="0.5"/>
+    <line x1="0" y1="300" x2="1200" y2="300" stroke="#CBC5DC" stroke-width="0.5"/>
+    <line x1="0" y1="400" x2="1200" y2="400" stroke="#CBC5DC" stroke-width="0.5"/>
+    <line x1="0" y1="500" x2="1200" y2="500" stroke="#CBC5DC" stroke-width="0.5"/>
+    <line x1="200" y1="0" x2="200" y2="630" stroke="#CBC5DC" stroke-width="0.5"/>
+    <line x1="400" y1="0" x2="400" y2="630" stroke="#CBC5DC" stroke-width="0.5"/>
+    <line x1="600" y1="0" x2="600" y2="630" stroke="#CBC5DC" stroke-width="0.5"/>
+    <line x1="800" y1="0" x2="800" y2="630" stroke="#CBC5DC" stroke-width="0.5"/>
+    <line x1="1000" y1="0" x2="1000" y2="630" stroke="#CBC5DC" stroke-width="0.5"/>
+  </g>
+
+  <!-- Ambient glow behind screen -->
+  <ellipse cx="600" cy="290" rx="420" ry="160" fill="#6B5FA9" opacity="0.06" filter="url(#softGlow)"/>
+
+  <!-- Monitor stand -->
+  <rect x="560" y="480" width="80" height="30" rx="4" fill="#2A2440"/>
+  <rect x="520" y="505" width="160" height="14" rx="7" fill="#2A2440"/>
+  <rect x="540" y="515" width="120" height="10" rx="5" fill="#1E1830"/>
+
+  <!-- Monitor frame -->
+  <rect x="160" y="80" width="880" height="410" rx="20" fill="#2A2440" stroke="#3D3457" stroke-width="2"/>
+
+  <!-- Screen -->
+  <rect x="176" y="96" width="848" height="378" rx="10" fill="#0F0D18"/>
+
+  <!-- Screen content - website layout preview -->
+  <!-- Top nav bar -->
+  <rect x="200" y="116" width="800" height="36" rx="6" fill="#1A1625"/>
+  <rect x="216" y="126" width="60" height="16" rx="3" fill="#6B5FA9" opacity="0.8"/>
+  <rect x="296" y="126" width="80" height="10" rx="2" fill="#4B4275" opacity="0.5"/>
+  <rect x="392" y="126" width="70" height="10" rx="2" fill="#4B4275" opacity="0.5"/>
+  <rect x="478" y="126" width="80" height="10" rx="2" fill="#4B4275" opacity="0.5"/>
+  <rect x="840" y="122" width="140" height="18" rx="8" fill="#6B5FA9" opacity="0.7"/>
+
+  <!-- Hero section -->
+  <rect x="200" y="164" width="800" height="140" rx="8" fill="url(#screenGlow)"/>
+  <rect x="216" y="184" width="280" height="14" rx="3" fill="#CBC5DC" opacity="0.7"/>
+  <rect x="216" y="208" width="520" height="10" rx="2" fill="#4B4275" opacity="0.4"/>
+  <rect x="216" y="226" width="480" height="10" rx="2" fill="#4B4275" opacity="0.3"/>
+  <rect x="216" y="250" width="120" height="26" rx="10" fill="#6B5FA9" opacity="0.8"/>
+  <rect x="350" y="250" width="100" height="26" rx="10" fill="#D484B2" opacity="0.6"/>
+
+  <!-- Content cards row -->
+  <rect x="200" y="318" width="256" height="120" rx="8" fill="#1A1625" stroke="#3D3457" stroke-width="1" opacity="0.8"/>
+  <rect x="216" y="334" width="100" height="10" rx="2" fill="#CBC5DC" opacity="0.5"/>
+  <rect x="216" y="354" width="220" height="8" rx="2" fill="#4B4275" opacity="0.4"/>
+  <rect x="216" y="370" width="200" height="8" rx="2" fill="#4B4275" opacity="0.3"/>
+  <rect x="216" y="390" width="80" height="22" rx="8" fill="#6B5FA9" opacity="0.5"/>
+
+  <rect x="472" y="318" width="256" height="120" rx="8" fill="#1A1625" stroke="#3D3457" stroke-width="1" opacity="0.8"/>
+  <rect x="488" y="334" width="100" height="10" rx="2" fill="#CBC5DC" opacity="0.5"/>
+  <rect x="488" y="354" width="220" height="8" rx="2" fill="#4B4275" opacity="0.4"/>
+  <rect x="488" y="370" width="200" height="8" rx="2" fill="#4B4275" opacity="0.3"/>
+  <rect x="488" y="390" width="80" height="22" rx="8" fill="#6B5FA9" opacity="0.5"/>
+
+  <rect x="744" y="318" width="256" height="120" rx="8" fill="#1A1625" stroke="#3D3457" stroke-width="1" opacity="0.8"/>
+  <rect x="760" y="334" width="100" height="10" rx="2" fill="#CBC5DC" opacity="0.5"/>
+  <rect x="760" y="354" width="220" height="8" rx="2" fill="#4B4275" opacity="0.4"/>
+  <rect x="760" y="370" width="200" height="8" rx="2" fill="#4B4275" opacity="0.3"/>
+  <rect x="760" y="390" width="80" height="22" rx="8" fill="#6B5FA9" opacity="0.5"/>
+
+  <!-- Bottom section -->
+  <rect x="200" y="450" width="800" height="14" rx="4" fill="#4B4275" opacity="0.2"/>
+
+  <!-- AI visualization elements (left side of screen) - geometric/structured -->
+  <g clip-path="url(#screenClip)">
+    <!-- Neural network style nodes -->
+    <circle cx="280" cy="280" r="6" fill="#6B5FA9" opacity="0.8"/>
+    <circle cx="310" cy="250" r="5" fill="#8D81E3" opacity="0.7"/>
+    <circle cx="340" cy="290" r="7" fill="#6B5FA9" opacity="0.6"/>
+    <circle cx="300" cy="310" r="4" fill="#CBC5DC" opacity="0.5"/>
+    <circle cx="360" cy="260" r="5" fill="#8D81E3" opacity="0.6"/>
+    <line x1="280" y1="280" x2="310" y2="250" stroke="#6B5FA9" stroke-width="1.5" opacity="0.4"/>
+    <line x1="280" y1="280" x2="340" y2="290" stroke="#6B5FA9" stroke-width="1.5" opacity="0.4"/>
+    <line x1="280" y1="280" x2="300" y2="310" stroke="#8D81E3" stroke-width="1" opacity="0.3"/>
+    <line x1="310" y1="250" x2="340" y2="290" stroke="#8D81E3" stroke-width="1" opacity="0.3"/>
+    <line x1="310" y1="250" x2="360" y2="260" stroke="#CBC5DC" stroke-width="1" opacity="0.3"/>
+
+    <!-- Data flow lines -->
+    <path d="M 220 340 Q 240 320 260 340 T 300 340" stroke="#6B5FA9" stroke-width="1.5" fill="none" opacity="0.3" stroke-dasharray="4,3"/>
+    <path d="M 230 360 Q 250 340 270 360 T 310 360" stroke="#8D81E3" stroke-width="1" fill="none" opacity="0.25" stroke-dasharray="3,4"/>
+  </g>
+
+  <!-- Human design elements (right side of screen) - organic/creative -->
+  <g clip-path="url(#screenClip)">
+    <!-- Typography elements -->
+    <rect x="760" y="260" width="200" height="4" rx="2" fill="#D484B2" opacity="0.6"/>
+    <rect x="760" y="272" width="160" height="4" rx="2" fill="#CBC5DC" opacity="0.4"/>
+    <rect x="760" y="284" width="180" height="4" rx="2" fill="#CBC5DC" opacity="0.3"/>
+    <!-- Layout grid guides -->
+    <line x1="760" y1="310" x2="960" y2="310" stroke="#D484B2" stroke-width="0.8" opacity="0.3"/>
+    <line x1="760" y1="330" x2="960" y2="330" stroke="#D484B2" stroke-width="0.8" opacity="0.2"/>
+    <!-- Creative shape -->
+    <circle cx="900" cy="260" r="20" fill="none" stroke="#D484B2" stroke-width="2" opacity="0.5"/>
+    <circle cx="900" cy="260" r="12" fill="#D484B2" opacity="0.2"/>
+  </g>
+
+  <!-- Decorative floating elements outside screen -->
+  <!-- Left side - AI side -->
+  <g opacity="0.5">
+    <rect x="60" y="160" width="80" height="6" rx="3" fill="#6B5FA9"/>
+    <rect x="60" y="175" width="60" height="4" rx="2" fill="#8D81E3" opacity="0.6"/>
+    <circle cx="80" cy="220" r="12" fill="none" stroke="#6B5FA9" stroke-width="2" opacity="0.4"/>
+    <circle cx="80" cy="220" r="6" fill="#6B5FA9" opacity="0.3"/>
+    <circle cx="130" cy="210" r="8" fill="#8D81E3" opacity="0.3"/>
+  </g>
+
+  <!-- Right side - human side -->
+  <g opacity="0.5">
+    <rect x="1060" y="160" width="80" height="6" rx="3" fill="#D484B2"/>
+    <rect x="1060" y="175" width="60" height="4" rx="2" fill="#CBC5DC" opacity="0.6"/>
+    <circle cx="1120" cy="220" r="12" fill="none" stroke="#D484B2" stroke-width="2" opacity="0.4"/>
+    <circle cx="1120" cy="220" r="6" fill="#D484B2" opacity="0.3"/>
+    <circle cx="1080" cy="210" r="8" fill="#CBC5DC" opacity="0.3"/>
+  </g>
+
+  <!-- Central connector line -->
+  <line x1="600" y1="495" x2="600" y2="560" stroke="#CBC5DC" stroke-width="1" opacity="0.15"/>
+
+  <!-- Text overlay area -->
+  <!-- Title area -->
+  <rect x="100" y="530" width="1000" height="80" rx="12" fill="#1A1625" opacity="0.7"/>
+
+  <!-- Main title text -->
+  <text x="600" y="565" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="26" font-weight="600" fill="#CBC5DC" text-anchor="middle" letter-spacing="1">How AI Is Changing Web Design</text>
+  <text x="600" y="595" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="16" font-weight="400" fill="#8D81E3" text-anchor="middle" letter-spacing="2">AI + HUMAN DESIGN = BETTER POSSIBILITIES</text>
+
+  <!-- Corner accent dots -->
+  <circle cx="100" cy="530" r="4" fill="#6B5FA9" opacity="0.8"/>
+  <circle cx="1100" cy="530" r="4" fill="#D484B2" opacity="0.8"/>
+
+  <!-- Brand mark (small logo indicator) -->
+  <rect x="90" y="90" width="40" height="40" rx="10" fill="#6B5FA9" opacity="0.3"/>
+  <text x="110" y="116" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" fill="#CBC5DC" text-anchor="middle" opacity="0.8">B</text>
+
+  <!-- Monitor camera/sensor -->
+  <circle cx="600" cy="85" r="4" fill="#3D3457"/>
+  <circle cx="600" cy="85" r="2" fill="#6B5FA9" opacity="0.6"/>
+
+  <!-- Side accent bars -->
+  <rect x="0" y="200" width="4" height="120" rx="2" fill="#6B5FA9" opacity="0.3"/>
+  <rect x="1196" y="200" width="4" height="120" rx="2" fill="#D484B2" opacity="0.3"/>
+
+  <!-- Subtle particles -->
+  <circle cx="100" cy="400" r="3" fill="#6B5FA9" opacity="0.3"/>
+  <circle cx="1100" cy="400" r="3" fill="#D484B2" opacity="0.3"/>
+  <circle cx="80" cy="450" r="2" fill="#CBC5DC" opacity="0.2"/>
+  <circle cx="1120" cy="450" r="2" fill="#CBC5DC" opacity="0.2"/>
+
+  <!-- Category badge on image -->
+  <rect x="90" y="140" width="110" height="28" rx="14" fill="#6B5FA9" opacity="0.85"/>
+  <text x="145" y="159" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#FFFFFF" text-anchor="middle" letter-spacing="1.5">WEB DESIGN</text>
+</svg>

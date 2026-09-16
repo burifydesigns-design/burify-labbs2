@@ -15,7 +15,7 @@ export const services: Service[] = [
       "website redesign",
       "responsive web design",
       "business website design",
-      "small business website design",
+      "business website design",
       "conversion-focused web design",
     ],
     intent: "Commercial",
@@ -46,7 +46,7 @@ export const services: Service[] = [
       "AI business automation",
       "AI workflow automation",
       "business process automation",
-      "automation for small business",
+      "business process automation",
     ],
     intent: "Commercial / Transactional",
     plannedSections: [
@@ -73,7 +73,6 @@ export const services: Service[] = [
     secondaryKeywords: [
       "AI agent development",
       "AI automation agents",
-      "AI agents for small business",
       "business AI agents",
       "intelligent business automation",
     ],

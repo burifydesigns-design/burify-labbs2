@@ -279,7 +279,7 @@ export function AboutPageClient() {
                 Where our focus lies
               </h2>
               <p className="text-body-lg text-text-secondary">
-                We specialise in digital experiences and automation systems for small and medium businesses.
+                We specialise in digital experiences and automation systems for ambitious businesses and growing brands.
                 Our expertise covers the full stack: strategy, design, development, and ongoing optimisation.
               </p>
             </div>
