@@ -36,6 +36,15 @@ export function BlogCard({ post }: BlogCardProps) {
           </div>
           <h3 className="blog-card__title">{post.title}</h3>
           <p className="blog-card__excerpt">{post.excerpt}</p>
+          {post.publishedAt && (
+            <time className="blog-card__date" dateTime={post.publishedAt}>
+              {new Date(post.publishedAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+          )}
           <span className="blog-card__read-more">
             Read Article
             <svg

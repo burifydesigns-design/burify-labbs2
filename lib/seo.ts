@@ -59,6 +59,7 @@ export function createResourceMetadata({
   title,
   path,
   type = "website",
+  appendSiteName = true,
 }: {
   description: string;
   modifiedTime?: string;
@@ -71,10 +72,11 @@ export function createResourceMetadata({
   title: string;
   path: string;
   type?: "article" | "website";
+  appendSiteName?: boolean;
 }): Metadata {
   const url = canonicalUrl(path);
   const brandSuffix = ` | ${siteConfig.name}`;
-  const displayTitle = title.endsWith(brandSuffix) ? title : `${title}${brandSuffix}`;
+  const displayTitle = appendSiteName && !title.endsWith(brandSuffix) ? `${title}${brandSuffix}` : title;
   const image = openGraphImage ? { url: openGraphImage, alt: `${title} Open Graph image` } : defaultOpenGraphImage;
   const openGraph =
     type === "article"

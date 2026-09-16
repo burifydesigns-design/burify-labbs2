@@ -31,7 +31,7 @@ export function ArticleHeader({ post }: ArticleHeaderProps) {
 
         <h1 className="article-header__title">{post.title}</h1>
 
-        {post.excerpt && <p className="article-header__excerpt">{post.excerpt}</p>}
+        <p className="article-header__excerpt">{post.description}</p>
       </div>
     </header>
   );

@@ -1,0 +1,373 @@
+const { writeFileSync } = require("fs");
+const path = require("path");
+
+const W = 1920;
+const H = 1080;
+
+const BG = "#06060f";
+const PANEL_BG = "#0d0d1f";
+const PANEL_BORDER = "rgba(107,95,169,0.25)";
+const GRID_COLOR = "rgba(107,95,169,0.06)";
+const TEXT_MUTED = "rgba(255,255,255,0.4)";
+const TEXT_SOFT = "rgba(255,255,255,0.6)";
+
+function esc(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function barChart(x, y, values, barW, color, opacityBase) {
+  return values.map((h, i) => {
+    const opacity = (opacityBase + (h / Math.max(...values)) * 0.5).toFixed(2);
+    return `<rect x="${x + i * (barW + 4)}" y="${y - h}" width="${barW}" height="${h}" fill="${color}" opacity="${opacity}" rx="2"/>`;
+  }).join("\n  ");
+}
+
+const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06060f"/>
+      <stop offset="50%" stop-color="#0a0a1e"/>
+      <stop offset="100%" stop-color="#06060f"/>
+    </linearGradient>
+    <filter id="glowCyan" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowPurple" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowOrange" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="15" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+    <linearGradient id="funnelGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6b5fa9"/>
+      <stop offset="40%" stop-color="#8b7fd4"/>
+      <stop offset="70%" stop-color="#e8915a" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#e8453a" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="trafficLine1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4dd9d9" stop-opacity="0.1"/>
+      <stop offset="30%" stop-color="#4dd9d9" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#d484b2" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#e8915a" stop-opacity="0.4"/>
+    </linearGradient>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="${GRID_COLOR}" stroke-width="1"/>
+    </pattern>
+    <pattern id="dots" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="rgba(107,95,169,0.15)"/>
+    </pattern>
+  </defs>
+
+  <rect width="${W}" height="${H}" fill="url(#bgGrad)"/>
+  <rect width="${W}" height="${H}" fill="url(#grid)"/>
+  <rect width="${W}" height="${H}" fill="url(#dots)"/>
+
+  <!-- Background glow orbs -->
+  <circle cx="500" cy="700" r="80" fill="#6b5fa9" opacity="0.03" filter="url(#glowSoft)"/>
+  <circle cx="1420" cy="700" r="80" fill="#e8915a" opacity="0.02" filter="url(#glowSoft)"/>
+  <circle cx="960" cy="400" r="200" fill="#4dd9d9" opacity="0.01" filter="url(#glowSoft)"/>
+
+  <!-- ============================================
+       LEFT PANEL — Traffic Overview
+       ============================================ -->
+  <rect x="60" y="120" width="340" height="420" rx="16" fill="${PANEL_BG}" stroke="${PANEL_BORDER}" stroke-width="1"/>
+  <rect x="60" y="120" width="340" height="52" rx="16" fill="rgba(107,95,169,0.08)"/>
+  <rect x="60" y="160" width="340" height="12" fill="rgba(107,95,169,0.08)"/>
+  <circle cx="88" cy="146" r="4" fill="#e84545" opacity="0.8"/>
+  <circle cx="104" cy="146" r="4" fill="#e8b83a" opacity="0.8"/>
+  <circle cx="120" cy="146" r="4" fill="#4ade80" opacity="0.8"/>
+  <text x="165" y="151" font-family="ui-monospace, monospace" font-size="11" fill="${TEXT_MUTED}" letter-spacing="2">TRAFFIC OVERVIEW</text>
+
+  <!-- Total Visitors -->
+  <text x="92" y="210" font-family="ui-monospace, monospace" font-size="10" fill="${TEXT_MUTED}" letter-spacing="1.5">TOTAL VISITORS</text>
+  <text x="92" y="240" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#ffffff">24,891</text>
+  <text x="280" y="240" font-family="ui-monospace, monospace" font-size="12" fill="#4ade80">▲ 12.4%</text>
+  ${barChart(92, 265, [18,24,16,30,22,35,28,20,38,32,26,40], 14, "#6b5fa9", 0.3)}
+
+  <!-- Page Views -->
+  <text x="92" y="320" font-family="ui-monospace, monospace" font-size="10" fill="${TEXT_MUTED}" letter-spacing="1.5">PAGE VIEWS</text>
+  <text x="92" y="350" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#ffffff">68,402</text>
+  <text x="280" y="350" font-family="ui-monospace, monospace" font-size="12" fill="#4ade80">▲ 8.1%</text>
+  <polyline points="92,380 114,375 136,365 158,370 180,358 202,360 224,348 246,352 268,340 290,335 312,328 334,320"
+    fill="none" stroke="#6b5fa9" stroke-width="2" opacity="0.6"/>
+  <polyline points="92,380 114,375 136,365 158,370 180,358 202,360 224,348 246,352 268,340 290,335 312,328 334,320 334,420 92,420"
+    fill="url(#trafficLine1)" opacity="0.3"/>
+
+  <!-- Bounce Rate -->
+  <text x="92" y="438" font-family="ui-monospace, monospace" font-size="10" fill="${TEXT_MUTED}" letter-spacing="1.5">BOUNCE RATE</text>
+  <text x="92" y="468" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#e8915a">72.3%</text>
+  <circle cx="310" cy="458" r="20" fill="none" stroke="#1a1a35" stroke-width="8"/>
+  <circle cx="310" cy="458" r="20" fill="none" stroke="#e8915a" stroke-width="8"
+    stroke-dasharray="100 126" stroke-dashoffset="0" transform="rotate(-90 310 458)"/>
+  <text x="310" y="462" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="${TEXT_SOFT}">72%</text>
+
+  <!-- ============================================
+       RIGHT PANEL — Conversion Metrics
+       ============================================ -->
+  <rect x="1520" y="120" width="340" height="420" rx="16" fill="${PANEL_BG}" stroke="${PANEL_BORDER}" stroke-width="1"/>
+  <rect x="1520" y="120" width="340" height="52" rx="16" fill="rgba(232,69,58,0.06)"/>
+  <rect x="1520" y="160" width="340" height="12" fill="rgba(232,69,58,0.05)"/>
+  <circle cx="1548" cy="146" r="4" fill="#e84545" opacity="0.8"/>
+  <circle cx="1564" cy="146" r="4" fill="#e8b83a" opacity="0.8"/>
+  <circle cx="1580" cy="146" r="4" fill="#4ade80" opacity="0.8"/>
+  <text x="1625" y="151" font-family="ui-monospace, monospace" font-size="11" fill="${TEXT_MUTED}" letter-spacing="2">CONVERSION METRICS</text>
+
+  <text x="1552" y="210" font-family="ui-monospace, monospace" font-size="10" fill="${TEXT_MUTED}" letter-spacing="1.5">CONVERSIONS</text>
+  <text x="1552" y="240" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#e8453a">23</text>
+  <text x="1740" y="240" font-family="ui-monospace, monospace" font-size="12" fill="#e8453a">▼ 34.7%</text>
+  ${barChart(1552, 265, [30,28,22,18,15,10,12,8,6,5,3,2], 14, "#e8453a", 0.2)}
+
+  <text x="1552" y="320" font-family="ui-monospace, monospace" font-size="10" fill="${TEXT_MUTED}" letter-spacing="1.5">CONVERSION RATE</text>
+  <text x="1552" y="350" font-family="ui-monospace, monospace" font-size="22" font-weight="700" fill="#e8915a">0.09%</text>
+  <circle cx="1770" cy="340" r="22" fill="none" stroke="#1a1a35" stroke-width="10"/>
+  <circle cx="1770" cy="340" r="22" fill="none" stroke="#e8453a" stroke-width="10"
+    stroke-dasharray="2 138" stroke-dashoffset="0" transform="rotate(-90 1770 340)"/>
+  <text x="1770" y="344" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8" fill="${TEXT_SOFT}">0.1%</text>
+
+  <!-- Warning badge -->
+  <rect x="1552" y="385" width="160" height="30" rx="8" fill="rgba(232,145,90,0.12)" stroke="rgba(232,145,90,0.3)" stroke-width="1"/>
+  <text x="1568" y="405" font-family="ui-monospace, monospace" font-size="11" fill="#e8915a">⚠  NEEDS ATTENTION</text>
+
+  <text x="1552" y="445" font-family="ui-monospace, monospace" font-size="10" fill="${TEXT_MUTED}" letter-spacing="1.5">DEAD-END RATE</text>
+  <text x="1552" y="465" font-family="ui-monospace, monospace" font-size="14" font-weight="600" fill="#e8453a">71.4%</text>
+  <line x1="1552" y1="472" x2="1800" y2="472" stroke="#e8453a" stroke-width="2" opacity="0.5"/>
+
+  <!-- ============================================
+       CENTER — CONVERSION FUNNEL
+       ============================================ -->
+
+  <!-- Connecting lines to funnel -->
+  <line x1="400" y1="320" x2="620" y2="320" stroke="rgba(107,95,169,0.2)" stroke-width="1" stroke-dasharray="4 6"/>
+  <line x1="1520" y1="320" x2="1300" y2="320" stroke="rgba(232,69,58,0.2)" stroke-width="1" stroke-dasharray="4 6"/>
+
+  <!-- Funnel glow -->
+  <ellipse cx="960" cy="480" rx="120" ry="120" fill="#6b5fa9" opacity="0.04" filter="url(#glowSoft)"/>
+
+  <!-- Funnel body -->
+  <polygon points="620,400 1300,400 1080,720 840,720"
+    fill="url(#funnelGrad)" opacity="0.15"/>
+  <line x1="620" y1="400" x2="1300" y2="400" stroke="#6b5fa9" stroke-width="2" opacity="0.5" filter="url(#softGlow)"/>
+  <line x1="620" y1="400" x2="840" y2="720" stroke="#6b5fa9" stroke-width="1.5" opacity="0.3"/>
+  <line x1="1300" y1="400" x2="1080" y2="720" stroke="#6b5fa9" stroke-width="1.5" opacity="0.3"/>
+  <line x1="840" y1="720" x2="1080" y2="720" stroke="#6b5fa9" stroke-width="2" opacity="0.5" filter="url(#softGlow)"/>
+
+  <!-- Blockage zone 1 -->
+  <rect x="700" y="475" width="520" height="6" rx="3" fill="#e8915a" opacity="0.5" filter="url(#glowOrange)"/>
+  <text x="960" y="508" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="#e8915a" opacity="0.75">✕</text>
+
+  <!-- Blockage zone 2 -->
+  <rect x="750" y="548" width="420" height="5" rx="2" fill="#e8915a" opacity="0.35"/>
+  <text x="960" y="575" text-anchor="middle" font-family="ui-monospace, monospace" font-size="14" fill="#e8915a" opacity="0.6">Unclear messaging</text>
+
+  <!-- Blockage zone 3 -->
+  <rect x="790" y="618" width="340" height="5" rx="2" fill="#e8453a" opacity="0.4" filter="url(#glowOrange)"/>
+  <text x="960" y="652" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#e8453a" opacity="0.65">Mobile friction · Slow load · No trust</text>
+
+  <!-- ============================================
+       TRAFFIC PARTICLES entering
+       ============================================ -->
+
+  <!-- Stream lines -->
+  <path d="M 0 360 Q 200 355 400 360 Q 550 365 620 400" fill="none" stroke="#4dd9d9" stroke-width="2" opacity="0.5" filter="url(#glowCyan)"/>
+  <path d="M 0 400 Q 200 395 400 400 Q 550 405 620 400" fill="none" stroke="#4dd9d9" stroke-width="3" opacity="0.6" filter="url(#glowCyan)"/>
+  <path d="M 0 440 Q 200 435 400 440 Q 550 445 620 400" fill="none" stroke="#4dd9d9" stroke-width="1.5" opacity="0.4" filter="url(#glowCyan)"/>
+
+  <!-- Traffic dot clusters (left side - cyan/purple, entering funnel) -->
+  <circle cx="80" cy="340" r="5" fill="#4dd9d9" opacity="0.9" filter="url(#glowCyan)"/>
+  <circle cx="100" cy="350" r="3" fill="#4dd9d9" opacity="0.7"/>
+  <circle cx="70" cy="355" r="4" fill="#4dd9d9" opacity="0.8" filter="url(#glowCyan)"/>
+  <circle cx="120" cy="338" r="3" fill="#4dd9d9" opacity="0.6"/>
+
+  <circle cx="50" cy="395" r="6" fill="#4dd9d9" opacity="0.95" filter="url(#glowCyan)"/>
+  <circle cx="75" cy="402" r="4" fill="#4dd9d9" opacity="0.8"/>
+  <circle cx="100" cy="396" r="5" fill="#4dd9d9" opacity="0.85" filter="url(#glowCyan)"/>
+  <circle cx="130" cy="400" r="3" fill="#4dd9d9" opacity="0.7"/>
+  <circle cx="40" cy="410" r="4" fill="#4dd9d9" opacity="0.75"/>
+  <circle cx="90" cy="415" r="3" fill="#4dd9d9" opacity="0.6"/>
+  <circle cx="160" cy="398" r="5" fill="#4dd9d9" opacity="0.8" filter="url(#glowCyan)"/>
+  <circle cx="180" cy="405" r="2" fill="#4dd9d9" opacity="0.5"/>
+
+  <circle cx="60" cy="440" r="4" fill="#4dd9d9" opacity="0.7"/>
+  <circle cx="85" cy="435" r="5" fill="#4dd9d9" opacity="0.8" filter="url(#glowCyan)"/>
+  <circle cx="110" cy="448" r="3" fill="#4dd9d9" opacity="0.6"/>
+  <circle cx="140" cy="430" r="4" fill="#4dd9d9" opacity="0.75"/>
+
+  <circle cx="200" cy="385" r="4" fill="#4dd9d9" opacity="0.75" filter="url(#glowCyan)"/>
+  <circle cx="220" cy="400" r="3" fill="#4dd9d9" opacity="0.6"/>
+  <circle cx="240" cy="415" r="4" fill="#4dd9d9" opacity="0.7"/>
+  <circle cx="260" cy="390" r="5" fill="#4dd9d9" opacity="0.8" filter="url(#glowCyan)"/>
+  <circle cx="280" cy="410" r="3" fill="#4dd9d9" opacity="0.65"/>
+  <circle cx="300" cy="395" r="4" fill="#6b5fa9" opacity="0.7"/>
+  <circle cx="320" cy="405" r="3" fill="#6b5fa9" opacity="0.6"/>
+  <circle cx="350" cy="400" r="5" fill="#6b5fa9" opacity="0.75" filter="url(#glowPurple)"/>
+  <circle cx="380" cy="388" r="3" fill="#6b5fa9" opacity="0.5"/>
+  <circle cx="400" cy="415" r="4" fill="#6b5fa9" opacity="0.6"/>
+  <circle cx="420" cy="395" r="3" fill="#6b5fa9" opacity="0.55"/>
+  <circle cx="440" cy="408" r="4" fill="#6b5fa9" opacity="0.65"/>
+  <circle cx="460" cy="392" r="3" fill="#d484b2" opacity="0.5"/>
+  <circle cx="480" cy="402" r="4" fill="#d484b2" opacity="0.6"/>
+  <circle cx="510" cy="398" r="3" fill="#d484b2" opacity="0.55"/>
+  <circle cx="540" cy="410" r="2" fill="#d484b2" opacity="0.4"/>
+  <circle cx="560" cy="395" r="3" fill="#e8915a" opacity="0.5"/>
+  <circle cx="590" cy="405" r="2" fill="#e8915a" opacity="0.4"/>
+
+  <!-- Entering funnel -->
+  <circle cx="630" cy="395" r="4" fill="#4dd9d9" opacity="0.7" filter="url(#glowCyan)"/>
+  <circle cx="650" cy="405" r="3" fill="#4dd9d9" opacity="0.6"/>
+  <circle cx="625" cy="410" r="3" fill="#6b5fa9" opacity="0.6"/>
+  <circle cx="640" cy="388" r="2" fill="#d484b2" opacity="0.5"/>
+
+  <!-- ============================================
+       SCATTERED / LOST PARTICLES
+       ============================================ -->
+  <circle cx="590" cy="340" r="3" fill="#d484b2" opacity="0.7" filter="url(#glowOrange)"/>
+  <circle cx="580" cy="460" r="3" fill="#e8915a" opacity="0.6" filter="url(#glowOrange)"/>
+  <circle cx="600" cy="490" r="2" fill="#e8915a" opacity="0.5"/>
+  <circle cx="610" cy="350" r="2" fill="#d484b2" opacity="0.4"/>
+  <circle cx="585" cy="480" r="3" fill="#e8915a" opacity="0.5"/>
+  <circle cx="620" cy="340" r="2" fill="#d484b2" opacity="0.5"/>
+  <circle cx="610" cy="450" r="2" fill="#e8915a" opacity="0.45"/>
+  <circle cx="595" cy="420" r="3" fill="#e8915a" opacity="0.55" filter="url(#glowOrange)"/>
+  <circle cx="615" cy="330" r="2" fill="#d484b2" opacity="0.45"/>
+  <circle cx="575" cy="470" r="2" fill="#e8915a" opacity="0.4"/>
+  <circle cx="590" cy="510" r="2" fill="#e8915a" opacity="0.35"/>
+  <circle cx="620" cy="500" r="3" fill="#e8915a" opacity="0.5" filter="url(#glowOrange)"/>
+
+  <!-- Escape paths -->
+  <path d="M 620 360 Q 560 350 520 370" fill="none" stroke="#e8915a" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+  <path d="M 620 430 Q 570 460 540 500" fill="none" stroke="#e8915a" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+  <path d="M 1300 370 Q 1360 360 1400 380" fill="none" stroke="#e8915a" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.3"/>
+  <path d="M 1300 420 Q 1360 440 1400 470" fill="none" stroke="#e8915a" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.3"/>
+  <text x="510" y="345" font-family="ui-monospace, monospace" font-size="10" fill="#e8915a" opacity="0.7">← bounce</text>
+  <text x="1380" y="375" font-family="ui-monospace, monospace" font-size="10" fill="#e8915a" opacity="0.6">exit →</text>
+
+  <!-- ============================================
+       BOTTOM — Customer Exit (tiny)
+       ============================================ -->
+  <circle cx="900" cy="735" r="3" fill="#4ade80" opacity="0.8" filter="url(#glowSoft)"/>
+  <circle cx="960" cy="740" r="4" fill="#4ade80" opacity="0.9" filter="url(#glowCyan)"/>
+  <circle cx="1020" cy="735" r="3" fill="#4ade80" opacity="0.8" filter="url(#glowSoft)"/>
+  <circle cx="930" cy="748" r="2" fill="#4ade80" opacity="0.6"/>
+  <circle cx="990" cy="748" r="2" fill="#4ade80" opacity="0.6"/>
+  <circle cx="960" cy="752" r="2.5" fill="#4ade80" opacity="0.7"/>
+
+  <path d="M 960 745 L 960 790" stroke="#4ade80" stroke-width="2" opacity="0.5" stroke-dasharray="3 4"/>
+  <text x="960" y="815" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#4ade80" opacity="0.8" letter-spacing="2">CUSTOMERS</text>
+  <text x="960" y="832" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="#4ade80" opacity="0.5">23 leads</text>
+
+  <rect x="910" y="845" width="100" height="30" rx="15" fill="rgba(74,222,128,0.1)" stroke="rgba(74,222,128,0.25)" stroke-width="1"/>
+  <text x="960" y="865" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#4ade80">✓ 0.09% CONVERSION</text>
+
+  <!-- ============================================
+       BOTTOM PANEL — Audit Findings
+       ============================================ -->
+  <rect x="340" y="900" width="1240" height="140" rx="16" fill="${PANEL_BG}" stroke="${PANEL_BORDER}" stroke-width="1"/>
+  <text x="380" y="935" font-family="ui-monospace, monospace" font-size="10" fill="${TEXT_MUTED}" letter-spacing="2">CONVERSION AUDIT — KEY FINDINGS</text>
+  <line x1="380" y1="943" x2="1580" y2="943" stroke="${PANEL_BORDER}" stroke-width="1"/>
+
+  ${[
+    { x: 380, label: "01", text: "Unclear value proposition on homepage", status: "fail" },
+    { x: 660, label: "02", text: "Mobile layout breaks at decision points", status: "fail" },
+    { x: 940, label: "03", text: "No social proof above the fold", status: "fail" },
+    { x: 1220, label: "04", text: "CTA buttons vague or missing", status: "fail" },
+    { x: 1500, label: "05", text: "Page load: 4.2s average", status: "warn" },
+  ].map((f, i) => `
+  <text x="${f.x}" y="968" font-family="ui-monospace, monospace" font-size="9" fill="${TEXT_MUTED}" letter-spacing="1.5">${f.label}</text>
+  <text x="${f.x + 40}" y="968" font-family="ui-monospace, monospace" font-size="12" fill="${f.status === 'fail' ? '#e8453a' : '#e8915a'}" font-weight="600">${f.status === 'fail' ? '✕' : '⚠'}</text>
+  <text x="${f.x + 70}" y="968" font-family="ui-monospace, monospace" font-size="11" fill="${TEXT_SOFT}">${esc(f.text)}</text>
+  `).join("\n  ")}
+
+  <!-- ============================================
+       FUNNEL STAGE LABELS
+       ============================================ -->
+  <text x="960" y="360" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="#4dd9d9" letter-spacing="2" font-weight="600">TRAFFIC</text>
+  <text x="960" y="378" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="${TEXT_MUTED}" letter-spacing="1">24,891 VISITORS</text>
+
+  <text x="960" y="510" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#e8915a" letter-spacing="1.5" opacity="0.8">ENGAGEMENT</text>
+  <text x="960" y="527" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="${TEXT_MUTED}" letter-spacing="1">▼ FRICTION ZONE</text>
+
+  <text x="960" y="670" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#e8453a" letter-spacing="1.5" opacity="0.85">CONVERSION</text>
+  <text x="960" y="687" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="${TEXT_MUTED}" letter-spacing="1">▼ BLOCKED</text>
+
+  <!-- ============================================
+       RIGHT GAUGE PANEL
+       ============================================ -->
+  <rect x="1460" y="600" width="380" height="200" rx="16" fill="${PANEL_BG}" stroke="${PANEL_BORDER}" stroke-width="1"/>
+
+  <!-- Gauge arc background -->
+  <path d="M 1520 750 A 100 100 0 0 1 1620 650" fill="none" stroke="rgba(107,95,169,0.15)" stroke-width="12" stroke-linecap="round"/>
+  <!-- Gauge value -->
+  <path d="M 1520 750 A 100 100 0 0 1 1545 660" fill="none" stroke="#e8453a" stroke-width="12" stroke-linecap="round" opacity="0.8" filter="url(#glowOrange)"/>
+
+  <text x="1570" y="720" text-anchor="middle" font-family="ui-monospace, monospace" font-size="40" font-weight="700" fill="#e8453a">9</text>
+  <text x="1570" y="738" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="${TEXT_MUTED}" letter-spacing="2">/ 100</text>
+  <text x="1570" y="758" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="#e8915a" letter-spacing="1.5">CONVERSION SCORE</text>
+
+  <circle cx="1535" cy="790" r="3" fill="#e8453a" opacity="0.8"/>
+  <text x="1545" y="794" font-family="ui-monospace, monospace" font-size="10" fill="${TEXT_SOFT}">UX Issues: 8</text>
+  <circle cx="1630" cy="790" r="3" fill="#e8915a" opacity="0.8"/>
+  <text x="1640" y="794" font-family="ui-monospace, monospace" font-size="10" fill="${TEXT_SOFT}">Performance: Poor</text>
+
+  <!-- ============================================
+       MOBILE DEVICE PREVIEW
+       ============================================ -->
+  <rect x="80" y="600" width="240" height="220" rx="12" fill="${PANEL_BG}" stroke="${PANEL_BORDER}" stroke-width="1"/>
+  <rect x="140" y="615" width="120" height="180" rx="16" fill="#0a0a1e" stroke="${PANEL_BORDER}" stroke-width="1.5"/>
+  <rect x="147" y="635" width="106" height="145" rx="4" fill="#0d0d1f"/>
+  <rect x="153" y="642" width="94" height="8" rx="2" fill="rgba(107,95,169,0.3)"/>
+  <rect x="153" y="655" width="60" height="5" rx="1" fill="rgba(255,255,255,0.08)"/>
+  <rect x="153" y="665" width="80" height="5" rx="1" fill="rgba(255,255,255,0.06)"/>
+  <rect x="153" y="675" width="70" height="5" rx="1" fill="rgba(255,255,255,0.06)"/>
+  <rect x="153" y="690" width="94" height="30" rx="4" fill="rgba(232,69,58,0.15)" stroke="rgba(232,69,58,0.3)" stroke-width="1"/>
+  <text x="200" y="709" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7" fill="#e8453a">⚠ MOBILE ISSUE</text>
+  <rect x="153" y="725" width="94" height="5" rx="1" fill="rgba(255,255,255,0.04)"/>
+  <rect x="153" y="735" width="60" height="5" rx="1" fill="rgba(255,255,255,0.04)"/>
+  <rect x="153" y="750" width="94" height="24" rx="6" fill="rgba(107,95,169,0.2)" stroke="rgba(107,95,169,0.3)" stroke-width="1"/>
+  <text x="200" y="766" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7" fill="${TEXT_MUTED}">Learn More?</text>
+  <text x="200" y="845" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="${TEXT_MUTED}" letter-spacing="1.5">MOBILE VIEW</text>
+
+  <!-- ============================================
+       DECORATIVE ELEMENTS
+       ============================================ -->
+  <polygon points="1320,560 1335,548 1350,560 1350,578 1335,590 1320,578"
+    fill="none" stroke="#6b5fa9" stroke-width="1" opacity="0.3"/>
+  <polygon points="1355,575 1368,565 1381,575 1381,590 1368,600 1355,590"
+    fill="none" stroke="#6b5fa9" stroke-width="1" opacity="0.2"/>
+  <path d="M 1100 560 L 1100 590 L 1120 590 L 1120 610 L 1140 610" fill="none" stroke="#6b5fa9" stroke-width="1" opacity="0.2"/>
+  <path d="M 820 560 L 820 590 L 800 590 L 800 610 L 780 610" fill="none" stroke="#6b5fa9" stroke-width="1" opacity="0.2"/>
+  <circle cx="1100" cy="583" r="2" fill="#4dd9d9" opacity="0.5" filter="url(#glowSoft)"/>
+  <circle cx="1120" cy="600" r="2" fill="#4dd9d9" opacity="0.5" filter="url(#glowSoft)"/>
+  <circle cx="820" cy="583" r="2" fill="#d484b2" opacity="0.5" filter="url(#glowSoft)"/>
+  <circle cx="800" cy="600" r="2" fill="#d484b2" opacity="0.5" filter="url(#glowSoft)"/>
+  <circle cx="680" cy="280" r="4" fill="#6b5fa9" opacity="0.3" filter="url(#glowSoft)"/>
+  <circle cx="1240" cy="280" r="4" fill="#6b5fa9" opacity="0.3" filter="url(#glowSoft)"/>
+  <line x1="680" y1="280" x2="1240" y2="280" stroke="#6b5fa9" stroke-width="1" opacity="0.1"/>
+
+  <!-- ============================================
+       TOP TITLE
+       ============================================ -->
+  <text x="960" y="78" text-anchor="middle" font-family="ui-monospace, monospace" font-size="18" font-weight="600" fill="${TEXT_SOFT}" letter-spacing="3">TRAFFIC</text>
+  <text x="960" y="103" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="${TEXT_MUTED}" letter-spacing="4">VS · CONVERSION</text>
+  <line x1="760" y1="115" x2="1160" y2="115" stroke="url(#trafficLine1)" stroke-width="1" opacity="0.4"/>
+  <text x="960" y="350" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="${TEXT_MUTED}" letter-spacing="1.5">VISITORS →</text>
+</svg>`;
+
+const outPath = path.join("G:\\burify-labbs\\public\\images\\blog", "website-traffic-no-customers.svg");
+require("fs").writeFileSync(outPath, svg, "utf-8");
+console.log("Image written to:", outPath);

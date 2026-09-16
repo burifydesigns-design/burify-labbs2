@@ -403,9 +403,9 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
     indexable: true,
     h1: "Web Design and AI Automation Blog",
     seo: {
-      title: "Web Design and AI Automation Blog | Burify Labs",
+      title: "Blog | Burify",
       description:
-        "Content architecture for future articles about web design, AI automation, workflow automation, AI agents, and AI-powered websites.",
+        "Web design insights, website tips, branding ideas, and digital strategy from Burify.",
       primaryTopic: "web design and AI automation blog",
       primaryKeywords: ["web design blog", "AI automation blog"],
       secondaryKeywords: [

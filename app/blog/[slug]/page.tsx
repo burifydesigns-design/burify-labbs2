@@ -41,6 +41,8 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     type: "article",
     publishedTime: post.publishedAt,
     modifiedTime: post.updatedAt ?? post.publishedAt,
+    openGraphImage: post.featuredImage,
+    appendSiteName: false,
   });
 }
 

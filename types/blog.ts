@@ -17,6 +17,7 @@ export interface BlogPost {
   id: string;
   slug: string;
   title: string;
+  description: string;
   excerpt: string;
   content: string;
   author: Author;

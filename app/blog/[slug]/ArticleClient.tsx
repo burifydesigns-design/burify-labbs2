@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { BlogPost } from "@/types/blog";
 import { TableOfContents } from "@/components/blog/TableOfContents";
@@ -11,6 +10,7 @@ import { ArticleContent } from "@/components/blog/ArticleContent";
 import { ArticleShare } from "@/components/blog/ArticleShare";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import { getRelatedPosts } from "@/lib/blog";
+import { Button } from "@/components/ui/Button";
 
 interface TocItem {
   id: string;
@@ -46,15 +46,6 @@ export function ArticleClient({ post }: ArticleClientProps) {
     ? `${window.location.origin}/blog/${post.slug}`
     : `/blog/${post.slug}`;
 
-  const ctaPath = (() => {
-    const category = post.category.toLowerCase();
-    if (category.includes("web design")) return "/services/web-design";
-    if (category.includes("ai automation")) return "/services/ai-automation";
-    if (category.includes("ai agents")) return "/services/ai-agents";
-    if (category.includes("workflow")) return "/services/workflow-automation";
-    return "/contact";
-  })();
-
   return (
     <article>
       <ArticleHeader post={post} />
@@ -79,30 +70,19 @@ export function ArticleClient({ post }: ArticleClientProps) {
         <div className="article-content-wrapper">
           <ArticleContent post={post} />
           <ArticleShare url={articleUrl} title={post.title} />
-          <RelatedPosts posts={relatedPosts} />
 
           <div className="article-cta">
             <span className="article-cta__label">Work with us</span>
             <h3 className="article-cta__title">
-              Want to implement this for your business?
+              Ready to build a website that works for your business?
             </h3>
             <p className="article-cta__description">
-              We design exceptional digital experiences and build intelligent automation systems. Let us help you turn these ideas into reality.
+              Let&apos;s build it.
             </p>
-            <Link href={ctaPath} className="article-cta__link">
-              Learn more about our services
-              <svg
-                className="article-cta__arrow"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
+            <Button href="/contact">Start a Project</Button>
           </div>
+
+          <RelatedPosts posts={relatedPosts} />
         </div>
         <aside className="toc" aria-label="Table of contents">
           <TableOfContents headings={headings} />
