@@ -436,6 +436,8 @@ export const blogPosts: BlogPost[] = [
     updatedAt: "2026-09-15",
     category: "Web Design",
     tags: ["branding", "web design", "brand consistency", "digital presence"],
+    featuredImage: "/images/blog/branding-website-together.jpg",
+    featuredImageAlt: "Brand identity toolkit including logo, color palette, and typography seamlessly integrated into a unified website experience",
     readingTime: 8,
     seoTitle: "Branding + Website: Why They Must Work Together | Burify",
     seoDescription: "Learn why your branding and website must work together to build recognition, consistency, trust, and a stronger digital presence.",
@@ -581,8 +583,8 @@ export const blogPosts: BlogPost[] = [
     updatedAt: "2026-09-15",
     category: "Web Design",
     tags: ["business websites", "web design", "conversion optimization", "website redesign"],
-    featuredImage: "/images/blog/business-websites.jpg",
-    featuredImageAlt: "Business owner reviewing a website designed to convert visitors into customers",
+    featuredImage: "/images/blog/small-business-websites.jpg",
+    featuredImageAlt: "Small business owner reviewing their website to understand why it is not converting visitors into customers",
     readingTime: 7,
     seoTitle: "Why Most Business Websites Don't Convert | Burify",
     seoDescription: "Discover common reasons business websites fail to turn visitors into customers—and how better web design can help.",
@@ -747,6 +749,8 @@ export const blogPosts: BlogPost[] = [
 <p><strong>Step 6: Test the mobile experience.</strong><br>Open your website on a phone and complete the main action you want visitors to take. If it feels like work, your mobile experience needs attention.</p>
 <p><strong>Step 7: Improve one major conversion problem at a time.</strong><br>Do not try to fix everything at once. Identify the single biggest barrier and address it. Then move to the next one.</p>
 
+<img src="/images/blog/small-business-conversion-problems.jpg" alt="Diagram showing six common reasons small business websites fail to convert: unclear value, weak CTA, poor mobile, no trust signals, too much noise, and slow performance" class="article-inline-image" />
+
 <h2 id="your-website-doesnt-need-more-traffic">Your Website Doesn't Need More Traffic—It May Need a Better Experience</h2>
 <p>This is the insight that changes how many businesses think about their websites.</p>
 <p>More traffic cannot fix a website that does not communicate value clearly. It cannot fix a poor mobile experience. It cannot create trust that is not already present. And it cannot compensate for a weak or confusing call-to-action.</p>
@@ -835,6 +839,8 @@ export const blogPosts: BlogPost[] = [
   <li>What makes this business different from the one below it in search results?</li>
 </ul>
 <p>These are the questions that determine whether a website works or not. AI can help with the execution. But the strategy—the thinking that makes a website useful—is still very much a human job.</p>
+
+<img src="/images/blog/ai-human-design-workflow.jpg" alt="Side-by-side comparison showing human designer responsibilities and AI assistant capabilities, with collaboration and better outcome in the center" class="article-inline-image" />
 
 <h2 id="what-this-means-for-business-owners">6. What This Means for Business Owners</h2>
 <p>If you are a business owner, you do not need to fear AI. And you do not need to treat it as magic either.</p>
