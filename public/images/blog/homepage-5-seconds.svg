@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350">
+  <defs>
+    <linearGradient id="bgGrad_homepage-5-seconds.svg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06060f"/>
+      <stop offset="50%" stop-color="#0a0a1e"/>
+      <stop offset="100%" stop-color="#06060f"/>
+    </linearGradient>
+    <filter id="glow_homepage-5-seconds.svg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid_homepage-5-seconds.svg" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(107,95,169,0.06)" stroke-width="1"/>
+    </pattern>
+    <pattern id="dots_homepage-5-seconds.svg" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="rgba(107,95,169,0.15)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#bgGrad_homepage-5-seconds.svg)"/>
+  <rect width="1080" height="1350" fill="url(#grid_homepage-5-seconds.svg)"/>
+  <rect width="1080" height="1350" fill="url(#dots_homepage-5-seconds.svg)"/>
+
+  
+  <circle cx="540" cy="520" r="180" fill="#6b5fa9" opacity="0.04" filter="url(#glow_homepage-5-seconds)"/>
+  <rect x="200" y="340" width="680" height="50" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="375" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">What do you do?</text>
+  <rect x="200" y="410" width="680" height="50" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="445" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">Who do you serve?</text>
+  <rect x="200" y="480" width="680" height="50" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="515" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">Why does it matter?</text>
+  <rect x="200" y="550" width="680" height="50" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="585" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">What should I do next?</text>
+  <text x="540" y="680" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.4)" letter-spacing="1">If they can't answer all four, simplify</text>
+
+  <!-- Title -->
+  <rect x="60" y="1080" width="960" height="180" rx="20" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1160" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="3">BURIFY</text>
+  <text x="540" y="1215" text-anchor="middle" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#ffffff">What Should Your Homepage Do in 5 Seconds?</text>
+  <line x1="120" y1="1250" x2="960" y2="1250" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1285" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">WEB DESIGN · AI AUTOMATION</text>
+
+  <!-- Accent corner -->
+  <rect x="0" y="0" width="8" height="1350" fill="#6b5fa9" opacity="0.6"/>
+</svg>

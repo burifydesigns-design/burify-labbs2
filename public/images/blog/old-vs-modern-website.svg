@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350">
+  <defs>
+    <linearGradient id="bgGrad_old-vs-modern-website.svg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06060f"/>
+      <stop offset="50%" stop-color="#0a0a1e"/>
+      <stop offset="100%" stop-color="#06060f"/>
+    </linearGradient>
+    <filter id="glow_old-vs-modern-website.svg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid_old-vs-modern-website.svg" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(107,95,169,0.06)" stroke-width="1"/>
+    </pattern>
+    <pattern id="dots_old-vs-modern-website.svg" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="rgba(107,95,169,0.15)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#bgGrad_old-vs-modern-website.svg)"/>
+  <rect width="1080" height="1350" fill="url(#grid_old-vs-modern-website.svg)"/>
+  <rect width="1080" height="1350" fill="url(#dots_old-vs-modern-website.svg)"/>
+
+  
+  <rect x="100" y="340" width="380" height="520" rx="16" fill="#0d0d1f" stroke="rgba(232,69,58,0.2)" stroke-width="1"/>
+  <text x="290" y="400" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.4)" letter-spacing="2">OLD</text>
+  <rect x="140" y="440" width="300" height="40" rx="8" fill="rgba(255,255,255,0.04)"/>
+  <rect x="140" y="500" width="300" height="200" rx="8" fill="rgba(255,255,255,0.03)"/>
+  <rect x="140" y="720" width="300" height="60" rx="8" fill="rgba(232,69,58,0.1)"/>
+  <text x="290" y="755" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#e8453a">Click Here</text>
+  <rect x="140" y="800" width="300" height="40" rx="8" fill="rgba(255,255,255,0.04)"/>
+
+  <rect x="600" y="340" width="380" height="520" rx="16" fill="#0d0d1f" stroke="rgba(74,222,128,0.2)" stroke-width="1"/>
+  <text x="790" y="400" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.4)" letter-spacing="2">MODERN</text>
+  <rect x="640" y="440" width="300" height="40" rx="8" fill="rgba(107,95,169,0.15)"/>
+  <text x="790" y="465" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.6)">Clear headline</text>
+  <rect x="640" y="500" width="300" height="120" rx="8" fill="rgba(77,217,217,0.08)"/>
+  <text x="790" y="555" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.6)">Focused value prop</text>
+  <rect x="640" y="640" width="300" height="60" rx="10" fill="rgba(74,222,128,0.12)"/>
+  <text x="790" y="675" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#4ade80">Start Your Project</text>
+  <rect x="640" y="720" width="300" height="120" rx="8" fill="rgba(107,95,169,0.06)"/>
+  <text x="790" y="775" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.6)">Social proof</text>
+
+  <!-- Title -->
+  <rect x="60" y="1080" width="960" height="180" rx="20" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1160" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="3">BURIFY</text>
+  <text x="540" y="1215" text-anchor="middle" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#ffffff">Old Website vs Modern Website</text>
+  <line x1="120" y1="1250" x2="960" y2="1250" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1285" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">WEB DESIGN · AI AUTOMATION</text>
+
+  <!-- Accent corner -->
+  <rect x="0" y="0" width="8" height="1350" fill="#6b5fa9" opacity="0.6"/>
+</svg>

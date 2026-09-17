@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350">
+  <defs>
+    <linearGradient id="bgGrad_hire-designer-questions.svg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06060f"/>
+      <stop offset="50%" stop-color="#0a0a1e"/>
+      <stop offset="100%" stop-color="#06060f"/>
+    </linearGradient>
+    <filter id="glow_hire-designer-questions.svg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid_hire-designer-questions.svg" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(107,95,169,0.06)" stroke-width="1"/>
+    </pattern>
+    <pattern id="dots_hire-designer-questions.svg" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="rgba(107,95,169,0.15)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#bgGrad_hire-designer-questions.svg)"/>
+  <rect width="1080" height="1350" fill="url(#grid_hire-designer-questions.svg)"/>
+  <rect width="1080" height="1350" fill="url(#dots_hire-designer-questions.svg)"/>
+
+  
+  <circle cx="540" cy="520" r="180" fill="#d484b2" opacity="0.04" filter="url(#glow_hire-designer-questions)"/>
+  <rect x="200" y="340" width="680" height="50" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="230" y="370" text-anchor="start" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.4)">01</text>
+  <text x="260" y="372" text-anchor="start" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">What's included in the scope?</text>
+  <rect x="200" y="410" width="680" height="50" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="230" y="440" text-anchor="start" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.4)">02</text>
+  <text x="260" y="442" text-anchor="start" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">Is the design custom or template-based?</text>
+  <rect x="200" y="480" width="680" height="50" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="230" y="510" text-anchor="start" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.4)">03</text>
+  <text x="260" y="512" text-anchor="start" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">Who provides the content?</text>
+  <rect x="200" y="550" width="680" height="50" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="230" y="580" text-anchor="start" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.4)">04</text>
+  <text x="260" y="582" text-anchor="start" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">Is mobile optimization included?</text>
+  <rect x="200" y="620" width="680" height="50" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="230" y="650" text-anchor="start" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.4)">05</text>
+  <text x="260" y="652" text-anchor="start" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">What happens after launch?</text>
+
+  <!-- Title -->
+  <rect x="60" y="1080" width="960" height="180" rx="20" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1160" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="3">BURIFY</text>
+  <text x="540" y="1215" text-anchor="middle" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#ffffff">5 Questions to Ask Before Hiring a Web Designer</text>
+  <line x1="120" y1="1250" x2="960" y2="1250" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1285" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">WEB DESIGN · AI AUTOMATION</text>
+
+  <!-- Accent corner -->
+  <rect x="0" y="0" width="8" height="1350" fill="#d484b2" opacity="0.6"/>
+</svg>

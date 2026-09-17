@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350">
+  <defs>
+    <linearGradient id="bgGrad_logo-brand-website.svg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06060f"/>
+      <stop offset="50%" stop-color="#0a0a1e"/>
+      <stop offset="100%" stop-color="#06060f"/>
+    </linearGradient>
+    <filter id="glow_logo-brand-website.svg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid_logo-brand-website.svg" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(107,95,169,0.06)" stroke-width="1"/>
+    </pattern>
+    <pattern id="dots_logo-brand-website.svg" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="rgba(107,95,169,0.15)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#bgGrad_logo-brand-website.svg)"/>
+  <rect width="1080" height="1350" fill="url(#grid_logo-brand-website.svg)"/>
+  <rect width="1080" height="1350" fill="url(#dots_logo-brand-website.svg)"/>
+
+  
+  <circle cx="540" cy="520" r="180" fill="#6b5fa9" opacity="0.04" filter="url(#glow_logo-brand-website)"/>
+  <rect x="200" y="360" width="680" height="60" rx="14" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="395" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">Logo = one visual element</text>
+  <text x="540" y="455" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="rgba(255,255,255,0.6)" opacity="0.4">↓</text>
+  <rect x="200" y="480" width="680" height="60" rx="14" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="515" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">Brand = broader identity system</text>
+  <text x="540" y="575" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="rgba(255,255,255,0.6)" opacity="0.4">↓</text>
+  <rect x="200" y="600" width="680" height="60" rx="14" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="635" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">Website = digital experience</text>
+  <text x="540" y="695" text-anchor="middle" font-family="ui-monospace, monospace" font-size="20" fill="rgba(255,255,255,0.6)" opacity="0.4">↓</text>
+  <text x="540" y="745" text-anchor="middle" font-family="ui-monospace, monospace" font-size="14" fill="#6b5fa9">Customer experience = what people encounter</text>
+
+  <!-- Title -->
+  <rect x="60" y="1080" width="960" height="180" rx="20" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1160" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="3">BURIFY</text>
+  <text x="540" y="1215" text-anchor="middle" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#ffffff">Logo → Brand → Website → Customer Experience</text>
+  <line x1="120" y1="1250" x2="960" y2="1250" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1285" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">WEB DESIGN · AI AUTOMATION</text>
+
+  <!-- Accent corner -->
+  <rect x="0" y="0" width="8" height="1350" fill="#6b5fa9" opacity="0.6"/>
+</svg>

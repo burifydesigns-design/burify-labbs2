@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350">
+  <defs>
+    <linearGradient id="bgGrad_website-cost-2026.svg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06060f"/>
+      <stop offset="50%" stop-color="#0a0a1e"/>
+      <stop offset="100%" stop-color="#06060f"/>
+    </linearGradient>
+    <filter id="glow_website-cost-2026.svg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid_website-cost-2026.svg" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(107,95,169,0.06)" stroke-width="1"/>
+    </pattern>
+    <pattern id="dots_website-cost-2026.svg" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="rgba(107,95,169,0.15)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#bgGrad_website-cost-2026.svg)"/>
+  <rect width="1080" height="1350" fill="url(#grid_website-cost-2026.svg)"/>
+  <rect width="1080" height="1350" fill="url(#dots_website-cost-2026.svg)"/>
+
+  
+  <circle cx="540" cy="520" r="180" fill="#6b5fa9" opacity="0.04" filter="url(#glow_website-cost-2026)"/>
+  <rect x="260" y="340" width="560" height="360" rx="20" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="400" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.4)" letter-spacing="2">PRICING BREAKDOWN</text>
+  <rect x="300" y="440" width="240" height="40" rx="10" fill="rgba(107,95,169,0.15)"/>
+  <text x="420" y="465" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">Design</text>
+  <rect x="540" y="440" width="240" height="40" rx="10" fill="rgba(77,217,217,0.12)"/>
+  <text x="660" y="465" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">Development</text>
+  <rect x="300" y="500" width="240" height="40" rx="10" fill="rgba(212,132,178,0.12)"/>
+  <text x="420" y="525" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">SEO & Content</text>
+  <rect x="540" y="500" width="240" height="40" rx="10" fill="rgba(232,145,90,0.12)"/>
+  <text x="660" y="525" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">Maintenance</text>
+  <rect x="300" y="560" width="480" height="50" rx="12" fill="rgba(107,95,169,0.08)" stroke="rgba(107,95,169,0.2)" stroke-width="1"/>
+  <text x="540" y="590" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.6)">Every business is different</text>
+
+  <!-- Title -->
+  <rect x="60" y="1080" width="960" height="180" rx="20" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1160" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="3">BURIFY</text>
+  <text x="540" y="1215" text-anchor="middle" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#ffffff">How Much Should a Website Cost in 2026?</text>
+  <line x1="120" y1="1250" x2="960" y2="1250" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1285" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">WEB DESIGN · AI AUTOMATION</text>
+
+  <!-- Accent corner -->
+  <rect x="0" y="0" width="8" height="1350" fill="#6b5fa9" opacity="0.6"/>
+</svg>
