@@ -1445,6 +1445,734 @@ export const blogPosts: BlogPost[] = [
     relatedServicePaths: ["/services/web-design", "/contact"],
     status: "published",
   },
+
+  {
+    id: "hipaa-pipeda-compliant-web-design-checklist",
+    slug: "hipaa-pipeda-compliant-web-design-checklist",
+    title: "The Ultimate Checklist for HIPAA & PIPEDA Compliant Web Design in 2026",
+    description: "A practical checklist covering encryption, BAA agreements, secure contact forms, hosting, third-party services, and privacy considerations for healthcare website design in 2026.",
+    excerpt: "Encryption, BAA agreements, secure contact forms, hosting, third-party services, and privacy considerations — here is what healthcare organisations need to understand about compliant web design in 2026.",
+    content: `
+<p>A healthcare organisation's website often handles sensitive information. Appointment requests, prescription refill forms, insurance inquiries, patient communications, and other interactions can involve protected health information.</p>
+<p>This article explains the technical and design considerations relevant to <a href="/services/web-design">healthcare web design</a> — and where website work fits within the broader compliance picture that healthcare organisations must address.</p>
+<p><strong>Important disclaimer:</strong> This article provides informational guidance on website-related technical considerations. It does not constitute legal advice. Healthcare organisations should obtain professional legal and compliance counsel to assess their full regulatory obligations.</p>
+
+<h2 id="what-compliance-means-for-your-website">What "Compliance" Means for Your Website</h2>
+<p>HIPAA (the Health Insurance Portability and Accountability Act) and PIPEDA (the Personal Information Protection and Electronic Documents Act) are regulatory frameworks that govern how healthcare organisations handle personal and health information.</p>
+<p>A website alone cannot make an organisation legally compliant with these regulations. Compliance is a broader organisational responsibility that involves policies, procedures, training, risk assessments, business associate agreements, and technical controls across the entire technology environment.</p>
+<p>What <em>can</em> a website contribute? A well-designed healthcare website can support compliance efforts through appropriate technical controls, secure infrastructure, clear privacy communication, and careful integration decisions. This article focuses specifically on those website-related technical considerations.</p>
+
+<h2 id="understanding-hipaa-and-websites">Understanding HIPAA and Websites</h2>
+<p>In the United States, HIPAA applies to covered entities (healthcare providers, health plans, healthcare clearinghouses) and their business associates. The Privacy Rule, Security Rule, and Breach Notification Rule each contain requirements relevant to technology environments.</p>
+<p>The Security Rule establishes standards for the confidentiality, integrity, and availability of electronic protected health information (ePHI). These are administrative, physical, and technical safeguards that apply across an organisation's systems — including websites that interact with ePHI.</p>
+<h3 id="phi-and-website-interactions">What Counts as PHI in a Website Context</h3>
+<p>When a website collects or transmits information that can identify an individual and relates to their health, healthcare provision, or payment for healthcare, that information falls under HIPAA protections. This includes names, addresses, dates of birth, or other identifiers combined with health information; appointment scheduling information that includes health-related details; prescription or medication-related requests; insurance information submitted through web forms; and secure message content between patients and providers.</p>
+
+<h2 id="understanding-pipeda-and-websites">Understanding PIPEDA and Websites</h2>
+<p>In Canada, PIPEDA governs how private-sector organisations collect, use, and disclose personal information in the course of commercial activities. Healthcare organisations subject to PIPEDA must handle personal information — including health information — in accordance with the Act's ten fair information principles.</p>
+<p>Key principles relevant to websites include: Accountability (organisations are responsible for personal information under their control), Identifying Purposes (organisations must clearly identify why they collect personal information), Consent (meaningful consent must be obtained for collection, use, and disclosure), Limiting Collection (only information necessary for identified purposes should be collected), and Safeguards (appropriate security measures must protect personal information).</p>
+<p>Note that some Canadian provinces have substantially similar privacy legislation that applies instead of PIPEDA for provincially regulated organisations. Healthcare organisations should confirm which framework applies to them.</p>
+
+<h2 id="the-ultimate-compliance-checklist">The Ultimate Healthcare Website Compliance Checklist</h2>
+
+<h3 id="encryption">1. Encryption (In Transit and at Rest)</h3>
+<p>All data transmitted between a visitor's browser and your website should be encrypted via HTTPS with a valid TLS certificate — consistently enforced across every page and resource. Under HIPAA's Security Rule, transmission security is an explicit technical safeguard requirement.</p>
+
+<h3 id="business-associate-agreements">2. Business Associate Agreements (BAAs)</h3>
+<p>Under HIPAA, any vendor that handles ePHI on behalf of a covered entity must sign a Business Associate Agreement. This includes web hosting providers, form handling services, CRM systems, analytics platforms, and any third-party tool that could encounter ePHI. Verify that your hosting provider offers HIPAA-eligible infrastructure with an executed BAA, and assess all third-party integrations for BAA availability before deployment.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Service Type</th>
+      <th>BAA Typically Available</th>
+      <th>Action Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>HIPAA-eligible cloud hosting</td>
+      <td>Yes</td>
+      <td>Confirm BAA before deployment</td>
+    </tr>
+    <tr>
+      <td>Standard shared hosting</td>
+      <td>No</td>
+      <td>Upgrade to HIPAA-eligible infrastructure</td>
+    </tr>
+    <tr>
+      <td>Standard form tools (free tiers)</td>
+      <td>No</td>
+      <td>Use HIPAA-eligible alternative</td>
+    </tr>
+    <tr>
+      <td>Healthcare-specific form platforms</td>
+      <td>Often yes</td>
+      <td>Confirm in writing before use</td>
+    </tr>
+    <tr>
+      <td>CDN providers</td>
+      <td>Varies</td>
+      <td>Check provider's BAA policy</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="secure-contact-forms">3. Secure Contact and Intake Forms</h3>
+<p>Contact forms on healthcare websites should include: clear purpose specification explaining why information is collected, data minimisation collecting only necessary information, clear consent language appropriate to your jurisdiction, secure HTTPS POST submissions with server-side validation, no plaintext email transmission of sensitive data, and server-side handling by compliant systems.</p>
+
+<h3 id="hosting-and-server-considerations">4. Hosting and Server Considerations</h3>
+<p>Key infrastructure questions: Does the hosting provider offer HIPAA-eligible infrastructure with a signed BAA? Are servers located in jurisdictions with appropriate data protection frameworks? Is server access restricted to authorised personnel with audit logging? Are regular security patches applied? Is there an incident response plan? Are backups encrypted and access-controlled?</p>
+
+<h3 id="third-party-services">5. Third-Party Services and Integrations</h3>
+<p>Every new integration should be evaluated: Does this service have access to ePHI? Is a BAA or equivalent data protection agreement in place? What data does the service collect and where is it stored? What is the data retention and deletion policy? Does the service share data with sub-processors? What security certifications does the service hold?</p>
+
+<h3 id="privacy-policy-and-consent">6. Privacy Policy and Consent Management</h3>
+<p>A clear, accurate privacy policy should describe what data the website collects, why it is collected, how it is used, and with whom it is shared. For healthcare organisations, the policy should address health-related information collection, purposes for health information collection, how patients can access or correct their information, how personal information is safeguarded, and who to contact with privacy questions.</p>
+
+<h3 id="data-retention">7. Data Retention and Deletion</h3>
+<p>Website form submissions, chat logs, and other collected data should be handled according to retention policies aligned with organisational data governance: defined retention periods, a process for deleting data when no longer needed, individual data deletion request capability, and documented retention policies.</p>
+
+<h2 id="common-compliance-mistakes">Common Compliance Mistakes in Healthcare Web Design</h2>
+<p>Common mistakes include: assuming hosting is inherently compliant (verify BAA status), integrating tools without review (assess every new integration), treating forms as simple HTML (understand where data goes and how it is stored), using generic privacy policies (ensure policies accurately describe actual practices), and overlooking ongoing maintenance (compliance requires continuous attention as software and regulations evolve).</p>
+
+<h2 id="the-broader-compliance-picture">The Broader Compliance Picture</h2>
+<p>A compliant website is one component of a compliant healthcare organisation. Other essential elements include workforce security training, security risk assessments, policies and procedures documentation, incident response planning, access controls and authentication across all systems, audit logging and monitoring, and business continuity planning. Website designers can advise on technical considerations within their scope. Legal and compliance professionals should guide the broader organisational requirements.</p>
+
+<h2 id="practical-steps-forward">Practical Steps Forward</h2>
+<ol>
+  <li>Engage your compliance officer or legal counsel early in the project</li>
+  <li>Specify compliance requirements in your website brief or RFP</li>
+  <li>Require your web design agency to document their security and compliance approach</li>
+  <li>Verify that proposed hosting and third-party tools meet data governance requirements</li>
+  <li>Review and approve all form handling and data flows before launch</li>
+  <li>Ensure privacy policies are accurate and reviewed by appropriate personnel</li>
+  <li>Include ongoing compliance maintenance in your website support agreement</li>
+</ol>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>A healthcare website's technical design choices — encryption, hosting, form handling, third-party integrations, privacy communication — are meaningful contributors to an organisation's compliance posture. They are not the entirety of it. The most effective approach is one where web designers, developers, healthcare administrators, and compliance advisors work together. For healthcare organisations that want to ensure their website is designed with these considerations in mind, Burify offers a <strong>Healthcare Website Compliance Audit</strong> that reviews the technical aspects of your current or planned website against healthcare industry requirements.</p>
+<p><a href="/contact">Request a Healthcare Website Compliance Audit.</a></p>
+    `,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-09-17",
+    updatedAt: "2026-09-17",
+    category: "Healthcare Web Design",
+    tags: ["HIPAA", "PIPEDA", "Healthcare Compliance", "Healthcare Web Design", "Healthcare Security"],
+    featuredImage: "/images/blog/burify_poster_01_hipaa_pipeda.png",
+    featuredImageAlt: "Healthcare compliance checklist showing secure website design elements: encryption, secure forms, BAA agreements, and privacy controls",
+    readingTime: 9,
+    seoTitle: "HIPAA & PIPEDA Compliant Web Design Checklist 2026 | Burify Labs",
+    seoDescription: "A practical checklist covering encryption, BAA agreements, secure forms, hosting, third-party services, and privacy for HIPAA and PIPEDA-compliant healthcare websites in 2026.",
+    canonicalUrl: "/blog/hipaa-pipeda-compliant-web-design-checklist",
+    relatedServicePaths: ["/services/web-design", "/contact"],
+    status: "published",
+  },
+
+  {
+    id: "ada-wcag-healthcare-accessibility-audit",
+    slug: "ada-wcag-healthcare-accessibility-audit",
+    title: "ADA & WCAG 2.2 Compliance: Is Your Medical Site Exposing You to Lawsuits?",
+    description: "Understanding WCAG 2.2 accessibility requirements for healthcare websites, common barriers patients face, and how to audit and improve your medical site's accessibility.",
+    excerpt: "Accessibility is not optional for healthcare websites. Here is what WCAG 2.2 requires, the common barriers patients encounter, and how to approach a healthcare accessibility audit.",
+    content: `
+<p>Accessibility is not a nice-to-have for healthcare websites. It is a practical necessity. When a patient with a visual impairment cannot book an appointment, a person with motor difficulties cannot navigate your scheduling system, or someone using a screen reader cannot access health information, the website is failing its core purpose.</p>
+<p><strong>Note:</strong> This article provides informational guidance on web accessibility standards and common website barriers. It does not constitute legal advice. Healthcare organisations should seek qualified legal counsel regarding their accessibility obligations.</p>
+
+<h2 id="what-is-wcag">What Is WCAG, and Why Does It Matter?</h2>
+<p>The Web Content Accessibility Guidelines (WCAG) are developed by the World Wide Web Consortium (W3C) through the Web Accessibility Initiative (WAI). WCAG 2.2 is the current version, published in October 2023. WCAG is organised around four core principles — Perceivable, Operable, Understandable, and Robust (POUR) — with testable success criteria at three conformance levels: A (minimum), AA (standard), and AAA (enhanced).</p>
+<p>Authoritative reference: The W3C WAI WCAG 2.2 documentation is available at <a href="https://www.w3.org/WAI/WCAG22/" target="_blank" rel="noopener noreferrer">w3.org/WAI/WCAG22</a>.</p>
+
+<h2 id="the-legal-landscape">The Legal Landscape</h2>
+<p>In the United States, Title III of the Americans with Disabilities Act (ADA) prohibits discrimination on the basis of disability in places of public accommodation. Healthcare facilities are explicitly considered places of public accommodation. Current US Department of Justice guidance affirms that the ADA's requirements apply to the websites of places of public accommodation. Other jurisdictions have similar requirements under frameworks such as the European Accessibility Act, Canada's Accessible Canada Act, and various state-level frameworks. This article does not analyse specific legal cases or predict outcomes. Healthcare organisations should consult qualified legal counsel regarding their specific accessibility obligations.</p>
+
+<h2 id="healthcare-specific-accessibility-barriers">Healthcare-Specific Accessibility Barriers</h2>
+<h3 id="patient-portal-barriers">Patient Portal Barriers</h3>
+<p>Patient portals often require users to navigate complex account creation flows, enter multiple data fields, interpret medical terminology, and interact with scheduling systems. These interfaces can be particularly challenging for users relying on assistive technology.</p>
+<h3 id="appointment-booking-barriers">Appointment Booking Barriers</h3>
+<p>Online appointment scheduling is one of the most important functions on a healthcare website. Booking interfaces frequently present barriers including calendar interfaces that cannot be navigated via keyboard, date pickers without screen reader support, provider selection without accessible labels, missing or unclear error messages, and multi-step forms without progress indicators accessible to screen readers.</p>
+<h3 id="health-information-barriers">Health Information Barriers</h3>
+<p>Healthcare information is often complex. When presented without accessible formatting — proper heading structure, readable contrast, alternative text for medical imagery, accessible PDF documents — patients with disabilities may be unable to access critical health information.</p>
+<h3 id="communication-barriers">Communication Barriers</h3>
+<p>Secure messaging systems, prescription refill requests, insurance verification forms, and other patient communication tools often lack accessible design patterns, making independently completing these tasks difficult or impossible for some patients.</p>
+
+<h2 id="wcag-22-success-criteria-for-healthcare">Key WCAG 2.2 Success Criteria for Healthcare Websites</h2>
+<h3 id="contrast">Text Contrast</h3>
+<p>WCAG 2.2 requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text against its background (Level AA). Common contrast failures on healthcare sites include light grey text on white backgrounds in form fields and blue hyperlinks on light blue backgrounds.</p>
+<h3 id="keyboard-navigation">Keyboard Navigation</h3>
+<p>All interactive elements must be operable via keyboard. Healthcare websites with complex navigation structures are particularly prone to keyboard navigation failures.</p>
+<h3 id="focus-management">Focus Management</h3>
+<p>Visible focus indicators help keyboard users understand where they are on a page. When focus indicators are removed or hidden, keyboard users can become disoriented or unable to complete tasks.</p>
+<h3 id="alt-text">Alternative Text for Images</h3>
+<p>All meaningful images require alternative text. For healthcare websites, this includes clinic facility images, provider headshots with descriptive alt text, medical diagrams and illustrations, infographics explaining health conditions, and screenshots of patient portal interfaces.</p>
+<h3 id="heading-structure">Heading Structure</h3>
+<p>Proper heading hierarchy (H1 to H3) enables screen reader users to navigate content efficiently. Healthcare websites with long service pages or detailed health information articles particularly benefit from correct heading structure.</p>
+<h3 id="form-accessibility">Form Accessibility</h3>
+<p>Forms on healthcare websites must have properly associated labels, clear error identification, accessible error suggestions, and sufficient time to complete. WCAG 2.2 introduced new success criteria related to accessible authentication.</p>
+
+<h2 id="common-accessibility-mistakes">Common Accessibility Mistakes on Healthcare Websites</h2>
+<p>Common mistakes include missing skip navigation links, inaccessible PDF patient forms and intake documents, CAPTCHA barriers without accessible alternatives, color-only communication (required fields marked only in red without text indicators), and removing focus indicators globally via CSS.</p>
+
+<h2 id="conducting-an-accessibility-audit">Conducting an Accessibility Audit</h2>
+<p>An accessibility audit systematically evaluates a website against WCAG success criteria. For healthcare organisations, an audit should cover: automated testing for contrast failures, missing alt text, and heading issues; manual keyboard navigation testing; screen reader compatibility testing; user testing with people with disabilities; document accessibility review; and mobile accessibility assessment.</p>
+
+<h2 id="practical-improvements">Practical Accessibility Improvements</h2>
+<p>Common improvements that healthcare websites should prioritise include ensuring all interactive elements have visible focus indicators, adding skip navigation links to all pages, auditing and fixing contrast ratios, reviewing and completing alt text, auditing form labels and error messages, testing appointment booking flows with keyboard-only navigation, making PDF documents accessible, reviewing CAPTCHA implementation, and ensuring video content has closed captions.</p>
+
+<h2 id="accessibility-as-part-of-broader-compliance">Accessibility as Part of Broader Compliance</h2>
+<p>Accessibility should be considered alongside privacy, security, and other compliance requirements. A website that is secure but inaccessible is not fully serving its patient population. For healthcare organisations, the most resilient approach integrates both dimensions.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>WCAG 2.2 provides a practical, internationally recognised framework for evaluating and improving website accessibility. For healthcare organisations, accessible design is not just about legal risk — it is about ensuring all patients can access the services and information your website provides. Burify offers a <strong>Healthcare Accessibility Audit</strong> that reviews your medical website against WCAG 2.2 Level AA criteria.</p>
+<p><a href="/contact">Request a Healthcare Accessibility Audit.</a></p>
+    `,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-09-17",
+    updatedAt: "2026-09-17",
+    category: "Healthcare Web Design",
+    tags: ["ADA", "WCAG", "Healthcare Accessibility", "Healthcare Compliance", "Healthcare Web Design"],
+    featuredImage: "/images/blog/burify_poster_02_accessibility.png",
+    featuredImageAlt: "Accessibility audit checklist showing healthcare website barriers: keyboard navigation, contrast ratios, form labels, screen reader support, and WCAG 2.2 compliance",
+    readingTime: 9,
+    seoTitle: "ADA & WCAG 2.2 Healthcare Accessibility Audit | Burify Labs",
+    seoDescription: "Understanding WCAG 2.2 accessibility requirements for healthcare websites, common barriers patients face, and how to audit and improve your medical site's accessibility.",
+    canonicalUrl: "/blog/ada-wcag-healthcare-accessibility-audit",
+    relatedServicePaths: ["/services/web-design", "/contact"],
+    status: "published",
+  },
+
+  {
+    id: "ehr-emr-website-integration-patient-booking",
+    slug: "ehr-emr-website-integration-patient-booking",
+    title: "How to Connect Your EHR / EMR to Your Website for Instant Patient Booking",
+    description: "Practical guidance on connecting your EHR or EMR system to your website for real-time patient scheduling, including API approaches, integration patterns, and common platforms.",
+    excerpt: "Real-time patient booking starts with a secure connection between your website and your EHR or EMR. Here is how the integration works and what to expect from different approaches.",
+    content: `
+<p>When a patient visits your website and wants to book an appointment, the ideal experience is immediate: they select a provider, see real-time availability, choose a time slot, and receive confirmation — all without a phone call or email exchange.</p>
+<p>That experience requires your website to communicate with your practice management system, EHR, or EMR. This article explains the integration approaches available and how to plan a website project that includes scheduling integration.</p>
+
+<h2 id="what-ehr-integration-means">What EHR/EMR Integration Means for Your Website</h2>
+<p>An EHR or EMR system stores patient information, appointment schedules, provider availability, clinical notes, and other operational data. Connecting your website to this system means the website can read and — in some cases — write to this data through a controlled interface. The integration enables real-time appointment availability displayed on the website, online booking that updates the practice schedule immediately, automatic confirmation and reminder communications, patient information capture that flows directly into the patient record, and reduced administrative work for front-desk staff.</p>
+
+<h2 id="integration-approaches">Integration Approaches</h2>
+<h3 id="direct-api-integration">Direct API Integration</h3>
+<p>Some EHR and EMR platforms expose formal APIs that allow authorised systems to read and write scheduling data. Direct API integration provides the deepest level of connectivity but requires technical expertise to implement and maintain, depends on the platform having a documented stable API, and may involve authentication protocols such as OAuth 2.0 or SMART on FHIR.</p>
+<h3 id="supported-platform-integrations">Supported Platform Integrations</h3>
+<p>Some platforms offer officially supported integration pathways. Epic offers the App Orchard programme for certified integrations. athenahealth provides API access through its cloud platform. Jane, popular with allied health practices, offers API access and native integration capabilities for booking workflows. Cerner (now part of Oracle Health) has historically offered integration APIs and developer resources. Each platform's integration capabilities, requirements, and limitations differ — practices should consult their provider's current developer documentation.</p>
+<h3 id="third-party-scheduling-tools">Third-Party Scheduling Tools</h3>
+<p>Some practices use a third-party online scheduling tool that connects to their EHR/EMR through a supported integration. These tools can reduce implementation complexity but may offer less customisation than a direct integration.</p>
+<h3 id="custom-integration">Custom Integration</h3>
+<p>For practices with specific workflow requirements or EHR platforms without pre-built integrations, a custom integration may be developed. This involves working with the EHR/EMR provider to understand data access methods, building a middleware layer or API connector, implementing secure authentication, testing thoroughly, and establishing ongoing maintenance arrangements.</p>
+
+<h2 id="the-patient-booking-workflow">The Patient Booking Workflow</h2>
+<p>Regardless of the integration approach, the patient-facing booking workflow typically follows this pattern: patient lands on the website and navigates to the booking section, selects a service or provider from available options, the system queries the EHR/EMR for real-time availability via the integration layer, patient selects an available time slot, enters required information (name, contact, reason for visit, insurance if applicable), booking is confirmed and written to the EHR/EMR schedule, confirmation is sent via email or SMS, and reminders are scheduled according to practice preferences.</p>
+
+<h2 id="data-security-in-scheduling-integrations">Data Security in Scheduling Integrations</h2>
+<p>Scheduling integrations that handle patient information must be implemented securely. All API communication must use encrypted connections (HTTPS/TLS). Authentication credentials must be stored securely, not in client-side code. The integration should follow the principle of least privilege. API keys and tokens must be rotated according to security best practices.</p>
+
+<h2 id="confirmation-and-reminder-workflows">Confirmation and Reminder Workflows</h2>
+<p>Effective healthcare scheduling includes immediate confirmation at the time of booking, scheduled reminders that reduce no-show rates (24 hours and 1-2 hours before appointment are common), self-service rescheduling that updates the EHR/EMR automatically, pre-appointment intake questionnaires that feed into the patient record, and pre-visit insurance information collection where applicable.</p>
+
+<h2 id="what-to-specify-in-your-website-brief">What to Specify in Your Website Brief</h2>
+<p>If scheduling integration is part of your website project, your brief should include: which EHR/EMR system your practice uses, what scheduling functionality is required, what patient information needs to be collected during booking, confirmation and reminder requirements, any existing API documentation from your EHR/EMR provider, your compliance and data security requirements, and ongoing maintenance and support expectations.</p>
+
+<h2 id="related-multi-location">Scaling to Multiple Locations</h2>
+<p>If your healthcare organisation operates across multiple locations, scheduling integration becomes more complex. Multi-location scheduling architecture is covered in our article on <a href="/blog/multi-location-medical-groups-web-architecture">multi-location medical group web architecture</a>.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>EHR/EMR integration for patient booking is one of the highest-impact features a healthcare website can offer. Burify specialises in healthcare website projects that include scheduling integrations. <strong>Book a Healthcare Integration Technical Audit</strong> to discuss your EHR/EMR system and scheduling requirements.</p>
+<p><a href="/contact">Request a Technical Audit.</a></p>
+    `,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-09-18",
+    updatedAt: "2026-09-18",
+    category: "Healthcare Technology",
+    tags: ["EHR Integration", "EMR Integration", "Patient Scheduling", "Healthcare Technology", "Healthcare Web Design"],
+    featuredImage: "/images/blog/burify_poster_03_ehr_integration.png",
+    featuredImageAlt: "EHR integration workflow diagram showing website connecting to practice management system for real-time patient appointment booking",
+    readingTime: 8,
+    seoTitle: "EHR EMR Website Integration for Patient Booking | Burify Labs",
+    seoDescription: "Practical guidance on connecting your EHR or EMR system to your website for real-time patient scheduling, including API approaches and common platforms.",
+    canonicalUrl: "/blog/ehr-emr-website-integration-patient-booking",
+    relatedServicePaths: ["/services/web-design", "/services/workflow-automation", "/contact"],
+    status: "published",
+  },
+
+  {
+    id: "designing-telehealth-portals-virtual-clinics",
+    slug: "designing-telehealth-portals-virtual-clinics",
+    title: "Designing Telehealth Portals: What Virtual Clinics Need for Smooth Care",
+    description: "What virtual clinics need from their website and patient portal: authentication, virtual waiting rooms, video integration, and patient experience design for telehealth.",
+    excerpt: "Telehealth depends on a well-designed digital experience. Here is what virtual clinic websites and patient portals need to support smooth, professional remote care.",
+    content: `
+<p>Telehealth has moved from an emergency adaptation to a standard part of healthcare delivery. For virtual clinics and hybrid practices, the website and patient portal are not just marketing tools — they are clinical interfaces.</p>
+<p>A poorly designed telehealth portal creates friction at the moments when patients are most vulnerable. This article covers the key design requirements for telehealth platforms and virtual clinic websites.</p>
+
+<h2 id="what-telehealth-portals-require">What Telehealth Portals Require</h2>
+<p>A telehealth portal serves multiple users: patients booking appointments, joining video consultations, accessing visit summaries, managing prescriptions, and communicating with providers.</p>
+
+<h2 id="authentication-and-onboarding">Authentication and Onboarding</h2>
+<h3 id="registration-flows">Registration Flows</h3>
+<p>New patient registration on a telehealth portal should be straightforward. Progressive information collection — collecting essentials first, additional details later — creates less friction. Clear explanation of why each piece of information is needed, mobile-friendly form design with large touch targets, and options for patients who cannot complete online registration are important design considerations.</p>
+<h3 id="login-experience">Login Experience</h3>
+<p>Returning patients need fast, reliable access to their portal. Single sign-on where appropriate, clear password recovery options, session management that balances security with convenience, and clear indicators of login status and session expiry all contribute to a smooth login experience.</p>
+
+<h2 id="virtual-waiting-rooms">Virtual Waiting Rooms</h2>
+<p>The virtual waiting room is the digital equivalent of a physical waiting room. A well-designed virtual waiting room should communicate clearly that the patient is in the correct session, provide an estimated wait time where available, offer calming non-distracting content, allow patients to update their information while waiting, and notify patients clearly when the provider is ready to join.</p>
+
+<h2 id="video-integration">Video Integration</h2>
+<p>The video consultation interface is the clinical core of the telehealth experience. Design considerations include browser-based video where possible to reduce app download barriers, bandwidth adaptation that adjusts video quality to the patient's connection, clear controls for audio and video, in-call messaging for text communication alongside video, end-call workflow with visit summary and follow-up instructions, and technical troubleshooting guidance accessible within the call interface.</p>
+
+<h2 id="patient-instructions-and-education">Patient Instructions and Education</h2>
+<p>Patient education materials should be written in plain language appropriate to the patient population, available in relevant languages, structured with clear headings and scannable formatting, available in accessible formats, and connected to the specific visit or condition they relate to.</p>
+
+<h2 id="payment-and-copay-workflows">Payment and Copay Workflows</h2>
+<p>Clear communication of financial responsibility before the visit, secure payment processing within the portal, itemised billing that patients can access and understand, integration with insurance verification where available, and options for patients who need to arrange payment differently are all important design considerations.</p>
+
+<h2 id="mobile-experience">Mobile Experience</h2>
+<p>Many telehealth patients use mobile devices as their primary or only computing device. The portal must work well on smartphones including responsive layout that adapts to small screens, touch-friendly interface elements, fast loading on mobile networks, and easy access to visit information on small screens.</p>
+
+<h2 id="privacy-and-security-in-telehealth">Privacy and Security in Telehealth</h2>
+<p>Telehealth platforms handle sensitive clinical interactions and health information. End-to-end encryption for video consultations where technically appropriate, secure authentication for all portal access, clear communication of privacy practices, compliance with applicable health information privacy regulations, secure storage of visit recordings where retained, and audit logging of access to clinical information are all essential security requirements.</p>
+
+<h2 id="error-handling">Error Handling</h2>
+<p>Technical failures during a telehealth session are stressful for patients. The portal should provide clear non-technical error messages, offer simple reconnection options, provide alternative contact methods when video fails, log technical issues for support follow-up, and maintain patient data integrity if a session is interrupted.</p>
+
+<h2 id="accessibility-in-telehealth">Accessibility in Telehealth</h2>
+<p>Telehealth has the potential to improve healthcare access for patients with disabilities. It can also create new barriers if the platform is not designed accessibly. Video interfaces must support screen readers and keyboard navigation, closed captions should be available during video consultations, patient portal forms must meet accessibility standards, instructions must be available in multiple formats, and the platform should support assistive technologies patients already use.</p>
+
+<h2 id="related-considerations">Related Considerations</h2>
+<p>Designing an effective telehealth portal connects to several other areas covered in this series: patient portal authentication and security relate to <a href="/blog/hipaa-pipeda-compliant-web-design-checklist">HIPAA and PIPEDA compliance requirements</a>, virtual clinic booking flows connect to <a href="/blog/ehr-emr-website-integration-patient-booking">EHR/EMR integration</a>, and telehealth platform UX connects to broader <a href="/blog/ada-wcag-healthcare-accessibility-audit">accessibility requirements</a> for healthcare websites.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>Telehealth is not just a video call appended to a website. It is a clinical workflow that happens through a digital interface. The best telehealth portals are designed with clinicians, patients, and administrators in mind. If you are building or improving a telehealth platform, Burify can help you design a patient experience that supports smooth, professional virtual care. <strong>Discuss Your Telehealth Platform</strong> with our team.</p>
+<p><a href="/contact">Start a conversation.</a></p>
+    `,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-09-18",
+    updatedAt: "2026-09-18",
+    category: "Healthcare Technology",
+    tags: ["Telehealth", "Patient Portal", "Healthcare UX", "Healthcare Technology", "Healthcare Web Design"],
+    featuredImage: "/images/blog/burify_poster_04_telehealth.png",
+    featuredImageAlt: "Telehealth portal interface showing virtual waiting room, video consultation, and patient management dashboard for a virtual clinic",
+    readingTime: 8,
+    seoTitle: "Telehealth Portal Design for Virtual Clinics | Burify Labs",
+    seoDescription: "What virtual clinic websites and patient portals need: authentication, virtual waiting rooms, video integration, patient instructions, payment workflows, and UX design for telehealth.",
+    canonicalUrl: "/blog/designing-telehealth-portals-virtual-clinics",
+    relatedServicePaths: ["/services/web-design", "/services/workflow-automation", "/contact"],
+    status: "published",
+  },
+
+  {
+    id: "private-surgical-clinics-custom-web-design",
+    slug: "private-surgical-clinics-custom-web-design",
+    title: "How Private Surgical Clinics Use Custom Web Design to Win Private-Pay Patients",
+    description: "How custom web design helps private surgical clinics — cosmetic surgeons, orthopaedic surgeons, ophthalmologists — build trust, showcase expertise, and attract private-pay patients.",
+    excerpt: "Private surgical clinics serve patients making significant, personal, and high-value decisions. Here is how custom web design helps these practices communicate expertise and win private-pay patients.",
+    content: `
+<p>A patient considering elective surgery is not choosing a website. They are choosing a surgeon, a clinic, a standard of care, and an outcome they will live with. The website is where that decision begins.</p>
+<p>For private surgical clinics — cosmetic surgeons, orthopaedic specialists, ophthalmology practices, and other private-pay providers — the website is the most important tool for communicating expertise, building trust, and guiding patients toward consultation.</p>
+
+<h2 id="template-vs-custom-for-surgical-practices">Template Websites vs Custom Design for Surgical Practices</h2>
+<p>A template website can provide a basic online presence. For a surgical clinic, a template website often fails because it does not reflect the specific expertise and positioning of the practice, cannot accommodate the depth of information patients need before making surgical decisions, does not provide the trust signals that patients require for high-stakes medical decisions, and cannot represent the nuance of different procedures and recovery pathways. Custom design for surgical practices is strategic — it is built around the specific patient journey, the information needs of people considering surgery, and the credibility signals that matter in medical decision-making.</p>
+
+<h2 id="trust-building-design">Trust-Building Design</h2>
+<p>Trust is the foundation of the patient-surgeon relationship, and it begins online. Design elements that build trust for surgical practices include professional, credible visual design that reflects the standard of care patients can expect, clear confident messaging that communicates expertise without overpromising, professional provider photography, clinic environment imagery that communicates the quality of the facility, clean uncluttered layouts that reflect the precision of surgical practice, and appropriate medical visual language.</p>
+
+<h2 id="service-and-procedure-pages">Service and Procedure Pages</h2>
+<p>Each procedure deserves its own page that provides the information patients need at the stage of their decision-making journey. Effective procedure pages include a clear description of what the procedure involves, who the procedure is suitable for, what to expect during recovery, realistic outcome information, risks and considerations discussed honestly, alternatives where appropriate, and next steps for patients who want to proceed. Procedure pages should be written in plain language that patients can understand.</p>
+
+<h2 id="provider-profiles">Provider Profiles</h2>
+<p>In private surgical practice, patients are choosing a specific surgeon. Effective provider profiles include a professional biography that communicates qualifications, experience, and philosophy, professional credentials and affiliations presented accurately, areas of specialisation and expertise, professional photography, publications or research where relevant, and a pathway to consultation for patients who want to proceed.</p>
+
+<h2 id="patient-education-content">Patient Education Content</h2>
+<p>Patients considering surgery are often in research mode. Comprehensive patient education content helps patients understand what the practice offers, demonstrates the practice's commitment to informed consent, builds trust by providing useful information rather than just promotional content, attracts organic search traffic, and reduces consultation time by answering common questions in advance.</p>
+
+<h2 id="testimonials-and-reviews">Testimonials and Reviews (Where Permitted)</h2>
+<p>Testimonials and reviews can be powerful trust signals but must be used carefully and in compliance with applicable regulations. Testimonials should reflect realistic, typical experiences. Before/after content, where legally and ethically appropriate, should be presented with informed consent and appropriate context. Surgical practices should consult their professional indemnity insurer and regulatory body regarding testimonial and before/after content policies.</p>
+
+<h2 id="financing-and-payment-information">Financing and Payment Information</h2>
+<p>Private surgical procedures represent significant financial decisions. Clear financial information on the website builds transparency and trust, qualifies leads, reduces consultation time spent on basic financial questions, and demonstrates that the practice understands the patient's decision-making process.</p>
+
+<h2 id="consultation-ctas">Consultation CTAs</h2>
+<p>The consultation request is the primary conversion action on a surgical practice website. CTAs should be clear and specific, available on every page, supported by multiple contact options, and reinforced by trust signals near the CTA.</p>
+
+<h2 id="the-patient-journey">The Private-Pay Patient Journey</h2>
+<p>The patient journey for elective surgery typically follows: awareness through search or referral, research comparing options and reading about procedures, consideration evaluating providers, consultation request and attendance, and decision to proceed. A custom website designed around this journey is more effective than a template that treats all visitors the same.</p>
+
+<h2 id="seo-for-surgical-practices">SEO for Surgical Practices</h2>
+<p>Private surgical practices benefit from appearing in search when patients are actively researching procedures. SEO considerations include procedure-specific pages targeting relevant search terms, local SEO for patients searching in the practice's geographic area, content that answers the specific questions patients ask during research, and structured data that helps search engines understand the practice's services. Healthcare SEO for surgical practices is covered in our article on <a href="/blog/medical-seo-website-redesign-specialists">medical SEO and website redesign</a>.</p>
+
+<h2 id="common-mistakes">Common Mistakes</h2>
+<p>Common mistakes include using a template that cannot accommodate the depth of information patients need, focusing on aesthetics without building the trust signals that drive consultation requests, making before/after promises that the practice cannot substantiate, hiding cost information that patients need, making the consultation request process unnecessarily complex, and neglecting mobile experience.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>A surgical practice website is not a brochure. It is a consultation tool. Every element should be designed to move the right patients toward the right next step. Burify specialises in healthcare website strategy for private practices. <strong>Request a Surgical Practice Website Strategy Session</strong> to discuss your practice's specific requirements.</p>
+<p><a href="/contact">Request a Strategy Session.</a></p>
+    `,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-09-19",
+    updatedAt: "2026-09-19",
+    category: "Healthcare Web Design",
+    tags: ["Surgical Practice", "Private Pay", "Healthcare Web Design", "Healthcare SEO", "Medical Websites"],
+    featuredImage: "/images/blog/burify_poster_05_surgical_clinics.png",
+    featuredImageAlt: "Custom surgical practice website showing procedure pages, provider profiles, and patient education content designed for private-pay patient conversion",
+    readingTime: 9,
+    seoTitle: "Custom Website for Private Surgical Practices | Burify Labs",
+    seoDescription: "How custom web design helps private surgical clinics build trust, showcase expertise, and attract private-pay patients through strategic service pages and conversion-focused design.",
+    canonicalUrl: "/blog/private-surgical-clinics-custom-web-design",
+    relatedServicePaths: ["/services/web-design", "/contact"],
+    status: "published",
+  },
+
+  {
+    id: "multi-location-medical-groups-web-architecture",
+    slug: "multi-location-medical-groups-web-architecture",
+    title: "Scaling Digital Footprints: Web Architecture for Multi-Location Medical Groups",
+    description: "How to architect a website for multi-location medical groups and healthcare networks, covering location pages, provider directories, local SEO, and scalable content management.",
+    excerpt: "A multi-location medical group needs more than a website with a locations list. Here is how to architect a digital presence that serves every clinic, every provider, and every local community.",
+    content: `
+<p>When a medical group operates across multiple locations, the website faces a unique challenge. It needs to represent the full organisation while also serving the specific needs of patients at each location. A single homepage is not enough. A generic locations page is not enough either.</p>
+<p>This article covers the web architecture decisions that multi-location medical groups need to make — and how to build a website that scales as the organisation grows.</p>
+
+<h2 id="the-core-architecture-problem">The Core Architecture Problem</h2>
+<p>A multi-location medical group's website must simultaneously serve multiple audiences: patients looking for a specific location near them, patients researching a specific service or specialist, patients who know which provider they want to see, referrers looking for contact details, job seekers, and patients with questions about the organisation as a whole.</p>
+
+<h2 id="location-architecture">Location Architecture</h2>
+<p>Each practice location should have a dedicated page that serves as the authoritative source of information for that location. The location page typically includes practice name, address, and contact details, operating hours, available services at that specific location, providers based at that location, directions and parking information, appointment booking options specific to that location, and insurance and payment information.</p>
+
+<h2 id="individual-location-pages">Individual Location Pages</h2>
+<p>Individual location pages are essential for both user experience and local search visibility. Best practices include unique content for each location page, location-specific service descriptions, provider listings that accurately reflect who works at each location, embedded maps with correct location markers, structured data on each location page, and unique page titles and meta descriptions for each location.</p>
+
+<h2 id="provider-directories">Provider Directories</h2>
+<p>Patients often search for a specific doctor, specialist, or allied health professional. A searchable, well-organised provider directory helps patients find the right person quickly. Provider directory design considerations include filterable search by specialty, location, and availability, consistent provider profile structure, links from provider profiles to their location pages and booking options, and bio information that builds trust and communicates expertise.</p>
+
+<h2 id="service-pages-at-scale">Service Pages at Scale</h2>
+<p>A multi-location medical group may offer dozens of services across different locations. The service page architecture needs to reflect this complexity: parent service pages that describe the service at an organisational level, location-specific service sections that indicate where each service is available, clear indication of which locations offer each service, and links between service pages and relevant provider profiles.</p>
+
+<h2 id="internal-linking">Internal Linking Strategy</h2>
+<p>A strong internal linking architecture connects the different parts of a multi-location medical website: homepage links to all primary service areas and key locations, location pages link to all services available at that location and all providers based there, provider profiles link to their primary location and services offered, and service pages link to relevant locations and providers.</p>
+
+<h2 id="local-seo">Local SEO for Multiple Locations</h2>
+<p>Local search is critical for healthcare organisations. Each location page should be optimised for location-specific search terms. Google Business Profile should be set up and maintained for each physical location. NAP (Name, Address, Phone) information should be consistent across the website and external citations. Structured data should be implemented on location pages.</p>
+
+<h2 id="structured-data">Structured Data for Healthcare Organisations</h2>
+<p>Structured data helps search engines understand the relationship between locations, providers, services, and the organisation. Relevant Schema.org types include MedicalOrganization for the organisation as a whole, LocalBusiness or MedicalBusiness for individual practice locations, Physician for medical practitioners, and MedicalProcedure for specific procedures or services.</p>
+
+<h2 id="centralised-content-management">Centralised Content Management</h2>
+<p>A multi-location medical group needs a content management approach that balances centralised control with location-specific flexibility: CMS should support location-specific content overrides, content governance should define who can edit content for each location, brand consistency should be maintained while allowing for local variation, and content publishing workflows should include relevant local stakeholders.</p>
+
+<h2 id="location-specific-information">Location-Specific Information</h2>
+<p>Each location page should contain information that is genuinely specific to that location: specific services offered, providers based at that location with their schedules, parking and public transport information, insurance carriers accepted, new patient availability, and local community information.</p>
+
+<h2 id="scalability-and-governance">Scalability and Governance</h2>
+<p>As the medical group grows, the website architecture should accommodate growth without requiring a redesign. Content models should accommodate new locations and providers, URL structures should remain logical as the site grows, navigation should scale without becoming unwieldy, search functionality should remain effective as content expands, and performance should remain strong as the number of pages increases.</p>
+
+<h2 id="performance-at-scale">Performance at Scale</h2>
+<p>A website with hundreds of location and provider pages must load quickly. Image optimisation for provider headshots and location photos, efficient database queries or static generation for dynamic content, caching strategies, CDN usage for static assets, and Core Web Vitals compliance across all pages are important performance considerations.</p>
+
+<h2 id="related-content">Related Considerations</h2>
+<p>Multi-location architecture connects to several other topics: location pages need the same <a href="/blog/hipaa-pipeda-compliant-web-design-checklist">compliance and privacy considerations</a> as any other healthcare page, local SEO connects to the broader <a href="/blog/medical-seo-website-redesign-specialists">medical SEO strategy</a>, and multi-location scheduling builds on the <a href="/blog/ehr-emr-website-integration-patient-booking">EHR/EMR integration</a> patterns discussed in Article 3.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>Multi-location medical groups need a website that works at two levels simultaneously: the organisational level and the individual location level. The investment in proper multi-location architecture pays off in reduced administrative enquiries, improved local search visibility, better patient experience, and a more scalable digital infrastructure. Burify offers a <strong>Multi-Location Website Architecture Review</strong> for healthcare groups evaluating or planning their digital presence.</p>
+<p><a href="/contact">Request an Architecture Review.</a></p>
+    `,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-09-19",
+    updatedAt: "2026-09-19",
+    category: "Healthcare Web Design",
+    tags: ["Multi-Location", "Healthcare Web Design", "Local SEO", "Healthcare Technology", "Medical Websites"],
+    featuredImage: "/images/blog/burify_poster_06_multi_location.png",
+    featuredImageAlt: "Multi-location healthcare website architecture diagram showing central hub, individual location pages, provider directories, and local search optimisation",
+    readingTime: 9,
+    seoTitle: "Multi-Location Medical Group Website Architecture | Burify Labs",
+    seoDescription: "Web architecture for multi-location medical groups: location pages, provider directories, local SEO, structured data, and scalable content management for healthcare networks.",
+    canonicalUrl: "/blog/multi-location-medical-groups-web-architecture",
+    relatedServicePaths: ["/services/web-design", "/services/workflow-automation", "/contact"],
+    status: "published",
+  },
+
+  {
+    id: "b2b-healthcare-web-design-medical-device-healthtech",
+    slug: "b2b-healthcare-web-design-medical-device-healthtech",
+    title: "B2B Healthcare Web Design: Building Trust for Medical Device & HealthTech Brands",
+    description: "How B2B healthcare companies — medical device manufacturers, HealthTech startups, healthcare suppliers — can use web design to build credibility, generate leads, and support sales cycles.",
+    excerpt: "B2B healthcare buyers have different needs from B2C patients. Here is how medical device companies and HealthTech brands can use web design to build the trust that drives sales conversations.",
+    content: `
+<p>Medical device buyers, hospital procurement teams, HealthTech evaluation committees, and healthcare system integrators do not browse websites the way patients do. They are evaluating technical specifications, regulatory compliance, clinical evidence, implementation support, and long-term partnership viability.</p>
+
+<h2 id="b2b-healthcare-positioning">B2B Healthcare Positioning</h2>
+<p>A B2B healthcare website needs to communicate credibility, technical competence, regulatory awareness, and partnership value. Unlike B2C healthcare websites that focus on patient experience and emotional connection, B2B healthcare websites must establish technical credibility through accurate detailed product information, regulatory awareness, clinical relevance, implementation support information, and evidence base through clinical data and case studies.</p>
+
+<h2 id="product-pages-for-medical-devices">Product Pages for Medical Devices</h2>
+<p>Effective medical device product pages include clear product identification with model numbers and classification, clinical indication and intended use clearly stated, technical specifications presented in structured scannable formats, regulatory status (FDA, CE marking, etc.) clearly communicated, clinical evidence and supporting documentation links, integration capabilities with existing hospital systems, and a clear contact pathway for procurement discussions.</p>
+
+<h2 id="technical-documentation">Technical Documentation</h2>
+<p>B2B healthcare buyers need access to detailed technical information. The website should make this accessible without burying it behind unnecessary gates: technical specification sheets as downloadable PDFs, instructions for use and operator manuals, software requirements and compatibility information, installation and configuration documentation, regulatory documentation and compliance statements, and warranty and service information.</p>
+
+<h2 id="whitepaper-and-content-downloads">Whitepaper Downloads</h2>
+<p>Whitepapers, clinical white papers, and technical guides are powerful lead generation tools for B2B healthcare companies. Content downloads should be genuinely useful — comprehensive clinical reviews, implementation guides, peer-reviewed study summaries, and market analysis. Thin promotional documents disguised as whitepapers will not generate the quality of leads B2B healthcare companies need.</p>
+
+<h2 id="lead-capture">Lead Capture for B2B Healthcare</h2>
+<p>B2B healthcare lead capture needs to balance accessibility with qualification. Progressive lead capture — collecting minimal information initially and gathering more detail over multiple interactions — tends to work better than demanding comprehensive information on first contact.</p>
+
+<h2 id="demo-scheduling">Demo Scheduling</h2>
+<p>Product demonstrations are a key part of B2B healthcare sales cycles. The website should make it easy for qualified buyers to request demonstrations: clear demo request CTAs on product pages, a scheduling system that accommodates the sales team's calendar, information about what the demonstration covers, and pre-demo preparation guidance for the buyer.</p>
+
+<h2 id="crm-integrations">CRM Integrations</h2>
+<p>B2B healthcare sales cycles are long and involve multiple stakeholders. CRM integration ensures that website-generated leads flow into the sales process systematically: lead capture forms that feed directly into the CRM, lead scoring based on content engagement, automated follow-up workflows for different buyer stages, and attribution tracking from content download to sales conversation.</p>
+
+<h2 id="case-studies">Case Studies</h2>
+<p>Case studies are among the most trusted content types for B2B healthcare buyers. Effective B2B healthcare case studies include the clinical challenge being addressed, the implementation approach, outcomes with relevant metrics, context that helps buyers understand applicability to their own situation, and quotes from clinical and administrative stakeholders where available.</p>
+
+<h2 id="trust-signals">Trust Signals</h2>
+<p>B2B healthcare buyers operate in a regulated, high-stakes environment. Trust signals that matter include regulatory certifications and compliance statements, clinical evidence and peer-reviewed publications, customer references and case studies, industry association memberships, team credentials and expertise, clinical advisory board members, and published clinical outcomes data.</p>
+
+<h2 id="sales-enablement">Sales Enablement Through the Website</h2>
+<p>The website should support the sales team: sales collateral accessible through a partner or dealer portal, competitive comparison information for qualified leads, implementation timelines and resource requirements documented, and pricing guidance or ROI calculators to accelerate the sales cycle.</p>
+
+<h2 id="seo-for-b2b-healthcare">SEO for B2B Healthcare</h2>
+<p>B2B healthcare buyers research online before initiating contact. SEO should focus on technical product terms and clinical application language, clinical problem statements that match buyer search behaviour, regulatory framework terminology relevant to the product category, and industry-specific search terms used by procurement and clinical evaluation teams.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>B2B healthcare web design requires understanding a buyer who is making a significant, regulated, and technically complex decision. The website needs to provide the right information at the right stage of the evaluation process. This is different from B2C healthcare web design and requires a different approach. Burify works with B2B healthcare brands to design websites that communicate technical credibility, build trust, and support complex sales cycles. <strong>Request a B2B Healthcare Website Strategy Call</strong> to discuss your brand's requirements.</p>
+<p><a href="/contact">Request a Strategy Call.</a></p>
+    `,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-09-20",
+    updatedAt: "2026-09-20",
+    category: "Healthcare Web Design",
+    tags: ["B2B Healthcare", "Medical Device", "HealthTech", "Healthcare Web Design", "Healthcare Technology"],
+    featuredImage: "/images/blog/burify_poster_07_b2b_healthtech.png",
+    featuredImageAlt: "B2B healthcare website showing medical device product pages, technical documentation downloads, clinical case studies, and lead capture forms for HealthTech brands",
+    readingTime: 9,
+    seoTitle: "B2B Healthcare Web Design for Medical Device Companies | Burify Labs",
+    seoDescription: "How B2B healthcare companies and HealthTech brands can use web design to build trust, generate leads, and support complex healthcare sales cycles.",
+    canonicalUrl: "/blog/b2b-healthcare-web-design-medical-device-healthtech",
+    relatedServicePaths: ["/services/web-design", "/contact"],
+    status: "published",
+  },
+
+  {
+    id: "healthcare-website-redesign-cost-2026",
+    slug: "healthcare-website-redesign-cost-2026",
+    title: "How Much Does a Compliant Healthcare Website Redesign Cost in 2026?",
+    description: "Understanding the factors that influence healthcare website redesign costs — compliance, integrations, accessibility, SEO, content, and ongoing support — without fabricated price quotes.",
+    excerpt: "Healthcare website costs vary widely because healthcare websites vary widely in their requirements. Here is what drives pricing for compliant, accessible, and effective healthcare websites.",
+    content: `
+<p>Healthcare website redesigns cost more than general business website redesigns. They require additional work in compliance, security, accessibility, integration with practice management systems, and content that communicates clinical expertise appropriately.</p>
+<p>This article explains what factors influence healthcare website pricing — so you can evaluate quotes and understand what you are paying for. It does not provide fabricated universal prices, because the cost of a healthcare website genuinely depends on what it needs to do.</p>
+
+<h2 id="what-influences-healthcare-website-costs">What Influences Healthcare Website Costs</h2>
+<p>Several factors make healthcare website projects different from — and often more complex than — standard business websites.</p>
+
+<h2 id="discovery-and-strategy">Discovery and Strategy</h2>
+<p>Healthcare websites require deeper discovery than many business websites. The strategy phase needs to understand the patient journey, regulatory constraints on content and testimonials, integration requirements with EHR/EMR systems, content requirements for different patient audiences, and compliance requirements for forms and data handling.</p>
+
+<h2 id="ux-ui-design">UX/UI Design</h2>
+<p>Healthcare website design needs to balance professionalism with accessibility and usability. Patients in healthcare contexts may be anxious, time-pressured, or dealing with health concerns. The design should communicate trust and professionalism clearly, make appointment booking straightforward, present health information in readable scannable formats, work well for patients with disabilities, and function effectively on mobile devices.</p>
+
+<h2 id="development">Development</h2>
+<p>Healthcare website development involves standard technical requirements plus healthcare-specific requirements: secure form processing, compliance implementation in the technical layer, accessibility implementation to WCAG standards, integration with practice management systems, and content management setup for medical content governance.</p>
+
+<h2 id="integrations">Integrations</h2>
+<p>Healthcare websites frequently need integrations that general business websites do not: patient scheduling and appointment management, patient portal integration, secure messaging systems, CRM and practice management tools, insurance verification systems, and payment processing for copays and consultations. Each integration adds development time, testing requirements, and ongoing maintenance considerations.</p>
+
+<h2 id="accessibility">Accessibility</h2>
+<p>WCAG 2.2 compliance requires specific design and development work: contrast ratio audits and adjustments, keyboard navigation implementation and testing, screen reader compatibility testing, form accessibility, alternative text for all meaningful images, and accessible document alternatives for patient forms.</p>
+
+<h2 id="security">Security</h2>
+<p>Beyond compliance requirements, healthcare websites need robust security: regular security audits and penetration testing, Content Security Policy implementation, secure authentication for patient portal areas, ongoing vulnerability monitoring, and security incident response planning.</p>
+
+<h2 id="seo">SEO</h2>
+<p>Healthcare SEO requires attention to both technical foundations and content quality: local SEO for practice locations, service and procedure page optimisation, structured data for medical organisations and services, performance optimisation (Core Web Vitals), and content architecture for patient information and education.</p>
+
+<h2 id="content">Content</h2>
+<p>Healthcare content requires more than standard copywriting. It needs to be accurate and appropriate for a healthcare context, clear enough for patients without medical training, structured to serve different patient needs and decision stages, compliant with advertising and marketing regulations for healthcare, and reviewed by appropriate clinical or compliance personnel before publication.</p>
+
+<h2 id="hosting">Hosting</h2>
+<p>Healthcare website hosting should match the security and compliance requirements of the content it serves: HIPAA-eligible or equivalent infrastructure, Business Associate Agreement with the hosting provider, regular security patching and maintenance, backup and disaster recovery appropriate for healthcare data, and performance infrastructure that supports fast loading.</p>
+
+<h2 id="maintenance-and-support">Maintenance and Ongoing Support</h2>
+<p>Healthcare websites need ongoing maintenance that includes compliance and security considerations: regular security updates and patching, content updates and additions, performance monitoring, accessibility regression testing, compliance monitoring as regulations evolve, and integration maintenance as EHR/EMR systems update.</p>
+
+<h2 id="roi-through-operational-improvements">ROI Through Operational Improvements</h2>
+<p>Healthcare website investment should be evaluated against measurable operational outcomes: reduced administrative work through online booking and form handling, improved booking flows, reduced no-shows through automated appointment reminders, improved website performance creating better first impressions, better qualified leads through informed patients arriving at consultation prepared, and reduced enquiry handling time. These are operational outcomes, not guaranteed financial returns.</p>
+
+<h2 id="template-vs-custom">Template vs Custom Healthcare Websites</h2>
+<p>Template websites can work for some healthcare practices with straightforward needs. However, template limitations become apparent when compliance requirements cannot be met within the template's constraints, integrations require custom development, the practice needs content structures the template does not provide, or the practice's brand and positioning cannot be expressed within the template's design system. Custom healthcare websites cost more initially but typically deliver better long-term value for practices with complex requirements.</p>
+
+<h2 id="international-considerations">International Cost Considerations</h2>
+<p>Healthcare website costs also vary by market. Regional regulatory differences are covered in our article on <a href="/blog/international-medical-regulations-web-design">navigating local medical regulations in web design</a>.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>Healthcare website redesign cost is not a simple number. It depends on what the website needs to do, the compliance and integration requirements, the complexity of the content, and the standard of accessibility and security required. The most useful approach is to define your requirements clearly and request estimates from agencies with healthcare experience. Burify provides a <strong>Healthcare Website Project Estimate</strong> after a requirements discussion.</p>
+<p><a href="/contact">Request a Project Estimate.</a></p>
+    `,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-09-20",
+    updatedAt: "2026-09-20",
+    category: "Healthcare Web Design",
+    tags: ["Healthcare Cost", "Healthcare Web Design", "Healthcare Compliance", "Healthcare Technology", "Medical Websites"],
+    featuredImage: "/images/blog/burify_poster_08_cost_redesign.png",
+    featuredImageAlt: "Healthcare website redesign cost breakdown showing compliance, integrations, accessibility, SEO, content, and hosting as components of a healthcare web project",
+    readingTime: 9,
+    seoTitle: "Healthcare Website Redesign Cost 2026 | Burify Labs",
+    seoDescription: "Understanding the factors that influence healthcare website redesign costs: compliance, integrations, accessibility, SEO, content, and ongoing support — without fabricated price quotes.",
+    canonicalUrl: "/blog/healthcare-website-redesign-cost-2026",
+    relatedServicePaths: ["/services/web-design", "/contact"],
+    status: "published",
+  },
+
+  {
+    id: "international-medical-regulations-web-design",
+    slug: "international-medical-regulations-web-design",
+    title: "Navigating Local Medical Regulations in Web Design: US, Canada, Australia, and EU Standards",
+    description: "A practical guide to the healthcare website regulations and requirements across the US (HIPAA), Canada (PIPEDA), Australia (Privacy Act, AHPRA), and EU (GDPR) for healthcare organisations planning international or regional web projects.",
+    excerpt: "Healthcare website requirements differ across jurisdictions. Here is a practical overview of what to consider in the US, Canada, Australia, and the EU — and why professional advice is essential.",
+    content: `
+<p>Healthcare organisations operating across multiple jurisdictions face a complex web of regulations that affect their websites. A website designed to meet US HIPAA requirements may not automatically satisfy Canadian PIPEDA, Australian privacy obligations, or EU GDPR requirements.</p>
+<p>This article provides an informational overview of the healthcare website regulatory landscape across four major markets. It is not a comprehensive legal analysis, and it does not constitute legal advice. Healthcare organisations should obtain professional compliance and legal counsel for their specific circumstances.</p>
+
+<h2 id="why-regulations-vary">Why Regulations Vary</h2>
+<p>Healthcare privacy, security, and advertising regulations are shaped by each jurisdiction's legal framework, cultural expectations, healthcare system structure, and regulatory history. A website approach that is appropriate in one jurisdiction may create risk in another.</p>
+
+<h2 id="united-states-hipaa">United States: HIPAA</h2>
+<p>In the United States, HIPAA is the primary federal framework governing health information privacy and security. Key website-related considerations include the Privacy Rule governing how protected health information is used and disclosed, the Security Rule requiring administrative physical and technical safeguards for electronic PHI, the Breach Notification Rule, state-level privacy laws that may impose additional requirements, and FTC Act provisions regarding deceptive practices. Authoritative reference: The US Department of Health and Human Services Office for Civil Rights provides HIPAA guidance at <a href="https://www.hhs.gov/hipaa" target="_blank" rel="noopener noreferrer">hhs.gov/hipaa</a>.</p>
+
+<h2 id="canada-pipeda">Canada: PIPEDA and Provincial Frameworks</h2>
+<p>In Canada, PIPEDA governs private-sector organisations' handling of personal information. Key considerations include PIPEDA's ten fair information principles applying to personal information collected through websites, meaningful consent requirements for collection use and disclosure, health information as sensitive personal information requiring appropriate safeguards, several provinces with substantially similar provincial privacy legislation, and the need to confirm which privacy framework applies. Authoritative reference: The Office of the Privacy Commissioner of Canada provides PIPEDA guidance at <a href="https://www.priv.gc.ca" target="_blank" rel="noopener noreferrer">priv.gc.ca</a>.</p>
+
+<h2 id="australia-privacy-act-ahpra">Australia: Privacy Act and AHPRA</h2>
+<p>In Australia, healthcare websites are subject to the Privacy Act 1988 and, for registered health practitioners, the advertising requirements of the Australian Health Practitioner Regulation Agency (AHPRA). The Privacy Act includes the Australian Privacy Principles (APPs), which govern the handling of personal information including health information. Health information is classified as sensitive information under the APPs, requiring higher standards of protection. AHPRA's advertising requirements include no false, misleading, or deceptive advertising, no unjustified claims about treatment outcomes, no testimonials about clinical care for registered practitioners, clear disclosure of fees where advertised, and appropriate use of professional titles and qualifications. Authoritative reference: AHPRA provides advertising guidance at <a href="https://www.ahpra.gov.au" target="_blank" rel="noopener noreferrer">ahpra.gov.au</a>.</p>
+
+<h2 id="eu-gdpr">European Union: GDPR</h2>
+<p>The EU General Data Protection Regulation (GDPR) applies to organisations that process personal data of individuals in the EU. Healthcare websites targeting or serving EU patients must comply with GDPR requirements. Health data is classified as a special category of personal data, requiring explicit consent or another legal basis for processing. Data subject rights include access, rectification, erasure, restriction, portability, and objection. Data Protection Impact Assessments may be required for high-risk processing activities. Data breach notification obligations apply within 72 hours. Authoritative reference: The EU's GDPR official text and guidance are available at <a href="https://gdpr.eu" target="_blank" rel="noopener noreferrer">gdpr.eu</a>.</p>
+
+<h2 id="cross-jurisdiction-requirements">Cross-Jurisdiction Website Requirements</h2>
+<p>Healthcare organisations operating across multiple jurisdictions face additional complexity. Privacy policies should accurately reflect the data handling practices for each jurisdiction served. Cookie and tracking consent requirements vary significantly across jurisdictions. Data residency requirements vary by jurisdiction. Accessibility requirements also vary across jurisdictions — the ADA in the United States, the European Accessibility Act in the EU, provincial accessibility legislation in Canada, and the Disability Discrimination Act in Australia all create digital accessibility obligations.</p>
+
+<h2 id="regional-differences-in-practice">Regional Differences in Practice</h2>
+<p>Beyond regulatory frameworks, healthcare delivery and patient expectations differ across jurisdictions. Booking and appointment culture varies between markets. Payment expectations differ between public and private healthcare systems. Patient information needs and health literacy levels vary across populations. Different markets respond to different credibility signals.</p>
+
+<h2 id="what-to-specify-in-international-projects">What to Specify in International Website Projects</h2>
+<p>If your healthcare organisation is planning a website that serves multiple jurisdictions, your brief should include: a list of jurisdictions and regulatory frameworks that apply, compliance requirements specific to each market, language and localisation requirements, data residency and transfer requirements, accessibility standards applicable in each market, and content governance requirements for multi-jurisdictional accuracy.</p>
+
+<h2 id="the-importance-of-professional-advice">The Importance of Professional Advice</h2>
+<p>This article provides a general informational overview of regulatory considerations. It does not constitute legal advice, and it does not address the specific requirements of any particular healthcare organisation. Regulatory requirements vary by jurisdiction, by organisation type, by the specific services offered, and by the data handling practices involved. They also change over time as regulations are updated and new legislation is introduced. Healthcare organisations should obtain professional legal and compliance advice from qualified practitioners in each jurisdiction where they operate.</p>
+
+<h2 id="related-articles">Related Articles in This Series</h2>
+<ul>
+  <li><a href="/blog/hipaa-pipeda-compliant-web-design-checklist">HIPAA & PIPEDA Compliant Web Design Checklist</a> — detailed coverage of US and Canadian compliance considerations</li>
+  <li><a href="/blog/ada-wcag-healthcare-accessibility-audit">ADA & WCAG 2.2 Healthcare Accessibility Audit</a> — accessibility requirements that apply across jurisdictions</li>
+  <li><a href="/blog/healthcare-website-redesign-cost-2026">Healthcare Website Redesign Cost in 2026</a> — understanding project scope and pricing for compliant healthcare websites</li>
+</ul>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>International healthcare web design requires navigating multiple regulatory frameworks simultaneously. The most successful approach is one where web design teams, legal counsel, and compliance advisors collaborate from the beginning of the project. Regulatory compliance is not a box to check at the end of a website project — it is a design constraint that should inform architecture decisions, integration choices, content approaches, and ongoing maintenance practices from the start. Burify works with healthcare organisations across multiple jurisdictions. <strong>Request an International Healthcare Website Review</strong> to discuss your organisation's specific requirements.</p>
+<p><a href="/contact">Request an International Review.</a></p>
+    `,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-09-21",
+    updatedAt: "2026-09-21",
+    category: "Healthcare Web Design",
+    tags: ["International Healthcare", "Healthcare Compliance", "HIPAA", "GDPR", "Healthcare Web Design"],
+    featuredImage: "/images/blog/burify_poster_09_global_regulations.png",
+    featuredImageAlt: "International healthcare regulation comparison showing HIPAA for US, PIPEDA for Canada, Privacy Act and AHPRA for Australia, and GDPR for EU",
+    readingTime: 9,
+    seoTitle: "International Healthcare Web Design Regulations Guide | Burify Labs",
+    seoDescription: "Practical guidance on healthcare website regulations across the US (HIPAA), Canada (PIPEDA), Australia (Privacy Act, AHPRA), and EU (GDPR) for international healthcare organisations.",
+    canonicalUrl: "/blog/international-medical-regulations-web-design",
+    relatedServicePaths: ["/services/web-design", "/contact"],
+    status: "published",
+  },
+
+  {
+    id: "medical-seo-website-redesign-specialists",
+    slug: "medical-seo-website-redesign-specialists",
+    title: "Why Your Medical Practice Needs SEO Built Directly into Your Website Redesign",
+    description: "Why medical practices should build SEO into their website redesign from the start — covering technical SEO, service pages, local SEO, structured data, and the content architecture that drives organic search visibility.",
+    excerpt: "A healthcare website redesign is the best opportunity to build SEO foundations. Here is what medical practices need to understand about technical SEO, content architecture, and organic search visibility.",
+    content: `
+<p>Many medical practices approach a website redesign as a visual project. New design, new content, new launch — and then SEO is considered afterward, as an add-on or afterthought.</p>
+<p>This approach misses the most important opportunity a website redesign creates. When you rebuild a website, you have the chance to fix structural problems that no amount of post-launch SEO work can fully address.</p>
+
+<h2 id="what-medical-seo-requires">What Medical SEO Requires</h2>
+<p>Medical SEO differs from general business SEO in several important ways: local search dominance is essential — patients search for healthcare providers near them; service-specific pages are needed for conditions, treatments, and procedures; trust and authority signals are critical for both search engines and patients; regulatory constraints affect what can be claimed in content; and medical SEO is often highly competitive.</p>
+
+<h2 id="technical-seo-foundations">Technical SEO Foundations</h2>
+<p>Technical SEO is the foundation that everything else builds on. A website with great content but poor technical foundations will struggle to rank.</p>
+
+<h3 id="site-speed-and-core-web-vitals">Site Speed and Core Web Vitals</h3>
+<p>Google's Core Web Vitals — Largest Contentful Paint, First Input Delay, and Cumulative Layout Shift — are ranking factors. For healthcare websites, speed is also a patient experience issue. A slow website creates frustration for patients trying to access information or book appointments quickly.</p>
+
+<h3 id="mobile-optimisation">Mobile Optimisation</h3>
+<p>Most patients searching for healthcare providers use mobile devices. Mobile-first indexing means Google primarily evaluates the mobile version of your website for ranking. A redesign is the right time to ensure the mobile experience is excellent.</p>
+
+<h3 id="url-structure">URL Structure</h3>
+<p>Clean, logical URLs help search engines understand your website's structure. Healthcare websites with many service, location, and provider pages need a URL architecture that remains logical as the site grows.</p>
+
+<h3 id="site-architecture">Site Architecture</h3>
+<p>The way pages are organised and linked together affects how search engines crawl and understand your website. A clear hierarchy — homepage to service categories to individual services to location pages — helps search engines understand the relationship between different parts of your site.</p>
+
+<h2 id="service-pages">Service Pages</h2>
+<p>Every service, treatment, or procedure your practice offers should have its own dedicated page. Service pages should target the specific search terms patients use, provide comprehensive information that answers patient questions, include local signals where the service is location-specific, link to related services and the booking pathway, and be structured with clear headings that help search engines understand the content.</p>
+
+<h2 id="location-pages">Location Pages</h2>
+<p>For multi-location practices, each location needs a dedicated page optimised for local search. Location pages should include the full practice name, address, and phone number with NAP consistency, describe services available at that specific location, list providers based at that location, include embedded maps and driving directions, and be marked up with LocalBusiness or MedicalBusiness structured data.</p>
+
+<h2 id="internal-linking">Internal Linking</h2>
+<p>Internal links help search engines discover pages and understand the relationship between them. For medical practices, strategic internal linking connects service pages to relevant condition or treatment pages, location pages to services available at that location, provider profiles to their services and location, and condition information pages to relevant services and providers.</p>
+
+<h2 id="local-seo">Local SEO for Medical Practices</h2>
+<p>Local SEO is the most impactful SEO strategy for most medical practices. Key components include: Google Business Profile claimed, verified, and optimised for each practice location; NAP consistency across the website and external citations; local citations on relevant healthcare directories; managing patient reviews on appropriate platforms; and local content that references the practice's service area.</p>
+
+<h2 id="structured-data">Structured Data</h2>
+<p>Structured data (Schema.org markup) helps search engines understand the specific entities on your website. For medical practices, relevant schema types include MedicalOrganization for the practice overall, LocalBusiness or MedicalBusiness for each location, Physician for individual doctors and specialists, MedicalProcedure for specific treatments or procedures, and FAQPage for common patient questions.</p>
+
+<h2 id="core-web-vitals-detail">Core Web Vitals and Performance</h2>
+<p>Performance is both an SEO factor and a patient experience factor. Healthcare websites should aim for Largest Contentful Paint under 2.5 seconds, First Input Delay under 100 milliseconds, Cumulative Layout Shift under 0.1, optimised images using modern formats, minimised unused JavaScript and CSS, and efficient caching and CDN usage.</p>
+
+<h2 id="metadata">Metadata</h2>
+<p>Each page on a medical practice website needs unique, descriptive metadata: title tags that include the service or location and the practice name, meta descriptions that encourage clicks from search results, Open Graph and Twitter card metadata for social sharing, and canonical URLs to avoid duplicate content issues.</p>
+
+<h2 id="search-intent-and-content-architecture">Search Intent and Content Architecture</h2>
+<p>Medical SEO content should be structured around patient search intent: informational intent for patients researching conditions and treatments, navigational intent for patients looking for a specific practice, local intent for patients searching for providers near them, and commercial intent for patients comparing treatment options or providers.</p>
+
+<h2 id="patient-focused-ux">Patient-Focused UX as an SEO Signal</h2>
+<p>User experience signals — time on page, bounce rate, pages per session — indirectly affect SEO. A patient-focused UX that answers questions clearly, makes booking easy, and provides a smooth mobile experience creates positive engagement signals that support search performance over time.</p>
+
+<h2 id="measuring-seo-success">Measuring SEO Success</h2>
+<p>Medical practices should track organic search traffic to service and location pages, search rankings for target service and location terms, phone calls and contact form submissions from organic search, Google Business Profile visibility and actions, and patient enquiries that mention finding the practice online.</p>
+
+<h2 id="seo-during-redesign">SEO During the Redesign Process</h2>
+<p>A website redesign creates SEO risks as well as opportunities. To protect existing search visibility: map existing URLs to new URLs and implement 301 redirects for changed pages, preserve or improve content that currently ranks well, maintain or improve page speed during the redesign, ensure the new site structure is at least as crawlable as the old one, update internal links to point to the new URL structure, and monitor search performance before, during, and after the launch.</p>
+
+<h2 id="related-articles">Related Articles in This Series</h2>
+<ul>
+  <li><a href="/blog/multi-location-medical-groups-web-architecture">Scaling Digital Footprints: Web Architecture for Multi-Location Medical Groups</a> — location architecture and local SEO for healthcare networks</li>
+  <li><a href="/blog/private-surgical-clinics-custom-web-design">Custom Web Design for Private Surgical Clinics</a> — SEO for surgical practice websites</li>
+  <li><a href="/blog/healthcare-website-redesign-cost-2026">Healthcare Website Redesign Cost in 2026</a> — understanding the scope of healthcare website projects</li>
+</ul>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>SEO is not a feature you add to a website after it is built. It is a design consideration that should inform architecture decisions, content planning, page structure, and technical implementation from the beginning of a healthcare website redesign. The practices that build SEO into their website redesign from the start tend to see better search visibility, more patient enquiries, and a stronger digital foundation. Burify's <strong>Medical SEO & Website Audit</strong> reviews your current website's SEO health and provides recommendations for your redesign project.</p>
+<p><a href="/contact">Request a Medical SEO & Website Audit.</a></p>
+    `,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-09-21",
+    updatedAt: "2026-09-21",
+    category: "Healthcare SEO",
+    tags: ["Medical SEO", "Healthcare SEO", "Healthcare Web Design", "Local SEO", "Healthcare Technology"],
+    featuredImage: "/images/blog/burify_poster_10_seo_redesign.png",
+    featuredImageAlt: "Healthcare SEO architecture diagram showing search engine to healthcare website through service pages, location pages, and patient journey to conversion",
+    readingTime: 9,
+    seoTitle: "Medical SEO and Website Redesign for Specialists | Burify Labs",
+    seoDescription: "Why medical practices should build SEO into their website redesign from the start — covering technical SEO, service pages, local SEO, structured data, and content architecture.",
+    canonicalUrl: "/blog/medical-seo-website-redesign-specialists",
+    relatedServicePaths: ["/services/web-design", "/contact"],
+    status: "published",
+  },
 ];
 
 export const publishedBlogPosts = blogPosts.filter((post) => post.status === "published");
@@ -1461,5 +2189,46 @@ export const blogTopicClusters: BlogTopicCluster[] = [
     label: "AI Automation",
     topics: ["AI automation", "AI business automation", "Business automation", "Workflow automation", "Business process automation", "AI agents", "AI tools for businesses"],
     relatedServicePaths: ["/services/ai-automation", "/services/ai-agents", "/services/workflow-automation"],
+  },
+  {
+    id: "healthcare-web-design",
+    label: "Healthcare Web Design",
+    topics: [
+      "Healthcare web design",
+      "HIPAA compliant web design",
+      "PIPEDA compliant websites",
+      "medical website design",
+      "healthcare website compliance",
+      "ADA accessible healthcare websites",
+      "healthcare accessibility",
+      "patient portal design",
+      "telehealth platform design",
+      "surgical practice websites",
+      "private surgical clinics",
+      "multi-location medical websites",
+      "medical SEO",
+      "healthcare SEO",
+      "B2B healthcare web design",
+      "medical device websites",
+      "HealthTech websites",
+      "healthcare website cost",
+    ],
+    relatedServicePaths: ["/services/web-design", "/services/workflow-automation", "/contact"],
+  },
+  {
+    id: "healthcare-technology",
+    label: "Healthcare Technology",
+    topics: [
+      "EHR integration",
+      "EMR integration",
+      "patient scheduling integration",
+      "telehealth platforms",
+      "virtual clinic websites",
+      "healthcare automation",
+      "healthcare workflow automation",
+      "patient portal UX",
+      "medical software integration",
+    ],
+    relatedServicePaths: ["/services/web-design", "/services/workflow-automation", "/services/ai-automation", "/contact"],
   },
 ];
