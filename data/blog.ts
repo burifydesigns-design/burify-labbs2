@@ -2173,6 +2173,161 @@ export const blogPosts: BlogPost[] = [
     relatedServicePaths: ["/services/web-design", "/contact"],
     status: "published",
   },
+  {
+    id: "is-your-wordpress-site-at-risk-10-minute-security-checklist",
+    slug: "is-your-wordpress-site-at-risk-10-minute-security-checklist",
+    title: "Is Your WordPress Site at Risk? A 10-Minute Security Checklist",
+    description: "Is your WordPress site protected against the latest security issues? Use this 10-minute WordPress security checklist to check updates, plugins, themes, PHP, backups, and warning signs.",
+    excerpt: "Is your WordPress site protected against the latest security issues? Use this 10-minute WordPress security checklist to check updates, plugins, themes, PHP, backups, and warning signs.",
+    content: `
+<p>WordPress security is not something to check only after a website gets hacked.</p>
+<p>With a new critical WordPress vulnerability patched on September 22, 2026, website owners should take a few minutes to confirm that WordPress, plugins, themes, and PHP are properly updated.</p>
+<p>The good news is that a basic security check does not need to take hours.</p>
+<p>Here is a practical 10-minute checklist you can use today.</p>
+
+<h2 id="check-your-wordpress-version">1. Check Your WordPress Version</h2>
+<p>Start with the most important update: WordPress itself.</p>
+<p>WordPress 7.1.2 was released on September 22, 2026, as a critical security release. It addressed CVE-2026-87902, a vulnerability involving page-template resolution that could, under certain conditions, allow an unauthenticated attacker to cause WordPress to include a chosen readable local PHP file outside the active theme directories.</p>
+<p>Under the affected conditions, this could potentially lead to remote code execution.</p>
+<p>If your site is running an affected version, update WordPress as soon as possible.</p>
+<p>Also check whether your installation is on an older WordPress branch that still receives security updates and install the appropriate security release for that branch.</p>
+<p><strong>Action:</strong> Go to your WordPress dashboard and check <strong>Dashboard → Updates</strong>.</p>
+
+<h2 id="update-your-plugins">2. Update Your Plugins</h2>
+<p>WordPress core is only one part of your site's security.</p>
+<p>Plugins are another major area to check because vulnerabilities in third-party plugins can expose otherwise updated websites.</p>
+<p>Review every installed plugin and:</p>
+<ul>
+  <li>update plugins that have available security or maintenance releases</li>
+  <li>remove plugins you no longer use</li>
+  <li>avoid abandoned plugins where possible</li>
+  <li>verify that plugins come from trustworthy sources</li>
+  <li>check plugin changelogs when a security update is released</li>
+</ul>
+<p>Do not keep an unused plugin installed simply because it is disabled.</p>
+<p>If you do not need it, remove it.</p>
+
+<h2 id="update-your-theme">3. Update Your Theme</h2>
+<p>Your theme should also be kept current.</p>
+<p>Check whether your active theme has a newer release.</p>
+<p>Then review inactive themes and remove unnecessary ones.</p>
+<p>Keeping fewer unnecessary components installed reduces the amount of software that needs to be maintained and monitored.</p>
+
+<h2 id="check-your-php-version">4. Check Your PHP Version</h2>
+<p>WordPress security also depends on the PHP version running on your hosting environment.</p>
+<p>PHP published new security releases on September 24, 2026, including:</p>
+<ul>
+  <li>PHP 8.5.11</li>
+  <li>PHP 8.4.26</li>
+  <li>PHP 8.3.35</li>
+  <li>PHP 8.2.34</li>
+</ul>
+<p>Check which PHP version your website is using and whether your hosting provider supports a currently supported PHP branch.</p>
+<p>You can usually find this information through your hosting control panel or WordPress Site Health.</p>
+<p><strong>Action:</strong> Go to <strong>Tools → Site Health → Info → Server</strong> and check your PHP version.</p>
+<p>If you are unsure whether your website can safely move to a newer PHP version, ask your hosting provider or developer before making the change.</p>
+
+<h2 id="make-sure-you-have-a-recent-backup">5. Make Sure You Have a Recent Backup</h2>
+<p>Updates are important, but backups are your safety net.</p>
+<p>Confirm that your website has a recent backup that includes:</p>
+<ul>
+  <li>WordPress files</li>
+  <li>themes</li>
+  <li>plugins</li>
+  <li>uploads</li>
+  <li>database</li>
+</ul>
+<p>Ideally, backups should be stored somewhere separate from the website itself.</p>
+<p>Do not assume that having a backup plugin installed automatically means you have a usable backup.</p>
+<p>Check when the most recent backup was created and whether your backup system can actually restore the site.</p>
+
+<h2 id="look-for-signs-something-is-wrong">6. Look for Signs Something Is Wrong</h2>
+<p>Take a quick look through your website.</p>
+<p>Watch for unusual signs such as:</p>
+<ul>
+  <li>unexpected administrator accounts</li>
+  <li>unfamiliar plugins or themes</li>
+  <li>strange redirects</li>
+  <li>unexpected files</li>
+  <li>sudden changes to website content</li>
+  <li>unfamiliar login activity</li>
+  <li>unexpected emails being sent from your website</li>
+  <li>security warnings from browsers or search engines</li>
+</ul>
+<p>These signs do not automatically prove that a website has been compromised, but they are reasons to investigate further.</p>
+<p>If you notice something suspicious, avoid randomly deleting files before creating a backup or getting professional help.</p>
+
+<h2 id="keep-security-maintenance-ongoing">7. Keep Security Maintenance Ongoing</h2>
+<p>A security check should not be a one-time task.</p>
+<p>Set a recurring maintenance routine for:</p>
+<ul>
+  <li>WordPress updates</li>
+  <li>plugin updates</li>
+  <li>theme updates</li>
+  <li>PHP versions</li>
+  <li>backups</li>
+  <li>administrator accounts</li>
+  <li>security monitoring</li>
+  <li>login activity</li>
+</ul>
+<p>Security becomes much easier to manage when updates and checks are part of a regular maintenance process.</p>
+
+<h2 id="your-10-minute-wordpress-security-checklist">Your 10-Minute WordPress Security Checklist</h2>
+<p>Use this quick checklist:</p>
+<ul>
+  <li>☐ Check your WordPress version</li>
+  <li>☐ Install available WordPress security updates</li>
+  <li>☐ Update plugins</li>
+  <li>☐ Remove unused plugins</li>
+  <li>☐ Update your theme</li>
+  <li>☐ Remove unnecessary inactive themes</li>
+  <li>☐ Check your PHP version</li>
+  <li>☐ Confirm you have a recent backup</li>
+  <li>☐ Look for unusual accounts, files, redirects, or activity</li>
+  <li>☐ Create a recurring security maintenance routine</li>
+</ul>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>You do not need to be a security expert to perform a basic WordPress security check.</p>
+<p>Start with the essentials:</p>
+<p><strong>Update → Backup → Check → Monitor</strong></p>
+<p>If your website has not been maintained recently, do not wait until something breaks before checking it.</p>
+<p>A few minutes of maintenance today can help you catch outdated software and potential problems before they become bigger issues.</p>
+
+<h2 id="cta">Want us to check your WordPress website?</h2>
+<p>Get a professional WordPress security check and find out whether your site needs updates, maintenance, or further investigation.</p>
+<p><a href="/contact">Request a WordPress security review.</a></p>
+
+<h2 id="sources">Sources</h2>
+<ul>
+  <li>WordPress 7.1.2 security release — official WordPress.org</li>
+  <li>CVE-2026-87902 — NVD</li>
+  <li>PHP 8.5.11 security release — official PHP.net</li>
+  <li>PHP supported versions/security releases — official PHP.net</li>
+</ul>
+    `,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-09-30",
+    updatedAt: "2026-09-30",
+    category: "WordPress",
+    tags: [
+      "WordPress security",
+      "WordPress vulnerability",
+      "WordPress updates",
+      "WordPress website security",
+      "PHP security",
+      "WordPress maintenance",
+      "WordPress malware protection",
+    ],
+    featuredImage: "/images/blog/september-30.png",
+    featuredImageAlt: "WordPress security checklist",
+    readingTime: 6,
+    seoTitle: "Is Your WordPress Site at Risk? A 10-Minute Security Checklist | Burify",
+    seoDescription: "Is your WordPress site protected against the latest security issues? Use this 10-minute WordPress security checklist to check updates, plugins, themes, PHP, backups, and warning signs.",
+    canonicalUrl: "/blog/is-your-wordpress-site-at-risk-10-minute-security-checklist",
+    relatedServicePaths: ["/services/web-design", "/contact"],
+    status: "published",
+  },
 ];
 
 export const publishedBlogPosts = blogPosts.filter((post) => post.status === "published");
