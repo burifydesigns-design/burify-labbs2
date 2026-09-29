@@ -26,30 +26,6 @@ export const projects: Project[] = [
     canonicalPath: "/work/cavari-group",
   },
   {
-    id: "2",
-    slug: "hillview-physiotherapy-group",
-    title: "Hillview Physiotherapy Group",
-    category: "Web Design",
-    shortDescription:
-      "A modern digital presence for a physiotherapy clinic in Dromana, Victoria.",
-    description:
-      "Hillview Physiotherapy Group is a modern physiotherapy clinic based in Dromana, Victoria. The existing business provides physiotherapy assessments, running assessments, group functional strength classes, tailored exercise programs, post-surgical rehabilitation and other physiotherapy services.",
-    services: ["web-design"],
-    challenge:
-      "Hillview Physiotherapy Group needed a professional digital presence that clearly communicated who they were, what services they offered, and why prospective patients should choose the clinic. The website needed to make healthcare information easy to understand while creating a modern, welcoming impression.",
-    approach:
-      "The website was structured around clarity, trust and conversion. The design focuses on clear communication, professional presentation, easy service discovery, strong calls to action, local business positioning, mobile-friendly browsing, clear pathways toward booking an appointment, and introducing the team and clinic.",
-    outcome:
-      "A modern digital presence designed to make Hillview Physiotherapy Group's services easier to understand and make the path from discovering the clinic to booking an appointment clearer.",
-    status: "published",
-    featuredImage: "/images/projects/burify-labs-hillview-physiotherapy.webp",
-    gallery: [
-      "/images/projects/burify-labs-hillview-physiotherapy.webp",
-    ],
-    year: "2026",
-    canonicalPath: "/work/hillview-physiotherapy-group",
-  },
-  {
     id: "3",
     slug: "precision-auto-centre",
     title: "Precision Auto Centre",

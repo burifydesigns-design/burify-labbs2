@@ -44,7 +44,6 @@ function getGalleryLabel(slug: string, index: number): string {
   }
   const labels: Record<string, string[]> = {
     "cavari-group": ["Homepage", "About", "Services"],
-    "hillview-physiotherapy-group": ["Homepage", "Services", "Team"],
     "precision-auto-centre": ["Homepage", "Services", "Contact"],
   };
   return labels[slug]?.[index] ?? `Project Visual ${index + 1}`;

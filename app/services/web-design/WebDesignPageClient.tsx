@@ -461,7 +461,6 @@ export function WebDesignPageClient() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
                 { title: "Cavari Group", tags: ["Web Design", "Business"], desc: "A premium digital platform for an integrated Australian advisory and investment organisation.", slug: "cavari-group" },
-                { title: "Hillview Physiotherapy Group", tags: ["Web Design", "Healthcare"], desc: "A modern digital presence for a physiotherapy clinic in Dromana, Victoria.", slug: "hillview-physiotherapy-group" },
                 { title: "Precision Auto Centre", tags: ["Web Design", "Automotive"], desc: "A professional website for a local automotive repair business in Cranbourne West, Victoria.", slug: "precision-auto-centre" },
               ].map((item, i) => (
                 <div

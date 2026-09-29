@@ -67,8 +67,6 @@ export function ProjectHero({ project }: ProjectHeroProps) {
 
 function getIndustry(slug: string): string {
   switch (slug) {
-    case "hillview-physiotherapy-group":
-      return "Healthcare";
     case "precision-auto-centre":
       return "Automotive";
     case "cavari-group":

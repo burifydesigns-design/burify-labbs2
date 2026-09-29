@@ -29,7 +29,6 @@ export async function generateMetadata({ params }: WorkDetailPageProps) {
 
   const titleMap: Record<string, string> = {
     "cavari-group": "Cavari Group Website Design Case Study",
-    "hillview-physiotherapy-group": "Hillview Physiotherapy Website Design Case Study",
     "precision-auto-centre": "Precision Auto Centre Website Design Case Study",
     "real-estate-n8n-automation": "Real Estate Workflow Automation Case Study",
   };

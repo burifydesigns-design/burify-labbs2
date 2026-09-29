@@ -42,7 +42,6 @@ export function WorkPageClient() {
   const orderedProjects = [...publishedProjects].sort((a, b) => {
     const order = [
       "cavari-group",
-      "hillview-physiotherapy-group",
       "precision-auto-centre",
       "real-estate-n8n-automation",
     ];
