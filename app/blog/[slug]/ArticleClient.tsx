@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { BlogPost } from "@/types/blog";
 import { TableOfContents } from "@/components/blog/TableOfContents";
@@ -9,7 +10,7 @@ import { ArticleMeta } from "@/components/blog/ArticleMeta";
 import { ArticleContent } from "@/components/blog/ArticleContent";
 import { ArticleShare } from "@/components/blog/ArticleShare";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
-import { getRelatedPosts } from "@/lib/blog";
+import { getRelatedPosts, getAdjacentPosts } from "@/lib/blog";
 import { Button } from "@/components/ui/Button";
 
 interface TocItem {
@@ -24,6 +25,7 @@ interface ArticleClientProps {
 
 export function ArticleClient({ post }: ArticleClientProps) {
   const relatedPosts = useMemo(() => getRelatedPosts(post, 3), [post]);
+  const { prev, next } = useMemo(() => getAdjacentPosts(post), [post]);
   const [headings, setHeadings] = useState<TocItem[]>([]);
 
   useEffect(() => {
@@ -74,15 +76,32 @@ export function ArticleClient({ post }: ArticleClientProps) {
           <div className="article-cta">
             <span className="article-cta__label">Work with us</span>
             <h3 className="article-cta__title">
-              Ready to build a website that works for your business?
+              Is your healthcare website doing enough?
             </h3>
             <p className="article-cta__description">
-              Let&apos;s build it.
+              Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.
             </p>
-            <Button href="/contact">Start a Project</Button>
+            <Button href="/contact">Start a Conversation</Button>
           </div>
 
           <RelatedPosts posts={relatedPosts} />
+
+          {(prev || next) && (
+            <nav className="article-nav" aria-label="Article navigation">
+              {prev && (
+                <Link href={`/blog/${prev.slug}`} className="article-nav__link article-nav__link--prev">
+                  <span className="article-nav__label">Previous Article</span>
+                  <span className="article-nav__title">{prev.title}</span>
+                </Link>
+              )}
+              {next && (
+                <Link href={`/blog/${next.slug}`} className="article-nav__link article-nav__link--next">
+                  <span className="article-nav__label">Next Article</span>
+                  <span className="article-nav__title">{next.title}</span>
+                </Link>
+              )}
+            </nav>
+          )}
         </div>
         <aside className="toc" aria-label="Table of contents">
           <TableOfContents headings={headings} />
