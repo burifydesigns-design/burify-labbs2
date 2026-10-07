@@ -8,8 +8,9 @@ import { ArticleHeader } from "@/components/blog/ArticleHeader";
 import { ArticleMeta } from "@/components/blog/ArticleMeta";
 import { ArticleContent } from "@/components/blog/ArticleContent";
 import { ArticleShare } from "@/components/blog/ArticleShare";
+import { ArticleNavigation } from "@/components/blog/ArticleNavigation";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
-import { getRelatedPosts } from "@/lib/blog";
+import { getAdjacentPosts, getRelatedPosts } from "@/lib/blog";
 import { Button } from "@/components/ui/Button";
 
 interface TocItem {
@@ -22,8 +23,17 @@ interface ArticleClientProps {
   post: BlogPost;
 }
 
+const defaultCta = {
+  label: "Work with us",
+  title: "Ready to build a website that works for your business?",
+  description: "Let's build it.",
+  href: "/contact",
+};
+
 export function ArticleClient({ post }: ArticleClientProps) {
   const relatedPosts = useMemo(() => getRelatedPosts(post, 3), [post]);
+  const adjacentPosts = useMemo(() => getAdjacentPosts(post), [post]);
+  const cta = post.cta ?? defaultCta;
   const [headings, setHeadings] = useState<TocItem[]>([]);
 
   useEffect(() => {
@@ -72,17 +82,18 @@ export function ArticleClient({ post }: ArticleClientProps) {
           <ArticleShare url={articleUrl} title={post.title} />
 
           <div className="article-cta">
-            <span className="article-cta__label">Work with us</span>
-            <h3 className="article-cta__title">
-              Ready to build a website that works for your business?
-            </h3>
-            <p className="article-cta__description">
-              Let&apos;s build it.
-            </p>
-            <Button href="/contact">Start a Project</Button>
+            <span className="article-cta__label">{cta.label}</span>
+            <h3 className="article-cta__title">{cta.title}</h3>
+            <p className="article-cta__description">{cta.description}</p>
+            <Button href={cta.href}>Start a Project</Button>
           </div>
 
           <RelatedPosts posts={relatedPosts} />
+
+          <ArticleNavigation
+            previous={adjacentPosts.previous}
+            next={adjacentPosts.next}
+          />
         </div>
         <aside className="toc" aria-label="Table of contents">
           <TableOfContents headings={headings} />

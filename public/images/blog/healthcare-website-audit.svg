@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bgGrad_healthcare-website-audit.svg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06060f"/>
+      <stop offset="50%" stop-color="#0a0a1e"/>
+      <stop offset="100%" stop-color="#06060f"/>
+    </linearGradient>
+    <filter id="glow_healthcare-website-audit.svg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid_healthcare-website-audit.svg" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(107,95,169,0.06)" stroke-width="1"/>
+    </pattern>
+    <pattern id="dots_healthcare-website-audit.svg" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="rgba(107,95,169,0.15)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#bgGrad_healthcare-website-audit.svg)"/>
+  <rect width="1080" height="1350" fill="url(#grid_healthcare-website-audit.svg)"/>
+  <rect width="1080" height="1350" fill="url(#dots_healthcare-website-audit.svg)"/>
+
+  <circle cx="540" cy="470" r="210" fill="#34d399" opacity="0.05" filter="url(#glow_healthcare-website-audit.svg)"/>
+
+  <!-- Audit dashboard -->
+  <rect x="140" y="160" width="800" height="560" rx="20" fill="#0d0d1f" stroke="rgba(52,211,153,0.3)" stroke-width="1"/>
+  <rect x="140" y="160" width="800" height="48" rx="20" fill="#12122a"/>
+  <text x="180" y="191" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.5)" letter-spacing="2">WEBSITE AUDIT &#8212; 10 MINUTES</text>
+  <circle cx="900" cy="184" r="8" fill="#34d399" opacity="0.8"/>
+
+  <!-- Checklist -->
+  <text x="180" y="250" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">CHECKLIST</text>
+
+  <rect x="180" y="270" width="720" height="52" rx="10" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.25)" stroke-width="1"/>
+  <rect x="196" y="284" width="24" height="24" rx="6" fill="none" stroke="#34d399" stroke-width="2"/>
+  <path d="M 202 296 l 5 5 l 10 -10" stroke="#34d399" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="236" y="302" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.75)">First impression &amp; clarity</text>
+  <text x="884" y="302" text-anchor="end" font-family="ui-monospace, monospace" font-size="11" fill="#34d399">MIN 1&#8211;2</text>
+
+  <rect x="180" y="334" width="720" height="52" rx="10" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.25)" stroke-width="1"/>
+  <rect x="196" y="348" width="24" height="24" rx="6" fill="none" stroke="#34d399" stroke-width="2"/>
+  <path d="M 202 360 l 5 5 l 10 -10" stroke="#34d399" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="236" y="366" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.75)">Mobile experience</text>
+  <text x="884" y="366" text-anchor="end" font-family="ui-monospace, monospace" font-size="11" fill="#34d399">MIN 3&#8211;4</text>
+
+  <rect x="180" y="398" width="720" height="52" rx="10" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.25)" stroke-width="1"/>
+  <rect x="196" y="412" width="24" height="24" rx="6" fill="none" stroke="#34d399" stroke-width="2"/>
+  <path d="M 202 424 l 5 5 l 10 -10" stroke="#34d399" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="236" y="430" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.75)">Content &amp; trust signals</text>
+  <text x="884" y="430" text-anchor="end" font-family="ui-monospace, monospace" font-size="11" fill="#34d399">MIN 5&#8211;6</text>
+
+  <rect x="180" y="462" width="720" height="52" rx="10" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.25)" stroke-width="1"/>
+  <rect x="196" y="476" width="24" height="24" rx="6" fill="none" stroke="#34d399" stroke-width="2"/>
+  <path d="M 202 488 l 5 5 l 10 -10" stroke="#34d399" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="236" y="504" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.75)">Performance &amp; technical health</text>
+  <text x="884" y="504" text-anchor="end" font-family="ui-monospace, monospace" font-size="11" fill="#34d399">MIN 7&#8211;8</text>
+
+  <rect x="180" y="526" width="720" height="52" rx="10" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.25)" stroke-width="1"/>
+  <rect x="196" y="540" width="24" height="24" rx="6" fill="none" stroke="#34d399" stroke-width="2"/>
+  <path d="M 202 552 l 5 5 l 10 -10" stroke="#34d399" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="236" y="570" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.75)">Conversion path</text>
+  <text x="884" y="570" text-anchor="end" font-family="ui-monospace, monospace" font-size="11" fill="#34d399">MIN 9</text>
+
+  <rect x="180" y="590" width="720" height="52" rx="10" fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.25)" stroke-width="1"/>
+  <rect x="196" y="604" width="24" height="24" rx="6" fill="none" stroke="#34d399" stroke-width="2"/>
+  <path d="M 202 616 l 5 5 l 10 -10" stroke="#34d399" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="236" y="636" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.75)">Search visibility</text>
+  <text x="884" y="636" text-anchor="end" font-family="ui-monospace, monospace" font-size="11" fill="#34d399">MIN 10</text>
+
+  <!-- Score gauge -->
+  <circle cx="540" cy="830" r="70" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="14"/>
+  <circle cx="540" cy="830" r="70" fill="none" stroke="#34d399" stroke-width="14" stroke-linecap="round" stroke-dasharray="330 440" transform="rotate(-90 540 830)"/>
+  <text x="540" y="824" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.5)" letter-spacing="2">AUDIT</text>
+  <text x="540" y="852" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.5)" letter-spacing="2">SCORE</text>
+
+  <text x="540" y="950" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.45)" letter-spacing="3">DIAGNOSE BEFORE YOU REDESIGN</text>
+
+  <!-- Title -->
+  <rect x="60" y="1080" width="960" height="180" rx="20" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1160" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="3">BURIFY</text>
+  <text x="540" y="1215" text-anchor="middle" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#ffffff">The 10-Minute Healthcare Website Audit</text>
+  <line x1="120" y1="1250" x2="960" y2="1250" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1285" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">HEALTHCARE AUDITS &amp; CASE STUDIES</text>
+
+  <!-- Accent corner -->
+  <rect x="0" y="0" width="8" height="1350" fill="#34d399" opacity="0.6"/>
+</svg>

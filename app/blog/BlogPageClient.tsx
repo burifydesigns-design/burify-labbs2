@@ -31,7 +31,7 @@ export function BlogPageClient() {
 
   const featuredPost = useMemo(() => {
     if (selectedCategory || searchQuery.trim()) return null;
-    return allPosts[0] ?? null;
+    return allPosts.find((post) => post.featured) ?? allPosts[0] ?? null;
   }, [allPosts, selectedCategory, searchQuery]);
 
   const filteredPosts = useMemo(() => {
@@ -74,8 +74,9 @@ export function BlogPageClient() {
       <Navbar variant="light" showCta />
       <main id="main-content">
         <BlogHeader
-          title="Web design and AI automation insights"
-          description="Practical guidance on building websites, implementing automation, and growing with intelligent systems."
+          eyebrow="Healthcare Insights"
+          title="Digital insights for modern healthcare businesses."
+          description="Practical insights on healthcare websites, SEO, AI automation, patient experience and digital growth."
         />
 
         {featuredPost && (

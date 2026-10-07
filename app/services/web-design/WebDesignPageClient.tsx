@@ -96,31 +96,10 @@ export function WebDesignPageClient() {
                 Burify Labs designs and builds modern, fast, responsive websites structured around your business goals.
                 Every page, interaction, and flow is built to help visitors understand what you do and take the next step.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button variant="outline" size="lg" href="/work">
                   View Our Work
                 </Button>
-              </div>
-            </div>
-            <div className={styles.heroVisual} aria-hidden="true">
-              <div className={styles.browserFrame}>
-                <div className={styles.browserDots}>
-                  <span /><span /><span />
-                </div>
-                <div className={styles.browserBody}>
-                  <div className={styles.mockNav} />
-                  <div className={styles.mockHero}>
-                    <div className={styles.mockLine} style={{ width: "60%" }} />
-                    <div className={styles.mockLine} style={{ width: "80%" }} />
-                    <div className={styles.mockLine} style={{ width: "45%" }} />
-                    <div className={styles.mockButton} />
-                  </div>
-                  <div className={styles.mockGrid}>
-                    <div className={styles.mockCard} />
-                    <div className={styles.mockCard} />
-                    <div className={styles.mockCard} />
-                  </div>
-                </div>
               </div>
             </div>
           </div>

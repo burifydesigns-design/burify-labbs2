@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bgGrad_patient-journey-experience.svg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06060f"/>
+      <stop offset="50%" stop-color="#0a0a1e"/>
+      <stop offset="100%" stop-color="#06060f"/>
+    </linearGradient>
+    <filter id="glow_patient-journey-experience.svg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid_patient-journey-experience.svg" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(107,95,169,0.06)" stroke-width="1"/>
+    </pattern>
+    <pattern id="dots_patient-journey-experience.svg" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="rgba(107,95,169,0.15)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#bgGrad_patient-journey-experience.svg)"/>
+  <rect width="1080" height="1350" fill="url(#grid_patient-journey-experience.svg)"/>
+  <rect width="1080" height="1350" fill="url(#dots_patient-journey-experience.svg)"/>
+
+  <circle cx="540" cy="480" r="220" fill="#D484B2" opacity="0.05" filter="url(#glow_patient-journey-experience.svg)"/>
+
+  <!-- Journey path -->
+  <path d="M 120 520 C 320 380, 760 380, 960 520" stroke="rgba(212,132,178,0.35)" stroke-width="2" stroke-dasharray="8 8" fill="none"/>
+
+  <!-- Stage 1: Awareness -->
+  <circle cx="150" cy="470" r="52" fill="#0d0d1f" stroke="rgba(212,132,178,0.5)" stroke-width="1.5"/>
+  <circle cx="150" cy="470" r="10" fill="#D484B2"/>
+  <text x="150" y="440" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.45)" letter-spacing="2">STAGE 1</text>
+  <text x="150" y="560" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#ffffff" letter-spacing="1">AWARENESS</text>
+  <text x="150" y="584" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.4)">Patient searches</text>
+  <text x="150" y="600" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.4)">for a solution</text>
+
+  <!-- Stage 2: Consideration -->
+  <circle cx="410" cy="410" r="52" fill="#0d0d1f" stroke="rgba(212,132,178,0.5)" stroke-width="1.5"/>
+  <rect x="392" y="392" width="36" height="36" rx="8" fill="none" stroke="#D484B2" stroke-width="2"/>
+  <text x="410" y="380" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.45)" letter-spacing="2">STAGE 2</text>
+  <text x="410" y="500" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#ffffff" letter-spacing="1">CONSIDERATION</text>
+  <text x="410" y="524" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.4)">Compares options</text>
+  <text x="410" y="540" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.4)">reads your website</text>
+
+  <!-- Stage 3: Decision -->
+  <circle cx="670" cy="410" r="52" fill="#0d0d1f" stroke="rgba(212,132,178,0.5)" stroke-width="1.5"/>
+  <path d="M 658 410 l 8 8 l 16 -16" stroke="#D484B2" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="670" y="380" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.45)" letter-spacing="2">STAGE 3</text>
+  <text x="670" y="500" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#ffffff" letter-spacing="1">DECISION</text>
+  <text x="670" y="524" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.4)">Chooses your</text>
+  <text x="670" y="540" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.4)">practice, books</text>
+
+  <!-- Stage 4: Pre-visit -->
+  <circle cx="930" cy="470" r="52" fill="#0d0d1f" stroke="rgba(212,132,178,0.5)" stroke-width="1.5"/>
+  <rect x="912" y="452" width="36" height="36" rx="18" fill="none" stroke="#D484B2" stroke-width="2"/>
+  <path d="M 924 470 h 12 M 930 464 v 12" stroke="#D484B2" stroke-width="2" stroke-linecap="round"/>
+  <text x="930" y="440" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.45)" letter-spacing="2">STAGE 4</text>
+  <text x="930" y="560" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#ffffff" letter-spacing="1">PRE-VISIT</text>
+  <text x="930" y="584" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.4)">Prepares for the</text>
+  <text x="930" y="600" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.4)">appointment</text>
+
+  <!-- Touchpoint chips -->
+  <rect x="120" y="700" width="200" height="48" rx="24" fill="rgba(212,132,178,0.08)" stroke="rgba(212,132,178,0.3)" stroke-width="1"/>
+  <text x="220" y="730" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.6)" letter-spacing="1">Search results</text>
+  <rect x="350" y="700" width="200" height="48" rx="24" fill="rgba(212,132,178,0.08)" stroke="rgba(212,132,178,0.3)" stroke-width="1"/>
+  <text x="450" y="730" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.6)" letter-spacing="1">Your website</text>
+  <rect x="580" y="700" width="200" height="48" rx="24" fill="rgba(212,132,178,0.08)" stroke="rgba(212,132,178,0.3)" stroke-width="1"/>
+  <text x="680" y="730" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.6)" letter-spacing="1">Booking form</text>
+  <rect x="810" y="700" width="200" height="48" rx="24" fill="rgba(212,132,178,0.08)" stroke="rgba(212,132,178,0.3)" stroke-width="1"/>
+  <text x="910" y="730" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.6)" letter-spacing="1">Confirmation email</text>
+
+  <text x="540" y="810" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.45)" letter-spacing="3">THE JOURNEY STARTS BEFORE THE APPOINTMENT</text>
+
+  <!-- Title -->
+  <rect x="60" y="1080" width="960" height="180" rx="20" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1160" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="3">BURIFY</text>
+  <text x="540" y="1215" text-anchor="middle" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#ffffff">The Patient Journey Starts Before the Appointment</text>
+  <line x1="120" y1="1250" x2="960" y2="1250" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1285" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">PATIENT EXPERIENCE &amp; UX</text>
+
+  <!-- Accent corner -->
+  <rect x="0" y="0" width="8" height="1350" fill="#D484B2" opacity="0.6"/>
+</svg>

@@ -33,6 +33,15 @@ export interface BlogPost {
   canonicalUrl?: string;
   relatedServicePaths?: string[];
   status: PublicationStatus;
+  featured?: boolean;
+  cta?: BlogPostCta;
+}
+
+export interface BlogPostCta {
+  label: string;
+  title: string;
+  description: string;
+  href: string;
 }
 
 export interface BlogTopicCluster {

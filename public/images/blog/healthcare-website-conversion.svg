@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bgGrad_healthcare-website-conversion.svg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06060f"/>
+      <stop offset="50%" stop-color="#0a0a1e"/>
+      <stop offset="100%" stop-color="#06060f"/>
+    </linearGradient>
+    <filter id="glow_healthcare-website-conversion.svg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid_healthcare-website-conversion.svg" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(107,95,169,0.06)" stroke-width="1"/>
+    </pattern>
+    <pattern id="dots_healthcare-website-conversion.svg" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="rgba(107,95,169,0.15)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#bgGrad_healthcare-website-conversion.svg)"/>
+  <rect width="1080" height="1350" fill="url(#grid_healthcare-website-conversion.svg)"/>
+  <rect width="1080" height="1350" fill="url(#dots_healthcare-website-conversion.svg)"/>
+
+  <circle cx="540" cy="480" r="200" fill="#2dd4bf" opacity="0.05" filter="url(#glow_healthcare-website-conversion.svg)"/>
+
+  <!-- Browser window: modern clinic website -->
+  <rect x="170" y="180" width="740" height="560" rx="18" fill="#0d0d1f" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+  <rect x="170" y="180" width="740" height="44" rx="18" fill="#12122a"/>
+  <circle cx="205" cy="202" r="7" fill="rgba(255,255,255,0.25)"/>
+  <circle cx="228" cy="202" r="7" fill="rgba(255,255,255,0.25)"/>
+  <circle cx="251" cy="202" r="7" fill="rgba(255,255,255,0.25)"/>
+  <rect x="330" y="192" width="420" height="20" rx="10" fill="rgba(255,255,255,0.06)"/>
+  <text x="540" y="206" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.45)">yourclinic.com</text>
+
+  <!-- Website hero content -->
+  <text x="230" y="290" font-family="ui-monospace, monospace" font-size="13" fill="rgba(255,255,255,0.4)" letter-spacing="3">WELCOME TO NORTHSIDE FAMILY HEALTH</text>
+  <rect x="230" y="310" width="380" height="14" rx="7" fill="rgba(255,255,255,0.75)"/>
+  <rect x="230" y="336" width="300" height="14" rx="7" fill="rgba(255,255,255,0.45)"/>
+  <rect x="230" y="362" width="330" height="14" rx="7" fill="rgba(255,255,255,0.45)"/>
+
+  <!-- Clear CTA button -->
+  <rect x="230" y="410" width="220" height="52" rx="26" fill="#2dd4bf"/>
+  <text x="340" y="443" text-anchor="middle" font-family="ui-monospace, monospace" font-size="15" font-weight="700" fill="#06060f" letter-spacing="1">BOOK APPOINTMENT</text>
+
+  <!-- Secondary info blocks -->
+  <rect x="230" y="500" width="200" height="90" rx="12" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.25)" stroke-width="1"/>
+  <text x="330" y="535" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.5)" letter-spacing="2">SERVICES</text>
+  <rect x="250" y="550" width="160" height="6" rx="3" fill="rgba(45,212,191,0.4)"/>
+  <rect x="250" y="564" width="120" height="6" rx="3" fill="rgba(45,212,191,0.25)"/>
+
+  <rect x="460" y="500" width="200" height="90" rx="12" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.25)" stroke-width="1"/>
+  <text x="560" y="535" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.5)" letter-spacing="2">TRUSTED BY</text>
+  <rect x="480" y="550" width="160" height="6" rx="3" fill="rgba(45,212,191,0.4)"/>
+  <rect x="480" y="564" width="120" height="6" rx="3" fill="rgba(45,212,191,0.25)"/>
+
+  <rect x="690" y="500" width="180" height="90" rx="12" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.25)" stroke-width="1"/>
+  <text x="780" y="535" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.5)" letter-spacing="2">CONTACT</text>
+  <rect x="710" y="550" width="140" height="6" rx="3" fill="rgba(45,212,191,0.4)"/>
+  <rect x="710" y="564" width="100" height="6" rx="3" fill="rgba(45,212,191,0.25)"/>
+
+  <!-- Visitor to appointment flow -->
+  <circle cx="270" cy="830" r="34" fill="none" stroke="#2dd4bf" stroke-width="2"/>
+  <circle cx="270" cy="830" r="12" fill="#2dd4bf" opacity="0.85"/>
+  <text x="270" y="895" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.5)" letter-spacing="2">VISITOR</text>
+
+  <path d="M 330 830 L 470 830" stroke="rgba(45,212,191,0.5)" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M 470 830 l -12 -6 l 0 12 z" fill="#2dd4bf"/>
+
+  <rect x="500" y="790" width="160" height="80" rx="14" fill="#0d0d1f" stroke="rgba(45,212,191,0.35)" stroke-width="1"/>
+  <text x="580" y="822" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.5)" letter-spacing="2">CLEAR VALUE</text>
+  <rect x="520" y="836" width="120" height="6" rx="3" fill="rgba(45,212,191,0.4)"/>
+  <rect x="520" y="850" width="90" height="6" rx="3" fill="rgba(45,212,191,0.25)"/>
+
+  <path d="M 660 830 L 800 830" stroke="rgba(45,212,191,0.5)" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M 800 830 l -12 -6 l 0 12 z" fill="#2dd4bf"/>
+
+  <circle cx="860" cy="830" r="34" fill="none" stroke="#2dd4bf" stroke-width="2"/>
+  <path d="M 848 830 l 8 8 l 16 -16" stroke="#2dd4bf" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="860" y="895" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.5)" letter-spacing="2">BOOKED</text>
+
+  <!-- Title -->
+  <rect x="60" y="1080" width="960" height="180" rx="20" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1160" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="3">BURIFY</text>
+  <text x="540" y="1215" text-anchor="middle" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#ffffff">Why Most Healthcare Websites Don&#8217;t Convert</text>
+  <line x1="120" y1="1250" x2="960" y2="1250" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1285" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">HEALTHCARE WEBSITE DESIGN</text>
+
+  <!-- Accent corner -->
+  <rect x="0" y="0" width="8" height="1350" fill="#2dd4bf" opacity="0.6"/>
+</svg>

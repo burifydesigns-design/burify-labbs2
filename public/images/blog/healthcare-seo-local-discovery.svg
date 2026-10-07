@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bgGrad_healthcare-seo-local-discovery.svg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06060f"/>
+      <stop offset="50%" stop-color="#0a0a1e"/>
+      <stop offset="100%" stop-color="#06060f"/>
+    </linearGradient>
+    <filter id="glow_healthcare-seo-local-discovery.svg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid_healthcare-seo-local-discovery.svg" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(107,95,169,0.06)" stroke-width="1"/>
+    </pattern>
+    <pattern id="dots_healthcare-seo-local-discovery.svg" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="rgba(107,95,169,0.15)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#bgGrad_healthcare-seo-local-discovery.svg)"/>
+  <rect width="1080" height="1350" fill="url(#grid_healthcare-seo-local-discovery.svg)"/>
+  <rect width="1080" height="1350" fill="url(#dots_healthcare-seo-local-discovery.svg)"/>
+
+  <circle cx="540" cy="460" r="200" fill="#4dd9d9" opacity="0.05" filter="url(#glow_healthcare-seo-local-discovery.svg)"/>
+
+  <!-- Search bar -->
+  <rect x="140" y="150" width="800" height="72" rx="36" fill="#0d0d1f" stroke="rgba(77,217,217,0.35)" stroke-width="1"/>
+  <circle cx="190" cy="186" r="16" fill="none" stroke="#4dd9d9" stroke-width="3"/>
+  <line x1="202" y1="198" x2="214" y2="210" stroke="#4dd9d9" stroke-width="3" stroke-linecap="round"/>
+  <text x="250" y="193" font-family="ui-monospace, monospace" font-size="16" fill="rgba(255,255,255,0.75)">family doctor near me</text>
+  <rect x="790" y="168" width="120" height="36" rx="18" fill="#4dd9d9"/>
+  <text x="850" y="192" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" font-weight="700" fill="#06060f">SEARCH</text>
+
+  <!-- Local map -->
+  <rect x="140" y="270" width="480" height="420" rx="18" fill="#0d0d1f" stroke="rgba(77,217,217,0.25)" stroke-width="1"/>
+  <path d="M 140 400 L 620 400" stroke="rgba(77,217,217,0.12)" stroke-width="10"/>
+  <path d="M 140 520 L 620 520" stroke="rgba(77,217,217,0.12)" stroke-width="10"/>
+  <path d="M 300 270 L 300 690" stroke="rgba(77,217,217,0.12)" stroke-width="10"/>
+  <path d="M 480 270 L 480 690" stroke="rgba(77,217,217,0.12)" stroke-width="10"/>
+  <text x="170" y="300" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.35)" letter-spacing="2">LOCAL MAP</text>
+
+  <!-- Map pins -->
+  <g>
+    <circle cx="260" cy="430" r="14" fill="#4dd9d9" opacity="0.25"/>
+    <path d="M 260 412 c -10 0 -16 7 -16 15 c 0 11 16 25 16 25 s 16 -14 16 -25 c 0 -8 -6 -15 -16 -15 z" fill="#4dd9d9"/>
+    <circle cx="260" cy="427" r="6" fill="#06060f"/>
+  </g>
+  <g opacity="0.45">
+    <path d="M 380 480 c -8 0 -13 6 -13 12 c 0 9 13 20 13 20 s 13 -11 13 -20 c 0 -6 -5 -12 -13 -12 z" fill="rgba(255,255,255,0.5)"/>
+  </g>
+  <g opacity="0.45">
+    <path d="M 500 380 c -8 0 -13 6 -13 12 c 0 9 13 20 13 20 s 13 -11 13 -20 c 0 -6 -5 -12 -13 -12 z" fill="rgba(255,255,255,0.5)"/>
+  </g>
+  <text x="260" y="480" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="#4dd9d9" letter-spacing="1">YOUR PRACTICE</text>
+
+  <!-- Ranking list -->
+  <rect x="660" y="270" width="280" height="420" rx="18" fill="#0d0d1f" stroke="rgba(77,217,217,0.25)" stroke-width="1"/>
+  <text x="800" y="310" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">LOCAL PACK</text>
+
+  <rect x="690" y="340" width="220" height="64" rx="10" fill="rgba(77,217,217,0.1)" stroke="rgba(77,217,217,0.4)" stroke-width="1"/>
+  <text x="706" y="368" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#4dd9d9">#1</text>
+  <rect x="740" y="354" width="150" height="8" rx="4" fill="rgba(77,217,217,0.55)"/>
+  <rect x="740" y="372" width="110" height="8" rx="4" fill="rgba(77,217,217,0.3)"/>
+
+  <rect x="690" y="420" width="220" height="64" rx="10" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="706" y="448" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="rgba(255,255,255,0.45)">#2</text>
+  <rect x="740" y="434" width="150" height="8" rx="4" fill="rgba(255,255,255,0.25)"/>
+  <rect x="740" y="452" width="110" height="8" rx="4" fill="rgba(255,255,255,0.15)"/>
+
+  <rect x="690" y="500" width="220" height="64" rx="10" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="706" y="528" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="rgba(255,255,255,0.45)">#3</text>
+  <rect x="740" y="514" width="150" height="8" rx="4" fill="rgba(255,255,255,0.25)"/>
+  <rect x="740" y="532" width="110" height="8" rx="4" fill="rgba(255,255,255,0.15)"/>
+
+  <rect x="690" y="580" width="220" height="64" rx="10" fill="rgba(232,69,58,0.06)" stroke="rgba(232,69,58,0.3)" stroke-width="1"/>
+  <text x="706" y="608" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#e8453a">?</text>
+  <rect x="740" y="594" width="150" height="8" rx="4" fill="rgba(232,69,58,0.35)"/>
+  <rect x="740" y="612" width="110" height="8" rx="4" fill="rgba(232,69,58,0.2)"/>
+  <text x="800" y="668" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(232,69,58,0.7)" letter-spacing="1">NOT FOUND</text>
+
+  <!-- Discovery flow -->
+  <text x="540" y="780" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.45)" letter-spacing="3">SEARCH &#8594; LOCAL DISCOVERY &#8594; YOUR WEBSITE</text>
+
+  <!-- Title -->
+  <rect x="60" y="1080" width="960" height="180" rx="20" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1160" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="3">BURIFY</text>
+  <text x="540" y="1215" text-anchor="middle" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#ffffff">Why Your Healthcare Practice Isn&#8217;t Ranking</text>
+  <line x1="120" y1="1250" x2="960" y2="1250" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1285" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">HEALTHCARE SEO</text>
+
+  <!-- Accent corner -->
+  <rect x="0" y="0" width="8" height="1350" fill="#4dd9d9" opacity="0.6"/>
+</svg>

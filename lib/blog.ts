@@ -33,6 +33,10 @@ export function getPostsByTag(tag: string): BlogPost[] {
   return getPublishedPosts().filter((post) => post.tags.includes(tag));
 }
 
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").toLowerCase();
+}
+
 export function searchPosts(query: string): BlogPost[] {
   const normalizedQuery = query.toLowerCase().trim();
 
@@ -47,6 +51,7 @@ export function searchPosts(query: string): BlogPost[] {
       post.category,
       ...post.tags,
       post.author.name,
+      post.content ? stripHtml(post.content) : "",
     ]
       .join(" ")
       .toLowerCase();
@@ -71,11 +76,42 @@ export function getRelatedPosts(post: BlogPost, limit = 3): BlogPost[] {
     return { post: candidate, score };
   });
 
-  return scored
+  const related = scored
     .filter((item) => item.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, limit)
     .map((item) => item.post);
+
+  if (related.length >= limit) {
+    return related;
+  }
+
+  const fallback = published
+    .filter((candidate) => !related.some((item) => item.id === candidate.id))
+    .sort((a, b) => {
+      const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+      const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+      return dateB - dateA;
+    })
+    .slice(0, limit - related.length);
+
+  return [...related, ...fallback];
+}
+
+export function getAdjacentPosts(
+  post: BlogPost,
+): { previous: BlogPost | null; next: BlogPost | null } {
+  const sorted = sortPosts(getPublishedPosts(), "newest");
+  const index = sorted.findIndex((item) => item.id === post.id);
+
+  if (index === -1) {
+    return { previous: null, next: null };
+  }
+
+  return {
+    previous: index > 0 ? sorted[index - 1] : null,
+    next: index < sorted.length - 1 ? sorted[index + 1] : null,
+  };
 }
 
 export function paginatePosts<T extends BlogPost>(

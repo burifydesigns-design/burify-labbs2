@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1080">
+  <defs>
+    <linearGradient id="bgGrad_healthcare-ai-automation.svg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06060f"/>
+      <stop offset="50%" stop-color="#0a0a1e"/>
+      <stop offset="100%" stop-color="#06060f"/>
+    </linearGradient>
+    <filter id="glow_healthcare-ai-automation.svg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid_healthcare-ai-automation.svg" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(107,95,169,0.06)" stroke-width="1"/>
+    </pattern>
+    <pattern id="dots_healthcare-ai-automation.svg" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="rgba(107,95,169,0.15)"/>
+    </pattern>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#bgGrad_healthcare-ai-automation.svg)"/>
+  <rect width="1080" height="1350" fill="url(#grid_healthcare-ai-automation.svg)"/>
+  <rect width="1080" height="1350" fill="url(#dots_healthcare-ai-automation.svg)"/>
+
+  <circle cx="540" cy="470" r="210" fill="#6B5FA9" opacity="0.07" filter="url(#glow_healthcare-ai-automation.svg)"/>
+
+  <!-- Manual tasks input -->
+  <text x="180" y="180" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">REPETITIVE TASKS</text>
+  <rect x="80" y="210" width="200" height="56" rx="12" fill="#0d0d1f" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="180" y="244" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.65)">Appointment reminders</text>
+  <rect x="80" y="282" width="200" height="56" rx="12" fill="#0d0d1f" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="180" y="316" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.65)">Patient intake forms</text>
+  <rect x="80" y="354" width="200" height="56" rx="12" fill="#0d0d1f" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="180" y="388" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.65)">Scheduling &amp; follow-ups</text>
+  <rect x="80" y="426" width="200" height="56" rx="12" fill="#0d0d1f" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <text x="180" y="460" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.65)">Billing administration</text>
+
+  <!-- Automation core -->
+  <circle cx="540" cy="360" r="110" fill="#0d0d1f" stroke="rgba(107,95,169,0.5)" stroke-width="1.5"/>
+  <circle cx="540" cy="360" r="110" fill="none" stroke="rgba(107,95,169,0.2)" stroke-width="1" stroke-dasharray="4 8"/>
+  <circle cx="540" cy="360" r="72" fill="rgba(107,95,169,0.12)" stroke="rgba(139,129,227,0.4)" stroke-width="1"/>
+  <text x="540" y="352" text-anchor="middle" font-family="ui-monospace, monospace" font-size="15" font-weight="700" fill="#8D81E3" letter-spacing="2">AI</text>
+  <text x="540" y="376" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.55)" letter-spacing="2">AUTOMATION</text>
+  <text x="540" y="394" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9" fill="rgba(255,255,255,0.35)" letter-spacing="1">ADMINISTRATIVE SUPPORT</text>
+
+  <!-- Flow lines -->
+  <path d="M 280 238 L 420 330" stroke="rgba(107,95,169,0.45)" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M 280 310 L 430 350" stroke="rgba(107,95,169,0.45)" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M 280 382 L 430 372" stroke="rgba(107,95,169,0.45)" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M 280 454 L 420 392" stroke="rgba(107,95,169,0.45)" stroke-width="2" stroke-dasharray="6 6"/>
+
+  <!-- Outputs -->
+  <text x="880" y="180" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">STAFF TIME RETURNED</text>
+  <rect x="780" y="210" width="220" height="56" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.4)" stroke-width="1"/>
+  <text x="890" y="244" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.7)">Fewer manual reminders</text>
+  <rect x="780" y="282" width="220" height="56" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.4)" stroke-width="1"/>
+  <text x="890" y="316" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.7)">Faster intake processing</text>
+  <rect x="780" y="354" width="220" height="56" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.4)" stroke-width="1"/>
+  <text x="890" y="388" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.7)">Fewer scheduling errors</text>
+  <rect x="780" y="426" width="220" height="56" rx="12" fill="#0d0d1f" stroke="rgba(107,95,169,0.4)" stroke-width="1"/>
+  <text x="890" y="460" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.7)">More time for patients</text>
+
+  <path d="M 660 330 L 770 238" stroke="rgba(107,95,169,0.45)" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M 660 350 L 770 310" stroke="rgba(107,95,169,0.45)" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M 660 372 L 770 382" stroke="rgba(107,95,169,0.45)" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M 660 392 L 770 454" stroke="rgba(107,95,169,0.45)" stroke-width="2" stroke-dasharray="6 6"/>
+
+  <!-- Human oversight note -->
+  <rect x="240" y="560" width="600" height="90" rx="14" fill="rgba(107,95,169,0.08)" stroke="rgba(107,95,169,0.3)" stroke-width="1"/>
+  <text x="540" y="600" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="rgba(255,255,255,0.65)" letter-spacing="1">HUMAN OVERSIGHT REQUIRED FOR CLINICAL DECISIONS</text>
+  <text x="540" y="626" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="rgba(255,255,255,0.4)" letter-spacing="1">AI SUPPORTS ADMINISTRATIVE WORK &#8212; IT DOES NOT DIAGNOSE OR TREAT</text>
+
+  <!-- Title -->
+  <rect x="60" y="1080" width="960" height="180" rx="20" fill="#0d0d1f" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1160" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="3">BURIFY</text>
+  <text x="540" y="1215" text-anchor="middle" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#ffffff">10 Healthcare Tasks That Can Be Automated</text>
+  <line x1="120" y1="1250" x2="960" y2="1250" stroke="rgba(107,95,169,0.25)" stroke-width="1"/>
+  <text x="540" y="1285" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="2">HEALTHCARE AI AUTOMATION</text>
+
+  <!-- Accent corner -->
+  <rect x="0" y="0" width="8" height="1350" fill="#6B5FA9" opacity="0.6"/>
+</svg>

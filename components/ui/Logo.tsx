@@ -51,7 +51,7 @@ export function Logo({
           alt="Burify Labs"
           width={dimensions.width}
           height={dimensions.height}
-          className="object-contain"
+          className="object-contain w-full h-full"
           priority
         />
       </div>
@@ -97,7 +97,7 @@ export function LogoIcon({
         alt="Burify Labs"
         width={dimensions.width}
         height={dimensions.height}
-        className="object-contain"
+        className="object-contain w-full h-full"
         priority
       />
     </div>
@@ -123,7 +123,7 @@ export function LogoMark({
         alt="Burify Labs"
         width={dimensions.width}
         height={dimensions.height}
-        className="object-contain"
+        className="object-contain w-full h-full"
         priority
       />
     </div>
