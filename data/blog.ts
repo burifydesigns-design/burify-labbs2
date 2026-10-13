@@ -4229,6 +4229,625 @@ export const blogPosts: BlogPost[] = [
       href: "/contact",
     },
   },
+  {
+    id: "healthcare-website-speed-costs-patients",
+    slug: "healthcare-website-speed-costs-patients",
+    title: "Healthcare Website Speed: How a Slow Website Can Cost You Patients",
+    description: "A slow healthcare website loses patients at the moment they try to act. Here is how to find out why it is slow, rather than applying generic tips that may not apply.",
+    excerpt: "A slow healthcare website loses patients at the moment they try to act. Here is how to diagnose the actual cause before spending anything on fixes.",
+    content: `
+<p>A patient does not sit patiently through a loading healthcare website. They switch to a competitor. This happens quietly, with no error message and no indication until a month of enquiry volume goes by.</p>
+<p>The usual advice is a checklist of generic tips: compress images, remove unused plugins, enable caching. That advice is not wrong. It is just that in most practices the site is slow for one or two specific reasons, and fixing the wrong one produces a faster score on a test and no change in what a patient experiences.</p>
+
+<h2 id="why-this-needs-diagnosing">Why this needs diagnosing first</h2>
+<p>Healthcare sites have a particular set of constraints. They often run on a shared host, carry a booking widget loaded from a third-party service, embed a map, display large admission photography, and are managed by someone who is not a developer and has good reasons not to want to be.</p>
+<p>So before changing anything, establish what "slow" means in each of three ways, because they are different problems with different owners.</p>
+<table>
+  <thead>
+    <tr>
+      <th>What is slow</th>
+      <th>What the patient experiences</th>
+      <th>Where it usually comes from</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Initial load</td>
+      <td>A blank or half-rendered screen; text that appears late</td>
+      <td>Large images, render-blocking resources, slow server response</td>
+    </tr>
+    <tr>
+      <td>Interaction response</td>
+      <td>Taps that do nothing for a moment; a form that freezes</td>
+      <td>Excess JavaScript executing on the main thread</td>
+    </tr>
+    <tr>
+      <td>Visual stability</td>
+      <td>Content that jumps as it loads; a mis-tapped link</td>
+      <td>Images without reserved dimensions, late-loading elements</td>
+    </tr>
+  </tbody>
+</table>
+<p>These map closely onto the three Core Web Vitals Google uses as its current performance metrics, but the practical value of the distinction is that each has a different cause. A site can have a good initial load and still be miserable to use because it shifts under a patient's finger.</p>
+
+<h2 id="the-common-causes">The causes, and how to tell which you have</h2>
+
+<h3 id="large-images">Large images</h3>
+<p>This is the most common single cause on practice sites, and it is almost always admission photography. A modern phone camera produces a 4,000-pixel-wide file; a clinic website displays it at about 1,000 pixels wide. Uploading the original can mean a homepage carrying tens of megabytes of image data.</p>
+<p>Open the network panel of your browser's developer tools on your own homepage and sort by size. If the top few entries are photographs from your clinic, you have found it. The fix is exporting images at roughly twice their display size in a web format, not removing the photography.</p>
+
+<h3 id="excess-javascript">Excess JavaScript</h3>
+<p>JavaScript is what makes a booking widget, a mobile menu, a slider, a chat widget and a cookie banner work. Each is small. Together they are often the largest single cost on the page, and they execute on the patient's device, which is usually older than the one the site was built on.</p>
+<p>This is the usual cause of an interaction-response problem. The tell is that scrolling and menu toggles work but the page stutters, and a performance trace shows long tasks where nothing was happening. The fix is usually removing a tool rather than optimising it.</p>
+
+<h3 id="third-party-scripts">Third-party scripts</h3>
+<p>A healthcare site is often a collection of other people's code: a booking widget, a reviews widget, a chat bubble, a map, an analytics tag. Each is loaded from someone else's server, which means the practice's load time now depends on the performance of several companies it has no relationship with.</p>
+<p>Load the page with those tools blocked and compare. If the page is dramatically faster, the diagnosis is third-party scripts. The practical question is then which of them the practice actually needs, and whether a booking widget earns its cost if it delays the page for every visitor who never books.</p>
+
+<h3 id="slow-hosting-and-back-end">Slow hosting and back end</h3>
+<p>If the page is slow everywhere, including in a preview tool, and no single asset stands out, the server is the likely cause. This is common on cheap shared hosting, where the server may respond slowly before a single byte of the page arrives.</p>
+<p>Time to first byte in a test tool is the signal. If it is a substantial fraction of total load time, the practice is paying for slow infrastructure, and the cheapest fix is often moving to a better host rather than optimising the site.</p>
+
+<h3 id="render-blocking-resources">Render-blocking resources</h3>
+<p>Web fonts, stylesheets and certain scripts must be handled before the browser can show anything. A page carrying six web fonts, three of which are unused, will wait before showing text. The symptom is a delay where the patient sees nothing at all, on a connection that should be fine.</p>
+
+<h3 id="layout-shift">Layout shift</h3>
+<p>Images without width and height, banners injected after load, and late-arriving content all cause the page to rearrange while a patient is reading or reaching. The specific harm is a mis-tap: the patient aims for a link and the layout moves, opening something else. This is the most underrated performance problem on healthcare sites because it produces damage while looking superficially fine.</p>
+
+<h3 id="mobile-network-conditions">Mobile network conditions</h3>
+<p>A site tested on office wifi tells you almost nothing about what a patient experiences on a train, in a clinic waiting room, or in a part of the building with poor signal. The recommended approach is to measure what real users experience rather than only what a lab test reports, which is why Google's Core Web Vitals are described as field metrics first and why lab tools cannot fully stand in for them, as the <a href="https://web.dev/articles/vitals" target="_blank" rel="noopener noreferrer">web.dev article on Web Vitals</a> sets out.</p>
+<p>In practice, the honest way to check is to load your own site on a phone, on mobile data, with the page not already cached, and time it. That number is more representative than a lab score on a desktop.</p>
+
+<h3 id="slow-booking-widgets">Slow booking widgets</h3>
+<p>The single most damaging element on a healthcare site is the one the patient must wait for before they can act. If the booking widget takes several seconds to become interactive, the practice has effectively made every patient stare at a loading spinner at the exact moment they decided to book.</p>
+<p>This deserves its own diagnosis. Check when the widget becomes clickable, not when it renders. If it is the slowest thing on the page, its cost is disproportionate to its size, and a plain contact form beside it is a sensible fallback while it is dealt with.</p>
+
+<h2 id="field-versus-lab-data">Field data and lab data are different measurements</h2>
+<p>This distinction decides how to interpret any score you are given.</p>
+<p>Lab data comes from a single simulated load under controlled conditions. It is repeatable, which makes it useful for comparing a change against a baseline, and it is what tools like Lighthouse produce. It cannot measure responsiveness to real interaction, and it does not know what device or network your patients use.</p>
+<p>Field data comes from real users of your actual site. It is the measurement Google uses for Core Web Vitals, and it is available through tools that report real user experience. It is what your patients actually experienced.</p>
+<p>The consequence is that a good lab score does not mean the site is fast for patients, and a poor field score is the one to act on. Where the two disagree, the field data is describing reality and the lab measurement is describing a test.</p>
+<p>Google also notes that performance varies substantially with the user's device capabilities, network conditions, and whatever else the device is doing at the time. That is why the recommended target is the 75th percentile of page loads rather than an average: an average lets a fast minority hide a slow majority, which on a practice site usually means hiding the patients on older phones.</p>
+<p>There is a practical limit to field data too. It reports what happened to people who already loaded the page, and it is aggregated across a page rather than a session. It cannot tell you what would have happened had the page been faster, which is the question the practice actually wants answered.</p>
+
+<h2 id="a-prioritised-checklist">A prioritised improvement checklist</h2>
+<p>Work down this list and stop when the diagnosis is resolved. It is ordered by the usual ratio of gain to effort, not by what is most technically interesting.</p>
+<ol>
+  <li><strong>Measure first, once.</strong> Load your homepage and one service page on a phone on mobile data and record the time. This is your baseline.</li>
+  <li><strong>Export the largest images properly.</strong> Resize to about twice display size, convert to a web format, and add width and height attributes.</li>
+  <li><strong>Remove one tool.</strong> Identify the third-party widget adding the most weight and decide whether the practice needs it. Removing one is usually cheaper than optimising three.</li>
+  <li><strong>Make the booking path usable before the widget loads.</strong> A visible phone number and a short contact form protect the practice while performance work happens.</li>
+  <li><strong>Address time to first byte.</strong> If the server is slow, no amount of image work compensates.</li>
+  <li><strong>Fix layout shift.</strong> Reserve space for images and only load banners that do not move the page.</li>
+</ol>
+<p>Two cautions. Measure after each change, because a fix that helps in a lab can hurt on a real phone. And do not chase a perfect score; the practical target is that the page is usable and the booking path is quick on a mid-range phone on mobile data.</p>
+
+<h2 id="the-limits">The limits</h2>
+<p>None of this guarantees an improvement in rankings, enquiries or bookings. A faster site removes a reason for patients to leave; it does not create demand the practice does not have, and it does not fix a site that is confusing or a service that is unavailable.</p>
+<p>It is also worth being honest about the ceiling. A practice on a booking widget it cannot change has a genuine constraint, and the right response may be to make the site fast everywhere except that widget and make sure patients have another route to book, rather than to spend money fighting someone else's code.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-14",
+    updatedAt: "2026-10-14",
+    category: "Healthcare Website Design",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "healthcare website design",
+      "website speed",
+      "core web vitals",
+      "healthcare performance",
+      "page speed",
+    ],
+    featuredImage: "/images/blog/day-5-healthcare-website-speed.png",
+    featuredImageAlt:
+      "Healthcare website design hero image of a patient waiting on a slowly loading clinic website on a phone, with the headline When Your Healthcare Website Is Too Slow",
+    readingTime: 8,
+    seoTitle: "Healthcare Website Speed: How a Slow Website Costs Patients | Burify",
+    seoDescription: "A slow healthcare website loses patients at the moment they act. Learn to diagnose the real cause instead of applying generic tips, and which fixes to prioritise.",
+    canonicalUrl: "/blog/healthcare-website-speed-costs-patients",
+    relatedServicePaths: ["/services/web-design"],
+    status: "published",
+    featured: true,
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "how-google-evaluates-healthcare-content",
+    slug: "how-google-evaluates-healthcare-content",
+    title: "How Google Evaluates Healthcare Content",
+    description: "Health topics carry extra scrutiny in search. Here is what Google actually publishes about helpful, reliable content, and an editorial process to produce it.",
+    excerpt: "Health content carries extra scrutiny in search. Here is what Google publishes about helpful, reliable content, and a process your practice can run to meet that bar.",
+    content: `
+<p>Healthcare sits in the awkward middle of search: it is commercial, it is high-stakes, and most of the people writing it are marketing rather than clinical professionals. A dermatology practice that publishes a page about acne treatment is competing against hospital sites, national health services, and pharmacy chains with clinical departments.</p>
+<p>The tempting response is to write more, faster, and with more keywords. This is roughly the opposite of what Google's published guidance describes, and it is also how a practice ends up with 40 pages nobody reads and a regulatory problem.</p>
+<p>What follows is what the guidance actually says, and an editorial process small practices can run.</p>
+
+<h2 id="what-google-publishes">What Google actually publishes</h2>
+<p>Google's guidance on <a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" target="_blank" rel="noopener noreferrer">creating helpful, reliable, people-first content</a> is the primary reference. Several points matter directly for healthcare.</p>
+<p><strong>Content should be created to help people, not to manipulate rankings.</strong> The guidance asks whether the content is created primarily for people visiting the page, and says content written to rank may stop working well.</p>
+<p><strong>Health is one of the categories Google singles out as high-stakes.</strong> The guidance discusses experience, expertise, authoritativeness and trustworthiness together with "Your Money or Your Life" topics, which explicitly include health, financial stability and safety. It states that systems give more weight to strong author credentials for these subjects.</p>
+<p><strong>Trust is treated as the most important of those four.</strong> The guidance says so directly.</p>
+<p><strong>Fabricating creator profiles is treated as deception.</strong> The guidance specifically calls out AI-generated headshots, made-up names and false credentials used to make content appear written by human experts.</p>
+<p><strong>Automation for ranking manipulation is treated as a spam violation.</strong> The guidance points to Google's spam policies, which define scaled content abuse as generating many pages primarily to manipulate rankings and not help users, "no matter how it's created."</p>
+<p><strong>There is no preferred word count.</strong> The guidance explicitly asks whether you are writing to a word count you have heard Google prefers, and answers that no such count exists.</p>
+<p><strong>Dates should not be changed to appear fresh.</strong> Updating a publication date without a substantial content change is flagged as a warning sign.</p>
+<p>One caution that saves arguments in practices: Google's guidance is advisory, not a specification. It does not give you a score, and it does not promise a ranking. Treat it as a description of the direction the systems are trying to move in, not a checklist that guarantees results.</p>
+
+<h2 id="what-experience-and-authority-mean-for-a-clinic">What experience and authority mean for a clinic</h2>
+<p>The phrase E-E-A-T gets used as though it were a measurable quantity applied by tools. It is not. Google's own guidance describes it as a mix of factors, not a specific ranking factor, so any tool claiming to score your E-E-A-T is producing its own metric, not reading Google's.</p>
+<p>What a practice can actually do is line its content up against the underlying ideas.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Principle</th>
+      <th>What it looks like on a practice site</th>
+      <th>What does not count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Experience</td>
+      <td>Content drawing on what the practice actually does: how a first appointment runs, what recovery involves</td>
+      <td>Generic descriptions copied from a template</td>
+    </tr>
+    <tr>
+      <td>Expertise</td>
+      <td>Named author with real, verifiable qualifications, and content reviewed by a qualified clinician</td>
+      <td>An invented reviewer, or an AI-generated headshot and name</td>
+    </tr>
+    <tr>
+      <td>Authoritativeness</td>
+      <td>Content the practice can point to being referenced or linked from credible sources in its field</td>
+      <td>Self-declared labels like "leading" or "trusted"</td>
+    </tr>
+    <tr>
+      <td>Trustworthiness</td>
+      <td>Accurate, current, clearly sourced content, with a real contact route</td>
+      <td>Claims that cannot be checked, and stale credentials</td>
+    </tr>
+  </tbody>
+</table>
+<p>The row worth pausing on is the last one. Most practice content fails on trust for mundane reasons rather than dishonesty: out-of-date fees, a clinician who has left, an opening time that changed, a claim about an insurance partnership that expired in 2023.</p>
+
+<h2 id="an-editorial-framework">An editorial framework a practice can run</h2>
+<p>Small practices do not need a publishing operation. They need enough process to avoid publishing things that are wrong and never revisited.</p>
+<p><strong>1. Decide the page's job before writing.</strong> Answer one question for a patient or document an administrative process. If neither is true, do not write the page.</p>
+<p><strong>2. Name the author.</strong> A real person, with the qualification the practice can stand behind. If nobody in the practice is qualified to write about the topic, the practice should not be publishing clinical content on it.</p>
+<p><strong>3. Source every claim.</strong> Where the page states something clinical, it links to where that came from. If the claim cannot be sourced, either remove it or mark it as something the practice cannot verify.</p>
+<p><strong>4. Separate education from marketing.</strong> A page that explains a condition and then asks the reader to book is doing two things. That is legitimate as long as the educational part is not quietly shaped to make the practice sound better than the evidence supports.</p>
+<p><strong>5. Have a qualified person review clinical content.</strong> For anything describing a condition or treatment, this is the step that keeps the practice honest and out of regulatory trouble. It should be recorded, not verbal.</p>
+<p><strong>6. Review on a schedule, and log the review.</strong> Google's guidance flags date-shuffling without change, so the honest approach is to update the date only when something substantive changed. Keep a short record of when the page was reviewed and by whom.</p>
+<p><strong>7. Delete rather than maintain what is unused.</strong> A thin page nobody reads is a cost. Removing or consolidating is often better than leaving it.</p>
+
+<h2 id="patient-friendly-language">Translating without diluting</h2>
+<p>Two different problems get confused here. The first is making a page readable, which is genuinely useful and covered in our guide to <a href="/blog/healthcare-website-copy-patients-understand">writing healthcare copy patients understand</a>. The second is making content more appealing by softening accuracy, which is not the same thing.</p>
+<p>The distinction is: if a patient reading the plain-language version would believe something untrue or would make a decision on a misleading basis, that is a clinical accuracy problem, not a writing problem. It requires review by a qualified professional.</p>
+
+<h2 id="the-limits">The limits</h2>
+<p>None of this makes a page rank. Google's systems consider relevance, competition, links, and factors outside the page, and the guidance itself says search quality raters have no control over ranking. A practice that follows this process and still does not rank has not failed; it has removed one possible cause.</p>
+<p>It is also fair to say that this is a floor, not a differentiator. A practice that publishes accurate, authored, sourced content is doing what it should. The pages that separate practices from each other usually involve understanding the specific questions patients ask before booking, which is what the <a href="/blog/healthcare-service-pages-seo">service page guide</a> covers.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-14",
+    updatedAt: "2026-10-14",
+    category: "Healthcare SEO",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "healthcare SEO",
+      "healthcare content",
+      "medical content",
+      "E-E-A-T",
+      "content credibility",
+    ],
+    featuredImage: "/images/blog/day-5-healthcare-content-quality.png",
+    featuredImageAlt:
+      "Healthcare SEO hero image of a clinician reviewing clinical literature beside a laptop, with the headline What Makes Healthcare Content Credible?",
+    readingTime: 7,
+    seoTitle: "How Google Evaluates Healthcare Content | Burify",
+    seoDescription: "What Google publishes about helpful, reliable health content, what E-E-A-T does and does not mean, and an editorial framework practices can run to meet the bar.",
+    canonicalUrl: "/blog/how-google-evaluates-healthcare-content",
+    relatedServicePaths: ["/services/web-design"],
+    status: "published",
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "5-healthcare-workflows-you-can-automate",
+    slug: "5-healthcare-workflows-you-can-automate",
+    title: "5 Healthcare Workflows You Could Automate",
+    description: "Five administrative workflows examined for what can be automated, what needs staff oversight, how they fail, and how to choose which to start with.",
+    excerpt: "Five administrative workflows examined for what can be automated, what needs staff oversight, how each one fails, and how to choose where to start.",
+    content: `
+<p>Most practices that automate the wrong thing do it because they picked a workflow by how easy it was, rather than by how it behaves when something goes wrong. A reminder system that fails quietly is very different from an intake form that fails visibly, and the difference matters far more than how much either one saves.</p>
+<p>Below are five administrative workflows. Each is examined the same way: what the problem is, what the automatable and staff-overseen steps are, how it fails, what privacy applies, and what a useful success measure looks like. No time savings, costs or return figures appear here, because none of those can be honestly given in the abstract.</p>
+
+<div class="article-callout">
+  <p class="article-callout__title">The boundary that does not move</p>
+  <p>Automation here is administrative. It sends, reads forms, routes, and reminds. It must not assess symptoms, interpret clinical information, make clinical decisions, or handle anything that may be an emergency. Where a system interprets unstructured text, it is doing so for routing only, and it needs a visible escalation path to a human.</p>
+</div>
+
+<h2 id="reminders-and-confirmations">1. Appointment reminders and confirmations</h2>
+<p><strong>Problem:</strong> Patients forget, and staff spend part of the day chasing. This is the workflow every practice asks about first, usually because the volume is obvious.</p>
+<p><strong>Rule-based or AI?</strong> Rule-based. The reminder is a scheduled message triggered by a record, not an interpretation of anything.</p>
+<p><strong>Automatable:</strong> Sending a confirmation when an appointment is booked, sending a reminder at a fixed time before it, and offering a rescheduling link.</p>
+<p><strong>Staff-overseen:</strong> Responding to what comes back, and anything that suggests the appointment should not happen.</p>
+<p><strong>How it fails:</strong> A reminder goes out for an appointment that was cancelled but not synced, producing the exact confusion automation was meant to prevent. A patient replies with a clinical question that nothing answers. A duplicate sends when a record updates twice.</p>
+<p><strong>Privacy:</strong> Reminders are a disclosure of the fact of an appointment. Whether a message may go to a number the patient shared, and what it may say, depends on the jurisdiction and the practice's own consent record. Keep the content minimal, and do not include condition details.</p>
+<p><strong>Success measure:</strong> Reminders delivered without needing correction, and patient replies that reached a person rather than a template.</p>
+
+<h2 id="enquiry-routing">2. Enquiry routing</h2>
+<p><strong>Problem:</strong> Website enquiries land in one shared inbox, and the wrong person opens them first. A billing question sits for two days; a new-patient enquiry gets answered by the practice manager who does not handle new patients.</p>
+<p><strong>Rule-based or AI?</strong> Often both. Sorting by which service was selected on the form is rule-based. Reading free-text to guess whether it is a new patient, billing or rescheduling is AI interpreting unstructured text, and it will be wrong sometimes.</p>
+<p><strong>Automatable:</strong> Acknowledging receipt, extracting the selected service and contact details, and notifying the right person with the enquiry attached.</p>
+<p><strong>Staff-overseen:</strong> Deciding what the enquiry actually is when it does not fit a category, and the reply itself.</p>
+<p><strong>How it fails:</strong> An ambiguous message gets routed confidently to the wrong team and nobody notices for a day. This is why an unclassified bucket that a person clears daily is worth having, and why confidence thresholds that send to a human by default are the safer default.</p>
+<p><strong>Privacy:</strong> Enquiries often contain more personal information than the practice intended to collect. Data minimisation applies: ask for the minimum, tell the patient where it goes, and do not invite clinical detail into an unapproved form.</p>
+<p><strong>Success measure:</strong> Share of enquiries reaching the right person without a forward. If that number is not near-perfect, the routing is the problem, not the volume.</p>
+
+<h2 id="new-patient-administrative-intake">3. New-patient administrative intake</h2>
+<p><strong>Problem:</strong> A new patient repeats the same details three times: once on the website, once at reception, once on a clipboard.</p>
+<p><strong>Rule-based or AI:</strong> Both, and this is where the distinction actually matters. Which fields were provided is rule-based. Whether a document is legible, complete, and the one that was asked for is judgement.</p>
+<p><strong>Automatable:</strong> Sending the intake form, following up if it is not returned, and filing what comes back into the practice system.</p>
+<p><strong>Staff-overseen:</strong> Verifying what was filed, and handling anything missing or inconsistent. A mismatch between an uploaded document and the stated name is a judgement call.</p>
+<p><strong>How it fails:</strong> Missing data. A patient submits a form with a blank field and automation files it as complete, so the gap surfaces at check-in instead of at submission.</p>
+<p><strong>Privacy:</strong> This is the highest-risk of the five, because intake collects identity and often insurance and clinical information. The collection point has to be a system reviewed and approved for that purpose. Generic web forms are not an appropriate home for detailed medical information, and this is worth stating explicitly to whoever built the form.</p>
+<p><strong>Success measure:</strong> Share of intake records arriving complete without staff chasing, rather than speed of collection.</p>
+
+<h2 id="internal-task-and-referral-tracking">4. Internal task and referral tracking</h2>
+<p><strong>Problem:</strong> Referrals and internal follow-ups live in memory and sticky notes. Something is missed when a person is on leave.</p>
+<p><strong>Rule-based or AI:</strong> Rule-based. This is a state machine: a task exists, it has an owner, it moves between states.</p>
+<p><strong>Automatable:</strong> Creating a task when a trigger fires, notifying the owner, escalating if it passes a deadline, and reporting on what is open.</p>
+<p><strong>Staff-overseen:</strong> Every decision inside the task.</p>
+<p><strong>How it fails:</strong> Duplicate tasks created by a repeated trigger, and an escalation that nobody owns, so the notification becomes noise. The fix is an idempotent trigger and a named owner.</p>
+<p><strong>Privacy:</strong> Lower than the others, but task descriptions leak. A task that names a condition is exposing information in a screen visible to people who do not need it.</p>
+<p><strong>Success measure:</strong> Tasks closed without escalation versus escalated and actioned, which distinguishes a workflow that works from one that is simply reminding people of problems.</p>
+
+<h2 id="post-appointment-follow-up">5. Post-appointment administrative follow-up</h2>
+<p><strong>Problem:</strong> After an appointment, someone needs to send preparation instructions for the next one, request a review, or check that a form was returned. It is administrative, and it is easy to forget.</p>
+<p><strong>Rule-based or AI:</strong> Rule-based for sending. Reading a patient's free-text reply to decide whether it needs a clinical response is AI, and the answer is escalate.</p>
+<p><strong>Automatable:</strong> Sending preparation instructions, sending a review request where permitted, and flagging outstanding paperwork.</p>
+<p><strong>Staff-overseen:</strong> Any reply that includes symptoms, questions about medication, or anything that reads as a request for clinical advice.</p>
+<p><strong>How it fails:</strong> A reply that should have reached a clinician is filed as acknowledged. Also timing: a follow-up sent before the patient has got home has failed regardless of its content.</p>
+<p><strong>Privacy:</strong> Reviews and follow-ups touch professional advertising rules, which restrict testimonials in many jurisdictions. Never confirm a patient left a review or attended an appointment.</p>
+<p><strong>Success measure:</strong> Follow-ups that produced the intended administrative outcome, not the number sent.</p>
+
+<h2 id="choosing-the-first-one">A framework for choosing the first workflow</h2>
+<p>Practices usually want to automate everything. Pick one, and pick it using these four questions in order.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Why it comes in this order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>What happens if this gets it wrong, and who finds out?</td>
+      <td>Anything affecting clinical care, or failing invisibly, is not a first project</td>
+    </tr>
+    <tr>
+      <td>Is the data it touches reviewed and approved for that purpose?</td>
+      <td>If not, this is a compliance problem before it is an automation problem</td>
+    </tr>
+    <tr>
+      <td>Is the process stable and written down?</td>
+      <td>Automating an unclear process makes it unclear faster</td>
+    </tr>
+    <tr>
+      <td>Does someone already own the exceptions?</td>
+      <td>A workflow without an owner for its failure mode will fail and stay failed</td>
+    </tr>
+  </tbody>
+</table>
+<p>The workflows that usually survive these four questions are reminders, referral tracking and outbound follow-ups. New-patient intake often fails on the second question until someone has reviewed where the data goes. Enquiry routing usually fails on the first, which is why <a href="/blog/automate-healthcare-enquiries-without-feeling-robotic">handling enquiries without making the practice feel robotic</a> treats human handoff as a design requirement rather than a rescue.</p>
+<p>Before choosing, it is worth mapping the workflow you have selected. Our guide to <a href="/blog/map-healthcare-admin-workflow-before-automating">mapping an admin workflow before automating it</a> covers that in detail.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-14",
+    updatedAt: "2026-10-14",
+    category: "Healthcare AI Automation",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "healthcare AI automation",
+      "workflow automation",
+      "healthcare workflows",
+      "administrative automation",
+      "practice management",
+    ],
+    featuredImage: "/images/blog/day-5-healthcare-workflow-automation.png",
+    featuredImageAlt:
+      "Healthcare AI automation hero image showing five connected workflows: appointment scheduling, enquiry routing, patient forms, appointment reminders and internal notifications",
+    readingTime: 8,
+    seoTitle: "5 Healthcare Workflows You Could Automate | Burify",
+    seoDescription: "Five administrative workflows examined for what can be automated, what needs staff oversight, how each fails, what privacy applies, and how to choose where to start.",
+    canonicalUrl: "/blog/5-healthcare-workflows-you-can-automate",
+    relatedServicePaths: ["/services/ai-automation", "/services/workflow-automation"],
+    status: "published",
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "website-ux-reduces-patient-friction",
+    slug: "website-ux-reduces-patient-friction",
+    title: "How Better Website UX Can Reduce Patient Friction",
+    description: "Patient friction is the work a website forces someone to do before they can contact you. Here is where it hides, how to evaluate it, and a self-assessment.",
+    excerpt: "Patient friction is the work a website forces someone to do before they can contact you. Here is where it hides and how to evaluate it honestly.",
+    content: `
+<p>Most healthcare websites do not fail because they are ugly. They fail because they require effort at the exact moment a patient is deciding whether to bother.</p>
+<p>Friction is any point where the patient has to think, search, guess or backtrack. It is rarely caused by one dramatic design error. It accumulates from a dozen small obstacles that each seem defensible on their own: a menu label that uses an internal job title, a form field asking for something unnecessary, a booking path that goes through a page with no information on it.</p>
+
+<h2 id="where-friction-hides">Where friction actually hides</h2>
+<h3 id="navigation-and-discovery">Navigation and service discovery</h3>
+<p>The classic mistake is organising the menu around the practice's structure — departments, service lines, clinician names. A patient looking for help with a knee does not think "I need the musculoskeletal service line". They think about their knee. The gap between how the practice describes itself and how patients describe their problem is where enquiries are lost.</p>
+<p>This is largely an information-architecture problem, and the <a href="/blog/healthcare-website-navigation-patients">navigation guide</a> covers labelling and structure in detail. The diagnostic test is short: hand someone unfamiliar with the practice a specific problem and time how long it takes to reach the right service.</p>
+
+<h3 id="content-clarity">Content clarity</h3>
+<p>Clinical language is a form of friction. Not because patients cannot understand it, but because they have to work to translate it before they can act. A page that begins "comprehensive multidisciplinary rehabilitation services" requires more effort than "physiotherapy for sports injuries".</p>
+
+<h3 id="button-labels">Button labels</h3>
+<p>"Submit" is not a call to action. It describes an interface operation, not what the patient gets. Where a button says "Enquire" and the patient is not sure what they are enquiring about, hesitation follows. This is a small fix with a disproportionate effect, and the <a href="/blog/healthcare-website-ctas">guide to healthcare calls to action</a> covers how to match wording to the page's purpose.</p>
+
+<h3 id="mobile-forms">Mobile forms</h3>
+<p>Forms are where friction compounds, because each field is a small decision. The failure modes are predictable: a field the patient cannot answer without leaving the page, a date picker that requires two taps to reach a month away, a dropdown without a sensible default, a submit button that becomes unreachable once the keyboard opens.</p>
+
+<h3 id="contact-options">Contact options</h3>
+<p>A practice that offers only a form is forcing everyone through the same channel. Some patients would rather call, some prefer email, and some cannot use the form at all. The fix is rarely more options; it is a visible phone number beside the form.</p>
+
+<h3 id="inconsistency-with-the-real-process">Inconsistency with the real booking process</h3>
+<p>This is the most damaging category and the least discussed. The website says appointments can be booked online in two minutes. In reality, the widget shows no availability for three weeks, and the practice has to phone back anyway. A patient who has been promised a self-service path and then has to make a phone call has been given an experience worse than never having offered one.</p>
+<p>Where the online path cannot deliver, say so. An honest page that offers a callback and a realistic timeframe beats an optimistic one.</p>
+
+<h2 id="how-to-evaluate">How to evaluate this without a lab</h2>
+<p>You do not need a usability budget to get useful information. You need to be disciplined about what counts as evidence.</p>
+<h3 id="task-completion">Task completion</h3>
+<p>Pick the four things patients come to do: find the right service, find the phone number, find the hours, and start a booking. Can a person unfamiliar with the practice complete each without help? Not "can they eventually find it", but can they do it without appearing confused. Time it and record the result.</p>
+<h3 id="usability-tests">Usability tests</h3>
+<p>Watch five people attempt those tasks and say nothing. Five is not a statistically meaningful sample; it finds the specific obstacles that stop people. What you learn is directional, not conclusive, and the value is in watching hesitation rather than counting successes.</p>
+<h3 id="feedback">Direct feedback</h3>
+<p>The highest-signal feedback in healthcare is often not a survey. It is the front desk asking "what made you come in today?" or the staff who handle phone enquiries noticing which questions come up. Patients rarely volunteer that a website was hard, but they do mention it when asked directly.</p>
+<h3 id="analytics">Analytics</h3>
+<p>Analytics can tell you where people leave, which is genuinely useful when a specific page has an unusual exit rate. It cannot tell you why, and it cannot tell you whether the people who left were qualified patients for that service. Treat it as a pointer, not a verdict.</p>
+
+<h2 id="a-ux-self-assessment">A UX self-assessment</h2>
+<p>Answer these honestly for each major page. Each "no" is a candidate fix.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>What a "no" usually means</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Can a patient tell what this service is within a few seconds?</td>
+      <td>The page is written for the practice, not the patient</td>
+    </tr>
+    <tr>
+      <td>Is there one obvious next action, and does it say what happens?</td>
+      <td>The page has a button but no destination</td>
+    </tr>
+    <tr>
+      <td>Is the phone number visible without scrolling on mobile?</td>
+      <td>Contact details are treated as footer furniture</td>
+    </tr>
+    <tr>
+      <td>Does the booking path match what the practice actually does next?</td>
+      <td>A promise the practice cannot deliver</td>
+    </tr>
+    <tr>
+      <td>Can a keyboard-only user complete the main task?</td>
+      <td>An accessibility barrier hiding in the booking flow</td>
+    </tr>
+    <tr>
+      <td>Are error messages specific about what to fix?</td>
+      <td>Form failures with no recovery path</td>
+    </tr>
+    <tr>
+      <td>Is the same thing called the same name everywhere?</td>
+      <td>Terminology drift creating doubt</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="friction-and-fix">Friction examples and their fixes</h2>
+<p><em>Hypothetical examples.</em> A physiotherapy site labels its services "Manual Therapy", "Exercise Physiology" and "Clinical Pilates". A patient with back pain cannot tell which applies. Fix: lead with the problem ("Back and neck pain treatment") and name the technique beneath it.</p>
+<p><em>Hypothetical example.</em> A dental site's booking form asks for preferred provider, preferred day and preferred time, insurance provider and a message describing the problem. Four of those are decisions the patient cannot make yet. Fix: name, contact and what they need; ask the rest at the confirmation stage.</p>
+<p><em>Hypothetical example.</em> A dermatology site shows a "Free consultation" button that goes to a page with a phone number and hours. The patient expected a calendar. Fix: either the button goes to a booking path, or it says what will actually happen.</p>
+
+<h2 id="the-limits">The limits</h2>
+<p>This article deliberately avoids saying any percentage of visitors are lost at a particular step. Those figures circulate widely, but the honest position is that a given practice has no idea unless it has measured its own funnel, and most practices cannot yet attribute an enquiry to a specific page.</p>
+<p>Secondly, removing friction does not create demand. If the practice has no availability or does not treat the condition, a perfect site produces a phone call the practice cannot satisfy. UX work makes the existing demand convertible, not larger.</p>
+<p>Finally, some friction is appropriate. A brief delay before submitting health information, or a required confirmation step, protects the patient. Not everything that takes effort is a defect.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-14",
+    updatedAt: "2026-10-14",
+    category: "Patient Experience & UX",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "patient experience",
+      "healthcare UX",
+      "patient friction",
+      "website usability",
+      "digital patient journey",
+    ],
+    featuredImage: "/images/blog/day-5-healthcare-ux-friction.png",
+    featuredImageAlt:
+      "Patient experience hero image of a patient using a healthcare website on a phone, with obstacles around her labelled Bills, Insurance, Appointment and Follow up, under the headline Make the Patient Journey Easier",
+    readingTime: 6,
+    seoTitle: "How Better Website UX Can Reduce Patient Friction | Burify",
+    seoDescription: "Patient friction is the work a website forces someone to do before they can contact you. Here is where it hides, how to evaluate it, and a self-assessment.",
+    canonicalUrl: "/blog/website-ux-reduces-patient-friction",
+    relatedServicePaths: ["/services/web-design"],
+    status: "published",
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "healthcare-website-conversion-audit",
+    slug: "healthcare-website-conversion-audit",
+    title: "Healthcare Website Conversion Audit: Why Visitors Aren't Booking",
+    description: "A conversion audit separates technical failure from messaging, usability and traffic-quality problems. Here is a prioritised template you can run yourself.",
+    excerpt: "A conversion audit separates technical failure from messaging and traffic-quality problems. Here is a prioritised template you can run on your own site.",
+    content: `
+<p>A practice director looks at a month of analytics: 2,000 sessions, three enquiries, and no idea what happened in between. The instinct is to blame the website. Usually that is right, but "the website isn't converting" is a symptom that could mean any of five different things, and each has a different fix.</p>
+<p>This is a template rather than a case study. It separates the problems that can be fixed in an afternoon from the ones that need a rebuild or a change to how the practice operates, so that the effort goes somewhere useful.</p>
+
+<h2 id="start-with-what-you-cannot-see">Start with what you cannot see</h2>
+<p>Before auditing anything, establish what the practice can actually measure. Many small sites cannot answer "how many enquiries came from the website last month" with confidence, because form submissions go to an email nobody counts and phone calls are not tracked at all.</p>
+<p>This matters because an audit without a baseline is a list of opinions. If there is no measurement, that is finding number one, and it should be fixed before anything else, because every subsequent judgement depends on it.</p>
+
+<h2 id="four-categories-of-problem">Four categories of problem</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>What it looks like</th>
+      <th>Who can fix it</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Technical failure</td>
+      <td>Something is broken: a form that does not send, a booking widget that will not load, a phone number that is not tappable</td>
+      <td>Developer or booking provider</td>
+    </tr>
+    <tr>
+      <td>Messaging</td>
+      <td>Nothing is broken, but the page does not answer the patient's question</td>
+      <td>Whoever wrote the content, with clinical input</td>
+    </tr>
+    <tr>
+      <td>Usability</td>
+      <td>The path exists but requires effort or guessing</td>
+      <td>Design and content together</td>
+    </tr>
+    <tr>
+      <td>Traffic quality</td>
+      <td>The right people are not arriving, or the right people arrive on the wrong page</td>
+      <td>Whoever controls content and local presence</td>
+    </tr>
+  </tbody>
+</table>
+<p>The order matters. There is no point rewriting copy for a form that silently fails on mobile, and no point fixing a form if the visitors arriving are looking for something the practice does not offer.</p>
+
+<h2 id="the-audit-template">The audit template</h2>
+<p>Work through each item. For each: what to inspect, why it matters, and how to investigate further if it looks wrong.</p>
+
+<h3 id="value-proposition">Value proposition</h3>
+<p><strong>Inspect:</strong> Can a new visitor tell what the practice treats, who it treats and where it is, from the first screen without scrolling?</p>
+<p><strong>Why:</strong> This is the first filter a patient applies, and it happens in seconds.</p>
+<p><strong>Investigate:</strong> Ask five people unfamiliar with the practice to read the homepage for ten seconds and tell you what the practice does. If answers vary widely, the messaging is the problem.</p>
+
+<h3 id="service-page-relevance">Service page relevance</h3>
+<p><strong>Inspect:</strong> Does the service page answer what happens, who provides it, what a first visit involves, and how to book?</p>
+<p><strong>Why:</strong> Service pages carry both local relevance and the decision to contact.</p>
+<p><strong>Investigate:</strong> Look at the pages receiving traffic and compare them against the ones converting. A traffic-heavy page with no enquiries has a message or a next-step problem.</p>
+
+<h3 id="ctas">Calls to action</h3>
+<p><strong>Inspect:</strong> Is there one primary action per page, does it describe what happens next, and is it visible on mobile without scrolling?</p>
+<p><strong>Why:</strong> A page without a clear destination leaves the visitor to decide.</p>
+<p><strong>Investigate:</strong> The <a href="/blog/healthcare-website-ctas">calls to action guide</a> covers matching the ask to the page's purpose. Where a page has several competing buttons, that is usually the finding.</p>
+
+<h3 id="availability-and-booking-path">Availability and the booking path</h3>
+<p><strong>Inspect:</strong> Does the booking widget show real availability? How many steps from a service page to a submitted request? Is there a phone alternative beside it?</p>
+<p><strong>Why:</strong> The single most common conversion blocker is a booking path that promises self-service and then does not deliver.</p>
+<p><strong>Investigate:</strong> Complete a booking yourself, twice, once on a phone. Count the steps and note anything that made you hesitate.</p>
+
+<h3 id="mobile">Mobile</h3>
+<p><strong>Inspect:</strong> Are buttons reachable one-handed? Does anything overlap or overflow? Is the form usable without zooming?</p>
+<p><strong>Why:</strong> Most healthcare searches happen on mobile.</p>
+<p><strong>Investigate:</strong> One physical phone, not an emulator, tells you more than a lab report.</p>
+
+<h3 id="trust-signals">Trust signals</h3>
+<p><strong>Inspect:</strong> Named clinicians with verifiable credentials, current photography, an honest presentation of reviews, a physical location, pricing where appropriate.</p>
+<p><strong>Why:</strong> These decide whether a patient believes the site enough to act on it.</p>
+<p><strong>Investigate:</strong> The <a href="/blog/what-makes-a-healthcare-website-trustworthy">trust article</a> has a one-hour audit covering this. Run it before changing anything visual.</p>
+
+<h3 id="contact-details">Contact details</h3>
+<p><strong>Inspect:</strong> Is the phone number tappable? Are hours shown? Do details match the Google Business Profile exactly?</p>
+<p><strong>Why:</strong> A mismatch between the site and the profile undermines both.</p>
+<p><strong>Investigate:</strong> Check the numbers character by character. This is a five-minute check that finds real loss.</p>
+
+<h3 id="form-completion">Form completion</h3>
+<p><strong>Inspect:</strong> How many fields? Does each one exist because someone reads it?</p>
+<p><strong>Why:</strong> Every field is a place to abandon, and asking for too much too early is the typical pattern in healthcare.</p>
+<p><strong>Investigate:</strong> Remove one optional field and see whether submissions change. If the practice never reads a field, that is the answer.</p>
+
+<h3 id="third-party-booking">Third-party booking</h3>
+<p><strong>Inspect:</strong> Does the widget work on the site, on mobile, and with any ad blocker? What happens if it fails to load?</p>
+<p><strong>Why:</strong> When the widget fails, patients rarely retry; they open a competitor.</p>
+<p><strong>Investigate:</strong> Disable JavaScript or block the widget's domain and load the page. Whatever the patient sees is what most of them will see before giving up.</p>
+
+<h3 id="conversion-measurement">Conversion measurement</h3>
+<p><strong>Inspect:</strong> Can the practice say which page produced a specific enquiry? Can it tell a website enquiry from a phone one at all?</p>
+<p><strong>Why:</strong> Without this, every improvement is a guess.</p>
+<p><strong>Investigate:</strong> Add tracking for form submissions and click-to-call, and review it monthly. This is the highest-leverage item in the list and often the only one that gets done.</p>
+
+<h2 id="prioritising">Prioritising the findings</h2>
+<p>Sort by whether patients can complete the task they came for, not by how easy the fix is.</p>
+<ul>
+  <li><strong>Broken critical path:</strong> form not sending, widget not loading, phone not tappable. Fix first.</li>
+  <li><strong>Misleading promise:</strong> the site says something the practice cannot deliver. Fix second.</li>
+  <li><strong>Usability effort on the main path:</strong> excessive fields, hidden contact, unclear labels. Fix third.</li>
+  <li><strong>Messaging on pages already receiving traffic.</strong> Fix fourth.</li>
+  <li><strong>Measurement.</strong> Do this in parallel with everything, because it is what tells you whether any of the above worked.</li>
+</ul>
+<p>Traffic quality is the one to rule out early. If visitors arrive looking for a service the practice does not offer, no amount of conversion work will help, and the finding is about content and local presence rather than design.</p>
+
+<h2 id="the-limits">The limits</h2>
+<p>This template will not produce a conversion rate. It deliberately contains no benchmark figures, because inventing a target the practice has no way of measuring is worse than not having one.</p>
+<p>What it can do is tell you which of the five categories your problem belongs to, which is usually the question that stalls. Once you know whether it is technical, messaging, usability or traffic, the remaining work is specific rather than a general instruction to "improve the website".</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-14",
+    updatedAt: "2026-10-14",
+    category: "Healthcare Audits & Case Studies",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "healthcare website audit",
+      "conversion audit",
+      "healthcare conversion",
+      "patient booking",
+      "website audit",
+    ],
+    featuredImage: "/images/blog/day-5-healthcare-conversion-audit.png",
+    featuredImageAlt:
+      "Healthcare audit hero image of a website owner reviewing a clinic website's booking form, with the headline Why Visitors Aren't Booking",
+    readingTime: 7,
+    seoTitle: "Healthcare Conversion Audit: Why Visitors Aren't Booking | Burify",
+    seoDescription: "A conversion audit separates technical failure from messaging, usability and traffic-quality problems. Here is a prioritised template you can run yourself.",
+    canonicalUrl: "/blog/healthcare-website-conversion-audit",
+    relatedServicePaths: ["/services/web-design"],
+    status: "published",
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
 ];
 
 export const publishedBlogPosts = blogPosts.filter((post) => post.status === "published");
