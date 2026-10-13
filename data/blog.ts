@@ -4848,6 +4848,626 @@ export const blogPosts: BlogPost[] = [
       href: "/contact",
     },
   },
+  {
+    id: "healthcare-website-navigation-patients",
+    slug: "healthcare-website-navigation-patients",
+    title: "Healthcare Website Navigation: How Patients Find What They Need",
+    description: "Most healthcare menus are organised around the practice's structure, not patient questions. Here is an information-architecture framework for fixing that.",
+    excerpt: "Most healthcare menus are organised around the practice's structure rather than patient questions. Here is how to rebuild navigation so patients find what they need.",
+    content: `
+<p>A dental practice has nine menu items. Six of them describe services using terminology a patient would not use, one is "Our Team", one is "Contact", and one is "Patient Portal" which requires a login and therefore serves nobody new. A patient looking for help with a cracked tooth clicks "Services", finds a list of eleven procedures in alphabetical order, and leaves.</p>
+<p>This is an information architecture problem, not a design problem. The information is all present. It is organised around how the practice thinks about itself rather than what visitors arrived to find.</p>
+
+<h2 id="structure-around-visitor-questions">Structure around visitor questions, not departments</h2>
+<p>The useful exercise is to write down, in the patient's own words, the questions a first-time visitor arrives with. For most healthcare sites these are consistent:</p>
+<ul>
+  <li>Do you treat what I have? (a service or condition)</li>
+  <li>Who will I see, and are they qualified to treat it? (provider profiles)</li>
+  <li>Where are you, and when are you open? (location and hours)</li>
+  <li>What happens if I come, and what will it cost? (new-patient information)</li>
+  <li>How do I get hold of you? (contact and appointment)</li>
+</ul>
+<p>That list is the navigation. Everything else on the site exists to support those five questions. If a menu item does not map to one of them, it is answering an internal question, and it is competing for attention with something that matters.</p>
+<p>There is no single correct menu. A single-location general practice needs almost none of what a multi-location specialist group needs, and a practice with a large telehealth component will surface online appointments in a way that a purely in-person clinic should not. Copying another practice's menu is a reliable way to inherit their structure without their reasoning.</p>
+
+<h2 id="label-examples">Clearer labels</h2>
+<p>Labels are where the gap between inside and outside language is most visible. The fix is usually to name the outcome the patient gets rather than the service the practice delivers.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Internal label</th>
+      <th>Patient-first label</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Manual Therapy</td>
+      <td>Back and neck pain</td>
+      <td>Patients arrive with a symptom, not a technique</td>
+    </tr>
+    <tr>
+      <td>Orthodontics</td>
+      <td>Braces and teeth straightening</td>
+      <td>Patients search for the outcome, not the specialty</td>
+    </tr>
+    <tr>
+      <td>Patient Intake</td>
+      <td>New patients: what to expect</td>
+      <td>Turns a process step into useful orientation</td>
+    </tr>
+    <tr>
+      <td>Our Practice</td>
+      <td>About the team</td>
+      <td>Names who is being introduced</td>
+    </tr>
+    <tr>
+      <td>Book Online</td>
+      <td>Book an appointment</td>
+      <td>One clear verb; "Online" is a channel, not an action</td>
+    </tr>
+    <tr>
+      <td>Contact Us</td>
+      <td>Contact and directions</td>
+      <td>Most contact visits are aimed at finding the location</td>
+    </tr>
+  </tbody>
+</table>
+<p>One caution: plain language is not dumbing down. The page can still use the clinical term, typically alongside the plain one, because a patient who has been told by their GP to ask about "phlebology" needs to see that word appear.</p>
+<p>A second caution: avoid inventing your own terminology. A practice that coins a category name to sound distinctive has created a term no patient will type and no search engine will associate with anything. Distinctiveness comes from what the page says, not from a label nobody else uses.</p>
+
+<h2 id="hierarchy">Hierarchy and grouping</h2>
+<p>Navigation works when the grouping is obvious to someone who has not seen the site before. Three groupings do most of the work in healthcare:</p>
+<ol>
+  <li><strong>By patient problem:</strong> what the visitor is searching for. This is the primary grouping for most practices.</li>
+  <li><strong>By provider:</strong> who they will see. Useful as a secondary route, especially for referrals.</li>
+  <li><strong>By location:</strong> where they will go. Essential where a practice has sites at different addresses.</li>
+</ol>
+<p>The common failure is a fourth grouping that mirrors the org chart: departments, service lines, or job titles. Where that exists, it usually survives because staff recognise it, not because patients use it.</p>
+<p>Depth matters as much as grouping. Three levels is usually the practical ceiling, and the test is whether a patient can name where they are at any point without reading the breadcrumb twice.</p>
+<p>Two structural traps are worth naming. The first is the mega menu that lists every service on every page, which feels thorough and is experienced as a wall. The second is the drop-down that requires a hover, which does not exist on a touch device and therefore does not exist for most of your visitors.</p>
+<p>A third is more specific to healthcare. Where a site lists conditions separately from treatments, patients frequently arrive somewhere in between: a person with a diagnosis looking for the treatment, and a person with a symptom looking for the condition. Linking the two, rather than choosing one of them, is usually the honest structure, and it means one page naturally leads to the other.</p>
+
+<h2 id="mobile-menus">Mobile menus</h2>
+<p>On a phone, the menu is collapsed, and the choice of which items survive the collapse is a real editorial decision rather than a display rule. A hamburger menu holding nine items with nested submenus is unusable at arm's length.</p>
+<p>Two things are worth doing. First, limit the mobile menu to the four or five questions above. Second, keep the phone number and the appointment action outside the menu entirely, in the header, because those are the two things a patient in a hurry needs most and they should never be hidden behind a tap.</p>
+<p>There is a related failure worth checking on the contact page. Where a phone number is an image rather than a link, or is only in the footer, a patient on a phone who has decided to call has to retype it. A tappable number in the header on every page costs nothing and removes a step.</p>
+
+<h2 id="search-and-breadcrumbs">Site search and breadcrumbs</h2>
+<p>Internal search is worth having once a site passes roughly 20 pages of content, but it is not a substitute for navigation, because patients tend not to use it when they cannot find something. It is a recovery mechanism for people who already know what they are looking for.</p>
+<p>Breadcrumbs serve a different purpose. They help a patient who arrived deep in the site understand where they are. If a breadcrumb trail reads "Home / Services / Category / Subcategory", it is describing the site structure rather than the patient's path, and it is usually a sign the hierarchy is internal. A trail that reads "Home / Sports physiotherapy / Knee injuries" is describing the content, which is more useful to the patient and to a search engine.</p>
+<p>Site search has a second value: its logs are a record of what patients could not find. That is close to direct evidence about labelling, and it is information most practices never look at.</p>
+
+<h2 id="consistency">Consistency</h2>
+<p>The most expensive navigation problem is often invisible: the same thing is called different names in different places. The menu says "Appointments", the homepage button says "Book", and the footer says "Contact us" — all pointing at the same page. Each rename costs a patient a moment of doubt about whether they will end up somewhere different.</p>
+<p>A short glossary of what each page is called, applied everywhere including inside the body copy, resolves this. It is unglamorous maintenance rather than a design change.</p>
+<p>The same applies to service naming inside content. A page that calls a treatment "clinical pilates" in the heading and "one-to-one pilates" three paragraphs later has introduced doubt for no reason.</p>
+
+<h2 id="finding-problems">Finding the problems</h2>
+<p>Two methods, and they are complementary rather than alternatives.</p>
+<h3 id="task-tests">Task tests</h3>
+<p>Give four or five people unfamiliar with the practice a specific task: "book a physiotherapy appointment for next week", or "find whether this clinic treats children". Say nothing while they work, note every hesitation and every wrong turn, and ask them afterwards what they expected a label to mean.</p>
+<p>Wrong turns are more informative than failures. A patient who clicks "Services" when they were looking for the fees has told you where they expected to find it.</p>
+<p>Pick tasks that map to the five questions above rather than to pages. "Find the parking information" tests whether arrival information exists at all; "read about the knee treatment" tests discovery.</p>
+<h3 id="analytics">Analytics for patterns</h3>
+<p>Analytics tell you where people go, and more usefully, what they search for using the site search. A site search log full of condition names the menu does not contain is direct evidence of a labelling gap. Look also for pages that receive a lot of entrances directly rather than through navigation, which often means patients are arriving from search and finding the site did not lead them anywhere.</p>
+<p>One further pattern: page views spread evenly across a set of pages can mean patients are looking for something and browsing for it. Where several service pages all get two or three views, they may all be the wrong answer to the question being asked.</p>
+
+<h2 id="the-limits">The limits</h2>
+<p>Navigation cannot fix a site with no content. If a service does not have a page, no arrangement of the menu makes it findable, and that is a content problem first.</p>
+<p>It also cannot fix a site whose structure reflects a business the practice has outgrown. Where a practice has genuinely split into specialties, the honest answer may be to split the navigation, and that is a bigger conversation about the site's purpose than a menu rewrite.</p>
+<p>Rebuilding navigation also has a cost the practice should plan for. Changing a menu label changes the internal link expectations on the pages beneath it, and where a practice has printed material referencing page names, the two need to be updated together.</p>
+<p>Where navigation is causing enquiry loss but the pages themselves are strong, the fix is usually small. Our <a href="/blog/healthcare-website-conversion-audit">conversion audit template</a> covers how to tell the difference, and the <a href="/blog/healthcare-service-pages-seo">service page guide</a> covers what those pages need to contain once patients reach them.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-15",
+    updatedAt: "2026-10-15",
+    category: "Healthcare Website Design",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "healthcare website design",
+      "information architecture",
+      "website navigation",
+      "healthcare UX",
+      "website structure",
+    ],
+    featuredImage: "/images/blog/healthcare-website-navigation-patients.webp",
+    featuredImageAlt:
+      "Healthcare website design hero image of a clinic website with clear service, provider, location and calendar navigation, with the headline How Patients Find What They Need",
+    readingTime: 7,
+    seoTitle: "Healthcare Website Navigation: How Patients Find What They Need | Burify",
+    seoDescription: "Most healthcare menus are organised around the practice's structure, not patient questions. Here is an information-architecture framework for fixing that.",
+    canonicalUrl: "/blog/healthcare-website-navigation-patients",
+    relatedServicePaths: ["/services/web-design"],
+    status: "published",
+    featured: true,
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "healthcare-service-pages-seo",
+    slug: "healthcare-service-pages-seo",
+    title: "How to Build Better Healthcare Service Pages for Google",
+    description: "A service page should be one useful, accurate, non-duplicated asset. Here is a reusable outline, and why dozens of near-identical pages do not work.",
+    excerpt: "A service page should be one useful, accurate, non-duplicated asset. Here is a reusable outline, and why dozens of near-identical pages do not work.",
+    content: `
+<p>The most common SEO problem on healthcare sites is not a missing keyword. It is a service page that describes a service in a paragraph that could belong to any practice anywhere, sitting beside a dozen near-identical pages that exist only to name more suburbs.</p>
+<p>That pattern sometimes produces short-term appearances in search results and rarely produces enquiries, because it answers a question the patient was not asking. A single page that genuinely describes what happens, who provides it, and how to book does more work.</p>
+
+<h2 id="start-with-intent">Start with the intent behind the page</h2>
+<p>Before writing, answer: what is a patient with this problem hoping this page will tell them? For a service page, the answer is almost never "confirm that the practice offers physiotherapy". It is one of:</p>
+<ul>
+  <li>What does this treatment actually involve, and how many visits?</li>
+  <li>Who will treat me, and are they experienced in my specific problem?</li>
+  <li>Do you treat my particular case, and what if I have other conditions?</li>
+  <li>Where do I go, and can I get there?</li>
+  <li>What happens after I contact you?</li>
+</ul>
+<p>A page that answers those five questions serves the patient, and it also happens to be the kind of page that earns references. One that states the practice offers a service has answered a question no patient typed.</p>
+
+<h2 id="the-reusable-outline">A reusable service page outline</h2>
+<p>This is the structure to reuse across every service, with each page's content serving its own purpose. The headings change; the order does not.</p>
+<ol>
+  <li><strong>Open with the problem, in the patient's words.</strong> Name what brings someone to this service. Two or three sentences.</li>
+  <li><strong>Describe what the service is, plainly.</strong> What it involves, how long it typically takes, and what it is not. Define clinical terms as they appear.</li>
+  <li><strong>Say who provides it.</strong> A named clinician with relevant qualifications, linked to their profile. Where several people provide the service, link to the team.</li>
+  <li><strong>Describe who it is suitable for, and who it is not.</strong> This is the section that most distinguishes one practice from another, and it is usually missing.</li>
+  <li><strong>What a first visit involves.</strong> Step by step, so the patient knows what to expect and can prepare.</li>
+  <li><strong>Location and availability.</strong> Which sites offer it, current waiting time or availability where the practice can state it honestly.</li>
+  <li><strong>Costs and payment where the practice can state them.</strong> A price, a range, or what the cost depends on.</li>
+  <li><strong>Administrative FAQs.</strong> "Is a referral needed?", "Do you take my insurance?", "What should I bring?", "How do I reschedule?" — the practical questions that otherwise become phone calls.</li>
+  <li><strong>A clear next step.</strong> Book, call, or ask a question, with what happens after said explicitly.</li>
+</ol>
+<p>Three of those sections carry most of the differentiation: who provides it, who it is and is not suitable for, and what a first visit involves. They are also the three most often skipped, because they require the practice to state something specific and be held to it.</p>
+
+<h2 id="sourcing-clinical-information">Sourcing clinical information</h2>
+<p>Where a page describes a condition or a treatment, it is making clinical claims. Two rules apply.</p>
+<p>First, a qualified person should review anything clinical before it is published. That is not an SEO rule; it is a basic standard for a healthcare practice, and the consequence of skipping it is reputational rather than algorithmic.</p>
+<p>Second, where the page references a clinical fact, it should show where that came from. Google's guidance on <a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" target="_blank" rel="noopener noreferrer">creating helpful, reliable, people-first content</a> asks whether content draws on other sources without simply copying them, and whether it has easily-verified factual errors. A page that attributes its clinical statements to named sources meets the same standard a patient would apply.</p>
+<p>For detail on how editorial review should work, see our article on <a href="/blog/how-google-evaluates-healthcare-content">how Google evaluates healthcare content</a>.</p>
+
+<h2 id="the-duplicate-page-problem">Why dozens of near-identical pages do not work</h2>
+<p>The pattern is familiar: one good service page, replicated for each suburb or each clinic, with the location swapped and the rest unchanged. Practices do this because it is visible, because a competitor has done it, and because it appears to be what local SEO looks like.</p>
+<p>Three problems follow. Search engines see pages that answer the same question, and they typically choose one or a small number to represent a site. Patients who do reach the near-identical pages find no reason to believe the practice is nearby, because a page that reads identically to another has not made any claim about its location. And the practice maintains a structure it cannot honestly fill.</p>
+<p>Google's <a href="https://developers.google.com/search/docs/essentials/spam-policies" target="_blank" rel="noopener noreferrer">spam policies</a> are relevant here in two specific ways. They describe doorway abuse, including multiple pages targeted at specific regions or cities that funnel users to one page, and keyword stuffing, which explicitly includes blocks of text listing cities and regions a page is trying to rank for.</p>
+<p>The workable alternative is a location page that says something true about that location: who works there, how to get there, what is available at that site, and what is not. If a location has nothing distinct to say, it may belong inside the main service page rather than having one of its own.</p>
+
+<h2 id="local-relevance-and-metadata">Local relevance and metadata</h2>
+<p>Local relevance is built from the whole picture rather than a single page. A claimed and complete Business Profile matters, as Google's <a href="https://support.google.com/business/answer/7091" target="_blank" rel="noopener noreferrer">guidance on improving local ranking</a> explains, where local results are described as mainly based on relevance, distance and popularity. That same page states there is no way to request or pay for a better local ranking.</p>
+<p>On the page itself, the title tag and description should describe what the service is and where it is offered, in a way a patient would recognise in a results list. Internal links from the homepage and from related services help both patients and crawlers find the page.</p>
+<p>For the wider set of checks, the <a href="/blog/healthcare-seo-audit-25-checks">25-check healthcare SEO audit</a> covers the technical side, and the <a href="/blog/why-your-competitor-ranks-above-you-on-google">competitor comparison framework</a> is the way to tell which page to compare yours against.</p>
+
+<h2 id="the-limits">The limits</h2>
+<p>Word count is not a ranking factor and Google's guidance explicitly addresses this, asking whether a writer is aiming at a preferred word count and answering that no such count exists. Repeating a keyword more often does not help either; the spam policies describe keyword stuffing as a violation. Neither of those is a licence for a thin page, which describes a page that does not answer a question, not a page that happens to be short.</p>
+<p>And a well-built page does not guarantee a ranking. Relevance is only one of several factors, and where the practice competes against a national health service or a hospital, a well-built page may need to be found through other routes, including a verified profile and local references.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-15",
+    updatedAt: "2026-10-15",
+    category: "Healthcare SEO",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "healthcare SEO",
+      "service pages",
+      "medical SEO",
+      "local SEO",
+      "healthcare content",
+    ],
+    featuredImage: "/images/blog/healthcare-service-pages-seo.webp",
+    featuredImageAlt:
+      "Healthcare SEO hero image of a clinical service page design on a desktop display, with the headline Better Healthcare Service Pages",
+    readingTime: 7,
+    seoTitle: "How to Build Better Healthcare Service Pages for Google | Burify",
+    seoDescription: "A service page should be one useful, accurate, non-duplicated asset. Here is a reusable outline, and why dozens of near-identical pages do not work.",
+    canonicalUrl: "/blog/healthcare-service-pages-seo",
+    relatedServicePaths: ["/services/web-design"],
+    status: "published",
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "automated-appointment-workflows-patient-experience",
+    slug: "automated-appointment-workflows-patient-experience",
+    title: "How Automated Appointment Workflows Can Improve Patient Experience",
+    description: "The appointment lifecycle has six stages, each with predictable failure modes. Here is what to automate, what to leave to staff, and how the failures happen.",
+    excerpt: "The appointment lifecycle has six stages, each with predictable failure modes. Here is what to automate, what to leave to staff, and how the failures happen.",
+    content: `
+<p>An appointment is not an event. It is a sequence: a request, a confirmation, a reminder, possibly a change, possibly a cancellation, and administrative work afterwards. Automation at one stage and not the others creates new gaps, and the gaps are where the patient experience fails.</p>
+<p>This article covers the whole lifecycle. Our overview of <a href="/blog/5-healthcare-workflows-you-can-automate">five workflows you could automate</a> treats reminders at a summary level; this is the end-to-end version.</p>
+
+<div class="article-callout">
+  <p class="article-callout__title">Where automation stops</p>
+  <p>Automation here handles scheduling logistics and administrative messages. It must not assess symptoms, decide clinical priority, or act as a first point of contact for anything that may be an emergency. Any patient message that reads as clinical goes to a person.</p>
+</div>
+
+<h2 id="the-lifecycle">The lifecycle, stage by stage</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Stage</th>
+      <th>Automatable</th>
+      <th>Needs a person</th>
+      <th>Characteristic failure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Request</td>
+      <td>Acknowledge receipt, state a response window, offer a self-service link</td>
+      <td>Deciding suitability and urgency</td>
+      <td>The acknowledgement promises a window nobody meets</td>
+    </tr>
+    <tr>
+      <td>Confirmation</td>
+      <td>Send a confirmation with date, time, location and a way to change it</td>
+      <td>Anything that is not a straightforward availability</td>
+      <td>Confirmation sent before the record is actually saved</td>
+    </tr>
+    <tr>
+      <td>Reminders</td>
+      <td>Send at a fixed interval, include preparation details</td>
+      <td>Replies that ask a clinical or billing question</td>
+      <td>Reminder for an appointment that was cancelled</td>
+    </tr>
+    <tr>
+      <td>Changes</td>
+      <td>Offer available slots, confirm the change to both parties</td>
+      <td>Moving a patient within a care pathway</td>
+      <td>Double-booked, or the clinician is not notified of the move</td>
+    </tr>
+    <tr>
+      <td>Cancellations</td>
+      <td>Offer rescheduling, offer a waitlist option, notify the practice</td>
+      <td>Repeated cancellations that indicate a problem</td>
+      <td>The cancelled slot is never released back to the waiting list</td>
+    </tr>
+    <tr>
+      <td>Post-appointment</td>
+      <td>Flag outstanding paperwork, send next-step information</td>
+      <td>Anything that requires clinical judgement</td>
+      <td>Follow-up sent too early or to the wrong record</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="request-and-confirmation">Request and confirmation</h2>
+<p>The request stage is where the patient is most motivated and least informed. An acknowledgement that says a real person will reply within a stated window sets expectations the practice can meet, which is the whole point. A window the practice routinely misses is worse than no window at all, because it converts passivity into a broken promise.</p>
+<p>The confirmation should carry four things: the date and time, the location with enough detail to arrive there, what to bring, and a way to change it that does not require a phone call. Most confirmations stop at the date.</p>
+<p>Timing the confirmation before the record is committed is a real and common defect. The patient receives a confirmation for a slot that then turns out to be taken, and the practice spends the next day recovering trust.</p>
+
+<h2 id="reminders">Reminders and their timing</h2>
+<p>Reminders work on a schedule, and the schedule is a decision rather than a default. Send too early and the patient forgets again; too late and they cannot rearrange. A common approach is one reminder a few days ahead so a patient can still change their plans, and a short one on the day with preparation details.</p>
+<p>Two failure modes dominate. The first is a reminder for an appointment that has been cancelled or rescheduled, which is the single most damaging message in this category because it tells the patient the practice does not know what they know. The second is content drift: the reminder was written once, and the practice's arrival instructions changed but nobody updated it.</p>
+<p>Preparation instructions belong here where they are administrative, such as "please arrive 10 minutes early and bring your referral". Clinical preparation instructions are not an automation candidate at all, because they depend on the patient's situation.</p>
+
+<h2 id="changes-and-cancellations">Changes and cancellations</h2>
+<p>Changes are a handoff, not just an edit. When a patient moves an appointment, three things need to happen: the old slot is released, the new slot is genuinely held, and the clinician sees the changed time. Where any of the three fails, the patient discovers it on the day.</p>
+<p>Cancellations have a second-order effect that practices rarely automate well. A cancelled slot that goes back to the waiting list recovers time; one that simply disappears is lost income the practice has already paid for. Offering a waitlist option at the moment of cancellation is the single highest-value thing to automate in this section, and it only works if someone is actually maintaining the waitlist.</p>
+
+<h2 id="waiting-lists-and-staff-alerts">Waiting lists and staff alerts</h2>
+<p>A waiting list is an operational commitment. Automation can hold the list and offer a slot, but somebody has to define the rules: how long does an offer stand, what happens when two patients want the same slot, and who gets it when priority is ambiguous. Those are practice decisions and pretending otherwise produces disputes.</p>
+<p>Staff alerts should be rare. If a system notifies a staff member for every reminder sent, the notifications become noise and get filtered, at which point the alert for the thing that actually mattered is lost too. Alerts should fire for exceptions: a cancellation to act on, a reschedule that breaks a rule, a message that needs a reply.</p>
+
+<h2 id="post-appointment-administration">Post-appointment administration</h2>
+<p>The administrative tail is real work: forms to chase, records to complete, next steps to communicate. Automating the chase is straightforward. Anything that involves interpreting what the patient says in reply is not, and should escalate.</p>
+
+<h2 id="failure-modes">The failure modes worth designing around</h2>
+<ul>
+  <li><strong>Duplicate notifications.</strong> Usually a record updating twice, and it makes the practice look careless in the patient's inbox.</li>
+  <li><strong>Wrong booking status.</strong> The system thinks the appointment is confirmed when the patient has cancelled it.</li>
+  <li><strong>Failed delivery.</strong> A message that never arrives and a practice that believes it was sent. Delivery status should be visible to staff, not assumed.</li>
+  <li><strong>Unavailable slots offered.</strong> A reschedule link that shows slots already taken.</li>
+  <li><strong>Conflicting records.</strong> The website and the practice management system disagree about who is booked and when.</li>
+</ul>
+<p>Every one of these has the same structural cause: the automation is treating the booking system as the single source of truth when it is not. Where a booking system and a practice management system are separate, integration reliability is the whole problem, and no amount of message design compensates.</p>
+
+<h2 id="integration-and-data">Integration, data and measurement</h2>
+<p>Where a booking widget comes from a third party, the practical questions are how often the two systems actually agree, what happens when they do not, and whether the practice can tell. A practice that cannot see conflicts will have conflicts.</p>
+<p>Data minimisation applies throughout: messages should carry what the patient needs and nothing more, and a reminder should never contain condition details. Where privacy rules apply, which depends on the jurisdiction and the patient, the minimum is not collecting more than the message requires.</p>
+<p>For measurement, fewer staff interactions is a poor goal on its own. It is trivially achievable by removing the ability to contact a person. More honest measures:</p>
+<ul>
+  <li>Reminders confirmed as delivered without needing correction</li>
+  <li>Patient-initiated changes completed without a phone call</li>
+  <li>Cancelled slots released back to the waiting list</li>
+  <li>Number of patients using the phone alternative, which tells you whether the automated path is genuinely easier</li>
+</ul>
+<p>The last one matters most. If almost nobody uses the phone, the automated path is working. If many do, the mobile form is asking something a patient cannot answer, and that is a design problem rather than evidence of patient preference.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-15",
+    updatedAt: "2026-10-15",
+    category: "Healthcare AI Automation",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "healthcare AI automation",
+      "appointment automation",
+      "patient experience",
+      "appointment reminders",
+      "waiting list",
+    ],
+    featuredImage: "/images/blog/automated-appointment-workflows.webp",
+    featuredImageAlt:
+      "Healthcare AI automation hero image showing connected appointment workflow icons around a clinician using a tablet, with the headline Better Appointment Workflows",
+    readingTime: 7,
+    seoTitle: "Automated Appointment Workflows and Patient Experience | Burify",
+    seoDescription: "The appointment lifecycle has six stages, each with predictable failure modes. Here is what to automate, what to leave to staff, and how the failures happen.",
+    canonicalUrl: "/blog/automated-appointment-workflows-patient-experience",
+    relatedServicePaths: ["/services/ai-automation", "/services/workflow-automation"],
+    status: "published",
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "healthcare-website-accessibility-checklist",
+    slug: "healthcare-website-accessibility-checklist",
+    title: "Healthcare Website Accessibility: What Practices Should Check",
+    description: "An actionable accessibility checklist and test plan for non-specialists, referencing WCAG without promising that a scan or plugin guarantees compliance.",
+    excerpt: "An actionable accessibility checklist and test plan for non-specialists, referencing WCAG and separating what a scan can find from what it cannot.",
+    content: `
+<p>A patient who uses a keyboard cannot use a booking form that only responds to clicks. A patient using a screen reader cannot tell which of two unlabelled fields is the phone number. A patient who enlarges text cannot read a service page where the layout has broken.</p>
+<p>None of these require a specialist to find. They are checkable in an afternoon with a keyboard, a phone and a browser, and most of them sit on the path that generates enquiries.</p>
+
+<h2 id="the-reference-point">The reference point</h2>
+<p>The Web Content Accessibility Guidelines (WCAG), published by the World Wide Web Consortium, are the standard most people are referring to when they discuss digital accessibility. As the <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener noreferrer">W3C's WCAG 2 overview</a> sets out, WCAG 2.2 was published in October 2023 with an update in December 2024. It organises 13 guidelines under four principles, with testable success criteria at three conformance levels, and adds nine success criteria over WCAG 2.1 without changing the existing ones.</p>
+<p>Two practical notes. WCAG 2.2 is backwards compatible with 2.1 and 2.0, so a site built to 2.2 loses nothing by it. And WCAG 3 exists only as an early draft, so it is not something to build against yet.</p>
+<p>This article deliberately avoids quoting individual criterion numbers, because numbering is where citations go stale and the numbers matter less than whether the check itself is done. The W3C page above is the place to look up the exact criterion before citing it in a contract or brief.</p>
+
+<h2 id="the-checklist">The checklist</h2>
+<p>Every item below is something a practice manager or a web developer can check without specialist tooling.</p>
+
+<h3 id="keyboard-navigation">Keyboard navigation</h3>
+<p>Every interactive element must be operable with a keyboard alone. The test is to put the mouse away and use Tab, Shift+Tab, Enter and Space to navigate the whole page. Anything you cannot reach, and anything you can reach but cannot activate, is a failure. This matters most on booking forms, menus, and cookie banners that block the page.</p>
+<p>Related and often missed: the focus indicator. A page that suppresses the visible outline makes keyboard navigation unusable. Check too that the tab order follows the visual reading order.</p>
+
+<h3 id="headings-and-semantics">Headings and semantics</h3>
+<p>Headings are how screen reader users navigate a page. They must be in a sensible order without skipping levels, and must describe the section that follows. A page where visual headings are styled divs rather than real heading elements looks identical and is unusable. Also check that lists are real lists, buttons are buttons rather than styled links, and a page has one main heading.</p>
+
+<h3 id="alt-text">Alt text</h3>
+<p>Images that carry information need alt text that conveys it. Decorative images should be marked decorative so screen readers skip them. The common failure in healthcare is a stock photograph of a clinician with alt text saying "doctor.jpg". If the image is a chart or a diagram, alt text alone is not sufficient and the information needs to be in text near it.</p>
+
+<h3 id="contrast-and-text-resizing">Contrast and text resizing</h3>
+<p>Text needs sufficient contrast against its background, including text on photographs and coloured buttons, where it is most often missed. WCAG sets numeric contrast ratios at three conformance levels; the W3C page linked above is the place to read the specific values before specifying them in a brief. A cheap check: read the page outdoors. If you are struggling, so is a patient with reduced contrast sensitivity.</p>
+<p>Text resizing is a related build issue rather than a font-size choice. A patient who sets their phone's text size larger should get a usable page: enlarge text and check for overlapping content, cut-off labels, and horizontal scrolling.</p>
+
+<h3 id="form-labels">Form labels</h3>
+<p>Every form field needs a visible label associated with it, not just placeholder text. Placeholders disappear the moment a patient types, which breaks the field for someone with a memory-related difficulty and for a screen reader alike. Error messages must identify which field is wrong and how to fix it.</p>
+
+<h3 id="accessible-booking">Accessible booking</h3>
+<p>Booking is the highest-value path on a healthcare site and the one most often built by a third party. Check the widget specifically: can you complete it keyboard-only, does it have labels on its fields, does it tell you what an error means, and is there a phone alternative that is a real option rather than decoration? Where the widget fails, a visible phone number and a short form may serve patients better.</p>
+
+<h3 id="touch-targets">Touch targets</h3>
+<p>Targets should be large enough to hit reliably and spaced apart. Where two links sit on top of each other, patients with tremor will hit the wrong one. This is common in dense footer links and lists of locations.</p>
+
+<h3 id="screen-readers-captions-and-timeouts">Screen readers, captions and timeouts</h3>
+<p>You do not need special software for screen reader testing. Narrator on Windows and VoiceOver on macOS and iOS are built in. Turn one on and listen to your homepage and one service page. Where the reading order makes no sense, links are announced as "click here", or a form field reads as "edit text" with no label, those are the findings. Where the site carries video or audio, captions help patients with reduced hearing; a transcript is the accessible equivalent for a recording.</p>
+<p>Finally, anything that times out is a barrier: a confirmation that disappears, a session that expires during a form, or a booking that lapses while a patient finds their insurance details.</p>
+
+<h2 id="automated-versus-manual">Automated scans versus manual testing</h2>
+<p>Automated scans are good at a narrow set of checks: missing alt attributes, insufficient contrast ratios, duplicate IDs, missing labels. They are fast and repeatable. What a scan cannot tell you is whether alt text is meaningful, whether the reading order is sensible, whether the keyboard flow is usable, or whether a patient could actually book. Manual testing catches those, and the five-minute version, in order of value, is:</p>
+<ol>
+  <li>Complete a booking with keyboard only.</li>
+  <li>Enlarge text to the maximum on a real phone and read a service page.</li>
+  <li>Turn on a screen reader and listen to one page.</li>
+  <li>Tab through the page and confirm you can always see where you are.</li>
+  <li>Submit a form with a field missing and check you can recover.</li>
+</ol>
+<p>Where scan and manual test disagree, the manual result describes what a patient experiences. A scan is still worth running, because it finds the cheap failures at volume.</p>
+
+<h2 id="what-a-plugin-cannot-do">What a plugin cannot do</h2>
+<p>Accessibility overlay widgets claim to fix a site's accessibility. They do not. An overlay can adjust some presentation, but it cannot repair a keyboard trap, an unlabelled field, or a booking widget that cannot be operated. Some overlays interfere with the assistive technology patients already use.</p>
+<p>Similarly, no scan, badge, or certificate guarantees compliance. The barriers that actually lose patients are found by trying to use the site.</p>
+
+<h2 id="prioritising">Which barriers to fix first</h2>
+<p>Fix in this order, which puts the things that block information and bookings above everything else:</p>
+<ul>
+  <li>Anything preventing a patient from completing a booking or reaching you.</li>
+  <li>Anything making a page unreadable or impossible to navigate by keyboard.</li>
+  <li>Missing labels and error identification on forms.</li>
+  <li>Contrast and text resizing failures on service pages.</li>
+  <li>Missing alt text on informational images.</li>
+</ul>
+<p>Where a page has five low-severity findings and no barriers, it does not need attention before a page with one barrier.</p>
+
+<h2 id="the-limits">The limits</h2>
+<p>This checklist is not a conformance audit and does not claim one. Producing one requires evaluating against every applicable criterion, and typically needs accessibility expertise. What this gives a practice is the ability to find and fix the barriers that matter most, and to brief a specialist on whatever remains.</p>
+<p>It also does not guarantee legal compliance. Obligations vary by jurisdiction and by practice type, and some are triggered by the nature of the practice rather than by what the website does. Where compliance is the question, a qualified adviser is worth consulting rather than a checklist.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-15",
+    updatedAt: "2026-10-15",
+    category: "Patient Experience & UX",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "patient experience",
+      "accessibility",
+      "healthcare accessibility",
+      "WCAG",
+      "website accessibility",
+    ],
+    featuredImage: "/images/blog/healthcare-website-accessibility.webp",
+    featuredImageAlt:
+      "Patient experience hero image of an older woman using a clinic website with booking steps, under the headline Is Your Healthcare Website Accessible?",
+    readingTime: 8,
+    seoTitle: "Healthcare Website Accessibility: What Practices Should Check | Burify",
+    seoDescription: "An actionable accessibility checklist and test plan for non-specialists, referencing WCAG without promising that a scan or plugin guarantees compliance.",
+    canonicalUrl: "/blog/healthcare-website-accessibility-checklist",
+    relatedServicePaths: ["/services/web-design"],
+    status: "published",
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "healthcare-website-redesign-audit",
+    slug: "healthcare-website-redesign-audit",
+    title: "Before You Redesign Your Healthcare Website, Run This Audit",
+    description: "A redesign fixes some problems and silently destroys others. Here is a 7-stage audit to decide whether to retain, repair or rebuild, and a go/no-go checklist.",
+    excerpt: "A redesign fixes some problems and silently destroys others. Here is a 7-stage audit to decide whether to retain, repair or rebuild.",
+    content: `
+<p>A practice decides the website feels dated, so it is rebuilt. Traffic holds for a month, then drops. Nobody notices for six weeks, because the redirect map was never checked and three of the pages that generated enquiries now return a 404.</p>
+<p>The rebuild was not necessarily a bad decision. The problem is that it was made without knowing what the existing site was carrying. A redesign is a good fix for a site that is structurally wrong and a bad fix for a site that is structurally sound but badly maintained, and telling those apart is an audit, not a judgement call.</p>
+
+<h2 id="the-seven-stages">A seven-stage process</h2>
+<p><strong>1. Baseline.</strong> Record what exists before you change anything. Current traffic, the pages receiving it, the pages generating enquiries, current indexing status, current performance, and what integrations are running. Without a baseline you cannot tell whether the redesign improved anything, and you will be asked to.</p>
+<p><strong>2. Problems.</strong> List what is actually wrong, categorised. Keep this separate from causes.</p>
+<p><strong>3. Root causes.</strong> For each problem, ask whether it is content, structure, design, technology or maintenance. Most practices have problems in all five, and the cause determines whether a redesign addresses it.</p>
+<p><strong>4. Prioritise.</strong> Rank by patient impact and business impact, not by what is most visible. A confusing homepage is more urgent than an out-of-date blog template.</p>
+<p><strong>5. Decide: retain, repair or rebuild.</strong> Apply the decision table below.</p>
+<p><strong>6. Acceptance criteria.</strong> Write down what must be true for the project to be considered done. This is what protects the practice from a launch that looks better and works worse.</p>
+<p><strong>7. Implementation and testing.</strong> Redirects, integrations, performance, and a real device test on the booking path before anyone notices.</p>
+
+<h2 id="what-to-examine">What to examine</h2>
+
+<h3 id="technical-health">Technical health</h3>
+<p>Is the site served over HTTPS without errors? Is the software current and still supported? Does the site depend on a plugin or theme that has not been updated in two years? A technically unhealthy site is a rebuild indicator, because repairing it often costs more than replacing it.</p>
+<p>Where the site is on a platform nobody can maintain, that is a genuine reason to rebuild even if the design is fine.</p>
+
+<h3 id="search-performance">Search performance</h3>
+<p>Which queries and pages currently bring people in? Which pages do patients reach from a Google search with local intent? This is the stage most often skipped, and it is the one whose omission causes traffic loss.</p>
+<p>Record the pages that currently rank, and record their current URLs exactly. If the redesign changes a URL and nobody maps the redirect, that page's visibility is gone.</p>
+
+<h3 id="structure">Structure</h3>
+<p>Is the information architecture organised around patient questions or around the practice? Rebuilding fixes this. Repairing it means rewriting navigation and labels, which is often cheaper than a rebuild if the underlying content is sound.</p>
+<p>Where navigation and content are the main problem, a rebuild that carries over the same structure improves nothing.</p>
+
+<h3 id="content">Content</h3>
+<p>Which pages are worth preserving verbatim? Which need rewriting? Which should be deleted or merged? A content inventory is the most useful artefact in this process, and the audit should identify the pages that carry the site.</p>
+<p>The honest answer is usually that a handful of service pages and one or two articles are doing most of the work, and those are the pages a rebuild can most easily damage.</p>
+
+<h3 id="brand-and-messaging">Brand and messaging</h3>
+<p>Does the site still describe the practice accurately? Where the practice has changed services, staff or positioning, a redesign is justified on messaging grounds. Where the practice has not changed, a redesign is a preference rather than a requirement.</p>
+
+<h3 id="accessibility">Accessibility</h3>
+<p>Run the checks in our <a href="/blog/healthcare-website-accessibility-checklist">accessibility checklist</a>. Accessibility problems are normally repairable without a rebuild, and rebuilding an inaccessible template produces a new inaccessible site. Fix the barriers first, wherever you land on the rebuild question.</p>
+
+<h3 id="conversion-paths">Conversion paths</h3>
+<p>What currently generates an enquiry, and can the practice even tell? If there is no measurement, that is the first finding. Our <a href="/blog/healthcare-website-conversion-audit">conversion audit</a> covers this in detail, because rebuilding without knowing which path converts is guessing.</p>
+
+<h3 id="booking-integrations">Booking integrations</h3>
+<p>What does the booking widget do, who owns the account, where does the data go, and what happens if it is rebuilt? A booking system that the practice relies on is a constraint on the redesign, not a detail, and this is the single most common source of post-redesign failures.</p>
+
+<h3 id="analytics">Analytics</h3>
+<p>Is it installed, is it measuring enquiries, and will it survive the rebuild? Analytics that resets to zero at launch destroys the baseline you recorded in stage one.</p>
+
+<h3 id="third-party-dependencies">Third-party dependencies</h3>
+<p>Chat widgets, reviews displays, map embeds, tracking pixels. Each one is something the new site must reproduce or deliberately drop. Deciding this during the build is how things get missed.</p>
+
+<h2 id="the-decision">Retain, repair or rebuild</h2>
+<table>
+  <thead>
+    <tr>
+      <th>If the audit shows</th>
+      <th>Decision</th>
+      <th>What it usually involves</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Sound structure and technology; weak content and maintenance</td>
+      <td>Repair</td>
+      <td>Rewrite service pages, refresh photography, maintain a schedule</td>
+    </tr>
+    <tr>
+      <td>Structure organised internally; pages that work</td>
+      <td>Repair, then assess</td>
+      <td>Navigation and labels first, because it is cheaper and reversible</td>
+    </tr>
+    <tr>
+      <td>Unsupported platform, broken integrations, or a template that cannot be made accessible</td>
+      <td>Rebuild</td>
+      <td>Full process, with redirects as an acceptance criterion</td>
+    </tr>
+    <tr>
+      <td>Business has genuinely changed: services, locations, positioning</td>
+      <td>Rebuild</td>
+      <td>Content-led rebuild, preserving the pages that work</td>
+    </tr>
+    <tr>
+      <td>Aesthetic preference with no functional or business change</td>
+      <td>Retain</td>
+      <td>Spend the budget on content or availability instead</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="when-a-redesign-is-justified">When a redesign is justified</h2>
+<p>A redesign is the right answer when the site cannot be made to work without replacing it: an unsupported platform, a template that cannot meet basic accessibility, integrations that cannot be preserved, or a business change that makes the existing structure wrong.</p>
+<p>It is the wrong answer when the site is functionally sound and the practice simply wants something newer. In that case the money usually goes further on photography, service page rewrites, or making the booking path work.</p>
+<p>The middle case is the most common. Where the structure is wrong but the content is sound, fixing navigation and labels first is cheaper, faster, and reversible. It also produces evidence about whether a rebuild is actually needed, which a rebuild cannot do for itself.</p>
+
+<h2 id="acceptance-criteria">Acceptance criteria worth writing down</h2>
+<ul>
+  <li>Every URL that changed has a redirect, and the redirect set has been tested rather than assumed</li>
+  <li>Pages that previously generated enquiries still exist and are reachable in the new navigation</li>
+  <li>The booking path works on a real phone, on a real network, with the real integration</li>
+  <li>Analytics continues from the same property rather than restarting</li>
+  <li>Structured data validates for the article and breadcrumb types</li>
+  <li>Sitemap and canonicals reflect the new URLs</li>
+  <li>Accessibility barriers from the pre-launch audit are closed</li>
+</ul>
+
+<h2 id="go-no-go">A go/no-go checklist</h2>
+<p>Before committing to a rebuild, all seven should be yes:</p>
+<ul>
+  <li>Can the practice state what problem the redesign solves, in one sentence a patient would recognise?</li>
+  <li>Has the baseline been recorded, including which pages currently generate enquiries?</li>
+  <li>Is there a redirect plan for every URL that changes?</li>
+  <li>Is the booking integration accounted for, including what happens to its data and account?</li>
+  <li>Has a repair option costed and considered?</li>
+  <li>Does someone own the content rewrite, including clinical content review?</li>
+  <li>Is there a defined acceptance criterion for launch, and someone with authority to stop it?</li>
+</ul>
+<p>The last one is the one that prevents most failed redesigns. A launch date that cannot be moved is a decision to launch regardless of whether the site works.</p>
+<p>If the audit finds the site is broadly sound and the practice wants improvements anyway, our <a href="/blog/healthcare-website-redesign-checklist">Healthcare Website Redesign: Complete Checklist</a> is the execution guide for when a rebuild is genuinely warranted.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-15",
+    updatedAt: "2026-10-15",
+    category: "Healthcare Audits & Case Studies",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "healthcare website audit",
+      "website redesign",
+      "redesign audit",
+      "retain repair rebuild",
+      "website planning",
+    ],
+    featuredImage: "/images/blog/healthcare-website-redesign-audit.webp",
+    featuredImageAlt:
+      "Healthcare website audits hero image of a website owner reviewing a clinic website across desktop and mobile, with the headline Audit Before You Redesign",
+    readingTime: 8,
+    seoTitle: "Before You Redesign Your Healthcare Website, Run This Audit | Burify",
+    seoDescription: "A redesign fixes some problems and silently destroys others. Here is a 7-stage audit to decide whether to retain, repair or rebuild, and a go/no-go checklist.",
+    canonicalUrl: "/blog/healthcare-website-redesign-audit",
+    relatedServicePaths: ["/services/web-design"],
+    status: "published",
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
 ];
 
 export const publishedBlogPosts = blogPosts.filter((post) => post.status === "published");
