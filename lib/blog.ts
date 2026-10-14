@@ -98,22 +98,6 @@ export function getRelatedPosts(post: BlogPost, limit = 3): BlogPost[] {
   return [...related, ...fallback];
 }
 
-export function getAdjacentPosts(
-  post: BlogPost,
-): { previous: BlogPost | null; next: BlogPost | null } {
-  const sorted = sortPosts(getPublishedPosts(), "newest");
-  const index = sorted.findIndex((item) => item.id === post.id);
-
-  if (index === -1) {
-    return { previous: null, next: null };
-  }
-
-  return {
-    previous: index > 0 ? sorted[index - 1] : null,
-    next: index < sorted.length - 1 ? sorted[index + 1] : null,
-  };
-}
-
 export function paginatePosts<T extends BlogPost>(
   posts: BlogPost[],
   page: number,
