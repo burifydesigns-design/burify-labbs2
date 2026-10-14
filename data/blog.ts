@@ -6344,6 +6344,36 @@ export const blogPosts: BlogPost[] = [
 <h2 id="measuring">How to measure whether a CTA helps</h2>
 <p>Do not measure clicks alone. A click that leads to a form the visitor abandons is not a success. Measure the full path: CTA click → form start → form submit → confirmed enquiry. Compare paths across page types. If a service page's CTA gets clicks but few completed forms, the problem is usually the form or the mismatch between the CTA promise and the form reality. Fix the form first; do not change the CTA label to get more clicks.</p>
 <p>Use the <a href="/blog/healthcare-website-conversion-audit">conversion audit</a> to isolate whether the issue is the CTA, the form, the booking widget, or the traffic quality.</p>
+
+<h2 id="blog-pages">Blog and content pages: the nurture CTA</h2>
+<p>A visitor reading an article about a condition is researching, not ready to book. The CTA here should nurture the relationship, not demand commitment. The goal is to capture the visitor's interest so the practice can stay visible until the visitor is ready to act.</p>
+<p><strong>Primary CTA:</strong> "Get the free guide on [condition]" or "Sign up for updates on [topic]" — links to a lead magnet (a downloadable PDF, a video series, an email course) that delivers genuine value in exchange for an email address.</p>
+<p><strong>Secondary CTA:</strong> "See related services" — links to the relevant service category page, keeping the visitor in the practice's ecosystem.</p>
+<p>Do not use "Book Now" on blog pages. The visitor is not in a booking mindset; the CTA will feel pushy and the click-through rate will be near zero. A nurture CTA respects the visitor's stage and builds trust for the eventual booking.</p>
+
+<h2 id="testing">A testing framework for CTAs</h2>
+<p>CTA optimization is not a one-time task. Visitor behaviour changes, the practice's services evolve, and the competitive landscape shifts. A simple testing rhythm keeps CTAs effective:</p>
+<ol>
+  <li><strong>Baseline:</strong> Record the current CTA text, placement, and the full-path conversion rate (CTA click → confirmed enquiry) for each page type.</li>
+  <li><strong>Hypothesis:</strong> Formulate a specific change: "Changing the service page CTA from 'Book Now' to 'Check availability and book' will increase form starts by reducing perceived commitment."</li>
+  <li><strong>Test:</strong> Run an A/B test or a sequential before/after comparison for at least two weeks, or until 100 conversions per variant.</li>
+  <li><strong>Decide:</strong> If the variant improves the full-path rate (not just clicks), keep it. If not, revert and form a new hypothesis.</li>
+  <li><strong>Repeat:</strong> Queue the next test. One test per quarter per page type is a sustainable rhythm.</li>
+</ol>
+<p>Track the metric that matters: confirmed enquiries per 100 visitors, not click-through rate. A CTA that gets fewer clicks but more completed enquiries is winning.</p>
+
+<h2 id="common-mistakes">Common CTA mistakes to avoid</h2>
+<ul>
+  <li><strong>Generic labels everywhere:</strong> "Contact Us" on every page tells the visitor nothing about what happens next.</li>
+  <li><strong>Booking widget on the homepage:</strong> Assumes the visitor knows what they need. Most do not.</li>
+  <li><strong>No secondary CTA:</strong> Visitors who are not ready for the primary action have nowhere to go.</li>
+  <li><strong>Reassurance missing:</strong> Forms without a "we'll reply within X hours" line lose completions.</li>
+  <li><strong>Mobile CTA buried:</strong> Sticky footer or header CTA is essential; a CTA at the bottom of a long page is invisible on mobile.</li>
+  <li><strong>Mismatched promise:</strong> CTA says "Book in 60 seconds" but the form takes five minutes. The gap destroys trust.</li>
+  <li><strong>Multiple competing CTAs in one viewport:</strong> A sticky header "Book Now", an inline "Contact Us", and a footer "Call Today" all visible at once paralyse the visitor. Pick one primary per view.</li>
+  <li><strong>CTA leads to a dead end:</strong> "Book Online" links to a page that says "Call us to book." The visitor feels misled.</li>
+  <li><strong>No CTA on thank-you pages:</strong> After a form submit, the thank-you page should offer the next logical step — download a guide, read a related article, follow on social — not just "Thanks, we'll be in touch."</li>
+</ul>
 `,
     author: { name: "Burify", bio: "Web design and AI automation studio." },
     publishedAt: "2026-10-19",
@@ -6576,6 +6606,17 @@ export const blogPosts: BlogPost[] = [
 <p><strong>Failure modes:</strong> API down → queue task for manual handling. Form missing service → ask patient via auto-reply with service list. Patient books but slot taken → real-time conflict resolution or alert front desk.</p>
 <p><strong>Privacy:</strong> Only name, contact, and service field transmitted to automation. Free-text notes held in secure queue for human review only.</p>
 
+<h2 id="second-example">Second worked example: new-patient administrative intake</h2>
+<p><strong>Trigger:</strong> Patient completes "new patient registration" form after booking first appointment.</p>
+<p><strong>Automatable segment:</strong> Validate required fields → check for duplicate patient record in EHR → create patient demographic record → send welcome email with portal login instructions → create task for front desk to verify insurance before first visit.</p>
+<p><strong>Human decision required:</strong> Duplicate record match confidence below threshold → front desk reviews and merges. Insurance information incomplete → front desk calls patient before visit.</p>
+<p><strong>Failure modes:</strong> EHR API down → queue demographic create for retry. Welcome email bounces → flag for phone follow-up. Duplicate match ambiguous → create task for manual review within 2 hours.</p>
+<p><strong>Privacy:</strong> Full demographic data (name, DOB, address, phone, email) transmitted to EHR. Insurance data handled separately via secure portal. No clinical data in this workflow.</p>
+
+<h2 id="failure-design">Designing for failure from the start</h2>
+<p>Every automatable segment needs a failure mode table. For each step, specify: what can go wrong, how the system detects it, what the automated fallback is, and when a human must be alerted. A failure that is detected and handled automatically is a success; a failure that goes unnoticed is a liability.</p>
+<p>Build this table during mapping, not after the tool is purchased. The tool should be evaluated against your failure mode requirements, not the vendor's demo script.</p>
+
 <h2 id="the-rule">The rule</h2>
 <p>If you cannot fill the template for a workflow, you do not understand it well enough to automate it. Map it first. The hour spent mapping saves weeks of fixing broken automation.</p>
 `,
@@ -6685,8 +6726,9 @@ export const blogPosts: BlogPost[] = [
 
 <h2 id="clinical-review">Clinical review is not optional</h2>
 <p>Plain language must not alter clinical meaning. Before publishing any page that describes a condition, treatment, risk, or outcome, a qualified clinician must verify that the simplified wording is still accurate. This is not a style review; it is a safety review. The reviewer should check: does the plain-language version convey the same indications, contraindications, risks, and expected outcomes as the clinical source? If not, rewrite until it does.</p>
-
+<p>The review process should be documented: who reviewed, when, what changes were made, and the clinical source referenced. This record protects both the patient and the practice. A simple template — page URL, original text, revised text, reviewer name, date, source reference — is sufficient. Where the plain-language version cannot be verified against a clinical guideline, flag it for specialist input rather than guessing.</p>
 <p>Administrative copy (booking, contact, fees, policies) does not require clinical review, but it does require an operational review: does the copy match what actually happens at the front desk?</p>
+<p>If the website says "We reply within 2 hours" but the front desk only checks messages at 4pm, the copy is wrong. If it says "Book online 24/7" but the booking widget requires a phone confirmation, the copy is misleading. Operational review means walking through each patient-facing workflow with the people who execute it and correcting every discrepancy before it goes live.</p>
 `,
     author: { name: "Burify", bio: "Web design and AI automation studio." },
     publishedAt: "2026-10-19",
@@ -6919,6 +6961,11 @@ export const blogPosts: BlogPost[] = [
 </ol>
 
 <p>The output is a living document, not a one-time report. As fixes are deployed, re-verify and close. As new findings appear (analytics alerts, patient feedback, Search Console errors), triage them into the same framework.</p>
+
+<h2 id="communicating">Communicating the plan to stakeholders</h2>
+<p>A prioritization plan that lives only in a spreadsheet fails. The practice owner, the front-desk lead, the clinician, and the developer (if external) all need to understand what is being fixed, why, and when. A one-page summary — three columns: Fix Immediately (this week), Fix Next (this month), Plan For Later (next quarter) — posted where the team sees it, is more effective than a detailed project plan nobody reads.</p>
+<p>Review the plan in the existing weekly team meeting. Five minutes: what did we close, what is blocked, what is new. No separate meeting required. The discipline of a brief, regular review keeps the plan honest and prevents the "we'll get to it later" drift that buries critical fixes.</p>
+<p>Where a fix requires budget approval (a new booking widget, a developer retainer), attach the prioritization tier and the patient impact note to the request. "Fix Immediately: booking form fails on mobile, losing an estimated 3–5 enquiries per week" is a stronger case than "we need a new booking widget."</p>
 
 <h2 id="the-override">The override rule</h2>
 <p>Security, privacy, and accessibility risks that meet Fix Immediately criteria override everything else, regardless of marketing ROI. A practice that prioritises a homepage redesign over a plaintext patient data leak is making a choice that will cost more in the long run. The framework makes that choice visible.</p>
