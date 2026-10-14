@@ -3708,7 +3708,7 @@ export const blogPosts: BlogPost[] = [
     featuredImageAlt:
       "Healthcare website trust hero image: a clinician reviewing a practice website on a tablet, with the headline What Makes a Healthcare Website Trustworthy?",
     seoTitle: "What Makes a Healthcare Website Trustworthy? | Burify",
-    seoDescription: "Looking professional and being verifiably credible are not the same. Learn which healthcare website trust signals carry weight, which are decoration, and how to audit your own.",
+    seoDescription: "Looking professional and being verifiably credible are not the same. Learn which healthcare website trust signals carry weight, which are decoration, and how to audit yours.",
     canonicalUrl: "/blog/what-makes-a-healthcare-website-trustworthy",
     relatedServicePaths: ["/services/web-design"],
     status: "published",
@@ -5459,6 +5459,831 @@ export const blogPosts: BlogPost[] = [
     seoTitle: "Before You Redesign Your Healthcare Website, Run This Audit | Burify",
     seoDescription: "A redesign fixes some problems and silently destroys others. Here is a 7-stage audit to decide whether to retain, repair or rebuild, and a go/no-go checklist.",
     canonicalUrl: "/blog/healthcare-website-redesign-audit",
+    relatedServicePaths: ["/services/web-design"],
+    status: "published",
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "healthcare-website-redesign-checklist",
+    slug: "healthcare-website-redesign-checklist",
+    title: "Healthcare Website Redesign: Complete Checklist",
+    description: "A phased redesign checklist covering planning, design, development, pre-launch, launch and post-launch, with each item marked essential or optional.",
+    excerpt: "A phased redesign checklist with the purpose of each step, marking what is an essential safeguard and what is an optional enhancement.",
+    content: `
+<p>A healthcare website redesign is not a design project. It is a migration of every page, every link, every integration and every piece of search visibility onto new foundations, and the parts that go wrong are almost never visual.</p>
+<p>The checklist below is organised by phase, and every item carries a reason. Items are marked <strong>Essential safeguard</strong> or <strong>Optional enhancement</strong>, because the distinction matters more than the list itself: an essential item protects something the practice already has, and an optional one improves something it does not.</p>
+
+<div class="article-callout">
+  <p class="article-callout__title">Before you start</p>
+  <p>This checklist assumes a rebuild has been decided. If that decision has not been tested yet, the <a href="/blog/healthcare-website-redesign-audit">pre-redesign audit</a> covers retain, repair or rebuild, and running it first is cheaper than any of the steps below.</p>
+</div>
+
+<h2 id="planning">Phase 1: Planning</h2>
+<p>Nothing in a redesign costs more than an unclear objective, because the objective is what every later disagreement is measured against. Where a practice cannot state it in one sentence, the project becomes a series of design decisions with no way to resolve them.</p>
+<ul>
+  <li><strong>Essential safeguard —</strong> Define the objective as one sentence a patient would recognise. "Patients can find out whether we treat their problem and book within two minutes." Without this, every later decision is a matter of taste.</li>
+  <li><strong>Essential safeguard —</strong> Record the search baseline: current queries, current pages receiving traffic, current pages generating enquiries. This is the thing you will be asked about at launch.</li>
+  <li><strong>Essential safeguard —</strong> List the redirects for every URL that changes, before any design work begins.</li>
+  <li><strong>Essential safeguard —</strong> Inventory the content and mark each page keep, rewrite, merge or delete. A content inventory is the single most useful artefact in the project.</li>
+  <li><strong>Essential safeguard —</strong> Identify the stakeholders including whoever will own the site afterwards. A practice with no owner decays within a year.</li>
+  <li><strong>Essential safeguard —</strong> Confirm the booking integration, the account owner, and what happens to the data. This is the most common post-launch failure.</li>
+  <li><strong>Optional enhancement —</strong> Survey patients on what they could not find. Useful, but not a prerequisite.</li>
+</ul>
+<p>The purpose of these items is to make every later disagreement cheap to resolve. A practice that can point at a written objective, a recorded baseline and a content inventory settles in minutes what otherwise takes three meetings. The redirect list deserves particular attention, because it is the only item here that protects work done years ago.</p>
+
+<h2 id="design">Phase 2: Design</h2>
+<p>The purpose of a design phase is to produce a decision about structure, not a picture. A mock-up is a way of testing whether the structure works, and where a practice treats it as an artwork the question of whether patients can find anything becomes negotiable.</p>
+<ul>
+  <li><strong>Essential safeguard —</strong> Design the information architecture around patient questions rather than practice departments. See the <a href="/blog/healthcare-website-navigation-patients">navigation framework</a>.</li>
+  <li><strong>Essential safeguard —</strong> Design for mobile at the phone sizes patients actually use, not as a scaled-down desktop.</li>
+  <li><strong>Essential safeguard —</strong> Establish a small design system: one heading scale, one button style, one set of spacing values. Consistency beats sophistication, and it is what makes the site maintainable.</li>
+  <li><strong>Essential safeguard —</strong> Build the booking and contact paths into the design, including what the button does and what the patient sees next.</li>
+  <li><strong>Essential safeguard —</strong> Plan accessibility into the design rather than checking it afterwards. Colour contrast, focus states, tap target sizes and text resizing are design decisions, not fixes.</li>
+  <li><strong>Optional enhancement —</strong> Animation and transitions. Keep them minimal, and disable anything that would interfere with reduced-motion preferences.</li>
+</ul>
+<p>The design phase fails in a specific way: the mock-up looks finished, so the structural questions stop being asked. One protection is to review every mock-up against a task rather than a preference. Pick the practice's most common patient goal — find out whether a condition is treated here, then book — and watch someone attempt it on the design, on a phone, without help. Anything they cannot find is a structure problem, however good the page looks.</p>
+
+<h2 id="development">Phase 3: Development</h2>
+<p>The development phase is where the practice carries over what it already has. Almost every item below is about preservation rather than creation, which is why it is the phase most often compressed.</p>
+<ul>
+  <li><strong>Essential safeguard —</strong> Build the page templates rather than twelve one-off pages. Templates are what make the site affordable to maintain.</li>
+  <li><strong>Essential safeguard —</strong> Implement the redirect map in code, not in a spreadsheet that may or may not be applied.</li>
+  <li><strong>Essential safeguard —</strong> Carry over structured data with real values. For articles, Google's <a href="https://developers.google.com/search/docs/appearance/structured-data/article" target="_blank" rel="noopener noreferrer">Article structured data documentation</a> lists the recommended properties and notes that there are no required ones. Only populate values that genuinely exist.</li>
+  <li><strong>Essential safeguard —</strong> Update canonicals and the sitemap to reflect the new URLs before launch, not weeks after.</li>
+  <li><strong>Essential safeguard —</strong> Check that analytics continues on the same property. A build that resets measurement to zero destroys the baseline.</li>
+  <li><strong>Essential safeguard —</strong> Review third-party scripts before launch and remove what the practice does not need. A slow site on launch day is hard to diagnose later.</li>
+  <li><strong>Essential safeguard —</strong> Review privacy and security. Only collect what the practice uses, state that near the point of collection, and store it under access control. The applicable rules depend on the practice's jurisdiction, so confirm with a qualified adviser rather than assuming another country's regime.</li>
+  <li><strong>Optional enhancement —</strong> Image and asset optimisation beyond the minimum. Worth doing, but the essential threshold is that images are correctly sized and in a web format.</li>
+</ul>
+<p>Most of what goes wrong after launch was decided here, which is why this phase resists compression. The redirect map that lives in a spreadsheet rather than in code is the classic example: it exists, everyone agrees with it, and it is applied to two of sixty URLs. Building the same preservation work into templates is also what keeps the next redesign affordable.</p>
+
+<h2 id="pre-launch">Phase 4: Pre-launch</h2>
+<p>Pre-launch is the only phase with a real gate. The purpose of that gate is not polish; it is to catch the failures that would cost the practice a month of enquiries.</p>
+<ul>
+  <li><strong>Essential safeguard —</strong> Test the booking path on a real phone, on a real network, with the real integration. Twice.</li>
+  <li><strong>Essential safeguard —</strong> Verify every redirect, including the ones that look obvious.</li>
+  <li><strong>Essential safeguard —</strong> Run the pre-launch accessibility check. The <a href="/blog/healthcare-website-accessibility-checklist">accessibility checklist</a> covers what to test without specialist tooling.</li>
+  <li><strong>Essential safeguard —</strong> Verify metadata: unique titles and descriptions, correct canonicals, structured data validating.</li>
+  <li><strong>Essential safeguard —</strong> Check that analytics fires on form submissions and click-to-call.</li>
+  <li><strong>Essential safeguard —</strong> Confirm the practice details match the Google Business Profile exactly.</li>
+  <li><strong>Optional enhancement —</strong> Run a performance comparison against the old site. Useful context, not a blocker.</li>
+</ul>
+<p>The pre-launch gate exists because staging lies. It has the right cache, the right login state and the right network, so a booking path that works there can still fail for a patient on mobile data. Testing on a real phone, on the practice's own connection, with a cleared cache, is unglamorous and finds the failures that matter.</p>
+
+<h2 id="launch">Phase 5: Launch</h2>
+<p>Launch is a small phase, and it is where the plan from development either was or was not implemented. Treat it as a verification rather than an event.</p>
+<ul>
+  <li><strong>Essential safeguard —</strong> Launch behind the real domain and verify the redirects work in production, not just on staging.</li>
+  <li><strong>Essential safeguard —</strong> Submit the new sitemap in Search Console.</li>
+  <li><strong>Optional enhancement —</strong> Announce the change to existing patients. Worth doing, but never a reason to delay.</li>
+</ul>
+<p>Launch day is short but unforgiving, because the practice cannot see what patients see until something has already gone wrong. The discipline is to verify rather than assume: redirects followed in production, the new sitemap submitted, the analytics property receiving data. Announcing the site can wait a week; a missed redirect cannot be un-missed.</p>
+
+<h2 id="post-launch">Phase 6: Post-launch</h2>
+<p>The first month after launch is when the effects of anything missed become visible. Most of the work here is watching, and the watching has to be somebody's job rather than an assumption.</p>
+<ul>
+  <li><strong>Essential safeguard —</strong> Monitor for 404s, indexing changes, and traffic changes daily for the first two weeks, weekly for two months.</li>
+  <li><strong>Essential safeguard —</strong> Compare enquiry volume against the baseline, not against a target.</li>
+  <li><strong>Essential safeguard —</strong> Fix accessibility and performance issues found in the first month while the site is still familiar to whoever built it.</li>
+  <li><strong>Optional enhancement —</strong> Schedule content reviews. Valuable, but only after the safeguards are confirmed.</li>
+</ul>
+<p>The reason to watch rather than assume is that migration damage is slow and quiet. A dropped page here, a broken form there, and the practice notices in month two when enquiries are down and nobody remembers why. Comparing against the recorded baseline is the only way to see it early, and it works only if someone owns the watching by name.</p>
+
+<h2 id="the-two-rules">Two rules worth keeping</h2>
+<p><strong>Essential items are not negotiable, but neither is the timeline.</strong> Where an essential item and a date conflict, the date moves. A site launched with a broken booking path or a missing redirect map produces damage that takes far longer to undo than the delay took.</p>
+<p><strong>Optional items do not accumulate.</strong> A redesign that carries six optional enhancements becomes a redesign that is three months late and harder to maintain. Pick the one or two that serve the objective and defer the rest.</p>
+<p>It also helps to name the single thing the practice wants more of. One patient trying to book is a more useful review criterion than a checklist of adjectives, because it has a yes or no answer that can be tested rather than debated.</p>
+<p>The last question to answer before starting is who owns the site afterwards. A practice that cannot answer it should not be redesigning yet.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-16",
+    updatedAt: "2026-10-16",
+    category: "Healthcare Website Design",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "healthcare website design",
+      "website redesign",
+      "redesign checklist",
+      "healthcare website",
+      "website planning",
+    ],
+    featuredImage: "/images/blog/healthcare-website-redesign-checklist.webp",
+    featuredImageAlt:
+      "Healthcare website design hero image showing stacked website design templates across desktop and mobile screens, with the headline The Healthcare Website Redesign Checklist",
+    readingTime: 8,
+    seoTitle: "Healthcare Website Redesign: Complete Checklist | Burify",
+    seoDescription: "A phased redesign checklist covering planning, design, development, pre-launch, launch and post-launch, with each item marked essential or optional.",
+    canonicalUrl: "/blog/healthcare-website-redesign-checklist",
+    relatedServicePaths: ["/services/web-design"],
+    status: "published",
+    featured: true,
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "healthcare-seo-audit-25-checks",
+    slug: "healthcare-seo-audit-25-checks",
+    title: "The Healthcare SEO Audit: 25 Things Every Clinic Should Check",
+    description: "A repeatable 25-check procedure across indexing, metadata, service pages, local SEO, linking, performance, mobile, structured data, reliability and monitoring.",
+    excerpt: "A repeatable 25-check procedure covering indexing, metadata, service pages, local SEO, linking, performance, mobile, structured data, reliability and monitoring.",
+    content: `
+ <p>An SEO audit is not a score. It is a set of questions with verifiable answers, run in the same order so results are comparable between runs. Twenty-five checks across ten categories, each stating what to examine, how, why it matters and how to prioritise. No item carries a weight: impact depends on the practice's site, services, market, setup and goals.</p>
+
+<h2 id="indexing-and-crawlability">1. Indexing and crawlability</h2>
+<h3 id="check-1">1. Are the important pages indexed?</h3>
+<p><strong>How:</strong> Search Console's Pages report, and the URL inspection tool.</p>
+<p><strong>Why:</strong> A page that is not indexed cannot appear in results, regardless of quality.</p>
+<p><strong>Prioritise:</strong> An unindexed service or location page before anything else.</p>
+
+<h3 id="check-2">2. Is the XML sitemap present, current and submitted?</h3>
+ <p><strong>How:</strong> Check that it resolves and that Search Console has it.</p>
+<p><strong>Why:</strong> An outdated sitemap points engines at pages that no longer exist.</p>
+<p><strong>Prioritise:</strong> Cheap and mechanical; fix when found.</p>
+
+<h3 id="check-3">3. Is robots.txt blocking anything it should not?</h3>
+<p><strong>How:</strong> Fetch the file and read it. Confirm no important path is disallowed.</p>
+<p><strong>Why:</strong> One stray directive can hide a whole section while the site looks fine.</p>
+<p><strong>Prioritise:</strong> Immediate if a real path is blocked.</p>
+
+<h3 id="check-4">4. Are canonical tags pointing at the right version?</h3>
+<p><strong>How:</strong> View source. Confirm each canonical points to the intended version, per Google's guidance on <a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls" target="_blank" rel="noopener noreferrer">consolidating duplicate URLs</a>.</p>
+<p><strong>Why:</strong> A misconfigured canonical sends signals to the wrong page, invisibly.</p>
+<p><strong>Prioritise:</strong> High for service and location pages.</p>
+
+<h2 id="metadata-and-page-structure">2. Metadata and page structure</h2>
+<h3 id="check-5">5. Does every page have a unique, descriptive title?</h3>
+ <p><strong>How:</strong> List titles across pages; flag duplicates, blanks or generic values.</p>
+ <p><strong>Why:</strong> It is what a patient reads in the results list.</p>
+<p><strong>Prioritise:</strong> Duplicated service-page titles are common and cheap to fix.</p>
+
+<h3 id="check-6">6. Does every page have a distinct meta description?</h3>
+<p><strong>How:</strong> List descriptions; flag missing or duplicated entries.</p>
+<p><strong>Why:</strong> Rarely affects ranking directly, but improves the click a listing gets.</p>
+<p><strong>Prioritise:</strong> Medium; do it while fixing titles.</p>
+
+<h3 id="check-7">7. Is there one H1 per page, describing the page's subject?</h3>
+<p><strong>How:</strong> View source and check the heading structure for gaps and skipped levels.</p>
+<p><strong>Why:</strong> Headings move both search engines and screen reader users through a page.</p>
+<p><strong>Prioritise:</strong> Fix during any page rewrite.</p>
+
+<h3 id="check-8">8. Are informative images described with alt text?</h3>
+ <p><strong>How:</strong> Check meaningful images: charts, diagrams, staff photographs, maps.</p>
+ <p><strong>Why:</strong> An accessibility requirement, and text engines cannot otherwise read.</p>
+<p><strong>Prioritise:</strong> Booking and form images first, on accessibility impact.</p>
+
+<h2 id="service-page-quality">3. Service page quality</h2>
+<h3 id="check-9">9. Does each service page describe what happens, who provides it, and how to book?</h3>
+ <p><strong>How:</strong> Read it as a new patient: what it involves, who does it, what happens next.</p>
+ <p><strong>Why:</strong> These are the questions patients arrive with.</p>
+<p><strong>Prioritise:</strong> High for the practice's primary services.</p>
+
+<h3 id="check-10">10. Do the service pages say who it is and is not suitable for?</h3>
+<p><strong>How:</strong> Look for the exclusions; most pages list suitability and skip unsuitability.</p>
+<p><strong>Why:</strong> It is the most useful content for a patient and the most commonly omitted.</p>
+<p><strong>Prioritise:</strong> Do it during a rewrite, not separately.</p>
+
+<h3 id="check-11">11. Are there near-duplicate pages differing only by city?</h3>
+<p><strong>How:</strong> Search the site for pages differing only in a place name. Check for blocks of text listing locations.</p>
+ <p><strong>Why:</strong> Google's <a href="https://developers.google.com/search/docs/essentials/spam-policies" target="_blank" rel="noopener noreferrer">spam policies</a> cover doorway abuse, where city-targeted pages funnel users to one page, and keyword stuffing, including blocks of text listing cities.</p>
+<p><strong>Prioritise:</strong> Consolidating thin location pages is usually urgent.</p>
+
+<h3 id="check-12">12. Is there a page for each condition or treatment patients search for?</h3>
+<p><strong>How:</strong> List what the practice treats and check for a page.</p>
+ <p><strong>Why:</strong> The most common content gap, invisible until you list it.</p>
+<p><strong>Prioritise:</strong> Order by what patients actually phone about.</p>
+
+<h2 id="local-seo">4. Local SEO</h2>
+<h3 id="check-13">13. Is the Business Profile claimed and complete?</h3>
+<p><strong>How:</strong> Check hours, services, categories and description are complete.</p>
+<p><strong>Why:</strong> Google's <a href="https://support.google.com/business/answer/7091" target="_blank" rel="noopener noreferrer">local ranking guidance</a> states businesses with complete and accurate information are more likely to appear in local results, and that results are mainly based on relevance, distance and popularity.</p>
+<p><strong>Prioritise:</strong> One of the cheapest changes available.</p>
+
+<h3 id="check-14">14. Does the name, address and phone number match everywhere?</h3>
+<p><strong>How:</strong> Compare site, Business Profile and directories character by character.</p>
+<p><strong>Why:</strong> Inconsistency weakens the signal that the practice's location is real.</p>
+<p><strong>Prioritise:</strong> Trivial to check and fix.</p>
+
+<h3 id="check-15">15. Does each location have content specific to that location?</h3>
+<p><strong>How:</strong> Read a location page. Does it say who works there and how to get there?</p>
+<p><strong>Why:</strong> A page that could belong to any site tells a patient nothing about theirs.</p>
+<p><strong>Prioritise:</strong> Only for multi-site practices.</p>
+
+<h2 id="internal-linking">5. Internal linking</h2>
+<h3 id="check-16">16. Can a patient reach any service page from the homepage in a few clicks?</h3>
+<p><strong>How:</strong> Navigate from the homepage and count the clicks.</p>
+ <p><strong>Why:</strong> Pages nothing links to are harder to find.</p>
+<p><strong>Prioritise:</strong> Fix before adding new pages.</p>
+
+<h3 id="check-17">17. Do service pages link to related services and to booking?</h3>
+<p><strong>How:</strong> Read a service page and note its outgoing links.</p>
+<p><strong>Why:</strong> Patients often need a related service; no onward path loses them.</p>
+<p><strong>Prioritise:</strong> Cheap, and often forgotten.</p>
+
+<h2 id="performance">6. Performance</h2>
+<h3 id="check-18">18. Does the site load acceptably on a mid-range phone on mobile data?</h3>
+ <p><strong>How:</strong> Load the homepage and a service page on a real phone, on mobile data.</p>
+ <p><strong>Why:</strong> This reflects what patients experience. Core Web Vitals are field metrics measured at the 75th percentile of page loads, per the <a href="https://web.dev/articles/vitals" target="_blank" rel="noopener noreferrer">web.dev Web Vitals article</a>.</p>
+ <p><strong>Prioritise:</strong> Poor field data over a good lab score; <a href="/blog/healthcare-website-speed-costs-patients">diagnosing speed</a> covers the cause.</p>
+
+<h3 id="check-19">19. Is the booking path usable before the booking widget becomes interactive?</h3>
+ <p><strong>How:</strong> Note when the widget is clickable, not when it renders.</p>
+<p><strong>Why:</strong> The widget is what patients wait for, so its delay costs more than its size.</p>
+<p><strong>Prioritise:</strong> A visible fallback is cheap; replacing the widget is not.</p>
+
+<h2 id="mobile">7. Mobile</h2>
+<h3 id="check-20">20. Does the booking form work on a phone without zooming or mis-tapping?</h3>
+<p><strong>How:</strong> Complete a booking on a physical phone, not an emulator.</p>
+<p><strong>Why:</strong> Most healthcare searches happen on mobile, and forms are where difficulty compounds.</p>
+ <p><strong>Prioritise:</strong> High; a form that fails on mobile is a direct loss of enquiries.</p>
+
+<h2 id="structured-data">8. Structured data</h2>
+<h3 id="check-21">21. Does the structured data parse and describe only real entities?</h3>
+<p><strong>How:</strong> Rich Results Test on key pages; confirm values match the actual practice and content.</p>
+<p><strong>Why:</strong> It helps engines understand the page. Google's <a href="https://developers.google.com/search/docs/appearance/structured-data/article" target="_blank" rel="noopener noreferrer">Article documentation</a> notes its properties are recommended rather than required, and that a rich result is never guaranteed.</p>
+<p><strong>Prioritise:</strong> Fix broken markup; do not chase extras.</p>
+
+<h2 id="content-reliability">9. Content reliability</h2>
+<h3 id="check-22">22. Is public-facing information current?</h3>
+<p><strong>How:</strong> Check hours, staff, services, fees and insurance for expired claims.</p>
+ <p><strong>Why:</strong> Every stale detail is a small false claim.</p>
+<p><strong>Prioritise:</strong> Assign a quarterly owner rather than a project.</p>
+
+<h3 id="check-23">23. Is clinical content authored and reviewed by a qualified person?</h3>
+<p><strong>How:</strong> Check for a named author with verifiable qualifications and a review record.</p>
+<p><strong>Why:</strong> Google's guidance on <a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" target="_blank" rel="noopener noreferrer">creating helpful, reliable content</a> treats health as high-stakes and describes fabricated creator profiles as deception.</p>
+<p><strong>Prioritise:</strong> More urgent than any technical check; the exposure is clinical and regulatory.</p>
+
+<h2 id="analytics-and-monitoring">10. Analytics and search monitoring</h2>
+<h3 id="check-24">24. Can the practice tell how many enquiries came from the website?</h3>
+<p><strong>How:</strong> Count form submissions and click-to-call events for the last month.</p>
+<p><strong>Why:</strong> Without this baseline nothing can be measured. The <a href="/blog/healthcare-website-conversion-audit">conversion audit</a> covers how.</p>
+<p><strong>Prioritise:</strong> The highest-leverage item, and the most often absent.</p>
+
+<h3 id="check-25">25. Is Search Console monitored, and does anyone look at it?</h3>
+<p><strong>How:</strong> Check coverage errors, manual actions, and recent queries and pages.</p>
+<p><strong>Why:</strong> It is the only authoritative field data the practice has.</p>
+<p><strong>Prioritise:</strong> Set a recurring review time; a tool nobody opens is not a measurement.</p>
+
+<h2 id="using-the-procedure">Using this procedure</h2>
+ <p>Record the answers rather than fixing as you go; the record is what makes the next run comparable. Then order fixes by severity, patient impact, business impact, confidence and effort — the framework in our article on <a href="/blog/what-a-healthcare-seo-score-tells-you">what an audit score tells you</a>. There is no score and no weighting between checks; passing all 25 guarantees neither rankings nor appointments. It means the causes you can check have been checked.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-16",
+    updatedAt: "2026-10-16",
+    category: "Healthcare SEO",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "healthcare SEO",
+      "SEO audit",
+      "website audit",
+      "healthcare checklist",
+      "clinic SEO",
+    ],
+    featuredImage: "/images/blog/healthcare-seo-audit-clinics.webp",
+    featuredImageAlt:
+      "Healthcare SEO hero image of a clinician auditing a clinic website across desktop and mobile, with the headline The Healthcare SEO Audit",
+    readingTime: 10,
+    seoTitle: "The Healthcare SEO Audit: 25 Things Every Clinic Should Check | Burify",
+    seoDescription: "A repeatable 25-check procedure across indexing, metadata, service pages, local SEO, linking, performance, mobile, structured data, reliability and monitoring.",
+    canonicalUrl: "/blog/healthcare-seo-audit-25-checks",
+    relatedServicePaths: ["/services/web-design"],
+    status: "published",
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "ai-automation-vs-more-admin-staff",
+    slug: "ai-automation-vs-more-admin-staff",
+    title: "AI Automation vs Hiring More Admin Staff: What Should a Practice Consider?",
+    description: "A balanced decision guide comparing automation and hiring across workload, judgement, quality, continuity, cost and operational risk, without invented numbers.",
+    excerpt: "A balanced decision guide comparing automation and hiring across workload, judgement, service quality, continuity and operational risk.",
+    content: `
+<p>A practice is drowning in administrative work and has two options: automate the repetitive parts, or hire another administrator. Both are presented as obvious, and the choice is usually made on whichever pitch arrived first.</p>
+<p>These are not opposite options, and they are not equivalent either. Automation removes a task; a person absorbs whatever the task requires, including the parts automation cannot do. The honest comparison is not about cost, because the numbers vary enormously by location, profession and availability. It is about the nature of the work and what each option does to the practice's ability to handle exceptions.</p>
+
+<div class="article-callout">
+  <p class="article-callout__title">The boundary</p>
+  <p>Automation is administrative only in this article. It must not assess symptoms, make clinical decisions, or act as a first point of contact for emergencies. Anyone deciding what to automate should hold that line regardless of what a tool claims.</p>
+</div>
+
+<h2 id="when-a-person-is-needed">When a person is needed</h2>
+<p>Some work should not be automated, at any price.</p>
+<ul>
+  <li><strong>Anything requiring judgement about a specific patient.</strong> A patient in distress on the phone, a distressed family member at reception, a complaint that needs a considered answer.</li>
+  <li><strong>Anything where being wrong has a clinical consequence.</strong> Interpreting a referral, deciding whether something is urgent, responding to a question about medication.</li>
+  <li><strong>Anything that requires the patient to feel considered.</strong> A difficult conversation, a reschedule that disrupts their treatment, a complaint.</li>
+  <li><strong>Work that keeps changing shape.</strong> Automation needs a stable process. If the process is different every time, automating it produces a system that needs constant maintenance.</li>
+</ul>
+<p>The last one is underrated. A practice with an unusual or poorly documented process often wants automation as a way of avoiding the work of fixing it. The process is the cheaper fix.</p>
+
+<h2 id="when-process-fixes-suffice">When a process fix is enough</h2>
+<p>Before either option, ask whether the work needs to exist at all. A surprising proportion of administrative load is a process problem wearing a costume.</p>
+<ul>
+  <li>The same information requested three times because three systems do not talk to each other.</li>
+  <li>Chasing something that was asked for in the wrong place originally.</li>
+  <li>A report nobody reads but somebody regenerates weekly.</li>
+  <li>A double entry created because the intake form collects what the practice already has.</li>
+</ul>
+<p>A process fix is usually cheaper than a hire and almost always cheaper than automation. It is also the option that is easiest to defer indefinitely, which is why it is worth naming explicitly.</p>
+
+<h2 id="when-limited-automation-fits">When limited automation fits</h2>
+<p>Automation works where a trigger is unambiguous, an output is predictable, and a failure is visible rather than silent. Reminders, confirmations, acknowledgement of enquiries, internal task routing, and outstanding-paperwork chasing all sit comfortably in that description.</p>
+<p>What automation handles poorly is the work where the input varies. A form that sometimes arrives complete and sometimes does not, an enquiry that is sometimes a question and sometimes a complaint, a document that is sometimes legible. Where the input varies, the practical question is not whether the automation can read it, but who reviews what it produces.</p>
+<p>A useful heuristic: automatable if a rule decides what happens next, human if a judgement decides. Where a system is interpreting unstructured text to make that decision, treat it as a hypothesis generator and require a human to confirm the action before it is taken.</p>
+
+<h2 id="hybrid-models">Hybrid models</h2>
+<p>Most practices land somewhere in between, and the useful hybrid is to automate the volume and hire for the exceptions rather than for the workload.</p>
+<ul>
+  <li><strong>Automate the acknowledgement, hire for the reply.</strong> The patient gets an immediate response, and the person who handles the enquiry receives it already triaged.</li>
+  <li><strong>Automate the reminder, hire for the rescheduling.</strong> Changing an appointment often involves a judgement about the treatment plan.</li>
+  <li><strong>Automate the paperwork chase, hire for the collection.</strong> Outstanding forms can be chased automatically; a patient who cannot use the system needs a person.</li>
+</ul>
+<p>The opposite hybrid is also common and worth naming: a hire whose job becomes reviewing what the automation produces. That is a legitimate role, but it is a new ongoing cost rather than a saving, and it should be counted as such.</p>
+
+<h2 id="the-comparison">The comparison, honestly</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Dimension</th>
+      <th>Automation</th>
+      <th>A person</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Workload</td>
+      <td>Removes a defined task, at volume, consistently</td>
+      <td>Absorbs whatever arrives, including the unplanned</td>
+    </tr>
+    <tr>
+      <td>Task complexity</td>
+      <td>Suits rule-based, repeatable, low-ambiguity work</td>
+      <td>Handles ambiguity, exceptions and context</td>
+    </tr>
+    <tr>
+      <td>Human judgement</td>
+      <td>None; escalates or fails</td>
+      <td>Present in every action</td>
+    </tr>
+    <tr>
+      <td>Service quality</td>
+      <td>Consistent, but can feel impersonal if overused</td>
+      <td>Variable by person, and capable of warmth</td>
+    </tr>
+    <tr>
+      <td>Continuity</td>
+      <td>No notice period; depends on the vendor and the integration</td>
+      <td>Leaves when they leave; the knowledge goes with them</td>
+    </tr>
+    <tr>
+      <td>Flexibility</td>
+      <td>Does one thing. Scope changes need work</td>
+      <td>Adapts to new tasks without reconfiguration</td>
+    </tr>
+    <tr>
+      <td>Implementation effort</td>
+      <td>Process definition, integration, testing</td>
+      <td>Recruitment, training, supervision</td>
+    </tr>
+    <tr>
+      <td>Integrations</td>
+      <td>Must connect to existing systems; this is the main technical risk</td>
+      <td>None required</td>
+    </tr>
+    <tr>
+      <td>Privacy and security</td>
+      <td>Data minimisation, access control, and jurisdiction-specific obligations</td>
+      <td>Equally required, and easier to govern through training and auditing</td>
+    </tr>
+    <tr>
+      <td>Oversight</td>
+      <td>Requires someone to own the exceptions</td>
+      <td>Supervision, performance management</td>
+    </tr>
+    <tr>
+      <td>Maintenance</td>
+      <td>Ongoing: the process changes and the automation does not</td>
+      <td>Ongoing: training, cover, seasonality</td>
+    </tr>
+    <tr>
+      <td>Total cost</td>
+      <td>Build, licence, integration and maintenance, usually spread over time</td>
+      <td>Salary and overhead, recurring, plus recruitment when someone leaves</td>
+    </tr>
+    <tr>
+      <td>Operational risk</td>
+      <td>Silent failure is the characteristic risk; duplicates and stale data</td>
+      <td>Capacity risk: illness, leave, absence, turnover</td>
+    </tr>
+    <tr>
+      <td>Upside</td>
+      <td>Handles volume that would otherwise require more heads</td>
+      <td>Handles the exception volume automation creates</td>
+    </tr>
+  </tbody>
+</table>
+<p>This table deliberately contains no figures. Salary, licence and implementation costs vary by jurisdiction, by profession and by the vendor, and any number presented here would be invented. The practice should get its own figures and compare like with like: a hire's total cost against automation's build plus licence plus maintenance plus the cost of someone owning the exceptions.</p>
+
+<h2 id="decision-matrix">A decision matrix</h2>
+<p>Score the work in question, 1 to 3, on the dimensions that decide most cases, and see which option the totals point towards.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Dimension</th>
+      <th>Score 1 points to automation</th>
+      <th>Score 3 points to a person</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Volume</td>
+      <td>High, regular and predictable</td>
+      <td>Low or sporadic</td>
+    </tr>
+    <tr>
+      <td>Rule clarity</td>
+      <td>The next step is determined by a rule</td>
+      <td>The next step requires judgement</td>
+    </tr>
+    <tr>
+      <td>Failure visibility</td>
+      <td>Failures are immediately obvious to someone</td>
+      <td>A failure would go unnoticed</td>
+    </tr>
+    <tr>
+      <td>Exception rate</td>
+      <td>Low; most cases follow one path</td>
+      <td>High; most cases differ</td>
+    </tr>
+    <tr>
+      <td>Process stability</td>
+      <td>Documented and unlikely to change</td>
+      <td>Changing or undocumented</td>
+    </tr>
+    <tr>
+      <td>Patient contact</td>
+      <td>Administrative only</td>
+      <td>Emotionally loaded or clinical</td>
+    </tr>
+    <tr>
+      <td>Data sensitivity</td>
+      <td>Minimal, and a system exists to hold it</td>
+      <td>Sensitive, with no approved system</td>
+    </tr>
+    <tr>
+      <td>Availability of support</td>
+      <td>Someone will own the exceptions</td>
+      <td>Nobody has capacity to oversee</td>
+    </tr>
+  </tbody>
+</table>
+<p>What the totals mean: low scores across the board suggest automation is the right tool for this specific task. High scores suggest a person. A mixed result is the most common answer and points to a hybrid: automate the volume and staff the exceptions.</p>
+<p>One thing the matrix cannot tell you is whether the work should exist at all. Run the process-fix question first, because the highest score of all is the task nobody has to do.</p>
+
+<h2 id="the-limits">The limits</h2>
+<p>This article contains no financial comparison, and that is deliberate. There is not enough common ground between practices, jurisdictions, professions and vendors to give a figure that would be honest. The practice should cost both options using its own numbers.</p>
+<p>It also does not claim automation is neutral in its effect on staff. Replacing repetitive work with exception-handling changes what a job is, and practices should plan for that rather than discover it. Equally, the claim that automation redeploys staff to patient care is only true if someone decides what that redeployment looks like; without that decision, the work simply disappears and the person is asked to absorb something newer.</p>
+<p>For the earlier question of where to start, see <a href="/blog/5-healthcare-workflows-you-can-automate">five workflows you could automate</a>, and for how to examine a single process before choosing a tool, see <a href="/blog/map-healthcare-admin-workflow-before-automating">mapping an admin workflow before automating it</a>.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-16",
+    updatedAt: "2026-10-16",
+    category: "Healthcare AI Automation",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "healthcare AI automation",
+      "practice management",
+      "admin staff",
+      "decision making",
+      "healthcare automation",
+    ],
+    featuredImage: "/images/blog/healthcare-ai-automation-vs-admin-staff.webp",
+    featuredImageAlt:
+      "Healthcare AI automation hero image of a practice manager writing while comparing scheduled tasks on screen, with the headline AI Automation vs More Admin Staff",
+    readingTime: 8,
+    seoTitle: "AI Automation vs More Admin Staff: What to Consider | Burify",
+    seoDescription: "A balanced decision guide comparing automation and hiring across workload, judgement, quality, continuity, cost and operational risk, without invented numbers.",
+    canonicalUrl: "/blog/ai-automation-vs-more-admin-staff",
+    relatedServicePaths: ["/services/ai-automation", "/services/workflow-automation"],
+    status: "published",
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "healthcare-appointment-form-design",
+    slug: "healthcare-appointment-form-design",
+    title: "How to Design Better Healthcare Appointment Forms",
+    description: "Appointment request forms are not clinical intake. Here is how to ask only what is needed at that stage, with a field-design checklist.",
+    excerpt: "Appointment request forms are not clinical intake. Here is how to ask only what is needed at that stage, with a field-design checklist.",
+    content: `
+<p>An appointment request form is the moment a patient commits interest. It is also where a practice is most tempted to collect everything it will eventually need, and where that temptation does the most damage.</p>
+<p>A dental practice asks for name, date of birth, phone, email, address, insurance provider, insurance member number, preferred practitioner, preferred day, preferred time, and a description of the problem. The patient gets to the third field and leaves, because they do not know their member number off the top of their head and cannot be bothered to find it.</p>
+
+<div class="article-callout">
+  <p class="article-callout__title">The one rule</p>
+  <p>An appointment request form is for making contact, not for collecting clinical information. Do not use a form that has not been reviewed and approved for the purpose to collect detailed medical information. If the practice needs clinical history, that belongs in a system designed and approved for it, reached after contact rather than before it.</p>
+</div>
+
+<h2 id="ask-only-what-is-needed">Ask only what is needed at that stage</h2>
+<p>The question "what will we do with this answer" gives the field list. If the practice cannot say what it does with a field before the patient has been contacted, the field should not be on the form.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Needed at request stage?</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Name</td>
+      <td>Yes</td>
+      <td>How the practice will address them</td>
+    </tr>
+    <tr>
+      <td>Phone or email</td>
+      <td>Yes, and ideally let the patient choose which</td>
+      <td>The only way to reply</td>
+    </tr>
+    <tr>
+      <td>What they need help with</td>
+      <td>Yes, as a short selection rather than free text</td>
+      <td>Determines who replies and how quickly</td>
+    </tr>
+    <tr>
+      <td>Preferred day or time</td>
+      <td>Optional</td>
+      <td>Useful if available, but asking before availability is known causes a false expectation</td>
+    </tr>
+    <tr>
+      <td>Preferred practitioner</td>
+      <td>Optional</td>
+      <td>Only where the practice genuinely offers a choice</td>
+    </tr>
+    <tr>
+      <td>Date of birth</td>
+      <td>Usually not</td>
+      <td>Rarely needed to reply, and it is identifying information</td>
+    </tr>
+    <tr>
+      <td>Insurance details</td>
+      <td>Not at request stage</td>
+      <td>Belongs after contact, when the patient knows what they are booking</td>
+    </tr>
+    <tr>
+      <td>Full address</td>
+      <td>Not usually</td>
+      <td>Only where the form is specifically for a home visit</td>
+    </tr>
+    <tr>
+      <td>Description of symptoms</td>
+      <td>No</td>
+      <td>This is clinical information, and a website form is not the place for it</td>
+    </tr>
+  </tbody>
+</table>
+<p>The last row is the important one. Asking a patient to describe their symptoms in free text invites clinical information into a system that was not reviewed for it, and it also means the practice receives information it now has to protect.</p>
+
+<h2 id="labels-and-grouping">Labels and grouping</h2>
+<p>Every field needs a visible label above it, not a placeholder standing in for a label. Placeholders vanish as soon as the patient types, which breaks the field for someone with a memory-related difficulty and for a screen reader alike, and it removes the context that made the field answerable.</p>
+<p>Group related fields. Contact details together, then what the appointment is for, then anything optional. Four labelled groups are easier for a patient to process than eleven fields in one column.</p>
+<p>A progress indicator helps on longer forms. Where the form fits on one screen, it does not help, and it can make a simple form feel heavier than it is.</p>
+
+<h2 id="mobile-inputs">Mobile inputs</h2>
+<p>Use the right input type for the answer. A telephone field should bring up the numeric keypad. An email field should bring up the email keyboard. A date field should show a date picker rather than asking for a typed value, because the date format is the single most common source of avoidable form errors.</p>
+<p>Where a dropdown is unavoidable, put the most common option first rather than a default that requires the patient to scan eleven entries to discover what they need is not there.</p>
+
+<h2 id="instructions-and-validation">Instructions, validation and errors</h2>
+<p>Explain anything that is not obvious before the field, not after an error. "Preferred practitioner (leave blank if you don't have a preference)" prevents an error; a red border after submission does not.</p>
+<p>Validate as the patient goes rather than only at submission. An inline message at the moment of error is easier to fix, because the patient is still in the context of the field.</p>
+<p>Error messages must name the field and the fix. "Please add a phone number or an email address so we can reply" is a recovery path. "There was a problem with your submission" is not.</p>
+
+<h2 id="consent-and-privacy">Consent and privacy notices</h2>
+<p>Where the form collects personal information, a short statement near the form covering what is collected, why, who can see it, and how long it is kept is worth more than a link to a policy page nobody opens. The statement should describe what the practice actually does, not make a general claim about compliance.</p>
+<p>Which privacy regime applies depends on where the practice and its patients are. The rules that apply under HIPAA in the United States, PIPEDA in Canada, Australia's Privacy Act or the GDPR in the EU are different, and a practice should confirm the obligations that apply to it with a qualified adviser rather than assume a rule from another jurisdiction. The honest approach is to describe your actual handling of data and point to the regulator that covers your patients.</p>
+<p>Consent and contact permissions are separate questions from privacy. If the practice wants to send reminders or marketing, the form is the point to ask, in specific language, rather than bundling it into a general acceptance.</p>
+
+<h2 id="confirmation-and-recovery">Confirmation and failure recovery</h2>
+<p>After submission, the patient should see confirmation that the request arrived, what happens next, and roughly when. A form that reloads with no message has left the patient to conclude it failed, and many will submit it again.</p>
+<p>If the form fails, tell the patient what to do: try again, or call. Where a form has a known failure mode, say so in advance rather than discovering it through a patient complaint.</p>
+<p>Where the patient would rather not use a form, offer a phone alternative beside it. A tappable number is a small thing that removes an entire category of failure.</p>
+
+<h2 id="shorter-is-not-better">Why shorter is not automatically better</h2>
+<p>Fewer fields is usually the right direction, but the goal is not minimum length. It is that every field earns its place and nothing blocks the task unnecessarily.</p>
+<p>A three-field form that asks which of four services the patient needs, when the practice cannot tell what help they are looking for, produces enquiries that cannot be routed. That form is shorter and worse. The measure is how many enquiries the practice can act on without a phone call, not how quickly the form is filled.</p>
+<p>Consider also what a very short form does to the practice's capacity. A form that generates twenty enquiries a day the practice cannot serve is a worse outcome than a form that generates three it can, and the difference is often a single well-placed field.</p>
+
+<h2 id="checklist">A field-design checklist</h2>
+<p>Work through each existing or proposed field:</p>
+<ol>
+  <li>What will the practice do with this answer before the patient is contacted?</li>
+  <li>Is there a way to get this from the booking system or the record instead?</li>
+  <li>Would a patient be able to answer it without leaving the page?</li>
+  <li>Does it have a visible label, and a question-form or plain-language name?</li>
+  <li>Is it optional? If so, does it say so?</li>
+  <li>Is the input type right for the answer, particularly dates and phone numbers?</li>
+  <li>Does an error message name the field and say how to fix it?</li>
+  <li>Is it in the right group, and does the group name match how a patient would describe it?</li>
+</ol>
+<p>Two things to do after that. Complete the form yourself on a phone with the keyboard open, and check the submit button stays reachable. Then ask two colleagues outside the practice to complete it, and note every question they ask. If they ask a question the form did not answer, the label needs changing.</p>
+<p>For the wider questions about what happens after the form is submitted, see <a href="/blog/automate-healthcare-enquiries-without-feeling-robotic">how to automate enquiries without making the practice feel robotic</a>.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-16",
+    updatedAt: "2026-10-16",
+    category: "Patient Experience & UX",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "patient experience",
+      "healthcare UX",
+      "form design",
+      "appointment forms",
+      "healthcare website",
+    ],
+    featuredImage: "/images/blog/healthcare-appointment-form-design.webp",
+    featuredImageAlt:
+      "Patient experience hero image of a healthcare appointment request form on a phone with progress steps, under the headline Better Healthcare Appointment Forms",
+    readingTime: 7,
+    seoTitle: "How to Design Better Healthcare Appointment Forms | Burify",
+    seoDescription: "Appointment request forms are not clinical intake. Here is how to ask only what is needed at that stage, with a field-design checklist.",
+    canonicalUrl: "/blog/healthcare-appointment-form-design",
+    relatedServicePaths: ["/services/web-design"],
+    status: "published",
+    cta: {
+      label: "Healthcare Digital Growth",
+      title: "Is your healthcare website doing enough?",
+      description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
+      href: "/contact",
+    },
+  },
+  {
+    id: "healthcare-website-teardown",
+    slug: "healthcare-website-teardown",
+    title: "Healthcare Website Teardown: What Works, What Doesn't and Why",
+    description: "A teardown method that separates what you can see from what you are assuming, with a report structure and prioritised improvement plan.",
+    excerpt: "A teardown method that separates observed evidence from assumption, with a report structure and a prioritised improvement plan.",
+    content: `
+<p>A teardown is the most persuasive and the most dangerous artefact in website work. It is persuasive because a specific critique is more useful than a general one, and dangerous because a confident explanation is very often a story built on top of an observation.</p>
+ <p>This article is the method, not a case study. No real site is analysed, no screenshots are included, and no findings are reported — none would be honest without evidence. What is here is how to run a teardown that holds up when someone asks how you know.</p>
+
+<h2 id="evidence-and-assumption">The separation that makes a teardown useful</h2>
+<p>Every teardown line should be classifiable as one of two things.</p>
+<p><strong>An observation:</strong> something you could show someone else. "The page's only phone number is in the footer, as an image rather than a link." Another person, looking at the same page, would see the same thing.</p>
+<p><strong>An inference:</strong> an explanation for an observation. "A patient on a phone would have to retype the number rather than tap it." This may be true, and it is not the same as the observation, because it depends on assumptions about how a patient behaves.</p>
+<p>The discipline is to keep them in separate columns and never present an inference as though it had been measured. Most teardown failures are an inference drifting into the observation column somewhere between the analysis and the summary.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Observation (verifiable)</th>
+      <th>Inference (needs a label)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>The menu label reads "Intake"</td>
+      <td>Patients may not map this to their reason for visiting</td>
+    </tr>
+    <tr>
+      <td>The booking form has eleven required fields</td>
+      <td>Some patients may abandon at the fields they cannot answer</td>
+    </tr>
+    <tr>
+      <td>The page contains no address</td>
+      <td>A patient cannot tell whether the practice is nearby</td>
+    </tr>
+  </tbody>
+</table>
+ <p>Where an inference is worth making, label it and say what would confirm it. "A task test with five people would show whether patients reach the form" is a more useful line than an assertion about patient behaviour.</p>
+
+<h2 id="the-teardown-sequence">The teardown sequence</h2>
+ <p>Work through these in order. Each stage assumes you know nothing about the site, which is the state a patient is in.</p>
+
+<h3 id="first-impression">1. First impression</h3>
+<p>Load the homepage once, without scrolling, on a phone with location unknown. Record what you can answer within about ten seconds: what does this practice do, who does it serve, and where is it? Note the actual wording, not your interpretation. If you cannot answer those three questions, that is the first finding.</p>
+
+<h3 id="positioning">2. Positioning</h3>
+ <p>Is there a specific claim that distinguishes this practice, or generic language that could belong to any clinic anywhere? The test is whether you could swap the copy onto a competitor's site without it being wrong. Note this as an observation about wording, and resist inferring that patients will perceive it as generic until someone has asked one.</p>
+
+<h3 id="homepage">3. Homepage</h3>
+<p>Does the page answer what it is for? Is there one primary action, and does it describe what happens next? Where does the phone number live? Are the next steps after contact stated anywhere?</p>
+
+<h3 id="service-discovery">4. Service discovery</h3>
+<p>Give yourself the task a patient would have: find out whether the practice treats a specific condition. Count the clicks. Note where you hesitated and why, and record the label you would have expected instead of the one you found. This is the highest-value part of a teardown, because it produces a finding that is both specific and verifiable.</p>
+
+<h3 id="trust">5. Trust signals</h3>
+<p>Can you name who will treat you and check their qualification? Is the photography current? Are reviews sourced? Is a location stated? The <a href="/blog/what-makes-a-healthcare-website-trustworthy">trust article</a> has a one-hour audit for this, and a teardown should reference it rather than duplicate it.</p>
+
+<h3 id="mobile">6. Mobile</h3>
+<p>Load it on a phone. Are actions reachable one-handed? Does anything overlap or overflow? Does the form work without zooming? Record specific pages and specific failures, with the device you used.</p>
+
+<h3 id="booking">7. Booking</h3>
+<p>Attempt a booking, twice, once on a phone. Count the steps. Note what happens after submission, and what happens if the widget fails to load. Note also whether the booking path is consistent with what the site told you would happen, which is where the biggest gaps usually are.</p>
+
+<h3 id="accessibility">8. Accessibility</h3>
+<p>Run the checks in the <a href="/blog/healthcare-website-accessibility-checklist">accessibility checklist</a>. Record only what you can demonstrate: a keyboard trap you hit, an unlabelled field you found, an error message that told you nothing. Where you could not test something, say so.</p>
+
+<h3 id="performance">9. Performance</h3>
+<p>Record what you measured, on what device, on what connection. A performance number without those is not evidence, and <a href="/blog/healthcare-website-speed-costs-patients">diagnosing website speed</a> explains why a lab figure is not the same as what a patient experiences.</p>
+
+<h3 id="search-basics">10. Search basics</h3>
+<p>Does the site appear for its own name? Do the main service pages appear for the search a patient would use? Are the Business Profile and site details consistent? Note only what you observed; do not speculate about ranking causes you cannot see.</p>
+
+<h3 id="content-relevance">11. Content relevance</h3>
+ <p>Read the main service page. Does it say who provides the service, what a visit involves, and who it is not suitable for? Where it does not, record an observation about what the page contains, not a judgement about whether patients would find it useful.</p>
+
+<h3 id="contact-info">12. Contact information</h3>
+ <p>Is the number tappable? Are hours shown? Does everything match the Business Profile character by character? Cheap findings, often the highest-value ones.</p>
+
+<h3 id="conversion-tracking">13. Conversion tracking</h3>
+<p>Can you tell whether the practice counts enquiries at all? This is a question about instrumentation rather than design, and it is frequently the most important finding in a teardown, because it determines whether anything else can be evaluated.</p>
+
+<h2 id="report-structure">A report structure</h2>
+ <p>A teardown report should be readable by someone who has never seen the site; the structure below keeps the evidence-and-inference discipline visible.</p>
+<ol>
+  <li><strong>Scope.</strong> What was examined, on which pages, on which devices, on what date. What was not examined.</li>
+  <li><strong>Summary.</strong> The strongest findings, each with its evidence. No overall score.</li>
+  <li><strong>Findings by area.</strong> Each finding as: observation, evidence, inference labelled as such, and impact on the patient journey.</li>
+  <li><strong>What could not be determined.</strong> Everything that required access, traffic data, or a task test. Listing these is what separates a teardown from an opinion.</li>
+  <li><strong>Prioritised improvement plan.</strong> Ordered by patient impact, with the cheapest high-impact items first.</li>
+</ol>
+
+<h3 id="sample-finding">Sample finding format</h3>
+<p><em>Illustrative example, not a real site.</em></p>
+ <p><strong>Area:</strong> Service discovery. <strong>Observation:</strong> the homepage menu contains eleven items, six of which are specialty names rather than patient problems, and the conditions the practice treats do not appear as menu items. <strong>Inference (unverified):</strong> a patient with a specific symptom may not be able to identify which item corresponds to their problem. <strong>Suggested confirmation:</strong> a task test asking five people to find the relevant service. <strong>Suggested fix:</strong> relabel the item after the patient's problem, with the specialty named beneath. <strong>Priority:</strong> high, because it sits on the path to every enquiry.</p>
+<p>Note what that format does: states what was seen, separates what is assumed, proposes how to check the assumption, and gives a fix — each element disputable by someone who looked at the same page.</p>
+
+<h2 id="the-improvement-plan">A prioritised improvement plan</h2>
+<p>Two columns and a rule: anything that stops a patient completing the task they came for goes first, regardless of how effortful the fix is.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Tier</th>
+      <th>Examples of what belongs here</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Fix immediately</td>
+      <td>A booking form that does not submit, a break on the primary contact path, a major accessibility barrier blocking the booking flow</td>
+    </tr>
+    <tr>
+      <td>Fix next</td>
+      <td>Unlabelled or mislabelled navigation, missing contact details, an inconsistency between the site and the Business Profile, uninformative error messages</td>
+    </tr>
+    <tr>
+      <td>Plan for later</td>
+      <td>Content rewrites, photography, additional service pages, performance tuning beyond the minimum</td>
+    </tr>
+  </tbody>
+</table>
+<p>Our article on <a href="/blog/prioritize-healthcare-website-fixes">prioritising healthcare website fixes</a> sets out the criteria and the tiers in full, including the cases where security, privacy and accessibility need action before anything else.</p>
+
+<h2 id="the-limits">The limits</h2>
+ <p>This is a framework, not a case study: no organisation is described, no screenshots are included, and no findings are reported, because any would require evidence this article does not have.</p>
+ <p>A teardown cannot see what matters most: whether enquiries are counted, whether the booking path delivers what the site promises, and whether patients can actually get an appointment. Those require access and data, which is why a good teardown ends with a list of what could not be determined.</p>
+ <p>Be careful about the temptation to explain. A confident cause is more persuasive than an observation, and more likely to be wrong. Where the inference is uncertain, saying so is more useful than resolving it: it is the difference between a teardown someone will act on and one they will argue with.</p>
+`,
+    author: { name: "Burify", bio: "Web design and AI automation studio." },
+    publishedAt: "2026-10-16",
+    updatedAt: "2026-10-16",
+    category: "Healthcare Audits & Case Studies",
+    tags: [
+      "healthcare",
+      "healthcare digital growth",
+      "healthcare website audit",
+      "website teardown",
+      "website analysis",
+      "evidence based review",
+      "healthcare website",
+    ],
+    featuredImage: "/images/blog/healthcare-website-teardown.webp",
+    featuredImageAlt:
+      "Healthcare website audits hero image showing connected screens of a clinic website across desktop, tablet and phone, with the headline Inside a Healthcare Website Teardown",
+    readingTime: 8,
+    seoTitle: "Healthcare Website Teardown: What Works and What Doesn't | Burify",
+    seoDescription: "A teardown method that separates what you can see from what you are assuming, with a report structure and a prioritised improvement plan.",
+    canonicalUrl: "/blog/healthcare-website-teardown",
     relatedServicePaths: ["/services/web-design"],
     status: "published",
     cta: {
