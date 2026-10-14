@@ -98,22 +98,6 @@ export function getRelatedPosts(post: BlogPost, limit = 3): BlogPost[] {
   return [...related, ...fallback];
 }
 
-export function getAdjacentPosts(
-  post: BlogPost,
-): { previous: BlogPost | null; next: BlogPost | null } {
-  const sorted = sortPosts(getPublishedPosts(), "newest");
-  const index = sorted.findIndex((item) => item.id === post.id);
-
-  if (index === -1) {
-    return { previous: null, next: null };
-  }
-
-  return {
-    previous: index > 0 ? sorted[index - 1] : null,
-    next: index < sorted.length - 1 ? sorted[index + 1] : null,
-  };
-}
-
 export function paginatePosts<T extends BlogPost>(
   posts: BlogPost[],
   page: number,
@@ -155,4 +139,19 @@ export function estimateReadingTime(content: string): number {
   const wordsPerMinute = 200;
   const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+}
+
+export function getAdjacentPosts(post: BlogPost): { prev: BlogPost | null; next: BlogPost | null } {
+  const published = getPublishedPosts();
+  const sorted = sortPosts(published, "newest");
+  const index = sorted.findIndex((p) => p.id === post.id);
+
+  if (index === -1) {
+    return { prev: null, next: null };
+  }
+
+  const prev = index > 0 ? sorted[index - 1] : null;
+  const next = index < sorted.length - 1 ? sorted[index + 1] : null;
+
+  return { prev, next };
 }
