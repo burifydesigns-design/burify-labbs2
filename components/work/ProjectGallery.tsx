@@ -47,7 +47,6 @@ function getGalleryLabel(slug: string, index: number): string {
       "Redesigned Website — Desktop",
       "Original Website — Desktop",
       "Redesigned Website — Contact Section (Desktop)",
-      "Redesigned Website — Mobile",
       "Original Website — Mobile",
       "Redesigned Website — Contact Section (Mobile)",
     ];
