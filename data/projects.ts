@@ -94,8 +94,10 @@ export const projects: Project[] = [
     gallery: [
       "/images/projects/hillview-physiotherapy/after-desktop.webp",
       "/images/projects/hillview-physiotherapy/before-desktop.webp",
+      "/images/projects/hillview-physiotherapy/after-contact-desktop.webp",
       "/images/projects/hillview-physiotherapy/after-mobile.webp",
       "/images/projects/hillview-physiotherapy/before-mobile.webp",
+      "/images/projects/hillview-physiotherapy/after-contact-mobile.webp",
     ],
     year: "2026",
     canonicalPath: "/work/hillview-physiotherapy",
