@@ -1,6 +1,6 @@
 import type { BlogPost, BlogTopicCluster } from "@/types/blog";
 
-export const blogPosts: BlogPost[] = [
+export const blogPosts = [
   {
     id: "landing-page-vs-website",
     slug: "landing-page-vs-website",
@@ -6401,15 +6401,15 @@ export const blogPosts: BlogPost[] = [
     seoDescription: "Turning a long findings list into an ordered plan — criteria, tiers, and a sample action plan for fixing what matters first.",
     canonicalUrl: "/blog/prioritize-healthcare-website-fixes",
     relatedServicePaths: ["/services/web-design"],
-    status: "published",
+status: "published",
     cta: {
       label: "Healthcare Digital Growth",
       title: "Is your healthcare website doing enough?",
       description: "Explore how a better healthcare website, stronger SEO and smarter automation can improve your digital patient journey.",
       href: "/contact",
-},
-},
-];
+    },
+  },
+] as BlogPost[];
 
 export const publishedBlogPosts = blogPosts.filter((post) => post.status === "published");
 
