@@ -16,6 +16,7 @@ import {
   RelatedProjects,
   WorkflowDiagram,
   defaultAutomationWorkflow,
+  ProjectComparison,
 } from "@/components/work";
 import "./case-study.css";
 
@@ -60,11 +61,18 @@ export function CaseStudyClient({ project }: CaseStudyClientProps) {
           ref={(el) => { if (el) revealRefs.current[0] = el; }}
           data-reveal
         >
-          <ProjectChallenge project={project} />
+          <ProjectComparison project={project} />
         </div>
 
         <div
           ref={(el) => { if (el) revealRefs.current[1] = el; }}
+          data-reveal
+        >
+          <ProjectChallenge project={project} />
+        </div>
+
+        <div
+          ref={(el) => { if (el) revealRefs.current[2] = el; }}
           data-reveal
         >
           <ProjectApproach project={project} />
@@ -72,7 +80,7 @@ export function CaseStudyClient({ project }: CaseStudyClientProps) {
 
         {isAutomation && (
           <div
-            ref={(el) => { if (el) revealRefs.current[2] = el; }}
+            ref={(el) => { if (el) revealRefs.current[3] = el; }}
             data-reveal
           >
             <section className="case-study-section case-study-section--secondary">
@@ -86,28 +94,28 @@ export function CaseStudyClient({ project }: CaseStudyClientProps) {
         )}
 
         <div
-          ref={(el) => { if (el) revealRefs.current[3] = el; }}
+          ref={(el) => { if (el) revealRefs.current[4] = el; }}
           data-reveal
         >
           <ProjectGallery project={project} />
         </div>
 
         <div
-          ref={(el) => { if (el) revealRefs.current[4] = el; }}
+          ref={(el) => { if (el) revealRefs.current[5] = el; }}
           data-reveal
         >
           <ProjectOutcome project={project} />
         </div>
 
         <div
-          ref={(el) => { if (el) revealRefs.current[5] = el; }}
+          ref={(el) => { if (el) revealRefs.current[6] = el; }}
           data-reveal
         >
           <ServicesUsed project={project} />
         </div>
 
         <div
-          ref={(el) => { if (el) revealRefs.current[6] = el; }}
+          ref={(el) => { if (el) revealRefs.current[7] = el; }}
           data-reveal
         >
           <RelatedProjects currentSlug={project.slug} />

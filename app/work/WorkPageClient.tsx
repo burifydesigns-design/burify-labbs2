@@ -44,6 +44,7 @@ export function WorkPageClient() {
       "cavari-group",
       "precision-auto-centre",
       "real-estate-n8n-automation",
+      "hillview-physiotherapy",
     ];
     return order.indexOf(a.slug) - order.indexOf(b.slug);
   });

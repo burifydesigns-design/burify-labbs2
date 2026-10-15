@@ -42,6 +42,15 @@ function getGalleryLabel(slug: string, index: number): string {
   if (slug === "real-estate-n8n-automation") {
     return index === 0 ? "Workflow Overview" : "n8n Canvas";
   }
+  if (slug === "hillview-physiotherapy") {
+    const labels = [
+      "Redesigned Website — Desktop",
+      "Original Website — Desktop",
+      "Redesigned Website — Mobile",
+      "Original Website — Mobile",
+    ];
+    return labels[index] ?? `Project Visual ${index + 1}`;
+  }
   const labels: Record<string, string[]> = {
     "cavari-group": ["Homepage", "About", "Services"],
     "precision-auto-centre": ["Homepage", "Services", "Contact"],

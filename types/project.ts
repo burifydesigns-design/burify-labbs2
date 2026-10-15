@@ -16,4 +16,6 @@ export interface Project {
   canonicalPath?: string;
   publishedAt?: string;
   updatedAt?: string;
+  originalUrl?: string;
+  redesignedUrl?: string;
 }
