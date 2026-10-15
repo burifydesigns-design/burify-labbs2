@@ -31,6 +31,7 @@ export async function generateMetadata({ params }: WorkDetailPageProps) {
     "cavari-group": "Cavari Group Website Design Case Study",
     "precision-auto-centre": "Precision Auto Centre Website Design Case Study",
     "real-estate-n8n-automation": "Real Estate Workflow Automation Case Study",
+    "hillview-physiotherapy": "Hillview Physiotherapy Group Website Redesign Case Study",
   };
 
   const baseTitle = titleMap[slug] ?? project.title;

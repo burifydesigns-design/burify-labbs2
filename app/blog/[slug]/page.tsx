@@ -3,7 +3,7 @@ import { getPostBySlug } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { StructuredData } from "@/components/seo/StructuredData";
-import { createStructuredDataForPage } from "@/lib/structured-data";
+import { createArticleJsonLd, createBlogPostBreadcrumbJsonLd } from "@/lib/structured-data";
 import { createResourceMetadata } from "@/lib/seo";
 
 export const generateMetadata = async ({
@@ -41,10 +41,10 @@ export default function BlogPostPage({
   return (
     <>
       <StructuredData 
-        data={createStructuredDataForPage({
-          ...post,
-          type: "BlogPost",
-        })}
+        data={[
+          createArticleJsonLd(post),
+          createBlogPostBreadcrumbJsonLd(post),
+        ]}
       />
       <article className="blog-post container mx-auto py-16 px-4 lg:px-8">
         <header className="mb-8">

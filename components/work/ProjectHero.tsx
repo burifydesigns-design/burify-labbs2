@@ -71,6 +71,8 @@ function getIndustry(slug: string): string {
       return "Automotive";
     case "cavari-group":
       return "Finance & Investment";
+    case "hillview-physiotherapy":
+      return "Healthcare / Physiotherapy";
     default:
       return "General";
   }

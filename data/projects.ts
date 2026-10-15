@@ -73,6 +73,36 @@ export const projects: Project[] = [
     year: "2026",
     canonicalPath: "/work/real-estate-n8n-automation",
   },
+  {
+    id: "5",
+    slug: "hillview-physiotherapy",
+    title: "Hillview Physiotherapy Group",
+    category: "Web Design",
+    shortDescription:
+      "A website redesign transforming a physiotherapy practice's digital presence with clear service presentation, improved patient experience, and accessible design.",
+    description:
+      "Hillview Physiotherapy Group is a physiotherapy practice providing musculoskeletal, sports, and rehabilitation services. The original website presented information in a dense, text-heavy format that made it difficult for patients to quickly find services, understand treatment options, or book appointments. The redesign focused on creating a clear visual hierarchy, improving service discoverability, ensuring mobile responsiveness, meeting accessibility standards, and adding prominent appointment-related calls to action.",
+    services: ["web-design"],
+    challenge:
+      "The original website had a cluttered layout with dense text blocks, unclear navigation, and no clear path for patients to book appointments. Services were buried in long paragraphs, the visual hierarchy was flat, and the mobile experience was poor. Patients struggled to understand what treatments were offered and how to take the next step.",
+    approach:
+      "The redesign introduced a clean, professional layout with strong visual hierarchy. Services were reorganized into clear, scannable cards with concise descriptions. Navigation was simplified with a sticky header and clear CTAs. The color palette was refined for healthcare-appropriate trust signals. Typography was improved for readability. Mobile layouts were built mobile-first. Accessibility improvements included proper heading structure, color contrast, focus states, and semantic HTML. Appointment booking CTAs were placed prominently throughout the user journey.",
+    outcome:
+      "A patient-friendly website that clearly presents Hillview Physiotherapy Group's services, improves mobile usability, meets WCAG AA accessibility standards, and provides clear conversion paths for appointment booking.",
+    status: "published",
+    featuredImage: "/images/projects/hillview-physiotherapy/after-desktop.webp",
+    gallery: [
+      "/images/projects/hillview-physiotherapy/after-desktop.webp",
+      "/images/projects/hillview-physiotherapy/before-desktop.webp",
+      "/images/projects/hillview-physiotherapy/after-contact-desktop.webp",
+      "/images/projects/hillview-physiotherapy/before-mobile.webp",
+      "/images/projects/hillview-physiotherapy/after-contact-mobile.webp",
+    ],
+    year: "2026",
+    canonicalPath: "/work/hillview-physiotherapy",
+    originalUrl: "https://www.hillviewphysiogroup.com.au/",
+    redesignedUrl: "https://hillview-sigma.vercel.app/",
+  },
 ];
 
 export const publishedProjects = projects.filter(

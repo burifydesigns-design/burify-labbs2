@@ -8,3 +8,4 @@ export { ProjectOutcome } from "./ProjectOutcome";
 export { RelatedProjects } from "./RelatedProjects";
 export { ServicesUsed } from "./ServicesUsed";
 export { WorkflowDiagram, defaultAutomationWorkflow } from "./WorkflowDiagram";
+export { ProjectComparison } from "./ProjectComparison";
