@@ -100,7 +100,7 @@ export const projects: Project[] = [
     year: "2026",
     canonicalPath: "/work/hillview-physiotherapy",
     originalUrl: "https://www.hillviewphysiogroup.com.au/",
-    redesignedUrl: "https://hillview-git-main-burify.vercel.app/",
+    redesignedUrl: "https://hillview-sigma.vercel.app/",
   },
 ];
 
