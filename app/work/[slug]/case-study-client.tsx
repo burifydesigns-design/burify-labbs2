@@ -14,11 +14,10 @@ import {
   ProjectOutcome,
   ServicesUsed,
   RelatedProjects,
-  WorkflowDiagram,
+   WorkflowDiagram,
   defaultAutomationWorkflow,
   ProjectComparison,
 } from "@/components/work";
-import "./case-study.css";
 
 interface CaseStudyClientProps {
   project: Project;
