@@ -20,7 +20,7 @@ import {
 
 const POSTS_PER_PAGE = 9;
 
-export function BlogPageClient() {
+export function BlogPageClient({ databasePosts }: { databasePosts: BlogPost[] }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
