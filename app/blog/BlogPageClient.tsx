@@ -24,17 +24,6 @@ export function BlogPageClient({ databasePosts }: { databasePosts: BlogPost[] })
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [databasePosts, setDatabasePosts] = useState<BlogPost[]>([]);
-
-  useEffect(() => {
-    let active = true;
-    fetch("/api/blog")
-      .then((response) => response.ok ? response.json() : [])
-      .then((posts: BlogPost[]) => { if (active && Array.isArray(posts)) setDatabasePosts(posts); })
-      .catch(() => undefined);
-    return () => { active = false; };
-  }, []);
-
   const allPosts = useMemo(() => {
     const databaseSlugs = new Set(databasePosts.map((post) => post.slug));
     const legacyPosts = getPublishedPosts().filter((post) => !databaseSlugs.has(post.slug));
