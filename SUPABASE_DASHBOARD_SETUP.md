@@ -35,7 +35,7 @@ Lead statuses accepted by the schema and dashboard: `new`, `contacted`, `qualifi
 Contact-submission statuses in the database: `new`, `read`, `replied`, `archived`, `spam`. The current dashboard displays contact submissions but does not yet change their statuses.
 
 ## Existing contact form
-The existing `app/api/contact/route.ts` still forwards to Google Apps Script. It has not been changed as part of this dashboard work, so contact submissions will not automatically appear in `contact_submissions` unless the existing integration or a separate sync writes there.
+The `app/api/contact/route.ts` endpoint now validates contact-form submissions and inserts them directly into `public.contact_submissions` through the Supabase server client. Google Apps Script is no longer used by this route. Keep the Supabase publishable/anon key in Vercel environment variables; never use a service-role key in the website. Ensure the existing contact form sends JSON to `/api/contact` with `name`, `email`, optional `company`, `service_interest` (or legacy `service`), optional `message` (or legacy `projectDetails`), and optional boolean `consent`. The public insert RLS policy must permit the required fields and the database should default status to `new`.
 
 ## Security and remaining verification
 Never expose a Supabase service-role key in client code. Database RLS remains the security boundary. A Supabase security advisor check reported leaked-password protection is disabled; enable it under Authentication → Settings → Password Security. The repository branch has not yet been built or deployed, so run the Vercel preview/build and resolve any issues before merging.
