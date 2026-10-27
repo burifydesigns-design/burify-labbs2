@@ -39,9 +39,7 @@ export async function updateLeadStatus(formData: FormData) {
   const supabase = await requireAdmin();
   const id = String(formData.get("id") ?? "");
   const status = String(formData.get("status") ?? "");
-  if (!id || !["new", "contacted", "qualified", "converted", "closed"].includes(status)) {
-    redirect("/admin?error=invalid-status");
-  }
-  const { error } = await supabase.from("leads").update({ status }).eq("id", id);
+  if (!id || !["new", "contacted", "qualified", "proposal", "won", "lost", "nurture"].includes(status)) redirect("/admin?error=invalid-status");
+  const { error } = await supabase.from("leads").update({ status, updated_at: new Date().toISOString() }).eq("id", id);
   redirect(error ? "/admin?error=update-failed" : "/admin?updated=1");
 }
