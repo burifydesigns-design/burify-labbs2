@@ -54,7 +54,7 @@ export async function updateContactStatus(formData: FormData) {
 }
 
 function slugify(value: string) {
-  return value.toLowerCase().trim().normalize("NFKD").replace(/[\\u0300-\\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 200);
+  return value.toLowerCase().trim().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 200);
 }
 
 async function resolveBlogCategory(supabase: Awaited<ReturnType<typeof createClient>>, name: string) {
@@ -83,7 +83,7 @@ export async function saveBlogPost(formData: FormData) {
   const seoTitle = String(formData.get("seo_title") ?? "").trim();
   const seoDescription = String(formData.get("seo_description") ?? "").trim();
   const status = String(formData.get("status") ?? "draft");
-  const validUrl = (value: string) => !value || (value.length <= 2048 && /^https?:\\/\\//i.test(value));
+  const validUrl = (value: string) => !value || (value.length <= 2048 && /^https?:\/\//i.test(value));
   if (!title || title.length > 240 || !slug || slug.length > 200 || !["draft", "published", "archived"].includes(status) || excerpt.length > 1000 || content.length > 100000 || seoTitle.length > 70 || seoDescription.length > 180 || !validUrl(coverImageUrl)) {
     redirect("/admin/blog?error=invalid");
   }
