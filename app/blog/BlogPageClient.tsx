@@ -10,7 +10,7 @@ import { BlogHeader } from "@/components/blog/BlogHeader";
 import { BlogSearch } from "@/components/blog/BlogSearch";
 import { CategoryFilter } from "@/components/blog/CategoryFilter";
 import { BlogGrid } from "@/components/blog/BlogGrid";
-import { BlogPagination } from "@/components/blog/BlogPagination";\nimport type { BlogPost } from "@/types/blog";
+import { BlogPagination } from "@/components/blog/BlogPagination";\nimport type { BlogPost } from "@/types/blog";\nimport type { BlogPost } from "@/types/blog";
 import {
   getPublishedPosts,
   getAllCategories,
@@ -38,7 +38,11 @@ export function BlogPageClient() {
     let result = allPosts;
 
     if (searchQuery.trim()) {
-      result = searchPosts(searchQuery);
+      const query = searchQuery.toLowerCase().trim();
+      result = result.filter((post) =>
+        [post.title, post.excerpt, post.category, post.content]
+          .join(" ").replace(/<[^>]*>/g, " ").toLowerCase().includes(query)
+      );
     }
 
     if (selectedCategory) {
