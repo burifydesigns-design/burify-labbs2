@@ -74,7 +74,8 @@ export async function saveBlogPost(formData: FormData) {
   const supabase = await requireAdmin();
   const id = String(formData.get("id") ?? "").trim();
   const title = String(formData.get("title") ?? "").trim();
-  const rawSlug = String(formData.get("slug") ?? "").trim();\n  const slug = slugify(rawSlug || title);
+  const rawSlug = String(formData.get("slug") ?? "").trim();
+  const slug = slugify(rawSlug || title);
   const excerpt = String(formData.get("excerpt") ?? "").trim();
   const content = String(formData.get("content") ?? "");
   const categoryName = String(formData.get("category") ?? "").trim();
