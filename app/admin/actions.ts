@@ -43,3 +43,12 @@ export async function updateLeadStatus(formData: FormData) {
   const { error } = await supabase.from("leads").update({ status, updated_at: new Date().toISOString() }).eq("id", id);
   redirect(error ? "/admin?error=update-failed" : "/admin?updated=1");
 }
+
+export async function updateContactStatus(formData: FormData) {
+  const supabase = await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  const status = String(formData.get("status") ?? "");
+  if (!id || !["new", "read", "replied", "archived", "spam"].includes(status)) redirect("/admin?error=invalid-contact-status");
+  const { error } = await supabase.from("contact_submissions").update({ status }).eq("id", id);
+  redirect(error ? "/admin?error=contact-update-failed" : "/admin?contactUpdated=1");
+}
