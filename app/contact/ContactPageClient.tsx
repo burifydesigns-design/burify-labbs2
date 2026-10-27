@@ -83,16 +83,24 @@ export function ContactPageClient() {
     setBookingFieldErrors(fieldErrors);
     if (Object.keys(fieldErrors).length > 0) return;
 
+    const formData = new FormData(e.currentTarget);
+    const consent = formData.get("consent") === "on";
+    if (!consent) {
+      setBookingError("Please confirm that Burify may use your details to respond to your enquiry.");
+      return;
+    }
+
     submissionInProgress.current = true;
     setIsBooking(true);
     try {
-      const formData = new FormData(e.currentTarget);
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
           email,
+          message: "Discovery call request submitted through the Burify website.",
+          consent,
           websiteUrl: formData.get("websiteUrl") ?? "",
         }),
       });
@@ -272,6 +280,21 @@ export function ContactPageClient() {
                           {bookingFieldErrors.email}
                         </p>
                       )}
+                    </div>
+                    <div>
+                      <label htmlFor="booking-consent" className="flex items-start gap-3 text-body-sm text-text-secondary">
+                        <input
+                          id="booking-consent"
+                          name="consent"
+                          type="checkbox"
+                          required
+                          className="mt-1 h-4 w-4 shrink-0 accent-primary"
+                        />
+                        <span>
+                          I agree that Burify may use my name and email to respond to this enquiry and arrange my discovery call.
+                          <span className="text-accent-pink ml-1">*</span>
+                        </span>
+                      </label>
                     </div>
                     {bookingError && (
                       <p className="text-body-sm text-red-500" role="alert">
