@@ -10,11 +10,10 @@ import { BlogHeader } from "@/components/blog/BlogHeader";
 import { BlogSearch } from "@/components/blog/BlogSearch";
 import { CategoryFilter } from "@/components/blog/CategoryFilter";
 import { BlogGrid } from "@/components/blog/BlogGrid";
-import { BlogPagination } from "@/components/blog/BlogPagination";\nimport type { BlogPost } from "@/types/blog";\nimport type { BlogPost } from "@/types/blog";
+import { BlogPagination } from "@/components/blog/BlogPagination";
+import type { BlogPost } from "@/types/blog";
 import {
   getPublishedPosts,
-  getAllCategories,
-  searchPosts,
   paginatePosts,
   sortPosts,
 } from "@/lib/blog";
@@ -25,9 +24,23 @@ export function BlogPageClient() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [databasePosts, setDatabasePosts] = useState<BlogPost[]>([]);
 
-  const allPosts = useMemo(() => sortPosts(getPublishedPosts(), "newest"), []);
-  const categories = useMemo(() => getAllCategories(), []);
+  useEffect(() => {
+    let active = true;
+    fetch("/api/blog")
+      .then((response) => response.ok ? response.json() : [])
+      .then((posts: BlogPost[]) => { if (active && Array.isArray(posts)) setDatabasePosts(posts); })
+      .catch(() => undefined);
+    return () => { active = false; };
+  }, []);
+
+  const allPosts = useMemo(() => {
+    const databaseSlugs = new Set(databasePosts.map((post) => post.slug));
+    const legacyPosts = getPublishedPosts().filter((post) => !databaseSlugs.has(post.slug));
+    return sortPosts([...databasePosts, ...legacyPosts], "newest");
+  }, [databasePosts]);
+  const categories = useMemo(() => Array.from(new Set(allPosts.map((post) => post.category))).sort(), [allPosts]);
 
   const featuredPost = useMemo(() => {
     if (selectedCategory || searchQuery.trim()) return null;
