@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { signOut, updateLeadStatus } from "./actions";
+import { signOut, updateLeadStatus, updateContactStatus } from "./actions";
 
 export const metadata = { title: "Admin dashboard | Burify Labs", robots: { index: false, follow: false } };
 
-export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{ error?: string; updated?: string }> }) {
+export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{ error?: string; updated?: string; contactUpdated?: string }> }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
@@ -35,7 +35,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     <section className="admin-main">
       <header className="admin-topbar"><div><p className="admin-eyebrow">BURIFY / WORKSPACE</p><h1>Overview</h1></div><form action={signOut}><button className="admin-logout" type="submit">Sign out</button></form></header>
       {params.error && <p className="admin-error">The update failed. Check the status and database permissions.</p>}
-      {params.updated && <p className="admin-success">Lead status updated.</p>}
+      {params.updated && <p className="admin-success">Lead status updated.</p>}{params.contactUpdated && <p className="admin-success">Contact enquiry status updated.</p>}
       <section className="admin-welcome"><div><p className="admin-eyebrow">BUSINESS OVERVIEW</p><h2>Welcome back.</h2><p>Manage enquiries, leads and content from one place.</p></div><span className="admin-live">● Authenticated admin</span></section>
       <div className="admin-stats">
         <article className="admin-stat"><span>Total leads</span><strong>{leadResult.count ?? leads.length}</strong><small>Latest 50 displayed below</small></article>
@@ -53,7 +53,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       <section id="contacts" className="admin-panel admin-contact-panel">
         <div className="admin-panel-heading"><div><p className="admin-eyebrow">WEBSITE INBOX</p><h2>Recent contact enquiries</h2></div><span className="admin-count">{contacts.length} shown</span></div>
         {contactResult.error ? <p className="admin-muted">Unable to read contact submissions. Check the contact admin RLS policy.</p> : contacts.length === 0 ? <div className="admin-empty"><strong>Your inbox is clear</strong><p>Website contact submissions will show up here when stored in this table.</p></div> :
-        <div className="admin-contact-list">{contacts.map(item => <article className="admin-contact-item" key={item.id}><div><strong>{item.name}</strong><small>{item.email}{item.company ? " · " + item.company : ""}</small></div><span className="admin-status">{item.status}</span><p>{item.service_interest || "General enquiry"} · {date(item.created_at)}</p><details><summary>Read message</summary><p>{item.message}</p></details></article>)}</div>}
+        <div className="admin-contact-list">{contacts.map(item => <article className="admin-contact-item" key={item.id}><div><strong>{item.name}</strong><small>{item.email}{item.company ? " · " + item.company : ""}</small></div><span className="admin-status">{item.status}</span><p>{item.service_interest || "General enquiry"} · {date(item.created_at)}</p><form action={updateContactStatus} className="admin-status-form"><input type="hidden" name="id" value={item.id}/><select name="status" defaultValue={item.status} aria-label={"Status for enquiry from " + item.name}><option value="new">New</option><option value="read">Read</option><option value="replied">Replied</option><option value="archived">Archived</option><option value="spam">Spam</option></select><button type="submit">Save status</button></form><details><summary>Read message</summary><p>{item.message}</p></details></article>)}</div>}
       </section>
       <section className="admin-content-note"><div><p className="admin-eyebrow">CONTENT & DELIVERY</p><h2>Content overview</h2><p>Project, service and blog counts are connected to the verified database schema. Full editing screens can be added as a next step.</p></div><a href="https://supabase.com/dashboard/project/fsgmowsvwwtjmvmyaijj" target="_blank" rel="noreferrer">Open Supabase ↗</a></section>
       <footer className="admin-footer">Burify Labs · Private administrator workspace</footer>
