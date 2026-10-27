@@ -10,7 +10,7 @@ import { BlogHeader } from "@/components/blog/BlogHeader";
 import { BlogSearch } from "@/components/blog/BlogSearch";
 import { CategoryFilter } from "@/components/blog/CategoryFilter";
 import { BlogGrid } from "@/components/blog/BlogGrid";
-import { BlogPagination } from "@/components/blog/BlogPagination";
+import { BlogPagination } from "@/components/blog/BlogPagination";\nimport type { BlogPost } from "@/types/blog";
 import {
   getPublishedPosts,
   getAllCategories,
