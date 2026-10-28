@@ -13,7 +13,7 @@ function loadEnvFile(path) {
   if (!existsSync(path)) return;
   const contents = require("node:fs").readFileSync(path, "utf8");
   for (const line of contents.split(/\r?\n/)) {
-    const match = line.match(/^\s*(?:export\\s+)?([A-Za-z_][A-Za-z0-9_]*)\\s*=\\s*(.*)\s*$/);
+    const match = line.match(/^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)\s*$/);
     if (!match || Object.prototype.hasOwnProperty.call(process.env, match[1])) continue;
     let value = match[2].trim();
     if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
