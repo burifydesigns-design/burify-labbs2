@@ -1,10 +1,31 @@
 import { readFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { createRequire } from "node:module";
 import { createClient } from "@supabase/supabase-js";
 import vm from "node:vm";
 
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
+
+// Next.js loads .env.local automatically, but standalone Node scripts do not.
+function loadEnvFile(path) {
+  if (!existsSync(path)) return;
+  const contents = require("node:fs").readFileSync(path, "utf8");
+  for (const line of contents.split(/\\r?\\n/)) {
+    const match = line.match(/^\\s*(?:export\\s+)?([A-Za-z_][A-Za-z0-9_]*)\\s*=\\s*(.*)\\s*$/);
+    if (!match || Object.prototype.hasOwnProperty.call(process.env, match[1])) continue;
+    let value = match[2].trim();
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      value = value.slice(1, -1);
+    } else {
+      value = value.replace(/\\s+#.*$/, "");
+    }
+    process.env[match[1]] = value;
+  }
+}
+loadEnvFile(resolve(process.cwd(), ".env.local"));
+loadEnvFile(resolve(process.cwd(), ".env"));
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
