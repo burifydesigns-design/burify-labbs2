@@ -17,6 +17,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     supabase.from("projects").select("id", { count: "exact", head: true }),
     supabase.from("blog_posts").select("id", { count: "exact", head: true }),
     supabase.from("services").select("id", { count: "exact", head: true }),
+    supabase.from("case_studies").select("id", { count: "exact", head: true }),
     searchParams
   ]);
   const leads = leadResult.data ?? [];
