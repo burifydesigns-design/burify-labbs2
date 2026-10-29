@@ -4,15 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 export const metadata = { title: "Analytics | Burify Labs", robots: { index: false, follow: false } };
 
 type EventRow = { created_at: string; status?: string | null };
-type TrafficRow = {
-  timestamp?: string;
-  requestPath?: string;
-  pageviews?: number;
-  visitors?: number;
-};
-type TrafficResult =
-  | { configured: false; error: string; daily: TrafficRow[]; pages: TrafficRow[] }
-  | { configured: true; error: null; daily: TrafficRow[]; pages: TrafficRow[] };
+type TrafficRow = { timestamp?: string; requestPath?: string; referrerHostname?: string; pageviews?: number; visitors?: number };
+type VercelPayload<T> = { data?: T };
 
 function makeSeries(leads: EventRow[], contacts: EventRow[], days = 30) {
   const series: { label: string; key: string; leads: number; enquiries: number }[] = [];
@@ -31,59 +24,28 @@ function makeSeries(leads: EventRow[], contacts: EventRow[], days = 30) {
   return series;
 }
 
-async function getVercelTraffic(): Promise<TrafficResult> {
-  const token = process.env.VERCEL_ACCESS_TOKEN;
-  const projectId = process.env.VERCEL_PROJECT_ID;
-  const teamId = process.env.VERCEL_TEAM_ID;
+async function queryVercelAnalytics<T>(endpoint: string, params: Record<string, string>): Promise<T | null> {
+  const token = process.env.VERCEL_ANALYTICS_TOKEN;
+  const projectId = process.env.VERCEL_ANALYTICS_PROJECT_ID;
+  const teamId = process.env.VERCEL_ANALYTICS_TEAM_ID;
+  if (!token || !projectId) return null;
 
-  if (!token || !projectId) {
-    return {
-      configured: false,
-      error: "Add VERCEL_ACCESS_TOKEN and VERCEL_PROJECT_ID to your Vercel project environment variables, then redeploy. VERCEL_TEAM_ID is only required for team-owned projects.",
-      daily: [],
-      pages: [],
-    };
-  }
-
-  const untilDate = new Date();
-  const sinceDate = new Date(untilDate);
-  sinceDate.setUTCDate(sinceDate.getUTCDate() - 29);
-  const dateOnly = (date: Date) => date.toISOString().slice(0, 10);
-  const base = "https://api.vercel.com/v1/query/web-analytics/visits/aggregate";
-
-  async function query(by: string) {
-    const url = new URL(base);
-    url.searchParams.set("projectId", projectId);
-    url.searchParams.set("since", dateOnly(sinceDate));
-    url.searchParams.set("until", dateOnly(untilDate));
-    url.searchParams.set("by", by);
-    url.searchParams.set("limit", by === "requestPath" ? "10" : "30");
-    if (teamId) url.searchParams.set("teamId", teamId);
-
-    const response = await fetch(url, {
-      headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
-      cache: "no-store",
-    });
-    if (!response.ok) throw new Error("Vercel Analytics API request failed");
-    const payload = (await response.json()) as { data?: TrafficRow[] };
-    return Array.isArray(payload.data) ? payload.data : [];
-  }
+  const url = new URL(`https://api.vercel.com/v1/query/web-analytics/${endpoint}`);
+  url.searchParams.set("projectId", projectId);
+  if (teamId) url.searchParams.set("teamId", teamId);
+  for (const [key, value] of Object.entries(params)) url.searchParams.set(key, value);
 
   try {
-    const [daily, pages] = await Promise.all([query("day"), query("requestPath")]);
-    return {
-      configured: true,
-      error: null,
-      daily,
-      pages: pages.sort((a, b) => (b.pageviews ?? 0) - (a.pageviews ?? 0)).slice(0, 10),
-    };
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!response.ok) return null;
+    const payload = (await response.json()) as VercelPayload<T>;
+    return payload.data ?? null;
   } catch {
-    return {
-      configured: false,
-      error: "Vercel Analytics could not be loaded. Confirm Web Analytics is enabled for this project and that the access token has permission to read analytics.",
-      daily: [],
-      pages: [],
-    };
+    return null;
   }
 }
 
@@ -97,27 +59,42 @@ export default async function AdminAnalyticsPage() {
     redirect("/admin/login?error=unauthorized");
   }
 
-  const since = new Date();
-  since.setDate(since.getDate() - 29);
-  since.setHours(0, 0, 0, 0);
-  const cutoff = since.toISOString();
-  const [leadQuery, contactQuery, postCount, projectCount, serviceCount, traffic] = await Promise.all([
+  const sinceDate = new Date();
+  sinceDate.setDate(sinceDate.getDate() - 29);
+  const since = sinceDate.toISOString().slice(0, 10);
+  const until = new Date().toISOString().slice(0, 10);
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - 29);
+  cutoffDate.setHours(0, 0, 0, 0);
+  const cutoff = cutoffDate.toISOString();
+
+  const [leadQuery, contactQuery, postCount, projectCount, serviceCount, trafficTotals, dailyTraffic, topPages, topReferrers] = await Promise.all([
     supabase.from("leads").select("created_at,status").gte("created_at", cutoff).order("created_at"),
     supabase.from("contact_submissions").select("created_at,status").gte("created_at", cutoff).order("created_at"),
     supabase.from("blog_posts").select("id", { count: "exact", head: true }),
     supabase.from("projects").select("id", { count: "exact", head: true }),
     supabase.from("services").select("id", { count: "exact", head: true }),
-    getVercelTraffic(),
+    queryVercelAnalytics<{ pageviews?: number; visitors?: number }>("visits/count", {}),
+    queryVercelAnalytics<TrafficRow[]>("visits/aggregate", { since, until, by: "day", limit: "31" }),
+    queryVercelAnalytics<TrafficRow[]>("visits/aggregate", { since, until, by: "requestPath", limit: "8" }),
+    queryVercelAnalytics<TrafficRow[]>("visits/aggregate", { since, until, by: "referrerHostname", limit: "8" }),
   ]);
+
   const leads = (leadQuery.data ?? []) as EventRow[];
   const contacts = (contactQuery.data ?? []) as EventRow[];
   const series = makeSeries(leads, contacts);
   const max = Math.max(1, ...series.map((d) => d.leads + d.enquiries));
-  const trafficMax = Math.max(1, ...traffic.daily.map((d) => d.pageviews ?? 0));
-  const totalPageviews = traffic.daily.reduce((sum, d) => sum + (d.pageviews ?? 0), 0);
-  const totalVisitors = traffic.daily.reduce((sum, d) => sum + (d.visitors ?? 0), 0);
+  const trafficDays = (dailyTraffic ?? []).map((row) => ({
+    key: row.timestamp?.slice(0, 10) ?? "",
+    label: row.timestamp ? new Date(row.timestamp).toLocaleDateString("en", { month: "short", day: "numeric" }) : "—",
+    pageviews: row.pageviews ?? 0,
+    visitors: row.visitors ?? 0,
+  }));
+  const maxTraffic = Math.max(1, ...trafficDays.map((d) => d.pageviews));
   const newLeads = leads.filter((x) => x.status === "new").length;
   const newContacts = contacts.filter((x) => x.status === "new").length;
+  const vercelConfigured = Boolean(process.env.VERCEL_ANALYTICS_TOKEN && process.env.VERCEL_ANALYTICS_PROJECT_ID);
+  const vercelUnavailable = vercelConfigured && trafficTotals === null;
 
   return <main className="admin-shell">
     <aside className="admin-sidebar">
@@ -132,36 +109,41 @@ export default async function AdminAnalyticsPage() {
     </aside>
     <section className="admin-main">
       <header className="admin-topbar"><div><p className="admin-eyebrow">BURIFY / PERFORMANCE</p><h1>Analytics</h1></div><a className="admin-back-link" href="/admin">← Back to overview</a></header>
-      <section className="admin-welcome"><div><p className="admin-eyebrow">LAST 30 DAYS</p><h2>Website & business analytics.</h2><p>Website traffic is read from Vercel Web Analytics. Leads and enquiries below come from Supabase.</p></div><span className="admin-live">● Admin only</span></section>
+      <section className="admin-welcome"><div><p className="admin-eyebrow">WEBSITE PERFORMANCE</p><h2>Traffic & business activity.</h2><p>Vercel visitor analytics alongside private lead and enquiry metrics from Supabase.</p></div><span className="admin-live">● Admin only</span></section>
 
-      <section className="admin-panel">
-        <div className="admin-panel-heading"><div><p className="admin-eyebrow">VERCEL WEB ANALYTICS</p><h2>Website traffic</h2></div><a href="https://vercel.com/dashboard" target="_blank" rel="noreferrer">Open Vercel ↗</a></div>
-        {!traffic.configured ? <div className="admin-empty"><strong>Connect Vercel Analytics</strong><p>{traffic.error}</p><p>Set the variables in Vercel → Project → Settings → Environment Variables. Keep the access token private and server-side; do not use a NEXT_PUBLIC_ prefix.</p></div> : <>
-          <div className="admin-stats">
-            <article className="admin-stat"><span>Page views</span><strong>{totalPageviews.toLocaleString()}</strong><small>Last 30 days</small></article>
-            <article className="admin-stat"><span>Visitors</span><strong>{totalVisitors.toLocaleString()}</strong><small>Daily visitor totals summed across the period</small></article>
-            <article className="admin-stat"><span>Top pages tracked</span><strong>{traffic.pages.length}</strong><small>Most-viewed URL paths</small></article>
-            <article className="admin-stat"><span>Data source</span><strong>Vercel</strong><small>Web Analytics API</small></article>
-          </div>
-          {traffic.daily.length > 0 ? <div className="analytics-chart" role="img" aria-label="Daily Vercel page views for the last 30 days">
-            {traffic.daily.map((day) => <div className="analytics-bar-column" key={day.timestamp ?? "day-" + day.pageviews} title={(day.timestamp ? new Date(day.timestamp).toLocaleDateString() : "Day") + ": " + (day.pageviews ?? 0) + " page views, " + (day.visitors ?? 0) + " visitors"}>
-              <div className="analytics-bar-stack"><span className="analytics-bar-leads" style={{ height: ((day.pageviews ?? 0) / trafficMax * 100) + "%" }} /></div>
-              <span className="analytics-bar-label">{day.timestamp ? new Date(day.timestamp).toLocaleDateString("en", { month: "short", day: "numeric" }) : ""}</span>
-            </div>)}
-          </div> : <div className="admin-empty"><strong>No traffic data returned yet</strong><p>Check that Web Analytics is enabled and has collected production visits for the selected period.</p></div>}
-          <div className="admin-panel-heading"><div><p className="admin-eyebrow">CONTENT PERFORMANCE</p><h2>Top pages</h2></div><span className="admin-count">Last 30 days</span></div>
-          {traffic.pages.length === 0 ? <p className="admin-muted">No page-level traffic data is available yet.</p> : <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Page path</th><th>Page views</th><th>Visitors</th></tr></thead><tbody>{traffic.pages.map((page, index) => <tr key={page.requestPath ?? index}><td><strong>{page.requestPath || "Unknown path"}</strong></td><td>{(page.pageviews ?? 0).toLocaleString()}</td><td>{(page.visitors ?? 0).toLocaleString()}</td></tr>)}</tbody></table></div>}
-        </>}
+      <section className="admin-panel analytics-traffic-panel">
+        <div className="admin-panel-heading"><div><p className="admin-eyebrow">VERCEL WEB ANALYTICS</p><h2>Website traffic</h2></div><span className="admin-count">All-time totals</span></div>
+        {!vercelConfigured ? <div className="admin-analytics-setup"><strong>Connect Vercel Analytics</strong><p>Add the Vercel Analytics API credentials as server-side environment variables in Vercel. The API token is only used on the server and is never sent to the browser.</p><ol><li>Create a Vercel access token with access to this project.</li><li>Copy the project ID from Vercel Project Settings.</li><li>Add <code>VERCEL_ANALYTICS_TOKEN</code> and <code>VERCEL_ANALYTICS_PROJECT_ID</code> in Project → Settings → Environment Variables, for Production and Preview as needed.</li><li>If the project belongs to a Vercel team, also add <code>VERCEL_ANALYTICS_TEAM_ID</code>.</li><li>Redeploy the site. Web Analytics must also be enabled in the Vercel project.</li></ol><a href="https://vercel.com/dashboard" target="_blank" rel="noreferrer">Open Vercel dashboard ↗</a></div> :
+          vercelUnavailable ? <p className="admin-error">Vercel Analytics could not be loaded. Verify the token, project ID, team ID (if applicable), and that Web Analytics is enabled for the project.</p> :
+          <>
+            <div className="admin-stats analytics-traffic-stats">
+              <article className="admin-stat"><span>Page views</span><strong>{(trafficTotals?.pageviews ?? 0).toLocaleString()}</strong><small>All-time tracked views</small></article>
+              <article className="admin-stat"><span>Visitors</span><strong>{(trafficTotals?.visitors ?? 0).toLocaleString()}</strong><small>Vercel-reported unique visitors</small></article>
+              <article className="admin-stat"><span>Top pages tracked</span><strong>{topPages?.length ?? 0}</strong><small>Pages with traffic in the last 30 days</small></article>
+              <article className="admin-stat"><span>Referrers tracked</span><strong>{topReferrers?.length ?? 0}</strong><small>Sources in the last 30 days</small></article>
+            </div>
+            <div className="admin-panel-heading analytics-subheading"><div><p className="admin-eyebrow">LAST 30 DAYS</p><h2>Daily page views</h2></div><span className="admin-count">Page views</span></div>
+            {!trafficDays.length ? <div className="admin-empty"><strong>No traffic data yet</strong><p>Once Vercel receives visits, daily traffic will appear here.</p></div> : <div className="analytics-chart analytics-traffic-chart" role="img" aria-label="Daily Vercel page views for the last 30 days">
+              {trafficDays.map((day) => <div className="analytics-bar-column" key={day.key} title={day.label + ": " + day.pageviews + " page views, " + day.visitors + " visitors"}>
+                <div className="analytics-bar-stack"><span className="analytics-bar-pageviews" style={{ height: (day.pageviews / maxTraffic * 100) + "%" }} /></div>
+                <span className="analytics-bar-label">{day.label}</span>
+              </div>)}
+            </div>}
+            <div className="analytics-traffic-tables">
+              <div><h3>Top pages</h3>{!topPages?.length ? <p className="admin-muted">No page data available yet.</p> : <table className="admin-table"><thead><tr><th>Page</th><th>Views</th><th>Visitors</th></tr></thead><tbody>{topPages.map((row, index) => <tr key={row.requestPath ?? index}><td>{row.requestPath ?? "Unknown page"}</td><td>{(row.pageviews ?? 0).toLocaleString()}</td><td>{(row.visitors ?? 0).toLocaleString()}</td></tr>)}</tbody></table>}</div>
+              <div><h3>Top referrers</h3>{!topReferrers?.length ? <p className="admin-muted">No referral data available yet.</p> : <table className="admin-table"><thead><tr><th>Source</th><th>Views</th><th>Visitors</th></tr></thead><tbody>{topReferrers.map((row, index) => <tr key={row.referrerHostname ?? index}><td>{row.referrerHostname ?? "Direct / unknown"}</td><td>{(row.pageviews ?? 0).toLocaleString()}</td><td>{(row.visitors ?? 0).toLocaleString()}</td></tr>)}</tbody></table>}</div>
+            </div>
+          </>}
       </section>
 
-      <div className="admin-stats">
-        <article className="admin-stat"><span>Leads (30 days)</span><strong>{leads.length}</strong><small>{newLeads} currently marked new</small></article>
-        <article className="admin-stat"><span>Contact enquiries</span><strong>{contacts.length}</strong><small>{newContacts} currently marked new</small></article>
-        <article className="admin-stat"><span>Blog posts</span><strong>{postCount.count ?? "—"}</strong><small>Total records in CMS</small></article>
-        <article className="admin-stat"><span>Projects / services</span><strong>{projectCount.count ?? 0} / {serviceCount.count ?? 0}</strong><small>Configured in Supabase</small></article>
-      </div>
-      <section className="admin-panel">
-        <div className="admin-panel-heading"><div><p className="admin-eyebrow">DAILY VOLUME</p><h2>Leads & enquiries</h2></div><span className="admin-count">30 days</span></div>
+      <section className="admin-panel analytics-business-panel">
+        <div className="admin-panel-heading"><div><p className="admin-eyebrow">SUPABASE ACTIVITY</p><h2>Leads & enquiries</h2></div><span className="admin-count">Last 30 days</span></div>
+        <div className="admin-stats">
+          <article className="admin-stat"><span>New leads</span><strong>{leads.length}</strong><small>{newLeads} currently marked new</small></article>
+          <article className="admin-stat"><span>Contact enquiries</span><strong>{contacts.length}</strong><small>{newContacts} currently marked new</small></article>
+          <article className="admin-stat"><span>Blog posts</span><strong>{postCount.count ?? "—"}</strong><small>Total records in CMS</small></article>
+          <article className="admin-stat"><span>Projects / services</span><strong>{projectCount.count ?? 0} / {serviceCount.count ?? 0}</strong><small>Configured in Supabase</small></article>
+        </div>
         {(leadQuery.error || contactQuery.error) && <p className="admin-error">Some activity data could not be loaded. Check the Supabase table schema and admin RLS policies.</p>}
         {leads.length + contacts.length === 0 ? <div className="admin-empty"><strong>No recent activity</strong><p>New leads and contact submissions will appear here when records are saved to Supabase.</p></div> :
           <div className="analytics-chart" role="img" aria-label="Daily lead and contact enquiry counts for the last 30 days">

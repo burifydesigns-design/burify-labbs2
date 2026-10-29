@@ -28,7 +28,8 @@ export function mapCmsPost(row: CmsRow): BlogPost {
     readingTime: Math.max(1, Math.ceil(plainText.split(/\s+/).filter(Boolean).length / 200)),
     seoTitle: row.seo_title ?? undefined,
     seoDescription: row.seo_description ?? undefined,
-    status: row.status,
+    // The shared BlogPost model only exposes draft/published; archived CMS rows are never public.
+    status: row.status === "archived" ? "draft" : row.status,
   };
 }
 

@@ -7,11 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "migrate:blogs": "node scripts/migrate-blogs.cjs"
+    "migrate:blogs": "node scripts/migrate-blogs.cjs",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
-    "@supabase/supabase-js": "^2.57.0",
+    "@supabase/supabase-js": "^2.118.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "next": "^16.3.4",
@@ -32,6 +33,7 @@
     "postcss": "^8.5.29",
     "sharp": "^0.35.5",
     "tailwindcss": "^4.3.3",
+    "turbo": "^2.11.7",
     "typescript": "^5.6.0"
   }
 }
