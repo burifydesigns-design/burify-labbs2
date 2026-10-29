@@ -10,7 +10,8 @@ import { createResourceMetadata } from "@/lib/seo";
 type PageProps = { params: Promise<{ slug: string }> | { slug: string } };
 
 async function resolvePost(slug: string): Promise<BlogPost | undefined> {
-  return (await getCmsPostBySlug(slug)) ?? getPostBySlug(slug);
+  const result = await getCmsPostBySlugResult(slug);
+  return result.databaseAvailable ? result.post : getPostBySlug(slug);
 }
 
 export const generateMetadata = async ({ params }: PageProps) => {
