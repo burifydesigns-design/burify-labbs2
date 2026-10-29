@@ -25,10 +25,9 @@ export function BlogPageClient({ databasePosts, databaseAvailable }: { databaseP
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const allPosts = useMemo(() => {
-    const databaseSlugs = new Set(databasePosts.map((post) => post.slug));
-    const legacyPosts = getPublishedPosts().filter((post) => !databaseSlugs.has(post.slug));
-    return sortPosts([...databasePosts, ...legacyPosts], "newest");
-  }, [databasePosts]);
+    if (databaseAvailable) return sortPosts(databasePosts, "newest");
+    return sortPosts(getPublishedPosts(), "newest");
+  }, [databasePosts, databaseAvailable]);
   const categories = useMemo(() => Array.from(new Set(allPosts.map((post) => post.category))).sort(), [allPosts]);
 
   const featuredPost = useMemo(() => {
