@@ -29,7 +29,9 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       <p className="admin-side-label">WORKSPACE</p>
       <a className="admin-nav active" href="/admin">Overview</a>
       <a className="admin-nav" href="#leads">Lead pipeline</a>
-      <a className="admin-nav" href="#contacts">Contact inbox</a>\n      <a className="admin-nav" href="/admin/work">Work / portfolio</a>\n      <a className="admin-nav" href="/admin/blog">Blog management</a>
+      <a className="admin-nav" href="#contacts">Contact inbox</a>
+      <a className="admin-nav" href="/admin/work">Work / portfolio</a>
+      <a className="admin-nav" href="/admin/blog">Blog management</a>
       <a className="admin-nav" href="/admin/analytics">Analytics</a>
       <div className="admin-sidebar-bottom"><span className="admin-avatar">{(user.email?.[0] ?? "A").toUpperCase()}</span><div><strong>Administrator</strong><small>{user.email}</small></div></div>
     </aside>
