@@ -88,6 +88,7 @@ export default async function AdminBlogPage({ searchParams }: { searchParams: Se
         <a className="admin-brand" href="/">BURIFY<span>LABS</span></a>
         <p className="admin-side-label">WORKSPACE</p>
         <a className="admin-nav" href="/admin">Overview</a>
+        <a className="admin-nav" href="/admin/work">Work / portfolio</a>
         <a className="admin-nav active" href="/admin/blog">Blog management</a>
         <div className="admin-sidebar-bottom"><span className="admin-avatar">{(user.email?.[0] ?? "A").toUpperCase()}</span><div><strong>Administrator</strong><small>{user.email}</small></div></div>
       </aside>

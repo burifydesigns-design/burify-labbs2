@@ -1,16 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { publishedProjects } from "@/data/projects";
+import { getPublishedWork } from "@/lib/case-studies";
 
-const projects = publishedProjects.slice(0, 3).map((project) => ({
-  title: project.title,
-  tags: [project.category],
-  description: project.shortDescription,
-  slug: project.slug,
-  featuredImage: project.featuredImage,
-}));
-
-export function HomeWork() {
+export async function HomeWork() {
+  const publishedProjects = await getPublishedWork();
+  const projects = publishedProjects.slice(0, 3).map((project) => ({ title: project.title, category: project.category, shortDescription: project.shortDescription, slug: project.slug, featuredImage: project.featuredImage }));
   return (
     <section className="py-16 md:py-24 lg:py-32 bg-background-secondary" id="work">
       <div className="max-w-container mx-auto px-4 sm:px-6 lg:px-8">
@@ -51,14 +45,14 @@ export function HomeWork() {
               </div>
               <div className="p-6">
                 <div className="flex flex-wrap gap-2 mb-3">
-                  {project.tags.map((tag) => (
+                  {[project.category].map((tag) => (
                     <span key={tag} className="badge badge-primary">{tag}</span>
                   ))}
                 </div>
                 <h3 className="text-h5 text-text-primary mb-2 group-hover:text-primary transition-colors duration-200">
                   {project.title}
                 </h3>
-                <p className="text-body text-text-secondary mb-4">{project.description}</p>
+                <p className="text-body text-text-secondary mb-4">{project.shortDescription}</p>
                 <Link
                   href={`/work/${project.slug}`}
                   className="inline-flex items-center gap-2 text-body-sm font-medium text-primary hover:text-primary-dark transition-colors duration-200"
