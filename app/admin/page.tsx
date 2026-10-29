@@ -11,7 +11,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
   if (profile?.role !== "admin") { await supabase.auth.signOut(); redirect("/admin/login?error=unauthorized"); }
 
-  const [leadResult, contactResult, projectResult, postResult, serviceResult, params] = await Promise.all([
+  const [leadResult, contactResult, projectResult, postResult, serviceResult, workResult, params] = await Promise.all([
     supabase.from("leads").select("id,full_name,email,company,industry,source,status,next_follow_up_at,created_at", { count: "exact" }).order("created_at", { ascending: false }).limit(50),
     supabase.from("contact_submissions").select("id,name,email,company,service_interest,message,status,created_at", { count: "exact" }).order("created_at", { ascending: false }).limit(8),
     supabase.from("projects").select("id", { count: "exact", head: true }),
@@ -29,7 +29,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       <p className="admin-side-label">WORKSPACE</p>
       <a className="admin-nav active" href="/admin">Overview</a>
       <a className="admin-nav" href="#leads">Lead pipeline</a>
-      <a className="admin-nav" href="#contacts">Contact inbox</a>\n      <a className="admin-nav" href="/admin/blog">Blog management</a>
+      <a className="admin-nav" href="#contacts">Contact inbox</a>\n      <a className="admin-nav" href="/admin/work">Work / portfolio</a>\n      <a className="admin-nav" href="/admin/blog">Blog management</a>
       <a className="admin-nav" href="/admin/analytics">Analytics</a>
       <div className="admin-sidebar-bottom"><span className="admin-avatar">{(user.email?.[0] ?? "A").toUpperCase()}</span><div><strong>Administrator</strong><small>{user.email}</small></div></div>
     </aside>
@@ -42,7 +42,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         <article className="admin-stat"><span>Total leads</span><strong>{leadResult.count ?? leads.length}</strong><small>Latest 50 displayed below</small></article>
         <article className="admin-stat"><span>New leads</span><strong>{leads.filter(x => x.status === "new").length}</strong><small>Among latest 50</small></article>
         <article className="admin-stat"><span>Contact enquiries</span><strong>{contactResult.count ?? contacts.length}</strong><small>Latest 8 displayed below</small></article>
-        <article className="admin-stat"><span>Projects / posts</span><strong>{projectResult.count ?? 0} / {postResult.count ?? 0}</strong><small>{serviceResult.count ?? 0} services configured</small></article>
+        <article className="admin-stat"><span>Work / blog posts</span><strong>{workResult.count ?? 0} / {postResult.count ?? 0}</strong><small>{serviceResult.count ?? 0} services configured</small></article>
       </div>
       <section id="leads" className="admin-panel">
         <div className="admin-panel-heading"><div><p className="admin-eyebrow">SALES PIPELINE</p><h2>Recent leads</h2></div><span className="admin-count">{leads.length} records</span></div>
@@ -56,7 +56,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         {contactResult.error ? <p className="admin-muted">Unable to read contact submissions. Check the contact admin RLS policy.</p> : contacts.length === 0 ? <div className="admin-empty"><strong>Your inbox is clear</strong><p>Website contact submissions will show up here when stored in this table.</p></div> :
         <div className="admin-contact-list">{contacts.map(item => <article className="admin-contact-item" key={item.id}><div><strong>{item.name}</strong><small>{item.email}{item.company ? " · " + item.company : ""}</small></div><span className="admin-status">{item.status}</span><p>{item.service_interest || "General enquiry"} · {date(item.created_at)}</p><form action={updateContactStatus} className="admin-status-form"><input type="hidden" name="id" value={item.id}/><select name="status" defaultValue={item.status} aria-label={"Status for enquiry from " + item.name}><option value="new">New</option><option value="read">Read</option><option value="replied">Replied</option><option value="archived">Archived</option><option value="spam">Spam</option></select><button type="submit">Save status</button></form><details><summary>Read message</summary><p>{item.message}</p></details></article>)}</div>}
       </section>
-      <section className="admin-content-note"><div><p className="admin-eyebrow">CONTENT & DELIVERY</p><h2>Content overview</h2><p>Create, edit, publish, archive or delete blog posts from the content manager. Existing code-based articles remain on the site while new CMS posts are managed in Supabase.</p></div><a href="/admin/blog">Manage blog posts ↗</a></section>
+      <section className="admin-content-note"><div><p className="admin-eyebrow">CONTENT & DELIVERY</p><h2>Content overview</h2><p>Manage portfolio case studies and blog posts in Supabase. Published work items appear on the homepage and Work pages; blog posts are managed separately.</p></div><a href="/admin/work">Manage work ↗</a> <a href="/admin/blog">Manage blog posts ↗</a></section>
       <footer className="admin-footer">Burify Labs · Private administrator workspace</footer>
     </section>
   </main>;
