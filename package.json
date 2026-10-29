@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "migrate:blogs": "node scripts/migrate-blog-posts.mjs"
+    "migrate:blogs": "node scripts/migrate-blogs.cjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
