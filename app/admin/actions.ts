@@ -127,3 +127,81 @@ export async function deleteBlogPost(formData: FormData) {
   revalidatePath("/blog");
   redirect("/admin/blog?deleted=1");
 }
+
+
+export async function saveCaseStudy(formData: FormData) {
+  const supabase = await requireAdmin();
+  const id = String(formData.get("id") ?? "").trim();
+  const title = String(formData.get("title") ?? "").trim();
+  const slug = slugify(String(formData.get("slug") ?? "").trim() || title).slice(0, 180);
+  const category = String(formData.get("category") ?? "Web Design").trim();
+  const clientName = String(formData.get("client_name") ?? "").trim();
+  const industry = String(formData.get("industry") ?? "").trim();
+  const summary = String(formData.get("summary") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
+  const challenge = String(formData.get("challenge") ?? "").trim();
+  const solution = String(formData.get("solution") ?? "").trim();
+  const approach = String(formData.get("approach") ?? "").trim();
+  const outcomes = String(formData.get("outcomes") ?? "").trim();
+  const coverImage = String(formData.get("cover_image_url") ?? "").trim();
+  const beforeUrl = String(formData.get("before_url") ?? "").trim();
+  const afterUrl = String(formData.get("after_url") ?? "").trim();
+  const originalUrl = String(formData.get("original_url") ?? "").trim();
+  const redesignedUrl = String(formData.get("redesigned_url") ?? "").trim();
+  const canonicalPath = String(formData.get("canonical_path") ?? "").trim();
+  const year = String(formData.get("year") ?? "").trim();
+  const galleryUrls = String(formData.get("gallery_urls") ?? "").split(/\r?\n/).map((url) => url.trim()).filter(Boolean);
+  const isPublished = String(formData.get("is_published") ?? "") === "on";
+  const displayOrder = Number.parseInt(String(formData.get("display_order") ?? "0"), 10);
+  const validUrl = (value: string) => !value || (value.length <= 2048 && /^https?:\/\//i.test(value));
+  if (!title || title.length > 200 || !slug || slug.length > 180 || category.length > 120 ||
+      clientName.length > 180 || industry.length > 120 || summary.length > 1000 ||
+      description.length > 10000 || challenge.length > 10000 || solution.length > 10000 ||
+      approach.length > 10000 || outcomes.length > 10000 || year.length > 10 ||
+      !Number.isInteger(displayOrder) || displayOrder < 0 ||
+      ![coverImage, beforeUrl, afterUrl, originalUrl, redesignedUrl, ...galleryUrls].every(validUrl) ||
+      galleryUrls.length > 30 || canonicalPath.length > 500 ||
+      (canonicalPath && !canonicalPath.startsWith("/work/"))) {
+    redirect("/admin/work?error=invalid");
+  }
+  const { data: existing } = id
+    ? await supabase.from("case_studies").select("published_at").eq("id", id).maybeSingle()
+    : { data: null };
+  const values = {
+    title, slug, category: category || null, client_name: clientName || null,
+    industry: industry || null, summary: summary || null, description: description || null,
+    challenge: challenge || null, solution: solution || null, approach: approach || null,
+    outcomes: outcomes || null, cover_image_url: coverImage || null,
+    before_url: beforeUrl || null, after_url: afterUrl || null,
+    original_url: originalUrl || null, redesigned_url: redesignedUrl || null,
+    canonical_path: canonicalPath || `/work/${slug}`, year: year || null,
+    gallery_urls: galleryUrls, is_published: isPublished, display_order: displayOrder,
+    published_at: isPublished ? (existing?.published_at ?? new Date().toISOString()) : null,
+    updated_at: new Date().toISOString(),
+  };
+  const result = id
+    ? await supabase.from("case_studies").update(values).eq("id", id)
+    : await supabase.from("case_studies").insert(values);
+  if (result.error) redirect("/admin/work?error=save");
+  const { revalidatePath } = await import("next/cache");
+  revalidatePath("/admin");
+  revalidatePath("/admin/work");
+  revalidatePath("/");
+  revalidatePath("/work");
+  revalidatePath("/work/" + slug);
+  redirect("/admin/work?saved=1");
+}
+
+export async function deleteCaseStudy(formData: FormData) {
+  const supabase = await requireAdmin();
+  const id = String(formData.get("id") ?? "").trim();
+  if (!id || String(formData.get("confirmation") ?? "") !== "DELETE") redirect("/admin/work?error=confirm-delete");
+  const { error } = await supabase.from("case_studies").delete().eq("id", id);
+  if (error) redirect("/admin/work?error=delete");
+  const { revalidatePath } = await import("next/cache");
+  revalidatePath("/admin");
+  revalidatePath("/admin/work");
+  revalidatePath("/");
+  revalidatePath("/work");
+  redirect("/admin/work?deleted=1");
+}
