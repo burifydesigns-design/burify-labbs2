@@ -74,11 +74,11 @@ const rows = posts.map((post) => ({
     legacy_id: post.id,
     description: post.description ?? "",
     author: post.author ?? { name: "Burify" },
-    tags: post.tags ?? [],
+    tags: (post.tags ?? []).map((t) => ({ value: t })),
     featured_image_alt: post.featuredImageAlt ?? post.title,
     reading_time: post.readingTime ?? null,
     canonical_url: post.canonicalUrl ?? null,
-    related_service_paths: post.relatedServicePaths ?? [],
+    related_service_paths: (post.relatedServicePaths ?? []).map((p) => ({ value: p })),
     featured: Boolean(post.featured),
     cta: post.cta ?? null,
     legacy_updated_at: post.updatedAt ?? null,
@@ -87,11 +87,20 @@ const rows = posts.map((post) => ({
 
 // Idempotent: match by slug so repeated runs update the migrated article, not duplicate it.
 let migrated = 0;
-for (let offset = 0; offset < rows.length; offset += 25) {
-  const batch = rows.slice(offset, offset + 25);
-  const { error } = await supabase.from("blog_posts").upsert(batch, { onConflict: "slug" });
-  if (error) throw new Error(`Blog post batch starting at ${offset + 1} failed: ${error.message}`);
-  migrated += batch.length;
+for (let i = 0; i < rows.length; i++) {
+  const row = rows[i];
+  if (!row) {
+    console.error(`Skipping undefined post at index ${i}`);
+    continue;
+  }
+  try {
+    const { error } = await supabase.from("blog_posts").upsert([row], { onConflict: "slug" });
+    if (error) throw new Error(error.message);
+    migrated++;
+    if ((i + 1) % 10 === 0) console.log(`Processed ${i + 1}/${rows.length} posts...`);
+  } catch (err) {
+    console.error(`Failed at post index ${i} (slug: ${row.slug}): ${err.message}`);
+  }
 }
 console.log(`Migrated/upserted ${migrated} posts and ${categories.length} categories into Supabase.`);
 console.log("Review the public blog and admin dashboard before removing legacy source data.");
