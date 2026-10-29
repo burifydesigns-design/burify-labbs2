@@ -1,6 +1,6 @@
 import type { BlogPost } from "@/types/blog";
 import { getPostBySlug } from "@/lib/blog";
-import { getCmsPostBySlug } from "@/lib/blog-supabase";
+import { getCmsPostBySlugResult } from "@/lib/blog-supabase";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { StructuredData } from "@/components/seo/StructuredData";
@@ -10,7 +10,8 @@ import { createResourceMetadata } from "@/lib/seo";
 type PageProps = { params: Promise<{ slug: string }> | { slug: string } };
 
 async function resolvePost(slug: string): Promise<BlogPost | undefined> {
-  return (await getCmsPostBySlug(slug)) ?? getPostBySlug(slug);
+  const result = await getCmsPostBySlugResult(slug);
+  return result.databaseAvailable ? result.post : getPostBySlug(slug);
 }
 
 export const generateMetadata = async ({ params }: PageProps) => {
