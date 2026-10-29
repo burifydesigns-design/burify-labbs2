@@ -153,7 +153,7 @@ export async function saveCaseStudy(formData: FormData) {
   const galleryUrls = String(formData.get("gallery_urls") ?? "").split(/\r?\n/).map((url) => url.trim()).filter(Boolean);
   const isPublished = String(formData.get("is_published") ?? "") === "on";
   const displayOrder = Number.parseInt(String(formData.get("display_order") ?? "0"), 10);
-  const validUrl = (value: string) => !value || (value.length <= 2048 && /^https?:\/\//i.test(value));
+  const validUrl = (value: string) => !value || (value.length <= 2048 && (/^https?:\/\//i.test(value) || (value.startsWith("/") && !value.startsWith("//"))));
   if (!title || title.length > 200 || !slug || slug.length > 180 || category.length > 120 ||
       clientName.length > 180 || industry.length > 120 || summary.length > 1000 ||
       description.length > 10000 || challenge.length > 10000 || solution.length > 10000 ||
