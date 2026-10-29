@@ -11,10 +11,9 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
   if (profile?.role !== "admin") { await supabase.auth.signOut(); redirect("/admin/login?error=unauthorized"); }
 
-  const [leadResult, contactResult, projectResult, postResult, serviceResult, workResult, params] = await Promise.all([
+  const [leadResult, contactResult, postResult, serviceResult, workResult, params] = await Promise.all([
     supabase.from("leads").select("id,full_name,email,company,industry,source,status,next_follow_up_at,created_at", { count: "exact" }).order("created_at", { ascending: false }).limit(50),
     supabase.from("contact_submissions").select("id,name,email,company,service_interest,message,status,created_at", { count: "exact" }).order("created_at", { ascending: false }).limit(8),
-    supabase.from("projects").select("id", { count: "exact", head: true }),
     supabase.from("blog_posts").select("id", { count: "exact", head: true }),
     supabase.from("services").select("id", { count: "exact", head: true }),
     supabase.from("case_studies").select("id", { count: "exact", head: true }),
