@@ -6,10 +6,10 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import { WorkProjectCard } from "@/components/work";
-import { publishedProjects } from "@/data/projects";
+import type { Project } from "@/types/project";
 import "./work.css";
 
-export function WorkPageClient() {
+export function WorkPageClient({ projects }: { projects: Project[] }) {
   const [scrolled, setScrolled] = useState(false);
   const revealRefs = useRef<HTMLElement[]>([]);
 
@@ -39,14 +39,14 @@ export function WorkPageClient() {
     return () => observer.disconnect();
   }, []);
 
-  const orderedProjects = [...publishedProjects].sort((a, b) => {
-    const order = [
-      "cavari-group",
-      "precision-auto-centre",
-      "real-estate-n8n-automation",
-      "hillview-physiotherapy",
-    ];
-    return order.indexOf(a.slug) - order.indexOf(b.slug);
+  const orderedProjects = [...projects].sort((a, b) => {
+    const order = ["cavari-group", "precision-auto-centre", "real-estate-n8n-automation", "hillview-physiotherapy"];
+    const ai = order.indexOf(a.slug);
+    const bi = order.indexOf(b.slug);
+    if (ai === -1 && bi === -1) return 0;
+    if (ai === -1) return 1;
+    if (bi === -1) return -1;
+    return ai - bi;
   });
 
   return (
