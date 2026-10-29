@@ -50,7 +50,8 @@ export type SearchIntent =
   | "Legal"
   | "System";
 
-export type PublicationStatus = "draft" | "published";
+// Keep this aligned with the blog CMS database statuses.
+export type PublicationStatus = "draft" | "published" | "archived";
 
 export type CtaId =
   | "start-project"
