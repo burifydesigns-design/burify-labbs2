@@ -39,3 +39,10 @@ The `app/api/contact/route.ts` endpoint now validates contact-form submissions a
 
 ## Security and remaining verification
 Never expose a Supabase service-role key in client code. Database RLS remains the security boundary. A Supabase security advisor check reported leaked-password protection is disabled; enable it under Authentication → Settings → Password Security. The repository branch has not yet been built or deployed, so run the Vercel preview/build and resolve any issues before merging.
+
+## Admin user management
+The admin dashboard includes an Access Control section to invite users by email and remove accounts. It uses Supabase Auth Admin APIs from server-only code; the secret key must never be prefixed with NEXT_PUBLIC_ or exposed to the browser.
+- Add `SUPABASE_SECRET_KEY` in Vercel for Preview and Production using the project's server-side secret key from Supabase → Project Settings → API Keys.
+- The existing `profiles.role` values are `admin` and `member`. Only administrators can invite/remove users or access admin routes.
+- Inviting sends a Supabase Auth email invitation and creates/updates the matching profile. Removing deletes the Auth account and profile. The current administrator cannot remove their own account, and the last administrator is protected.
+- The dashboard currently displays the first 100 Auth users.
