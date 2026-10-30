@@ -111,6 +111,55 @@ function validateSubmission(value: unknown): ValidationResult {
   };
 }
 
+async function sendContactNotification(submission: ContactSubmission) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const recipient = process.env.CONTACT_NOTIFICATION_EMAIL;
+  const sender = process.env.CONTACT_FROM_EMAIL;
+  if (!apiKey || !recipient || !sender) return;
+
+  const textBody = [
+    "A new enquiry was submitted through the Burify website.",
+    "",
+    `Name: ${submission.name}`,
+    `Email: ${submission.email}`,
+    `Company: ${submission.company || "Not provided"}`,
+    `Service: ${submission.service_interest || "Not selected"}`,
+    "",
+    "Project details:",
+    submission.message,
+    "",
+    `Landing page: ${submission.landing_page || "Unknown"}`,
+    `Referrer: ${submission.referrer || "Direct / unknown"}`,
+    `UTM source: ${submission.utm_source || "—"}`,
+    `UTM medium: ${submission.utm_medium || "—"}`,
+    `UTM campaign: ${submission.utm_campaign || "—"}`,
+  ].join("\\n");
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: sender,
+        to: [recipient],
+        reply_to: submission.email,
+        subject: `New Burify website enquiry from ${submission.name}`,
+        text: textBody,
+      }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!response.ok) {
+      console.error("Contact notification email failed:", response.status, await response.text());
+    }
+  } catch (error) {
+    console.error("Contact notification email could not be sent:", error instanceof Error ? error.message : "Unknown error");
+  }
+}
+
 export async function POST(request: Request) {
   const contentType = request.headers.get("content-type") ?? "";
   if (!contentType.toLowerCase().startsWith("application/json")) {
@@ -185,6 +234,9 @@ export async function POST(request: Request) {
       console.error("Contact and lead creation failed:", error.message);
       return failure("Unable to submit your message right now.", 503);
     }
+
+    // Notifications are best-effort: a mail provider outage must not lose a saved enquiry.
+    await sendContactNotification(validation.data);
   } catch (error) {
     console.error(
       "Contact submission could not connect to Supabase:",
