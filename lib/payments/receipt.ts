@@ -30,6 +30,7 @@ export async function sendPaymentReceipt(reference: string, retryFailed = false)
     .select("id").maybeSingle();
 
   let logId = createdLog?.id;
+  let attemptNumber = 1;
   if (insertError || !logId) {
     const { data: existing } = await admin.from("payment_receipt_logs")
       .select("id,status,attempt_count").eq("payment_id", payment.id).maybeSingle();
@@ -43,6 +44,7 @@ export async function sendPaymentReceipt(reference: string, retryFailed = false)
       .eq("id", existing.id).eq("status", "failed").select("id").maybeSingle();
     if (claimError || !claimed) return { sent: false, skipped: true, error: "Receipt retry is already in progress." };
     logId = claimed.id;
+    attemptNumber = Number(existing.attempt_count || 1) + 1;
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -65,7 +67,7 @@ export async function sendPaymentReceipt(reference: string, retryFailed = false)
   try {
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json", "Idempotency-Key": `payment-receipt-${payment.id}-${createdLog ? 1 : 2}` },
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json", "Idempotency-Key": `payment-receipt-${payment.id}-${attemptNumber}` },
       body: JSON.stringify({ from, to: [recipient], subject, html, text }),
       cache: "no-store",
       signal: AbortSignal.timeout(15000),
