@@ -1,3 +1,4 @@
+import "../invoice.css";
 import { createHash } from "node:crypto";
 import { notFound } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
