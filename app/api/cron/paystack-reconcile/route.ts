@@ -1,7 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { reconcilePaystackTransaction, verifyPaystackTransaction } from "@/lib/payments/paystack";
+import { PaystackVerificationError, reconcilePaystackTransaction, verifyPaystackTransaction } from "@/lib/payments/paystack";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -49,6 +49,15 @@ export async function GET(request: Request) {
       else if (["failed", "abandoned", "reversed"].includes(result.status)) terminal += 1;
     } catch (cause) {
       errors += 1;
+      const ageMs = Date.now() - new Date(attempt.created_at).getTime();
+      if (cause instanceof PaystackVerificationError && cause.statusCode === 404 && ageMs > 30 * 60 * 1000) {
+        const { error: updateError } = await admin.from("payments").update({
+          status: "abandoned",
+          failure_reason: "Paystack no longer recognises this checkout reference.",
+          updated_at: new Date().toISOString(),
+        }).eq("reference", attempt.reference).in("status", ["pending", "processing"]);
+        if (!updateError) terminal += 1;
+      }
       console.error("Paystack reconciliation attempt failed:", {
         reference: attempt.reference,
         message: cause instanceof Error ? cause.message : "Unknown error",
