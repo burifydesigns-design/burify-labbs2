@@ -288,3 +288,6 @@ end;
 $$;
 revoke all on function public.finalize_paystack_payment(text,text,bigint,text,text,timestamptz) from public, anon, authenticated;
 grant execute on function public.finalize_paystack_payment(text,text,bigint,text,text,timestamptz) to service_role;
+
+-- The server-only Supabase client accesses these tables through the Data API.
+grant usage on schema public to service_role;
