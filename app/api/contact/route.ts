@@ -1,8 +1,9 @@
+import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 const MAX_REQUEST_BYTES = 10_000;
-const EMAIL_PATTERN = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type ContactSubmission = {
   name: string;
@@ -10,7 +11,14 @@ type ContactSubmission = {
   company: string | null;
   service_interest: string | null;
   message: string;
-  consent: boolean;
+  consent: true;
+  landing_page: string | null;
+  referrer: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_term: string | null;
+  utm_content: string | null;
 };
 
 type ValidationResult =
@@ -40,7 +48,11 @@ function validateSubmission(value: unknown): ValidationResult {
   if (typeof body.websiteUrl === "string" && body.websiteUrl.trim()) {
     return {
       success: true,
-      data: { name: "", email: "", company: null, service_interest: null, message: "", consent: false },
+      data: {
+        name: "", email: "", company: null, service_interest: null, message: "",
+        consent: true, landing_page: null, referrer: null,
+        utm_source: null, utm_medium: null, utm_campaign: null, utm_term: null, utm_content: null,
+      },
       honeypot: true,
     };
   }
@@ -49,35 +61,103 @@ function validateSubmission(value: unknown): ValidationResult {
     return { success: false, error: "Please provide your name and email address." };
   }
 
-  const name = body.name.trim().replace(/\\s+/g, " ");
+  const name = body.name.trim().replace(/\s+/g, " ");
   const email = body.email.trim().toLowerCase();
-  const company = optionalText(body.company, 200);
-  const serviceInterest = optionalText(body.service_interest ?? body.service, 200);
+  const company = optionalText(body.company, 180);
+  const serviceInterest = optionalText(body.service_interest ?? body.service, 160);
   const message = optionalText(body.message ?? body.projectDetails, 5_000);
-  const consent = body.consent === undefined ? false : body.consent;
+  const landingPage = optionalText(body.landing_page, 2_048);
+  const referrer = optionalText(body.referrer, 2_048);
+  const utmSource = optionalText(body.utm_source, 200);
+  const utmMedium = optionalText(body.utm_medium, 200);
+  const utmCampaign = optionalText(body.utm_campaign, 200);
+  const utmTerm = optionalText(body.utm_term, 200);
+  const utmContent = optionalText(body.utm_content, 200);
 
   if (!name) return { success: false, error: "Please provide your name." };
   if (name.length > 100) return { success: false, error: "Name must be 100 characters or fewer." };
   if (!email || email.length > 254 || !EMAIL_PATTERN.test(email)) {
     return { success: false, error: "Please provide a valid email address." };
   }
-  if (company === false) return { success: false, error: "Company name must be 200 characters or fewer." };
+  if (company === false) return { success: false, error: "Company name must be 180 characters or fewer." };
   if (serviceInterest === false) return { success: false, error: "Service selection is too long." };
   if (message === false) return { success: false, error: "Message must be 5,000 characters or fewer." };
-  if (typeof consent !== "boolean") return { success: false, error: "Consent must be a true or false value." };
+  if (landingPage === false || referrer === false) return { success: false, error: "Page attribution is too long." };
+  if ([utmSource, utmMedium, utmCampaign, utmTerm, utmContent].some((item) => item === false)) {
+    return { success: false, error: "Campaign attribution is too long." };
+  }
+  if (body.consent !== true) {
+    return { success: false, error: "Consent is required before submitting this enquiry." };
+  }
 
   return {
     success: true,
     data: {
       name,
       email,
-      company,
-      service_interest: serviceInterest,
-      message: message ?? "",
-      consent,
+      company: company || null,
+      service_interest: serviceInterest || null,
+      message: message || "Discovery call request submitted through the Burify website.",
+      consent: true,
+      landing_page: landingPage || null,
+      referrer: referrer || null,
+      utm_source: utmSource || null,
+      utm_medium: utmMedium || null,
+      utm_campaign: utmCampaign || null,
+      utm_term: utmTerm || null,
+      utm_content: utmContent || null,
     },
     honeypot: false,
   };
+}
+
+async function sendContactNotification(submission: ContactSubmission) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const recipient = process.env.CONTACT_NOTIFICATION_EMAIL;
+  const sender = process.env.CONTACT_FROM_EMAIL;
+  if (!apiKey || !recipient || !sender) return;
+
+  const textBody = [
+    "A new enquiry was submitted through the Burify website.",
+    "",
+    `Name: ${submission.name}`,
+    `Email: ${submission.email}`,
+    `Company: ${submission.company || "Not provided"}`,
+    `Service: ${submission.service_interest || "Not selected"}`,
+    "",
+    "Project details:",
+    submission.message,
+    "",
+    `Landing page: ${submission.landing_page || "Unknown"}`,
+    `Referrer: ${submission.referrer || "Direct / unknown"}`,
+    `UTM source: ${submission.utm_source || "—"}`,
+    `UTM medium: ${submission.utm_medium || "—"}`,
+    `UTM campaign: ${submission.utm_campaign || "—"}`,
+  ].join("\n");
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: sender,
+        to: [recipient],
+        reply_to: submission.email,
+        subject: `New Burify website enquiry from ${submission.name}`,
+        text: textBody,
+      }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!response.ok) {
+      console.error("Contact notification email failed:", response.status, await response.text());
+    }
+  } catch (error) {
+    console.error("Contact notification email could not be sent:", error instanceof Error ? error.message : "Unknown error");
+  }
 }
 
 export async function POST(request: Request) {
@@ -115,23 +195,48 @@ export async function POST(request: Request) {
   const validation = validateSubmission(body);
   if (!validation.success) return failure(validation.error, 400);
 
-  // Do not persist spam honeypot submissions.
+  // Keep honeypot responses indistinguishable from successful submissions.
   if (validation.honeypot) {
-    return NextResponse.json({
-      success: true,
-      message: "Your project inquiry has been received.",
-    });
+    return NextResponse.json({ success: true, message: "Your project inquiry has been received." });
   }
 
   try {
-    const supabase = await createClient();
-    const { error } = await supabase.from("contact_submissions").insert(validation.data);
+    const admin = createAdminClient();
+    const secret = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!secret) return failure("Contact submission is temporarily unavailable.", 503);
 
-    if (error) {
-      // Keep database details in server logs only; never expose them to the public client.
-      console.error("Contact submission insert failed:", error.message);
+    // Hash the visitor IP before storing it; raw IP addresses are never written to the database.
+    const ipAddress =
+      request.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
+    const ipHash = createHash("sha256").update(secret + ":" + ipAddress).digest("hex");
+
+    const { data: allowed, error: rateLimitError } = await admin.rpc("consume_contact_rate_limit", {
+      p_ip_hash: ipHash,
+      p_limit: 5,
+      p_window_seconds: 600,
+    });
+    if (rateLimitError) {
+      console.error("Contact rate-limit check failed:", rateLimitError.message);
       return failure("Unable to submit your message right now.", 503);
     }
+    if (allowed !== true) {
+      return failure("Too many enquiries were submitted. Please wait a few minutes and try again.", 429);
+    }
+
+    // One database function writes the inbox record and linked sales lead atomically.
+    const { error } = await admin.rpc("create_website_contact_and_lead", {
+      p_submission: validation.data,
+    });
+    if (error) {
+      console.error("Contact and lead creation failed:", error.message);
+      return failure("Unable to submit your message right now.", 503);
+    }
+
+    // Notifications are best-effort: a mail provider outage must not lose a saved enquiry.
+    await sendContactNotification(validation.data);
   } catch (error) {
     console.error(
       "Contact submission could not connect to Supabase:",
@@ -142,6 +247,6 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     success: true,
-    message: "Your project inquiry has been received.",
+    message: "Your enquiry has been saved to the contact inbox and sales pipeline.",
   });
 }
