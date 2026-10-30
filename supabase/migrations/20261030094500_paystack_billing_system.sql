@@ -221,3 +221,70 @@ begin
     execute format('create policy %I on public.%I for all to service_role using (true) with check (true)', 'service role manages ' || t, t);
   end loop;
 end $$;
+
+-- Serialize payment settlement per invoice and prevent multiple simultaneous full-balance attempts.
+create unique index if not exists payments_one_open_attempt_per_invoice_idx
+  on public.payments(invoice_id)
+  where status in ('pending','processing');
+
+create or replace function public.finalize_paystack_payment(
+  p_reference text,
+  p_transaction_id text,
+  p_amount bigint,
+  p_currency text,
+  p_channel text default null,
+  p_paid_at timestamptz default now()
+)
+returns jsonb
+language plpgsql
+security invoker
+set search_path = ''
+as $$
+declare
+  v_payment public.payments%rowtype;
+  v_paid bigint;
+  v_status text;
+begin
+  select * into v_payment
+  from public.payments
+  where reference = p_reference and provider = 'paystack'
+  for update;
+
+  if not found then raise exception 'Payment reference not found'; end if;
+  if v_payment.amount <> p_amount or v_payment.currency <> upper(p_currency) then
+    raise exception 'Verified transaction amount or currency does not match payment';
+  end if;
+
+  if v_payment.status <> 'success' then
+    update public.payments
+      set status = 'success',
+          provider_transaction_id = p_transaction_id,
+          channel = coalesce(p_channel, channel),
+          paid_at = coalesce(p_paid_at, now()),
+          updated_at = now(),
+          failure_reason = null
+    where id = v_payment.id;
+  end if;
+
+  perform 1 from public.invoices where id = v_payment.invoice_id for update;
+  select coalesce(sum(amount), 0) into v_paid
+  from public.payments
+  where invoice_id = v_payment.invoice_id and status = 'success';
+
+  update public.invoices
+    set amount_paid = least(v_paid, total_amount),
+        status = case
+          when least(v_paid, total_amount) >= total_amount then 'paid'
+          when least(v_paid, total_amount) > 0 then 'partially_paid'
+          else status
+        end,
+        paid_at = case when least(v_paid, total_amount) >= total_amount then coalesce(p_paid_at, now()) else null end,
+        updated_at = now()
+  where id = v_payment.invoice_id
+  returning status into v_status;
+
+  return jsonb_build_object('payment_id', v_payment.id, 'invoice_id', v_payment.invoice_id, 'invoice_status', v_status);
+end;
+$$;
+revoke all on function public.finalize_paystack_payment(text,text,bigint,text,text,timestamptz) from public, anon, authenticated;
+grant execute on function public.finalize_paystack_payment(text,text,bigint,text,text,timestamptz) to service_role;
