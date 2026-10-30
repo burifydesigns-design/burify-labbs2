@@ -11,6 +11,7 @@ export async function POST(request: Request) {
     if (!/^[a-f0-9]{64}$/.test(token)) return NextResponse.json({ error: "Invalid invoice link." }, { status: 400 });
 
     const secret = process.env.PAYSTACK_SECRET_KEY;
+    if (process.env.PAYMENTS_ENABLED !== "true") return NextResponse.json({ error: "Online payments are temporarily disabled. Please contact Burify." }, { status: 503 });
     if (!secret) return NextResponse.json({ error: "Online payments are not configured yet. Please contact Burify." }, { status: 503 });
 
     const admin = createAdminClient();
