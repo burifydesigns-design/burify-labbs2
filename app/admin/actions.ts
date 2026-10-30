@@ -249,3 +249,54 @@ export async function removeDashboardUser(formData: FormData) {
   revalidatePath("/admin");
   redirect("/admin?userRemoved=1");
 }
+
+
+export async function saveTestimonial(formData: FormData) {
+  const supabase = await requireAdmin();
+  const id = String(formData.get("id") ?? "").trim();
+  const clientName = String(formData.get("client_name") ?? "").trim();
+  const clientRole = String(formData.get("client_role") ?? "").trim();
+  const company = String(formData.get("company") ?? "").trim();
+  const quote = String(formData.get("quote") ?? "").trim();
+  const rawRating = String(formData.get("rating") ?? "").trim();
+  const rating = rawRating ? Number(rawRating) : null;
+  const displayOrder = Number(formData.get("display_order") ?? 0);
+  const isApproved = String(formData.get("is_approved") ?? "") === "on";
+  if (!clientName || clientName.length > 160 || clientRole.length > 160 || company.length > 180 ||
+      !quote || quote.length > 3000 || (rating !== null && (!Number.isInteger(rating) || rating < 1 || rating > 5)) ||
+      !Number.isInteger(displayOrder) || displayOrder < 0) {
+    redirect("/admin/testimonials?error=invalid");
+  }
+  const values = {
+    client_name: clientName,
+    client_role: clientRole || null,
+    company: company || null,
+    quote,
+    rating,
+    display_order: displayOrder,
+    is_approved: isApproved,
+    updated_at: new Date().toISOString(),
+  };
+  const result = id
+    ? await supabase.from("testimonials").update(values).eq("id", id)
+    : await supabase.from("testimonials").insert(values);
+  if (result.error) redirect("/admin/testimonials?error=save");
+  revalidatePath("/admin");
+  revalidatePath("/admin/testimonials");
+  revalidatePath("/");
+  redirect("/admin/testimonials?saved=1");
+}
+
+export async function deleteTestimonial(formData: FormData) {
+  const supabase = await requireAdmin();
+  const id = String(formData.get("id") ?? "").trim();
+  if (!id || String(formData.get("confirmation") ?? "") !== "DELETE") {
+    redirect("/admin/testimonials?error=confirm-delete");
+  }
+  const { error } = await supabase.from("testimonials").delete().eq("id", id);
+  if (error) redirect("/admin/testimonials?error=delete");
+  revalidatePath("/admin");
+  revalidatePath("/admin/testimonials");
+  revalidatePath("/");
+  redirect("/admin/testimonials?deleted=1");
+}
