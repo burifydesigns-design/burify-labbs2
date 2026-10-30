@@ -40,8 +40,8 @@ export default async function AdminPaymentsPage() {
       <header className="admin-topbar"><div><p className="admin-eyebrow">BURIFY / FINANCE</p><h1>Payments</h1></div><a className="admin-logout" href="/admin">Back to overview</a></header>
       <section className="admin-welcome"><div><p className="admin-eyebrow">BILLING WORKSPACE</p><h2>Invoices and transactions</h2><p>Create invoices and track confirmed payments, balances and retainers.</p></div><span className="admin-live">● Admin only</span></section>
       <div className="admin-stats">
-        <article className="admin-stat"><span>Collected revenue</span><strong>{fmt(collectedKes, "KES")}<small>{fmt(collectedUsd, "USD")} collected in USD</small></strong><small>Successful Paystack and manual records</small></article>
-        <article className="admin-stat"><span>Outstanding balances</span><strong>{fmt(outstandingKes, "KES")}<small>{fmt(outstandingUsd, "USD")} outstanding in USD</small></strong><small>KES balance; USD balance shown below</small></article>
+        <article className="admin-stat"><span>Collected revenue</span><strong>{fmt(collectedKes, "KES")}<small>{fmt(collectedUsd, "USD")} collected in USD</small></strong><small>Successful payments among the latest 100 attempts</small></article>
+        <article className="admin-stat"><span>Outstanding balances</span><strong>{fmt(outstandingKes, "KES")}<small>{fmt(outstandingUsd, "USD")} outstanding in USD</small></strong><small>Balances from the latest 100 invoices; currencies are shown separately</small></article>
         <article className="admin-stat"><span>Successful transactions</span><strong>{paid.length}</strong><small>Latest 100 attempts</small></article>
         <article className="admin-stat"><span>Active retainers</span><strong>{subscriptions.filter(item => item.status === "active").length}</strong><small>Recurring and manual agreements</small></article>
       </div>
