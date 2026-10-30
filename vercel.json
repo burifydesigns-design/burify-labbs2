@@ -3,5 +3,8 @@
   "devCommand": "next dev",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "regions": ["iad1"]
+  "regions": ["iad1"],
+  "crons": [
+    { "path": "/api/cron/paystack-reconcile", "schedule": "17 2 * * *" }
+  ]
 }
