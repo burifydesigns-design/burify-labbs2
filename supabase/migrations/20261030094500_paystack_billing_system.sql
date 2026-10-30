@@ -211,3 +211,13 @@ grant execute on function public.finalize_paystack_payment(text,text,bigint,text
 comment on table public.payments is 'Payment attempts and verified transactions. Amounts use minor currency units.';
 comment on table public.payment_events is 'Idempotent provider webhook audit log. Payloads must not contain card credentials.';
 comment on column public.invoices.public_token_hash is 'SHA-256 hash of an unguessable public invoice token; raw token is only shown to the admin once.';
+
+-- Explicit service-role policies keep the privileged server access model visible to advisors.
+do $$
+declare t text;
+begin
+  foreach t in array array['customers','products','orders','order_items','invoices','invoice_items','payments','payment_events','subscriptions','refunds'] loop
+    execute format('drop policy if exists %I on public.%I', 'service role manages ' || t, t);
+    execute format('create policy %I on public.%I for all to service_role using (true) with check (true)', 'service role manages ' || t, t);
+  end loop;
+end $$;
