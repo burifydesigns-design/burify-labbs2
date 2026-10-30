@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "npm run check:admin-text && eslint .",
     "migrate:blogs": "node scripts/migrate-blogs.cjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:admin-text": "node scripts/check-admin-text.mjs",
+    "prebuild": "npm run check:admin-text"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
