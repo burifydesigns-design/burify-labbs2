@@ -4,11 +4,13 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import InvoiceCreateForm from "./InvoiceCreateForm";
 import SubscriptionCreateForm from "./SubscriptionCreateForm";
 import ManualPaymentForm from "./ManualPaymentForm";
+import { resendInvoiceEmail } from "./actions";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Payments | Burify Admin", robots: { index: false, follow: false } };
 
-export default async function AdminPaymentsPage() {
+export default async function AdminPaymentsPage({ searchParams }: { searchParams: Promise<{ emailSent?: string; emailFailed?: string }> }) {
+  const params = await searchParams;
   const session = await createClient();
   const { data: { user } } = await session.auth.getUser();
   if (!user) redirect("/admin/login");
@@ -16,14 +18,19 @@ export default async function AdminPaymentsPage() {
   if (profile?.role !== "admin") redirect("/admin/login?error=unauthorized");
 
   const admin = createAdminClient();
-  const [invoiceResult, paymentResult, subscriptionResult] = await Promise.all([
+  const [invoiceResult, paymentResult, subscriptionResult, emailLogResult] = await Promise.all([
     admin.from("invoices").select("id,invoice_number,currency,total_amount,amount_paid,balance_due,status,due_at,created_at,customers(name,email)").order("created_at", { ascending: false }).limit(100),
     admin.from("payments").select("id,reference,amount,currency,status,channel,paid_at,created_at,invoices(invoice_number),customers(name,email)").order("created_at", { ascending: false }).limit(100),
     admin.from("subscriptions").select("id,description,amount,currency,interval_unit,billing_mode,status,next_billing_at,customers(name,email)").order("created_at", { ascending: false }).limit(100),
+    admin.from("invoice_email_logs").select("invoice_id,status,recipient_email,sent_at,created_at,error_message").order("created_at", { ascending: false }).limit(500),
   ]);
   const invoices = invoiceResult.data ?? [];
   const payments = paymentResult.data ?? [];
   const subscriptions = subscriptionResult.data ?? [];
+  const latestEmailByInvoice = new Map<string, { status: string; recipient_email: string; error_message: string | null }>();
+  for (const log of emailLogResult.data ?? []) {
+    if (!latestEmailByInvoice.has(log.invoice_id)) latestEmailByInvoice.set(log.invoice_id, log);
+  }
   const paid = payments.filter(item => item.status === "success");
   const collectedKes = paid.filter(item => item.currency === "KES").reduce((sum, item) => sum + Number(item.amount), 0);
   const collectedUsd = paid.filter(item => item.currency === "USD").reduce((sum, item) => sum + Number(item.amount), 0);
@@ -38,6 +45,8 @@ export default async function AdminPaymentsPage() {
     <aside className="admin-sidebar"><a className="admin-brand" href="/">BURIFY<span>LABS</span></a><p className="admin-side-label">WORKSPACE</p><a className="admin-nav" href="/admin">Overview</a><a className="admin-nav" href="/admin/work">Work / portfolio</a><a className="admin-nav" href="/admin/blog">Blog management</a><a className="admin-nav" href="/admin/analytics">Analytics</a><a className="admin-nav active" href="/admin/payments">Payments</a><div className="admin-sidebar-bottom"><span className="admin-avatar">{(user.email?.[0] || "A").toUpperCase()}</span><div><strong>Administrator</strong><small>{user.email}</small></div></div></aside>
     <section className="admin-main">
       <header className="admin-topbar"><div><p className="admin-eyebrow">BURIFY / FINANCE</p><h1>Payments</h1></div><a className="admin-logout" href="/admin">Back to overview</a></header>
+      {params.emailSent ? <p className="admin-success">Invoice email accepted by the email provider.</p> : null}
+      {params.emailFailed ? <p className="admin-error">Invoice email could not be sent. Check the email provider configuration and retry.</p> : null}
       <section className="admin-welcome"><div><p className="admin-eyebrow">BILLING WORKSPACE</p><h2>Invoices and transactions</h2><p>Create invoices and track confirmed payments, balances and retainers.</p></div><span className="admin-live">● Admin only</span></section>
       <div className="admin-stats">
         <article className="admin-stat"><span>Collected revenue</span><strong>{fmt(collectedKes, "KES")}<small>{fmt(collectedUsd, "USD")} collected in USD</small></strong><small>Successful payments among the latest 100 attempts</small></article>
@@ -47,7 +56,7 @@ export default async function AdminPaymentsPage() {
       </div>
       <section className="admin-panel payment-admin-panel"><div className="admin-panel-heading"><div><p className="admin-eyebrow">BILLING</p><h2>Create invoice</h2></div></div><InvoiceCreateForm/></section>
       <section className="admin-panel payment-admin-panel"><div className="admin-panel-heading"><div><p className="admin-eyebrow">ACCOUNTS RECEIVABLE</p><h2>Invoices</h2></div><span className="admin-count">{invoices.length} latest</span></div>
-        {invoiceResult.error ? <p className="admin-muted">Could not load invoices. Check billing table access.</p> : invoices.length === 0 ? <div className="admin-empty">No invoices have been created.</div> : <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Invoice</th><th>Customer</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Due</th><th>Manual payment</th></tr></thead><tbody>{invoices.map(item => <tr key={item.id}><td><strong>{item.invoice_number}</strong></td><td>{relationValue(item.customers, "name") || "Customer"}</td><td>{fmt(Number(item.total_amount), item.currency)}</td><td>{fmt(Number(item.amount_paid), item.currency)}</td><td>{fmt(Number(item.balance_due), item.currency)}</td><td><span className="admin-status">{item.status}</span></td><td>{item.due_at ? new Date(item.due_at).toLocaleDateString() : "—"}</td><td><ManualPaymentForm invoiceId={item.id} balanceDue={Number(item.balance_due)}/></td></tr>)}</tbody></table></div>}
+        {invoiceResult.error ? <p className="admin-muted">Could not load invoices. Check billing table access.</p> : invoices.length === 0 ? <div className="admin-empty">No invoices have been created.</div> : <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Invoice</th><th>Customer</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Email delivery</th><th>Due</th><th>Actions</th></tr></thead><tbody>{invoices.map(item => <tr key={item.id}><td><strong>{item.invoice_number}</strong></td><td>{relationValue(item.customers, "name") || "Customer"}</td><td>{fmt(Number(item.total_amount), item.currency)}</td><td>{fmt(Number(item.amount_paid), item.currency)}</td><td>{fmt(Number(item.balance_due), item.currency)}</td><td><span className="admin-status">{item.status}</span></td><td>{(() => { const log = latestEmailByInvoice.get(item.id); return log ? <><span className="admin-status">{log.status}</span><small>{log.recipient_email}</small></> : <span className="admin-muted">Not emailed</span>; })()}</td><td>{item.due_at ? new Date(item.due_at).toLocaleDateString() : "—"}</td><td><form action={resendInvoiceEmail}><input type="hidden" name="invoice_id" value={item.id}/><button className="admin-logout" type="submit">Resend email</button></form><ManualPaymentForm invoiceId={item.id} balanceDue={Number(item.balance_due)}/></td></tr>)}</tbody></table></div>}
       </section>
       <section className="admin-panel payment-admin-panel"><div className="admin-panel-heading"><div><p className="admin-eyebrow">TRANSACTION LEDGER</p><h2>Recent payment attempts</h2></div><span className="admin-count">{payments.length} latest</span></div>
         {paymentResult.error ? <p className="admin-muted">Could not load payments.</p> : payments.length === 0 ? <div className="admin-empty">No payment attempts yet.</div> : <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Reference</th><th>Customer</th><th>Invoice</th><th>Amount</th><th>Channel</th><th>Status</th><th>Date</th></tr></thead><tbody>{payments.map(item => <tr key={item.id}><td>{item.reference}</td><td>{relationValue(item.customers, "name") || "Customer"}</td><td>{relationValue(item.invoices, "invoice_number") || "—"}</td><td>{fmt(Number(item.amount), item.currency)}</td><td>{item.channel || "—"}</td><td><span className="admin-status">{item.status}</span></td><td>{item.paid_at ? new Date(item.paid_at).toLocaleDateString() : new Date(item.created_at).toLocaleDateString()}</td></tr>)}</tbody></table></div>}
