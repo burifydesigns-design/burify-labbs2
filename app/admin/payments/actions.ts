@@ -41,9 +41,6 @@ async function sendInvoiceEmail(admin: AdminClient, invoiceId: string, token: st
 
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM_EMAIL;
-  if (!apiKey || !from) {
-    return { ok: false as const, error: "Email is not configured. Add RESEND_API_KEY and RESEND_FROM_EMAIL in Vercel." };
-  }
 
   const base = (process.env.NEXT_PUBLIC_SITE_URL || "https://burifylabs.com").replace(/\/$/, "");
   const invoiceUrl = `${base}/invoice/${token}`;
@@ -63,6 +60,11 @@ async function sendInvoiceEmail(admin: AdminClient, invoiceId: string, token: st
     invoice_id: invoice.id, recipient_email: recipient, status: "pending",
   }).select("id").single();
   if (logError || !log) return { ok: false as const, error: "Could not record the invoice email attempt." };
+  if (!apiKey || !from) {
+    const message = "Email is not configured. Add RESEND_API_KEY and RESEND_FROM_EMAIL in Vercel.";
+    await admin.from("invoice_email_logs").update({ status: "failed", error_message: message }).eq("id", log.id);
+    return { ok: false as const, error: message };
+  }
 
   try {
     const response = await fetch("https://api.resend.com/emails", {
