@@ -1,0 +1,60 @@
+name: Security and quality checks
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, "security/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+concurrency:
+  group: security-checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  secret-scan:
+    name: Secret scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Scan repository history for secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  app-checks:
+    name: Dependency, lint, type and build checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm install
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+      - name: Lint
+        run: npm run lint
+      - name: Type check
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder-anon-key
+          SUPABASE_URL: https://example.supabase.co
+          SUPABASE_SECRET_KEY: ci-placeholder-server-secret
+          PAYMENTS_ENABLED: "false"
+          NEXT_PUBLIC_SITE_URL: https://burifylabs.com
