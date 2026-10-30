@@ -61,7 +61,7 @@ export async function inviteDashboardUser(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const fullName = String(formData.get("full_name") ?? "").trim();
   const role = String(formData.get("role") ?? "member");
-  if (!email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email) || !fullName || !["admin", "member"].includes(role)) {
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !fullName || !["admin", "member"].includes(role)) {
     redirect("/admin?usersError=invalid");
   }
 
