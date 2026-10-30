@@ -19,8 +19,8 @@ async function scan(directory) {
     const lines = source.split(/\r?\n/);
     lines.forEach((line, index) => {
       // JSX text nodes must not contain the two-character escaped newline sequence.
-      if (/>[^<]*\\\\n[^<]*</.test(line)) {
-        violations.push(`${path.relative(process.cwd(), filePath)}:${index + 1}`);
+      if (/>[^<]*\\n[^<]*</.test(line)) {
+        violations.push(path.relative(process.cwd(), filePath) + ":" + (index + 1));
       }
     });
   }
@@ -30,7 +30,7 @@ await scan(root);
 
 if (violations.length) {
   console.error("Found literal \\n text in admin JSX. Use a real line break or a formatted text value instead:");
-  for (const violation of violations) console.error(`- ${violation}`);
+  for (const violation of violations) console.error("- " + violation);
   process.exitCode = 1;
 } else {
   console.log("Admin JSX text check passed.");
