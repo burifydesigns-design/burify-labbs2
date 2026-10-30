@@ -28,7 +28,18 @@ export async function verifyPaystackTransaction(reference: string) {
 }
 
 export async function reconcilePaystackTransaction(transaction: PaystackTransaction) {
-  if (transaction.status !== "success") return { success: false, status: transaction.status };
+  if (transaction.status !== "success") {
+    const admin = createAdminClient();
+    const mappedStatus = ["abandoned", "failed", "reversed"].includes(transaction.status)
+      ? transaction.status
+      : "processing";
+    await admin.from("payments").update({
+      status: mappedStatus,
+      updated_at: new Date().toISOString(),
+      failure_reason: mappedStatus === "failed" || mappedStatus === "reversed" ? transaction.status : null,
+    }).eq("reference", transaction.reference).eq("provider", "paystack").neq("status", "success");
+    return { success: false, status: transaction.status };
+  }
   const admin = createAdminClient();
   const { data: payment, error: lookupError } = await admin
     .from("payments")
@@ -49,5 +60,5 @@ export async function reconcilePaystackTransaction(transaction: PaystackTransact
     p_paid_at: transaction.paid_at ?? new Date().toISOString(),
   });
   if (error) throw new Error("Payment was verified but invoice reconciliation failed.");
-  return { success: true, status: "success", invoiceId: payment.invoice_id };
+  return { success: true, status: "success" };
 }
