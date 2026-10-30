@@ -13,7 +13,7 @@ export default async function PublicInvoicePage({ params }: { params: Promise<{ 
   const tokenHash = createHash("sha256").update(token).digest("hex");
   const admin = createAdminClient();
   const { data: invoice } = await admin.from("invoices")
-    .select("id,invoice_number,currency,total_amount,amount_paid,balance_due,status,description,due_at,customers(name,company_name),invoice_items(description,quantity,unit_amount,total_amount)")
+    .select("id,invoice_number,currency,total_amount,amount_paid,balance_due,status,description,due_at,customers(name,company_name),invoice_items(id,description,quantity,unit_amount,total_amount)")
     .eq("public_token_hash", tokenHash).maybeSingle();
   if (!invoice || invoice.status === "draft" || invoice.status === "cancelled") notFound();
   const customer = Array.isArray(invoice.customers) ? invoice.customers[0] : invoice.customers;
