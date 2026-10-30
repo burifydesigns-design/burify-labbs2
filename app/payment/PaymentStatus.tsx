@@ -1,3 +1,4 @@
+import "./payment.css";
 "use client";
 
 import { useEffect, useState } from "react";
