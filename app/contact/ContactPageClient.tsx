@@ -108,7 +108,7 @@ export function ContactPageClient() {
           consent,
           websiteUrl: formData.get("websiteUrl") ?? "",
           landing_page: window.location.pathname,
-          referrer: document.referrer,
+          referrer: document.referrer ? new URL(document.referrer).origin : "",
           utm_source: new URLSearchParams(window.location.search).get("utm_source") ?? "",
           utm_medium: new URLSearchParams(window.location.search).get("utm_medium") ?? "",
           utm_campaign: new URLSearchParams(window.location.search).get("utm_campaign") ?? "",
