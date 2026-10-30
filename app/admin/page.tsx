@@ -19,10 +19,14 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     supabase.from("projects").select("id", { count: "exact", head: true }),
     supabase.from("blog_posts").select("id", { count: "exact", head: true }),
     supabase.from("services").select("id", { count: "exact", head: true }),
+    admin.auth.admin.listUsers({ page: 1, perPage: 100 }),
+    admin.from("profiles").select("id,full_name,role,created_at"),
     searchParams
   ]);
   const leads = leadResult.data ?? [];
-  const contacts = contactResult.data ?? [];\n  const profiles = new Map((profileResult.data ?? []).map(profile => [profile.id, profile]));\n  const users = (userResult.data?.users ?? []).map(authUser => ({ ...authUser, profile: profiles.get(authUser.id) }));
+  const contacts = contactResult.data ?? [];
+  const profiles = new Map((profileResult.data ?? []).map(profile => [profile.id, profile]));
+  const users = (userResult.data?.users ?? []).map(authUser => ({ ...authUser, profile: profiles.get(authUser.id) }));
   const date = (value: string | null) => value ? new Date(value).toLocaleDateString() : "—";
 
   return <main className="admin-shell">
@@ -31,13 +35,17 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       <p className="admin-side-label">WORKSPACE</p>
       <a className="admin-nav active" href="/admin">Overview</a>
       <a className="admin-nav" href="#leads">Lead pipeline</a>
-      <a className="admin-nav" href="#contacts">Contact inbox</a>\n      <a className="admin-nav" href="#users">User management</a>
+      <a className="admin-nav" href="#contacts">Contact inbox</a>
+      <a className="admin-nav" href="#users">User management</a>
       <div className="admin-sidebar-bottom"><span className="admin-avatar">{(user.email?.[0] ?? "A").toUpperCase()}</span><div><strong>Administrator</strong><small>{user.email}</small></div></div>
     </aside>
     <section className="admin-main">
       <header className="admin-topbar"><div><p className="admin-eyebrow">BURIFY / WORKSPACE</p><h1>Overview</h1></div><form action={signOut}><button className="admin-logout" type="submit">Sign out</button></form></header>
       {params.error && <p className="admin-error">The update failed. Check the status and database permissions.</p>}
-      {params.updated && <p className="admin-success">Lead status updated.</p>}{params.contactUpdated && <p className="admin-success">Contact enquiry status updated.</p>}\n      {params.userAdded && <p className="admin-success">Invitation sent and user added.</p>}\n      {params.userRemoved && <p className="admin-success">User removed.</p>}\n      {params.usersError && <p className="admin-error">{({invalid:"Enter a valid name, email and role.", "invite-failed":"Could not send invitation. The email may already be registered.", "profile-failed":"Invitation created, but profile setup failed; the invited account was rolled back.", "invalid-removal":"You cannot remove your own administrator account.", "user-not-found":"That user could not be found.", "last-admin":"The last administrator cannot be removed.", "remove-failed":"Could not remove this account."} as Record<string,string>)[params.usersError] ?? "User management action failed."}</p>}
+      {params.updated && <p className="admin-success">Lead status updated.</p>}{params.contactUpdated && <p className="admin-success">Contact enquiry status updated.</p>}
+      {params.userAdded && <p className="admin-success">Invitation sent and user added.</p>}
+      {params.userRemoved && <p className="admin-success">User removed.</p>}
+      {params.usersError && <p className="admin-error">{({invalid:"Enter a valid name, email and role.", "invite-failed":"Could not send invitation. The email may already be registered.", "profile-failed":"Invitation created, but profile setup failed; the invited account was rolled back.", "invalid-removal":"You cannot remove your own administrator account.", "user-not-found":"That user could not be found.", "last-admin":"The last administrator cannot be removed.", "remove-failed":"Could not remove this account."} as Record<string,string>)[params.usersError] ?? "User management action failed."}</p>}
       <section className="admin-welcome"><div><p className="admin-eyebrow">BUSINESS OVERVIEW</p><h2>Welcome back.</h2><p>Manage enquiries, leads and content from one place.</p></div><span className="admin-live">● Authenticated admin</span></section>
       <div className="admin-stats">
         <article className="admin-stat"><span>Total leads</span><strong>{leadResult.count ?? leads.length}</strong><small>Latest 50 displayed below</small></article>
