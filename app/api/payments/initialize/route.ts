@@ -1,12 +1,30 @@
-import { createHash, randomUUID } from "node:crypto";
+import { createHash, createHmac, randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
 
+const MAX_REQUEST_BYTES = 4_096;
+
 export async function POST(request: Request) {
   try {
-    const body = await request.json().catch(() => null) as { token?: unknown } | null;
+    const contentLength = Number(request.headers.get("content-length") ?? 0);
+    if (Number.isFinite(contentLength) && contentLength > MAX_REQUEST_BYTES) {
+      return NextResponse.json({ error: "Invalid request." }, { status: 413 });
+    }
+
+    const rawBody = await request.text();
+    if (!rawBody || new TextEncoder().encode(rawBody).length > MAX_REQUEST_BYTES) {
+      return NextResponse.json({ error: "Invalid request." }, { status: 413 });
+    }
+
+    let body: { token?: unknown };
+    try {
+      body = JSON.parse(rawBody) as { token?: unknown };
+    } catch {
+      return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+    }
+
     const token = typeof body?.token === "string" ? body.token : "";
     if (!/^[a-f0-9]{64}$/.test(token)) return NextResponse.json({ error: "Invalid invoice link." }, { status: 400 });
 
@@ -15,6 +33,26 @@ export async function POST(request: Request) {
     if (!secret) return NextResponse.json({ error: "Online payments are not configured yet. Please contact Burify." }, { status: 503 });
 
     const admin = createAdminClient();
+
+    // Hash the edge-provided client IP; never persist raw visitor IP addresses.
+    const clientIp =
+      request.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      "unknown";
+    const ipHash = createHmac("sha256", secret).update(clientIp).digest("hex");
+    const { data: allowed, error: rateLimitError } = await admin.rpc("consume_payment_init_rate_limit", {
+      p_ip_hash: ipHash,
+      p_limit: 10,
+      p_window_seconds: 600,
+    });
+    if (rateLimitError) {
+      console.error("Payment initialization rate-limit check failed:", rateLimitError.message);
+      return NextResponse.json({ error: "Online payments are temporarily unavailable. Please try again shortly." }, { status: 503 });
+    }
+    if (allowed !== true) {
+      return NextResponse.json({ error: "Too many checkout attempts. Please wait a few minutes and try again." }, { status: 429 });
+    }
+
     const tokenHash = createHash("sha256").update(token).digest("hex");
     const { data: invoice, error } = await admin.from("invoices")
       .select("id,invoice_number,currency,balance_due,status,customer_id,customers(name,email)")
@@ -78,6 +116,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ authorizationUrl: payload.data.authorization_url });
   } catch (error) {
     console.error("Payment initialization failed:", error instanceof Error ? error.message : "Unknown error");
-    return NextResponse.json({ error: error instanceof Error ? error.message : "Unable to start checkout." }, { status: 500 });
+    return NextResponse.json({ error: "Unable to start checkout. Please try again shortly." }, { status: 500 });
   }
 }
