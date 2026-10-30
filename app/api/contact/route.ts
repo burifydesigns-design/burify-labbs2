@@ -133,7 +133,7 @@ async function sendContactNotification(submission: ContactSubmission) {
     `UTM source: ${submission.utm_source || "—"}`,
     `UTM medium: ${submission.utm_medium || "—"}`,
     `UTM campaign: ${submission.utm_campaign || "—"}`,
-  ].join("\\n");
+  ].join("\n");
 
   try {
     const response = await fetch("https://api.resend.com/emails", {
