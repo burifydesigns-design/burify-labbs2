@@ -66,3 +66,38 @@ export async function createInvoice(formData: FormData): Promise<InvoiceActionRe
   const base = (process.env.NEXT_PUBLIC_SITE_URL || "https://burifylabs.com").replace(/\/$/, "");
   return { ok: true, invoiceNumber, link: `${base}/invoice/${token}` };
 }
+
+export async function recordManualPayment(formData: FormData): Promise<{ ok: boolean; error?: string }> {
+  const session = await createClient();
+  const { data: { user } } = await session.auth.getUser();
+  if (!user) return { ok: false, error: "Please sign in again." };
+  const { data: profile } = await session.from("profiles").select("role").eq("id", user.id).maybeSingle();
+  if (profile?.role !== "admin") return { ok: false, error: "Administrator access is required." };
+
+  const invoiceId = String(formData.get("invoice_id") || "");
+  const amountMajor = Number(String(formData.get("amount") || ""));
+  const channel = String(formData.get("channel") || "manual").slice(0, 80);
+  if (!/^[0-9a-f-]{36}$/i.test(invoiceId) || !Number.isFinite(amountMajor) || amountMajor <= 0 || amountMajor > 100000000) {
+    return { ok: false, error: "Enter a valid invoice and payment amount." };
+  }
+  const amount = Math.round(amountMajor * 100);
+  if (!Number.isSafeInteger(amount) || amount <= 0) return { ok: false, error: "Enter a valid amount." };
+
+  const admin = createAdminClient();
+  const { data: invoice, error: invoiceError } = await admin.from("invoices")
+    .select("id,balance_due,status").eq("id", invoiceId).maybeSingle();
+  if (invoiceError || !invoice) return { ok: false, error: "Invoice not found." };
+  if (["draft", "cancelled", "paid"].includes(invoice.status) || amount > Number(invoice.balance_due)) {
+    return { ok: false, error: "The amount exceeds the invoice balance or the invoice is not payable." };
+  }
+  const { error } = await admin.rpc("record_manual_invoice_payment", {
+    p_invoice_id: invoiceId,
+    p_amount: amount,
+    p_channel: channel,
+    p_recorded_by: user.id,
+    p_reference: `MANUAL-${randomUUID().replace(/-/g, "")}`,
+  });
+  if (error) return { ok: false, error: "Could not record the payment. Refresh the invoice and try again." };
+  revalidatePath("/admin/payments");
+  return { ok: true };
+}
