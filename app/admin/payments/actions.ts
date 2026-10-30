@@ -21,15 +21,16 @@ export async function createInvoice(formData: FormData): Promise<InvoiceActionRe
   const currency = String(formData.get("currency") || "KES");
   const amountText = String(formData.get("amount") || "").trim();
   const dueDate = String(formData.get("due_at") || "").trim();
+  const parsedDueDate = dueDate ? new Date(`${dueDate}T23:59:59.000Z`) : null;
   const amountMajor = Number(amountText);
-  if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !description || !["KES", "USD"].includes(currency) || !Number.isFinite(amountMajor) || amountMajor <= 0 || amountMajor > 100000000) {
+  if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !description || !["KES", "USD"].includes(currency) || !Number.isFinite(amountMajor) || amountMajor <= 0 || amountMajor > 100000000 || (parsedDueDate && Number.isNaN(parsedDueDate.getTime()))) {
     return { ok: false, error: "Check the customer, description, currency and amount." };
   }
   const amount = Math.round(amountMajor * 100);
   if (!Number.isSafeInteger(amount) || amount <= 0) return { ok: false, error: "Enter a valid amount." };
 
   const admin = createAdminClient();
-  let { data: customer } = await admin.from("customers").select("id").ilike("email", email).maybeSingle();
+  let { data: customer } = await admin.from("customers").select("id").eq("email", email).maybeSingle();
   if (!customer) {
     const { data, error } = await admin.from("customers").insert({ name, email, company_name: company || null }).select("id").single();
     if (error || !data) return { ok: false, error: "Could not create the customer record." };
@@ -49,7 +50,7 @@ export async function createInvoice(formData: FormData): Promise<InvoiceActionRe
     total_amount: amount,
     status: "sent",
     description,
-    due_at: dueDate ? new Date(`${dueDate}T23:59:59.000Z`).toISOString() : null,
+    due_at: parsedDueDate ? parsedDueDate.toISOString() : null,
     sent_at: new Date().toISOString(),
   }).select("id").single();
   if (invoiceError || !invoice) return { ok: false, error: "Could not create the invoice." };
