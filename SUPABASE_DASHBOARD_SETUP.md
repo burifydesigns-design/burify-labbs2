@@ -39,3 +39,10 @@ The existing `app/api/contact/route.ts` still forwards to Google Apps Script. It
 
 ## Security and remaining verification
 Never expose a Supabase service-role key in client code. Database RLS remains the security boundary. A Supabase security advisor check reported leaked-password protection is disabled; enable it under Authentication → Settings → Password Security. The repository branch has not yet been built or deployed, so run the Vercel preview/build and resolve any issues before merging.
+
+## Admin user management
+The dashboard includes an Access Control section to invite users by email and remove accounts. Supabase Auth Admin APIs run only in server-side code; never expose the secret key to the browser.
+- Add `SUPABASE_SECRET_KEY` in Vercel for Preview and Production using the project's server-side secret key from Supabase → Project Settings → API Keys.
+- Existing `profiles.role` values are `admin` and `member`. Only administrators can access admin routes or manage accounts.
+- Invitations are sent by email and create a matching profile. Removing an Auth user deletes the profile through the existing ON DELETE CASCADE foreign key. The current admin and last admin are protected.
+- The dashboard lists the first 100 Auth users.
