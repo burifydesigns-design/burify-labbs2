@@ -32,14 +32,14 @@ export async function sendPaymentReceipt(reference: string, retryFailed = false)
   let logId = createdLog?.id;
   if (insertError || !logId) {
     const { data: existing } = await admin.from("payment_receipt_logs")
-      .select("id,status").eq("payment_id", payment.id).maybeSingle();
+      .select("id,status,attempt_count").eq("payment_id", payment.id).maybeSingle();
     if (!existing) return { sent: false, error: "Could not create the payment receipt log." };
     if (existing.status === "sent") return { sent: true, alreadySent: true };
     if (!retryFailed || existing.status !== "failed") {
       return { sent: false, skipped: true, error: "A receipt attempt is already recorded; no duplicate email was sent." };
     }
     const { data: claimed, error: claimError } = await admin.from("payment_receipt_logs")
-      .update({ status: "pending", error_message: null, attempt_count: 2, updated_at: new Date().toISOString() })
+      .update({ status: "pending", error_message: null, attempt_count: Number(existing.attempt_count || 1) + 1, updated_at: new Date().toISOString() })
       .eq("id", existing.id).eq("status", "failed").select("id").maybeSingle();
     if (claimError || !claimed) return { sent: false, skipped: true, error: "Receipt retry is already in progress." };
     logId = claimed.id;
@@ -65,7 +65,7 @@ export async function sendPaymentReceipt(reference: string, retryFailed = false)
   try {
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json", "Idempotency-Key": `payment-receipt-${payment.id}` },
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json", "Idempotency-Key": `payment-receipt-${payment.id}-${createdLog ? 1 : 2}` },
       body: JSON.stringify({ from, to: [recipient], subject, html, text }),
       cache: "no-store",
       signal: AbortSignal.timeout(15000),
