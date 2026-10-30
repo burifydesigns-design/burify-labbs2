@@ -35,3 +35,15 @@
 @media(max-width:650px){.payment-create-form{grid-template-columns:1fr}.payment-create-form>label,.payment-form-row,.payment-create-form>button,.payment-form-error,.payment-created-link{grid-column:1}.payment-form-row{grid-template-columns:1fr}}
 
 .manual-payment-form{display:grid;grid-template-columns:90px 120px auto;gap:5px;align-items:center;min-width:270px}.manual-payment-form input,.manual-payment-form select{min-width:0;padding:6px;border:1px solid #e0dee8;border-radius:6px;font:inherit;font-size:10px}.manual-payment-form button{padding:7px 9px;border:0;border-radius:6px;background:#6e5bc1;color:white;font-size:10px;font-weight:700;cursor:pointer}.manual-payment-form button:disabled{opacity:.6}.manual-payment-form small{grid-column:1/-1;color:#26734a;font-size:10px}
+
+/* Paystack payment health monitoring */
+.payment-health-panel{margin-top:18px}
+.payment-health-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.payment-health-grid article{min-width:0;padding:14px;border:1px solid #eeedf3;border-radius:10px;background:#fcfcfe}
+.payment-health-grid article span,.payment-health-grid article strong{display:block}
+.payment-health-grid article span{font-size:10px;color:#777583}
+.payment-health-grid article strong{font:700 15px Manrope,sans-serif;margin-top:7px;overflow-wrap:anywhere}
+.payment-health-grid .health-ok{color:#26734a}
+.payment-health-grid .health-warning{color:#a56a18}
+@media(max-width:750px){.payment-health-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.payment-health-grid{grid-template-columns:1fr}}
