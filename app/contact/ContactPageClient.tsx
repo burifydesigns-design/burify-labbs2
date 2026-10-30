@@ -23,6 +23,9 @@ export function ContactPageClient() {
   const revealRefs = useRef<HTMLElement[]>([]);
   const [bookingName, setBookingName] = useState("");
   const [bookingEmail, setBookingEmail] = useState("");
+  const [bookingCompany, setBookingCompany] = useState("");
+  const [bookingService, setBookingService] = useState("");
+  const [bookingMessage, setBookingMessage] = useState("");
   const [bookingFieldErrors, setBookingFieldErrors] = useState<BookingFieldErrors>({});
   const [bookingError, setBookingError] = useState("");
   const [bookingSuccess, setBookingSuccess] = useState("");
@@ -99,9 +102,18 @@ export function ContactPageClient() {
         body: JSON.stringify({
           name,
           email,
-          message: "Discovery call request submitted through the Burify website.",
+          company: bookingCompany.trim(),
+          service_interest: bookingService,
+          message: bookingMessage.trim() || "Discovery call request submitted through the Burify website.",
           consent,
           websiteUrl: formData.get("websiteUrl") ?? "",
+          landing_page: window.location.pathname,
+          referrer: document.referrer,
+          utm_source: new URLSearchParams(window.location.search).get("utm_source") ?? "",
+          utm_medium: new URLSearchParams(window.location.search).get("utm_medium") ?? "",
+          utm_campaign: new URLSearchParams(window.location.search).get("utm_campaign") ?? "",
+          utm_term: new URLSearchParams(window.location.search).get("utm_term") ?? "",
+          utm_content: new URLSearchParams(window.location.search).get("utm_content") ?? "",
         }),
       });
 
@@ -115,13 +127,16 @@ export function ContactPageClient() {
         throw new Error("Submission failed");
       }
 
-      const params = new URLSearchParams({ name, email });
-      setBookingUrl(`${CALENDLY_URL}?${params.toString()}`);
+      // Keep personal details out of the Calendly URL, browser history and referrer logs.
+      setBookingUrl(CALENDLY_URL);
       setBookingName("");
       setBookingEmail("");
+      setBookingCompany("");
+      setBookingService("");
+      setBookingMessage("");
       setBookingFieldErrors({});
       setBookingSuccess(
-        "Thanks! Your project inquiry has been received. Choose a time for your discovery call when you are ready."
+        "Thanks! Your enquiry has been saved to our inbox and sales pipeline. Choose a time for your discovery call when you are ready."
       );
     } catch {
       setBookingError("Something went wrong while sending your message. Please try again.");
@@ -212,7 +227,7 @@ export function ContactPageClient() {
                     Book a Discovery Call
                   </h2>
                   <p className="text-body text-text-secondary mb-6">
-                    Tell us who you are and we&apos;ll take you straight to our calendar to choose a time that works for you.
+                    Share a few details so we can prepare for your discovery call. You can then choose a time on Calendly.
                   </p>
                   <form onSubmit={handleBookingSubmit} className="space-y-5" noValidate>
                     <div className="sr-only" aria-hidden="true">
@@ -280,6 +295,55 @@ export function ContactPageClient() {
                           {bookingFieldErrors.email}
                         </p>
                       )}
+                    </div>
+                    <div>
+                      <label htmlFor="booking-company" className="block text-body-sm font-medium text-text-primary mb-2">
+                        Company <span className="text-text-secondary">(optional)</span>
+                      </label>
+                      <input
+                        id="booking-company"
+                        name="company"
+                        type="text"
+                        autoComplete="organization"
+                        value={bookingCompany}
+                        onChange={(e) => setBookingCompany(e.target.value)}
+                        placeholder="Your company"
+                        maxLength={180}
+                        className="w-full px-4 py-3 bg-background text-text-primary border border-border rounded-xl text-body placeholder:text-primary-dark/50 transition-all duration-200 ease-out focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="booking-service" className="block text-body-sm font-medium text-text-primary mb-2">
+                        What do you need help with? <span className="text-text-secondary">(optional)</span>
+                      </label>
+                      <select
+                        id="booking-service"
+                        name="service_interest"
+                        value={bookingService}
+                        onChange={(e) => setBookingService(e.target.value)}
+                        className="w-full px-4 py-3 bg-background text-text-primary border border-border rounded-xl text-body transition-all duration-200 ease-out focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                      >
+                        <option value="">Select a service</option>
+                        <option value="Website design and development">Website design and development</option>
+                        <option value="AI automation">AI automation</option>
+                        <option value="Web applications">Web applications</option>
+                        <option value="Other / not sure yet">Other / not sure yet</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="booking-message" className="block text-body-sm font-medium text-text-primary mb-2">
+                        Project details <span className="text-text-secondary">(optional)</span>
+                      </label>
+                      <textarea
+                        id="booking-message"
+                        name="message"
+                        rows={4}
+                        value={bookingMessage}
+                        onChange={(e) => setBookingMessage(e.target.value)}
+                        placeholder="Briefly describe what you are looking to build or improve."
+                        maxLength={5000}
+                        className="w-full px-4 py-3 bg-background text-text-primary border border-border rounded-xl text-body placeholder:text-primary-dark/50 transition-all duration-200 ease-out focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                      />
                     </div>
                     <div>
                       <label htmlFor="booking-consent" className="flex items-start gap-3 text-body-sm text-text-secondary">
