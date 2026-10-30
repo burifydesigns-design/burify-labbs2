@@ -26,6 +26,9 @@ export async function POST(request: Request) {
     const customer = Array.isArray(invoice.customers) ? invoice.customers[0] : invoice.customers;
     if (!customer?.email) return NextResponse.json({ error: "Invoice customer email is missing." }, { status: 400 });
 
+    const { count: recentAttempts } = await admin.from("payments").select("id", { count: "exact", head: true }).eq("invoice_id", invoice.id).eq("status", "pending").gte("created_at", new Date(Date.now() - 15 * 60 * 1000).toISOString());
+    if ((recentAttempts ?? 0) >= 5) return NextResponse.json({ error: "Too many checkout attempts. Please wait a few minutes." }, { status: 429 });
+
     const reference = `BURIFY-${randomUUID().replace(/-/g, "")}`;
     const amount = Number(invoice.balance_due);
     const { error: insertError } = await admin.from("payments").insert({
