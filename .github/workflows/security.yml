@@ -25,10 +25,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Verify installed Gitleaks
+        shell: powershell -NoProfile -ExecutionPolicy Bypass -File {0}
+        run: |
+          $gitleaks = Get-Command gitleaks -ErrorAction Stop
+          Write-Host "Using Gitleaks at $($gitleaks.Source)"
+          gitleaks version
       - name: Scan repository history for secrets
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: powershell -NoProfile -ExecutionPolicy Bypass -File {0}
+        run: |
+          gitleaks detect --source . --redact --verbose
 
   app-checks:
     name: Dependency, lint, type and build checks
@@ -44,14 +50,19 @@ jobs:
           node-version: 22
           cache: npm
       - name: Install dependencies
+        shell: powershell -NoProfile -ExecutionPolicy Bypass -File {0}
         run: npm ci
       - name: Audit production dependencies
+        shell: powershell -NoProfile -ExecutionPolicy Bypass -File {0}
         run: npm audit --omit=dev --audit-level=high
       - name: Lint
+        shell: powershell -NoProfile -ExecutionPolicy Bypass -File {0}
         run: npm run lint
       - name: Type check
+        shell: powershell -NoProfile -ExecutionPolicy Bypass -File {0}
         run: npm run typecheck
       - name: Production build
+        shell: powershell -NoProfile -ExecutionPolicy Bypass -File {0}
         run: npm run build
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
