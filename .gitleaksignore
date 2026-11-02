@@ -1,0 +1,5 @@
+# Public Supabase publishable key in the example environment template (not a secret).
+834e414a48f856830d1329cac9dc46452d75fdc3:ENV.example:generic-api-key:2
+
+# Public Ahrefs site-verification/analytics identifier embedded in the browser script (not an authentication secret).
+f4521fd6dcbc3e4eeab7ed9a1f302bfa9e8d397a:app/layout.tsx:generic-api-key:91
