@@ -57,7 +57,7 @@ jobs:
         run: |
           npm install --package-lock-only --ignore-scripts
           if ($LASTEXITCODE -ne 0) { throw "Lockfile refresh failed" }
-          node -e "const l=require('./package-lock.json'); const p=l.packages['node_modules/tar']; if (!p || !/^7\\./.test(p.version) || p.version.localeCompare('7.5.8', undefined, {numeric:true}) < 0) { console.error('Expected node_modules/tar >= 7.5.8; found', p?.version ?? 'missing'); process.exit(1); } console.log('Verified tar', p.version);"
+          node -e "const l=require('./package-lock.json'); const p=l.packages['node_modules/tar']; if (!p || !p.version.startsWith('7.') || p.version.localeCompare('7.5.8', undefined, {numeric:true}) < 0) { console.error('Expected node_modules/tar >= 7.5.8; found', p?.version ?? 'missing'); process.exit(1); } console.log('Verified tar', p.version);"
           if ($LASTEXITCODE -ne 0) { throw "Patched tar version verification failed" }
       - name: Commit refreshed lockfile
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/security/')
