@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   security-events: write
 
 concurrency:
@@ -22,7 +22,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - name: Checkout full history
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           submodules: false
@@ -41,17 +41,38 @@ jobs:
     name: Dependency, lint, type and build checks
     runs-on: self-hosted
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: false
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
+      - name: Refresh lockfile with patched tar override
+        shell: powershell -NoProfile -ExecutionPolicy Bypass -File {0}
+        run: |
+          npm install --package-lock-only --ignore-scripts
+          if ($LASTEXITCODE -ne 0) { throw "Lockfile refresh failed" }
+          node -e "const l=require('./package-lock.json'); const p=l.packages['node_modules/tar']; if (!p || !/^7\\./.test(p.version) || p.version.localeCompare('7.5.8', undefined, {numeric:true}) < 0) { console.error('Expected node_modules/tar >= 7.5.8; found', p?.version ?? 'missing'); process.exit(1); } console.log('Verified tar', p.version);"
+          if ($LASTEXITCODE -ne 0) { throw "Patched tar version verification failed" }
+      - name: Commit refreshed lockfile
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/security/')
+        shell: powershell -NoProfile -ExecutionPolicy Bypass -File {0}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git diff --cached --quiet
+          if ($LASTEXITCODE -ne 0) {
+            git commit -m "chore: refresh lockfile for patched tar"
+            if ($LASTEXITCODE -ne 0) { throw "Lockfile commit failed" }
+            git push origin "HEAD:$env:GITHUB_REF_NAME"
+            if ($LASTEXITCODE -ne 0) { throw "Lockfile push failed" }
+          }
       - name: Install dependencies
         shell: powershell -NoProfile -ExecutionPolicy Bypass -File {0}
         run: npm ci
