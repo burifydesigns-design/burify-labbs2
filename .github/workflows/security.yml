@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: security-checks-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   secret-scan:
