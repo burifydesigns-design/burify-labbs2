@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
+import { sendPaymentReceipt } from "@/lib/payments/receipt";
 
 export type InvoiceActionResult = {
   ok: boolean;
@@ -230,4 +231,19 @@ export async function recordManualPayment(formData: FormData): Promise<{ ok: boo
   if (error) return { ok: false, error: "Could not record the payment. Refresh the invoice and try again." };
   revalidatePath("/admin/payments");
   return { ok: true };
+}
+
+
+export async function retryPaymentReceipt(formData: FormData): Promise<void> {
+  const session = await createClient();
+  const { data: { user } } = await session.auth.getUser();
+  if (!user) redirect("/admin/login");
+  const { data: profile } = await session.from("profiles").select("role").eq("id", user.id).maybeSingle();
+  if (profile?.role !== "admin") redirect("/admin/login?error=unauthorized");
+
+  const reference = String(formData.get("reference") || "");
+  if (!/^BURIFY-[a-f0-9]{32}$/.test(reference)) redirect("/admin/payments?receiptFailed=1");
+  const result = await sendPaymentReceipt(reference, true);
+  revalidatePath("/admin/payments");
+  redirect(result.sent ? "/admin/payments?receiptSent=1" : "/admin/payments?receiptFailed=1");
 }
