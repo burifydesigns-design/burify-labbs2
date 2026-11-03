@@ -39,22 +39,38 @@ export default async function BlogPostPage({ params }: PageProps) {
   return (
     <>
       <StructuredData data={[createArticleJsonLd(post), createBlogPostBreadcrumbJsonLd(post)]} />
-      <article className="blog-post container mx-auto py-16 px-4 lg:px-8">
-        <header className="mb-8">
+      <article className="blog-post container mx-auto px-4 lg:px-8">
+        <header className="blog-post__header">
           {post.featuredImage && (
-            <div className="relative mb-6">
-              <Image src={post.featuredImage} alt={post.featuredImageAlt ?? post.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" loading="lazy" className="object-cover rounded-lg" />
-              <div className="absolute top-4 left-4 bg-primary/90 text-white text-xs font-medium px-3 py-1 rounded">{post.category}</div>
+            <div className="blog-post__hero">
+              <Image
+                src={post.featuredImage}
+                alt={post.featuredImageAlt ?? post.title}
+                fill
+                priority
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 1120px"
+                className="object-cover"
+              />
             </div>
           )}
-          <div className="space-x-3 text-sm text-muted-foreground flex flex-wrap items-center">
+          <div className="blog-post__meta">
             <span className="blog-post__category">{post.category}</span>
-            {post.readingTime != null && <span className="blog-post__reading-time">{post.readingTime} min read</span>}
-            {post.publishedAt && <time className="blog-post__date" dateTime={post.publishedAt}>{new Date(post.publishedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</time>}
+            {post.publishedAt && (
+              <time className="blog-post__date" dateTime={post.publishedAt}>
+                {new Date(post.publishedAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+            )}
+            {post.readingTime != null && (
+              <span className="blog-post__reading-time">{post.readingTime} min read</span>
+            )}
           </div>
-          <h1 className="mt-4 text-3xl font-bold tracking-tight lg:text-4xl">{post.title}</h1>
+          <h1 className="blog-post__title">{post.title}</h1>
         </header>
-        <div className="blog-post-content"><div dangerouslySetInnerHTML={{ __html: post.content }} /></div>
+        <div className="blog-post-content" dangerouslySetInnerHTML={{ __html: post.content }} />
       </article>
     </>
   );
