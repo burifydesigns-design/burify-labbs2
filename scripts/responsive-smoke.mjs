@@ -55,6 +55,18 @@ try {
             return { tag: element.tagName, text: (element.textContent || "").trim().slice(0, 48), left: Math.round(rect.left), right: Math.round(rect.right), width: Math.round(rect.width) };
           })
           .filter((item) => item.width > 0 && (item.left < -2 || item.right > window.innerWidth + 2))
+          .filter((item) => {
+            const element = Array.from(document.querySelectorAll(
+              "main a, main button, main input, main select, main textarea, main img, main h1, main h2, main p, main table"
+            )).find((candidate) => candidate.tagName === item.tag && (candidate.textContent || "").trim().slice(0, 48) === item.text);
+            let parent = element?.parentElement;
+            while (parent) {
+              const overflowX = getComputedStyle(parent).overflowX;
+              if (overflowX === "auto" || overflowX === "scroll") return false;
+              parent = parent.parentElement;
+            }
+            return true;
+          })
           .slice(0, 5),
       }));
       const overflow = Math.max(dimensions.document, dimensions.body) - dimensions.viewport;
