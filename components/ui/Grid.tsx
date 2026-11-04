@@ -117,6 +117,24 @@ const spanStyles: Record<number, string> = {
   12: "col-span-12",
 };
 
+const tabletSpanStyles: Record<number, string> = {
+  1: "sm:col-span-1",
+  2: "sm:col-span-2",
+  3: "sm:col-span-3",
+  4: "sm:col-span-4",
+  6: "sm:col-span-6",
+  12: "sm:col-span-12",
+};
+
+const desktopSpanStyles: Record<number, string> = {
+  1: "lg:col-span-1",
+  2: "lg:col-span-2",
+  3: "lg:col-span-3",
+  4: "lg:col-span-4",
+  6: "lg:col-span-6",
+  12: "lg:col-span-12",
+};
+
 export function GridItem({
   span = 1,
   tabletSpan,
@@ -128,8 +146,8 @@ export function GridItem({
     <div
       className={`
         ${spanStyles[span]}
-        ${tabletSpan ? tabletColumnStyles[tabletSpan] : ""}
-        ${desktopSpan ? desktopColumnStyles[desktopSpan] : ""}
+        ${tabletSpan ? tabletSpanStyles[tabletSpan] : ""}
+        ${desktopSpan ? desktopSpanStyles[desktopSpan] : ""}
         ${className}
       `.trim().replace(/\s+/g, " ")}
     >
