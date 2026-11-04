@@ -671,3 +671,27 @@
   align-items: flex-end;
   text-align: right;
 }
+
+
+/* Article reading layout across phones and tablets. */
+.article-layout, .article-header__inner, .article-meta, .article-featured-image {
+  min-width: 0;
+}
+.article-content { min-width: 0; overflow-wrap: anywhere; }
+.article-content table { display: block; width: 100%; max-width: 100%; overflow-x: auto; }
+.article-content pre { max-width: 100%; overflow-x: auto; }
+.article-content img, .article-featured-image__wrapper img { max-width: 100%; height: auto; }
+@media (max-width: 767px) {
+  .article-header { padding-top: 6.5rem; padding-bottom: 1.5rem; }
+  .article-header__inner, .article-meta, .article-featured-image, .article-layout {
+    padding-left: 1rem; padding-right: 1rem;
+  }
+  .article-header__title { font-size: clamp(2rem, 8vw, 3rem); overflow-wrap: anywhere; }
+  .article-meta { gap: 1rem; }
+  .article-meta__dates { gap: .75rem 1rem; }
+  .article-featured-image__wrapper { border-radius: 1rem; }
+  .article-content { font-size: 1rem; }
+  .article-content h2 { scroll-margin-top: 5.5rem; }
+  .article-content pre { padding: 1rem; }
+  .article-content blockquote { padding-left: 1rem; }
+}

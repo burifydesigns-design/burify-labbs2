@@ -499,3 +499,18 @@
     max-width: none;
   }
 }
+
+
+/* Case-study media, comparison panels and diagrams on compact screens. */
+.case-study-section, .case-study-hero, .comparison-section { min-width: 0; }
+.case-study-section img, .comparison-card__image { max-width: 100%; }
+.workflow__step { min-width: 0; }
+@media (max-width: 767px) {
+  .workflow__step { width: 100%; flex-basis: 100%; justify-content: flex-start; }
+  .workflow__step-text { text-align: left; overflow-wrap: anywhere; }
+  .next-project { padding: 1.125rem; }
+  .comparison-card__label { padding: .875rem 1rem; }
+  .comparison-card__image-wrapper--mobile { max-width: min(100%, 300px); }
+  .services-list { gap: .5rem; }
+  .services-list__item { max-width: 100%; overflow-wrap: anywhere; }
+}
