@@ -40,3 +40,13 @@
   padding: var(--space-16) var(--space-8);
   text-align: center;
 }
+
+
+/* Homepage hero: account for mobile browser chrome and narrow screens. */
+#hero { min-height: 100svh; min-height: 100dvh; }
+@media (max-width: 639px) {
+  #hero { min-height: min(100svh, 860px); padding-top: 5.5rem; padding-bottom: 2rem; }
+  #hero > div:not([aria-hidden="true"]) { width: 100%; }
+  #hero h1 { max-width: 15ch; margin-inline: auto; }
+  #hero p { max-width: 42rem; }
+}
