@@ -47,9 +47,18 @@ try {
         viewport: window.innerWidth,
         document: document.documentElement.scrollWidth,
         body: document.body.scrollWidth,
+        overflowingElements: Array.from(document.querySelectorAll(
+          "main a, main button, main input, main select, main textarea, main img, main h1, main h2, main p, main table"
+        ))
+          .map((element) => {
+            const rect = element.getBoundingClientRect();
+            return { tag: element.tagName, text: (element.textContent || "").trim().slice(0, 48), left: Math.round(rect.left), right: Math.round(rect.right), width: Math.round(rect.width) };
+          })
+          .filter((item) => item.width > 0 && (item.left < -2 || item.right > window.innerWidth + 2))
+          .slice(0, 5),
       }));
       const overflow = Math.max(dimensions.document, dimensions.body) - dimensions.viewport;
-      if (overflow > 1) {
+      if (overflow > 1 || dimensions.overflowingElements.length > 0) {
         failures += 1;
         console.error(`OVERFLOW ${route} @ ${width}px: ${JSON.stringify(dimensions)}`);
       }
