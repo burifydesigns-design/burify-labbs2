@@ -6,6 +6,10 @@ on:
   push:
     branches: [feat/paystack-production-hardening]
 
+defaults:
+  run:
+    shell: cmd
+
 jobs:
   validate:
     runs-on: self-hosted
