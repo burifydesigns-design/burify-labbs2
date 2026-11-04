@@ -43,32 +43,40 @@ try {
       await page.locator("body").waitFor();
       await page.evaluate(() => document.fonts.ready.then(() => true));
 
-      const dimensions = await page.evaluate(() => ({
-        viewport: window.innerWidth,
-        document: document.documentElement.scrollWidth,
-        body: document.body.scrollWidth,
-        overflowingElements: Array.from(document.querySelectorAll(
-          "main a, main button, main input, main select, main textarea, main img, main h1, main h2, main p, main table"
-        ))
+      const dimensions = await page.evaluate(() => {
+        const selectors = "main a, main button, main input, main select, main textarea, main img, main h1, main h2, main p, main table";
+        const overflowingElements = Array.from(document.querySelectorAll(selectors))
           .map((element) => {
             const rect = element.getBoundingClientRect();
-            return { tag: element.tagName, text: (element.textContent || "").trim().slice(0, 48), left: Math.round(rect.left), right: Math.round(rect.right), width: Math.round(rect.width) };
-          })
-          .filter((item) => item.width > 0 && (item.left < -2 || item.right > window.innerWidth + 2))
-          .filter((item) => {
-            const element = Array.from(document.querySelectorAll(
-              "main a, main button, main input, main select, main textarea, main img, main h1, main h2, main p, main table"
-            )).find((candidate) => candidate.tagName === item.tag && (candidate.textContent || "").trim().slice(0, 48) === item.text);
-            let parent = element?.parentElement;
+            let parent = element.parentElement;
+            let insideHorizontalScroller = false;
             while (parent) {
               const overflowX = getComputedStyle(parent).overflowX;
-              if (overflowX === "auto" || overflowX === "scroll") return false;
+              if (overflowX === "auto" || overflowX === "scroll") {
+                insideHorizontalScroller = true;
+                break;
+              }
               parent = parent.parentElement;
             }
-            return true;
+            return {
+              tag: element.tagName,
+              text: (element.textContent || "").trim().slice(0, 48),
+              left: Math.round(rect.left),
+              right: Math.round(rect.right),
+              width: Math.round(rect.width),
+              insideHorizontalScroller,
+            };
           })
-          .slice(0, 5),
-      }));
+          .filter((item) => item.width > 0 && !item.insideHorizontalScroller &&
+            (item.left < -2 || item.right > window.innerWidth + 2))
+          .slice(0, 5);
+        return {
+          viewport: window.innerWidth,
+          document: document.documentElement.scrollWidth,
+          body: document.body.scrollWidth,
+          overflowingElements,
+        };
+      });
       const overflow = Math.max(dimensions.document, dimensions.body) - dimensions.viewport;
       if (overflow > 1 || dimensions.overflowingElements.length > 0) {
         failures += 1;
