@@ -16,6 +16,16 @@ const routes = [
   "/admin/login",
 ];
 const widths = [320, 360, 390, 480, 640, 768, 1024, 1280, 1600];
+const startupDeadline = Date.now() + 120000;
+while (Date.now() < startupDeadline) {
+  try {
+    const response = await fetch(baseURL);
+    if (response.ok) break;
+  } catch {}
+  await new Promise((resolve) => setTimeout(resolve, 500));
+}
+if (Date.now() >= startupDeadline) throw new Error(`Next.js server did not become ready at ${baseURL}`);
+
 const browser = await chromium.launch({ headless: true });
 let failures = 0;
 
@@ -29,9 +39,9 @@ try {
       const response = await page.goto(new URL(route, baseURL).toString(), {
         waitUntil: "domcontentloaded",
       });
-      assert.ok(response && response.status() < 500, `${route} returned HTTP ${response?.status()}`);
+      assert.ok(response && response.status() < 400, `${route} returned HTTP ${response?.status()}`);
       await page.locator("body").waitFor();
-      await page.evaluate(() => document.fonts.ready);
+      await page.evaluate(() => document.fonts.ready.then(() => true));
 
       const dimensions = await page.evaluate(() => ({
         viewport: window.innerWidth,
