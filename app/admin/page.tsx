@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { signOut, updateLeadStatus, updateContactStatus, inviteDashboardUser, removeDashboardUser } from "./actions";
 import { createAdminClient } from "@/lib/supabase/admin";
+import AdminControls from "./admin-controls";
 
 export const metadata = { title: "Admin dashboard | Burify Labs", robots: { index: false, follow: false } };
 
@@ -44,7 +45,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       <div className="admin-sidebar-bottom"><span className="admin-avatar">{(user.email?.[0] ?? "A").toUpperCase()}</span><div><strong>Administrator</strong><small>{user.email}</small></div></div>
     </aside>
     <section className="admin-main">
-      <header className="admin-topbar"><div><p className="admin-eyebrow">BURIFY / WORKSPACE</p><h1>Overview</h1></div><form action={signOut}><button className="admin-logout" type="submit">Sign out</button></form></header>
+      <header className="admin-topbar"><div><p className="admin-eyebrow">BURIFY / WORKSPACE</p><h1>Overview</h1></div><div className="admin-topbar-actions"><AdminControls /><form action={signOut}><button className="admin-logout" type="submit">Sign out</button></form></div></header>
       {params.error && <p className="admin-error">The update failed. Check the status and database permissions.</p>}
       {params.updated && <p className="admin-success">Lead status updated.</p>}{params.contactUpdated && <p className="admin-success">Contact enquiry status updated.</p>}
       {params.userAdded && <p className="admin-success">Invitation sent and user added.</p>}
