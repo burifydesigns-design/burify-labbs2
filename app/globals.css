@@ -973,3 +973,30 @@
     scroll-behavior: auto;
   }
 }
+
+
+/* Final responsive corrections: fixed-height nav, content sizing and media. */
+@layer base {
+  :where(*, *::before, *::after) { min-width: 0; }
+  :where(iframe, video, embed, object) { max-width: 100%; }
+  :where(table) { max-width: 100%; }
+  :where(button, input, select, textarea) { touch-action: manipulation; }
+}
+@media (max-width: 1023px) {
+  header nav[aria-label="Main navigation"] { height: 4.5rem; min-height: 4.5rem; }
+}
+@media (max-width: 639px) {
+  .section, .section-lg, .section-xl {
+    padding-top: clamp(2.75rem, 9vw, 4rem);
+    padding-bottom: clamp(2.75rem, 9vw, 4rem);
+  }
+  .container {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+  .text-display, .text-h1 { overflow-wrap: anywhere; }
+  :where(.rounded-3xl) { border-radius: clamp(1rem, 4vw, 1.5rem); }
+}
+@media (min-width: 1600px) {
+  :root { --container-max: 1440px; --container-padding: 2rem; }
+}
