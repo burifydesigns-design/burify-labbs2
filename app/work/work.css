@@ -178,3 +178,15 @@
 .project-card--automation .project-card__link:hover {
   color: var(--color-primary-dark);
 }
+
+
+/* Portfolio cards and hero scale cleanly from small phones to tablets. */
+@media (max-width: 767px) {
+  .work-hero { padding-top: 6.5rem; padding-bottom: 3rem; }
+  .project-card__body { padding: 1.125rem; }
+  .project-card__title { font-size: clamp(1.125rem, 5vw, 1.5rem); }
+  .work-cta { border-radius: 1rem; padding: 2rem 1.25rem; }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .project-card__body { padding: 1.25rem; }
+}
