@@ -15,6 +15,10 @@ concurrency:
   group: security-checks-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+defaults:
+  run:
+    shell: cmd
+
 jobs:
   secret-scan:
     name: Secret scanning
@@ -66,12 +70,9 @@ jobs:
           PAYMENTS_ENABLED: "false"
           NEXT_PUBLIC_SITE_URL: https://burifylabs.com
       - name: Install Chromium for responsive smoke tests
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
       - name: Run responsive browser checks
-        run: |
-          npm run start -- --hostname 127.0.0.1 > /tmp/burify-next.log 2>&1 &
-          echo $! > /tmp/burify-next.pid
-          node scripts/responsive-smoke.mjs
+        run: npm run test:responsive
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder-anon-key
