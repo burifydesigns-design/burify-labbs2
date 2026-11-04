@@ -19,6 +19,8 @@ export function MobileMenu({ isOpen, onClose, links }: MobileMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const onCloseRef = useRef(onClose);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const previousOverflowRef = useRef("");
 
   useEffect(() => {
     onCloseRef.current = onClose;
@@ -66,6 +68,10 @@ export function MobileMenu({ isOpen, onClose, links }: MobileMenuProps) {
 
   useEffect(() => {
     if (isOpen) {
+      previousFocusRef.current = document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+      previousOverflowRef.current = document.body.style.overflow;
       document.addEventListener("keydown", handleEscape);
       document.addEventListener("keydown", handleTab);
       document.body.style.overflow = "hidden";
@@ -75,7 +81,8 @@ export function MobileMenu({ isOpen, onClose, links }: MobileMenuProps) {
     return () => {
       document.removeEventListener("keydown", handleEscape);
       document.removeEventListener("keydown", handleTab);
-      document.body.style.overflow = "";
+      document.body.style.overflow = previousOverflowRef.current;
+      if (isOpen) previousFocusRef.current?.focus();
     };
   }, [isOpen, handleEscape, handleTab]);
 
@@ -83,6 +90,7 @@ export function MobileMenu({ isOpen, onClose, links }: MobileMenuProps) {
 
   return (
     <div
+      id="mobile-menu"
       className="fixed inset-0 z-50 lg:hidden"
       role="dialog"
       aria-modal="true"
@@ -97,13 +105,13 @@ export function MobileMenu({ isOpen, onClose, links }: MobileMenuProps) {
       <div
         ref={menuRef}
         className={`
-          absolute right-0 top-0 h-full w-full max-w-sm
+          absolute right-0 top-0 h-full min-h-0 w-full max-w-sm pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]
           bg-background-dark border-l border-border-dark
           transform transition-transform duration-300 ease-out
           ${isOpen ? "translate-x-0" : "translate-x-full"}
         `}
       >
-        <div className="flex flex-col h-full p-6">
+        <div className="flex flex-col h-full min-h-0 p-6">
           <div className="flex items-center justify-between mb-8">
             <span className="text-xl font-bold text-white">
               <span className="text-primary">BURI</span>FY LABS

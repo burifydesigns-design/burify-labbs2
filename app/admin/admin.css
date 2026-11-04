@@ -47,3 +47,55 @@
 .payment-health-grid .health-warning{color:#a56a18}
 @media(max-width:750px){.payment-health-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.payment-health-grid{grid-template-columns:1fr}}
+
+
+/* Responsive admin workspace: keep every dashboard destination reachable on mobile. */
+@media (max-width: 900px) {
+  .admin-shell { grid-template-columns: 1fr; }
+  .admin-sidebar {
+    position: sticky; top: 0; z-index: 30; height: auto;
+    padding: 12px 16px; gap: 8px;
+    display: flex; flex-direction: row; flex-wrap: wrap; align-items: center;
+  }
+  .admin-side-label { display: none; }
+  .admin-sidebar .admin-nav {
+    display: inline-flex; flex: 0 0 auto; align-items: center;
+    margin: 0; padding: 9px 11px; white-space: nowrap;
+  }
+  .admin-sidebar-bottom { display: none; }
+  .admin-main { min-width: 0; }
+}
+@media (max-width: 650px) {
+  .admin-sidebar {
+    position: sticky; top: 0; overflow-x: auto; flex-wrap: nowrap;
+    gap: 7px; padding: 10px 12px;
+    scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+  }
+  .admin-sidebar .admin-brand { flex: 0 0 auto; padding: 0 8px 0 0; }
+  .admin-sidebar .admin-nav { flex: 0 0 auto; font-size: 11px; padding: 9px 10px; }
+  .admin-main { padding: 16px 12px; }
+  .admin-topbar { align-items: flex-start; gap: 12px; }
+  .admin-topbar h1 { font-size: clamp(20px, 6vw, 25px); overflow-wrap: anywhere; }
+  .admin-topbar form { flex: 0 0 auto; }
+  .admin-welcome { gap: 12px; }
+  .admin-live { white-space: normal; }
+  .admin-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-stat { min-width: 0; }
+  .admin-stat strong { overflow-wrap: anywhere; }
+  .admin-panel-heading { align-items: flex-start; gap: 10px; }
+  .admin-table-wrap { max-width: 100%; overflow-x: auto; }
+  .admin-table { min-width: 720px; }
+  .admin-blog-fields { grid-template-columns: minmax(0, 1fr); }
+  .admin-blog-field-full { grid-column: auto; }
+  .admin-blog-editor { padding: 16px; }
+  .admin-blog-delete { flex-wrap: wrap; }
+  .admin-blog-delete input { width: min(100%, 220px); }
+  .admin-contact-list { grid-template-columns: minmax(0, 1fr); }
+  .admin-content-note { min-width: 0; }
+  .admin-user-invite { display: grid; grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 360px) {
+  .admin-stats { grid-template-columns: minmax(0, 1fr); }
+  .admin-sidebar .admin-nav { font-size: 10px; padding: 8px; }
+  .admin-panel { padding: 11px; }
+}
