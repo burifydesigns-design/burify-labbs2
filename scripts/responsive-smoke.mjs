@@ -4,12 +4,15 @@ import { resolve } from "node:path";
 import { chromium } from "playwright";
 
 const port = process.env.RESPONSIVE_PORT || "4173";
-const baseURL = process.env.RESPONSIVE_BASE_URL || `http://127.0.0.1:${port}`;
-const server = spawn(
-  process.execPath,
-  [resolve("node_modules/next/dist/bin/next"), "start", "--hostname", "127.0.0.1", "--port", port],
-  { env: { ...process.env, PORT: port }, stdio: "inherit", windowsHide: true },
-);
+const externalBaseURL = process.env.RESPONSIVE_BASE_URL;
+const baseURL = externalBaseURL || `http://127.0.0.1:${port}`;
+const server = externalBaseURL
+  ? null
+  : spawn(
+      process.execPath,
+      [resolve("node_modules/next/dist/bin/next"), "start", "--hostname", "127.0.0.1", "--port", port],
+      { env: { ...process.env, PORT: port }, stdio: "inherit", windowsHide: true },
+    );
 const routes = [
   "/",
   "/services",
@@ -26,7 +29,7 @@ const routes = [
 const widths = [320, 360, 390, 480, 640, 768, 1024, 1280, 1600];
 const startupDeadline = Date.now() + 120000;
 let serverReady = false;
-while (Date.now() < startupDeadline && server.exitCode === null) {
+while (Date.now() < startupDeadline && (!server || server.exitCode === null)) {
   try {
     const response = await fetch(baseURL);
     if (response.ok) {
@@ -37,7 +40,7 @@ while (Date.now() < startupDeadline && server.exitCode === null) {
   await new Promise((resolve) => setTimeout(resolve, 500));
 }
 if (!serverReady) {
-  server.kill();
+  server?.kill();
   throw new Error(`Next.js server did not become ready at ${baseURL}`);
 }
 
@@ -124,5 +127,5 @@ try {
   console.log(`Responsive smoke test passed: ${routes.length} routes × ${widths.length} viewport widths`);
 } finally {
   if (browser) await browser.close();
-  server.kill();
+  server?.kill();
 }
