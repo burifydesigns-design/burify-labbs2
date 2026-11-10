@@ -14,7 +14,7 @@ export default async function ProspectCrmPage({ searchParams }: { searchParams: 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (profile?.role !== "admin") { await supabase.auth.signOut(); redirect("/admin/login?error=unauthorized"); }
+  if (!(["admin", "marketing"].includes(profile?.role ?? ""))) { await supabase.auth.signOut(); redirect("/admin/login?error=unauthorized"); }
 
   const params = await searchParams;
   const page = Math.max(1, Number.parseInt(params.page || "1", 10) || 1);
