@@ -99,3 +99,17 @@
   .admin-sidebar .admin-nav { font-size: 10px; padding: 8px; }
   .admin-panel { padding: 11px; }
 }
+
+.admin-crm-filters{display:grid;grid-template-columns:minmax(180px,2fr) repeat(2,minmax(150px,1fr)) auto;gap:12px;align-items:end;margin-bottom:20px}
+.admin-crm-filters label{display:grid;gap:6px;font-size:12px;color:var(--color-text-secondary)}
+.admin-crm-filters input,.admin-crm-filters select{min-width:0;width:100%;padding:10px 12px;border:1px solid var(--color-border);border-radius:8px;background:var(--color-background);color:var(--color-text-primary)}
+.admin-crm-filters button{padding:10px 16px;border:0;border-radius:8px;background:var(--color-primary);color:white;font-weight:600;cursor:pointer}
+.admin-crm-table{min-width:1120px}
+.admin-crm-table td{vertical-align:top;max-width:240px;overflow-wrap:anywhere}
+.admin-crm-table td small{display:block;margin-top:4px;color:var(--color-text-muted);font-size:11px}
+.admin-crm-table a{color:var(--color-primary);text-decoration:underline}
+.admin-crm-table details{margin-top:8px;font-size:12px}
+.admin-crm-table details p{white-space:pre-wrap;max-width:260px}
+.admin-crm-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px}
+.admin-crm-pagination>div{display:flex;align-items:center;gap:10px}
+@media(max-width:760px){.admin-crm-filters{grid-template-columns:1fr}.admin-crm-pagination{align-items:flex-start;flex-direction:column}}
