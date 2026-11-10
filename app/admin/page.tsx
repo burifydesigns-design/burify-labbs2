@@ -11,7 +11,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (profile?.role !== "admin") { await supabase.auth.signOut(); redirect("/admin/login?error=unauthorized"); }
+  if (!(["admin", "marketing"].includes(profile?.role ?? ""))) { await supabase.auth.signOut(); redirect("/admin/login?error=unauthorized"); }
 
   const admin = createAdminClient();
   const [leadResult, contactResult, postResult, serviceResult, workResult, userResult, profileResult, params] = await Promise.all([
