@@ -214,7 +214,7 @@ export async function inviteDashboardUser(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const fullName = String(formData.get("full_name") ?? "").trim();
   const role = String(formData.get("role") ?? "member");
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !fullName || fullName.length > 120 || !["admin", "member"].includes(role)) redirect("/admin?usersError=invalid");
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !fullName || fullName.length > 120 || !["admin", "member", "marketing"].includes(role)) redirect("/admin?usersError=invalid");
 
   const admin = createAdminClient();
   const { data, error } = await admin.auth.admin.inviteUserByEmail(email, { data: { full_name: fullName } });

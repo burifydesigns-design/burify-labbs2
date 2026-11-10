@@ -78,8 +78,8 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         <form action={inviteDashboardUser} className="admin-user-invite">
           <label>Full name<input name="full_name" type="text" required maxLength={120} placeholder="Team member name"/></label>
           <label>Email address<input name="email" type="email" required placeholder="name@company.com"/></label>
-          <label>Role<select name="role" defaultValue="member"><option value="member">Member</option><option value="admin">Administrator</option></select></label>
-          <button type="submit">Invite user</button><p>Invitations are sent by email. Members cannot access administrator-only tools.</p>
+          <label>Role<select name="role" defaultValue="member"><option value="member">Member</option><option value="marketing">Marketing</option><option value="admin">Administrator</option></select></label>
+          <button type="submit">Invite user</button><p>Invitations are sent by email. Marketing users receive read-only access to CRM, Blogs and Work, with no Payments access. Members have standard restricted access.</p>
         </form>
         {userResult.error || profileResult.error ? <p className="admin-muted">Could not load user accounts. Check the server secret key and profiles permissions.</p> : users.length === 0 ? <div className="admin-empty"><strong>No user accounts found</strong></div> :
           <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>User</th><th>Role</th><th>Joined</th><th>Action</th></tr></thead><tbody>
