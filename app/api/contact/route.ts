@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { deriveLeadTrack, parseProspectRef, type LeadTrack } from "@/lib/lead-track";
 
 const MAX_REQUEST_BYTES = 10_000;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -19,6 +20,8 @@ type ContactSubmission = {
   utm_campaign: string | null;
   utm_term: string | null;
   utm_content: string | null;
+  track: LeadTrack | null;
+  prospect_ref: string | null;
 };
 
 type ValidationResult =
@@ -52,6 +55,7 @@ function validateSubmission(value: unknown): ValidationResult {
         name: "", email: "", company: null, service_interest: null, message: "",
         consent: true, landing_page: null, referrer: null,
         utm_source: null, utm_medium: null, utm_campaign: null, utm_term: null, utm_content: null,
+        track: null, prospect_ref: null,
       },
       honeypot: true,
     };
@@ -106,6 +110,8 @@ function validateSubmission(value: unknown): ValidationResult {
       utm_campaign: utmCampaign || null,
       utm_term: utmTerm || null,
       utm_content: utmContent || null,
+      track: deriveLeadTrack(body.track, serviceInterest || null),
+      prospect_ref: parseProspectRef(body.prospect_ref),
     },
     honeypot: false,
   };
@@ -124,6 +130,8 @@ async function sendContactNotification(submission: ContactSubmission) {
     `Email: ${submission.email}`,
     `Company: ${submission.company || "Not provided"}`,
     `Service: ${submission.service_interest || "Not selected"}`,
+    `Track: ${submission.track || "Unclassified"}`,
+    `Prospect ref: ${submission.prospect_ref || "—"}`,
     "",
     "Project details:",
     submission.message,

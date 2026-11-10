@@ -114,6 +114,8 @@ export function ContactPageClient() {
           utm_campaign: new URLSearchParams(window.location.search).get("utm_campaign") ?? "",
           utm_term: new URLSearchParams(window.location.search).get("utm_term") ?? "",
           utm_content: new URLSearchParams(window.location.search).get("utm_content") ?? "",
+          track: new URLSearchParams(window.location.search).get("track") ?? "",
+          prospect_ref: new URLSearchParams(window.location.search).get("pid") ?? "",
         }),
       });
 
