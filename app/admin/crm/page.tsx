@@ -23,7 +23,7 @@ export default async function ProspectCrmPage({ searchParams }: { searchParams: 
   const status = params.status || "";
   const source = params.source || "";
   let query = supabase.from("notion_crm_leads")
-    .select("id,company,contact_channel,date_added,date_contacted,deal_value,decision_maker,email,estimated_value,final_follow_up,follow_up_1,follow_up_2,follow_up_3,industry,instagram,last_contact,lead_source,linkedin,location,lost_reason,next_follow_up,notes,offer_recommended,personalization,phone,problem_identified,problem_severity,proposal_date,reply,role,sales_call_date,status,website,website_status,whatsapp,won_lost", { count: "exact" })
+    .select("id,company,contact_channel,date_added,date_contacted,deal_value,decision_maker,email,email_subject,email_draft,email_draft_status,email_drafted_at,email_sent_at,email_reply_at,email_reply_summary,estimated_value,final_follow_up,follow_up_1,follow_up_2,follow_up_3,industry,instagram,last_contact,lead_source,linkedin,location,lost_reason,next_follow_up,notes,offer_recommended,personalization,phone,problem_identified,problem_severity,proposal_date,reply,role,sales_call_date,status,website,website_status,whatsapp,won_lost", { count: "exact" })
     .order("company", { ascending: true })
     .range((page - 1) * pageSize, page * pageSize - 1);
   if (q) query = query.ilike("company", "%" + q.replace(/[%_]/g, "") + "%");
@@ -91,6 +91,8 @@ export default async function ProspectCrmPage({ searchParams }: { searchParams: 
                 <section className="prospect-detail-wide"><small>Personalization</small><p>{lead.personalization || "—"}</p></section>
                 <section className="prospect-detail-wide"><small>Notes</small><p>{lead.notes || "—"}</p></section>
                 <section className="prospect-detail-wide"><small>Reply / response</small><p>{lead.reply || "—"}</p></section>
+                {lead.email_draft ? <section className="prospect-detail-wide prospect-email-draft"><small>Email draft · {lead.email_draft_status || "Draft"}</small><strong>{lead.email_subject || "No subject"}</strong><p>{lead.email_draft}</p><em>Not sent — review and approve before sending</em></section> : null}
+                {lead.email_reply_summary ? <section className="prospect-detail-wide"><small>Email reply summary</small><p>{lead.email_reply_summary}</p></section> : null}
                 {lead.lost_reason ? <section><small>Lost reason</small><p>{lead.lost_reason}</p></section> : null}
                 {lead.instagram || lead.linkedin ? <section><small>Social profiles</small><p>{[lead.instagram && "Instagram: " + lead.instagram,lead.linkedin && "LinkedIn: " + lead.linkedin].filter(Boolean).join(" · ")}</p></section> : null}
               </div></details>
