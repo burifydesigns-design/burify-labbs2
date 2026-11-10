@@ -14,6 +14,14 @@ async function requireAdmin() {
   return supabase;
 }
 
+async function requireAdministrator() {
+  const supabase = await requireAdmin();
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: profile, error } = await supabase.from("profiles").select("role").eq("id", user?.id ?? "").maybeSingle();
+  if (error || profile?.role !== "admin") redirect("/admin?usersError=admin-role-required");
+  return supabase;
+}
+
 export async function signIn(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
@@ -210,7 +218,7 @@ export async function deleteCaseStudy(formData: FormData) {
 
 
 export async function createDashboardUser(formData: FormData) {
-  await requireAdmin();
+  await requireAdministrator();
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const fullName = String(formData.get("full_name") ?? "").trim();
   const password = String(formData.get("password") ?? "");
@@ -272,7 +280,7 @@ export async function updateDashboardUser(formData: FormData) {
 }
 
 export async function removeDashboardUser(formData: FormData) {
-  const supabase = await requireAdmin();
+  const supabase = await requireAdministrator();
   const { data: { user: actor } } = await supabase.auth.getUser();
   const userId = String(formData.get("user_id") ?? "");
   if (!userId || !actor || userId === actor.id) redirect("/admin?usersError=invalid-removal");
