@@ -1,7 +1,18 @@
 import assert from "node:assert/strict";
+import { spawn } from "node:child_process";
+import { resolve } from "node:path";
 import { chromium } from "playwright";
 
-const baseURL = process.env.RESPONSIVE_BASE_URL || "http://127.0.0.1:3000";
+const port = process.env.RESPONSIVE_PORT || "4173";
+const externalBaseURL = process.env.RESPONSIVE_BASE_URL;
+const baseURL = externalBaseURL || `http://127.0.0.1:${port}`;
+const server = externalBaseURL
+  ? null
+  : spawn(
+      process.execPath,
+      [resolve("node_modules/next/dist/bin/next"), "start", "--hostname", "127.0.0.1", "--port", port],
+      { env: { ...process.env, PORT: port }, stdio: "inherit", windowsHide: true },
+    );
 const routes = [
   "/",
   "/services",
@@ -17,19 +28,27 @@ const routes = [
 ];
 const widths = [320, 360, 390, 480, 640, 768, 1024, 1280, 1600];
 const startupDeadline = Date.now() + 120000;
-while (Date.now() < startupDeadline) {
+let serverReady = false;
+while (Date.now() < startupDeadline && (!server || server.exitCode === null)) {
   try {
     const response = await fetch(baseURL);
-    if (response.ok) break;
+    if (response.ok) {
+      serverReady = true;
+      break;
+    }
   } catch {}
   await new Promise((resolve) => setTimeout(resolve, 500));
 }
-if (Date.now() >= startupDeadline) throw new Error(`Next.js server did not become ready at ${baseURL}`);
+if (!serverReady) {
+  server?.kill();
+  throw new Error(`Next.js server did not become ready at ${baseURL}`);
+}
 
-const browser = await chromium.launch({ headless: true });
+let browser;
 let failures = 0;
 
 try {
+  browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ deviceScaleFactor: 1 });
   page.setDefaultTimeout(10000);
 
@@ -107,5 +126,6 @@ try {
   assert.equal(failures, 0, `${failures} responsive viewport overflow checks failed`);
   console.log(`Responsive smoke test passed: ${routes.length} routes × ${widths.length} viewport widths`);
 } finally {
-  await browser.close();
+  if (browser) await browser.close();
+  server?.kill();
 }

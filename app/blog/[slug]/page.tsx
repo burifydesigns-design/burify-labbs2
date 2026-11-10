@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { BlogPost } from "@/types/blog";
 import { getPostBySlug } from "@/lib/blog";
 import { getCmsPostBySlug } from "@/lib/blog-supabase";
@@ -9,9 +10,9 @@ import { createResourceMetadata } from "@/lib/seo";
 
 type PageProps = { params: Promise<{ slug: string }> | { slug: string } };
 
-async function resolvePost(slug: string): Promise<BlogPost | undefined> {
+const resolvePost = cache(async (slug: string): Promise<BlogPost | undefined> => {
   return (await getCmsPostBySlug(slug)) ?? getPostBySlug(slug);
-}
+});
 
 export const generateMetadata = async ({ params }: PageProps) => {
   const { slug } = await params;
@@ -41,8 +42,8 @@ export default async function BlogPostPage({ params }: PageProps) {
       <article className="blog-post container mx-auto py-16 px-4 lg:px-8">
         <header className="mb-8">
           {post.featuredImage && (
-            <div className="relative mb-6">
-              <Image src={post.featuredImage} alt={post.featuredImageAlt ?? post.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" loading="lazy" className="object-cover rounded-lg" />
+            <div className="relative mb-6 aspect-[16/9] w-full overflow-hidden rounded-lg bg-background-secondary">
+              <Image src={post.featuredImage} alt={post.featuredImageAlt ?? post.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority className="object-cover rounded-lg" />
               <div className="absolute top-4 left-4 bg-primary/90 text-white text-xs font-medium px-3 py-1 rounded">{post.category}</div>
             </div>
           )}

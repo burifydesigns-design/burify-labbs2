@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
@@ -22,6 +22,7 @@ const POSTS_PER_PAGE = 9;
 
 export function BlogPageClient({ databasePosts }: { databasePosts: BlogPost[] }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const deferredSearchQuery = useDeferredValue(searchQuery);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const allPosts = useMemo(() => {
@@ -32,15 +33,15 @@ export function BlogPageClient({ databasePosts }: { databasePosts: BlogPost[] })
   const categories = useMemo(() => Array.from(new Set(allPosts.map((post) => post.category))).sort(), [allPosts]);
 
   const featuredPost = useMemo(() => {
-    if (selectedCategory || searchQuery.trim()) return null;
+    if (selectedCategory || deferredSearchQuery.trim()) return null;
     return allPosts.find((post) => post.featured) ?? allPosts[0] ?? null;
-  }, [allPosts, selectedCategory, searchQuery]);
+  }, [allPosts, selectedCategory, deferredSearchQuery]);
 
   const filteredPosts = useMemo(() => {
     let result = allPosts;
 
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase().trim();
+    if (deferredSearchQuery.trim()) {
+      const query = deferredSearchQuery.toLowerCase().trim();
       result = result.filter((post) =>
         [post.title, post.excerpt, post.category, post.content]
           .join(" ").replace(/<[^>]*>/g, " ").toLowerCase().includes(query)
@@ -52,7 +53,7 @@ export function BlogPageClient({ databasePosts }: { databasePosts: BlogPost[] })
     }
 
     return result;
-  }, [allPosts, searchQuery, selectedCategory]);
+  }, [allPosts, deferredSearchQuery, selectedCategory]);
 
   const { posts: pagePosts, totalPages } = useMemo(
     () => paginatePosts(filteredPosts, currentPage, POSTS_PER_PAGE),
