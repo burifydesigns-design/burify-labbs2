@@ -35,6 +35,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       <a className="admin-brand" href="/">BURIFY<span>LABS</span></a>
       <p className="admin-side-label">WORKSPACE</p>
       <a className="admin-nav active" href="/admin">Overview</a>
+      <a className="admin-nav" href="/admin/crm">Notion CRM · 400 leads</a>
       <a className="admin-nav" href="#leads">Lead pipeline</a>
       <a className="admin-nav" href="#contacts">Contact inbox</a>
       <a className="admin-nav" href="#users">User management</a>
