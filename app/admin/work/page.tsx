@@ -44,7 +44,7 @@ export default async function AdminWorkPage({ searchParams }: { searchParams: Pa
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (profile?.role !== "admin") { await supabase.auth.signOut(); redirect("/admin/login?error=unauthorized"); }
+  if (!(["admin", "marketing"].includes(profile?.role ?? ""))) { await supabase.auth.signOut(); redirect("/admin/login?error=unauthorized"); }
   const [{ data, error }, params] = await Promise.all([
     supabase.from("case_studies").select("*").order("display_order", { ascending: true }).order("updated_at", { ascending: false }),
     searchParams,
