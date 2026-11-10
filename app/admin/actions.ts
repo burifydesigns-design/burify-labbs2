@@ -10,7 +10,7 @@ async function requireAdmin() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
   const { data: profile, error } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (error || profile?.role !== "admin") redirect("/admin/login?error=unauthorized");
+  if (error || !(["admin", "marketing"].includes(profile?.role ?? ""))) redirect("/admin/login?error=unauthorized");
   return supabase;
 }
 
@@ -24,7 +24,7 @@ export async function signIn(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login?error=invalid");
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (profile?.role !== "admin") {
+  if (!(["admin", "marketing"].includes(profile?.role ?? ""))) {
     await supabase.auth.signOut();
     redirect("/admin/login?error=unauthorized");
   }
@@ -215,6 +215,9 @@ export async function createDashboardUser(formData: FormData) {
   const fullName = String(formData.get("full_name") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const role = String(formData.get("role") ?? "member");
+  const { data: { user: actor } } = await (await createClient()).auth.getUser();
+  const actorProfile = actor ? await createAdminClient().from("profiles").select("role").eq("id", actor.id).maybeSingle() : { data: null };
+  if (role === "admin" && actorProfile.data?.role !== "admin") redirect("/admin?usersError=admin-role-required");
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !fullName || fullName.length > 120 ||
       password.length < 12 || password.length > 128 || !["admin", "member", "marketing"].includes(role)) {
     redirect("/admin?usersError=invalid");
@@ -243,6 +246,7 @@ export async function updateDashboardUser(formData: FormData) {
   const userId = String(formData.get("user_id") ?? "");
   const role = String(formData.get("role") ?? "");
   const password = String(formData.get("password") ?? "");
+  if (role === "admin" && actor?.id !== userId) { const { data: actorProfile } = await supabase.from("profiles").select("role").eq("id", actor?.id ?? "").maybeSingle(); if (actorProfile?.role !== "admin") redirect("/admin?usersError=admin-role-required"); }
   if (!userId || !["admin", "member", "marketing"].includes(role) ||
       (password && (password.length < 12 || password.length > 128))) {
     redirect("/admin?usersError=invalid");
