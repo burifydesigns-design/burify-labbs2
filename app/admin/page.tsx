@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { signOut, updateLeadStatus, updateContactStatus, inviteDashboardUser, removeDashboardUser } from "./actions";
+import { signOut, updateLeadStatus, updateContactStatus, createDashboardUser, updateDashboardUser, removeDashboardUser } from "./actions";
 import { createAdminClient } from "@/lib/supabase/admin";
 import AdminControls from "./admin-controls";
 
 export const metadata = { title: "Admin dashboard | Burify Labs", robots: { index: false, follow: false } };
 
-export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{ error?: string; updated?: string; contactUpdated?: string; userAdded?: string; userRemoved?: string; usersError?: string }> }) {
+export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{ error?: string; updated?: string; contactUpdated?: string; userAdded?: string; userUpdated?: string; userRemoved?: string; usersError?: string }> }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
@@ -49,9 +49,9 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       <header className="admin-topbar"><div><p className="admin-eyebrow">BURIFY / WORKSPACE</p><h1>Overview</h1></div><div className="admin-topbar-actions"><AdminControls /><form action={signOut}><button className="admin-logout" type="submit">Sign out</button></form></div></header>
       {params.error && <p className="admin-error">The update failed. Check the status and database permissions.</p>}
       {params.updated && <p className="admin-success">Lead status updated.</p>}{params.contactUpdated && <p className="admin-success">Contact enquiry status updated.</p>}
-      {params.userAdded && <p className="admin-success">Invitation sent and user added.</p>}
+      {params.userAdded && <p className="admin-success">User account created.</p>}{params.userUpdated && <p className="admin-success">User role/password updated.</p>}
       {params.userRemoved && <p className="admin-success">User removed.</p>}
-      {params.usersError && <p className="admin-error">{({invalid:"Enter a valid name, email and role.", "invite-failed":"Could not send invitation. The email may already be registered.", "profile-failed":"Invitation created, but profile setup failed; the invited account was rolled back.", "invalid-removal":"You cannot remove your own administrator account.", "user-not-found":"That user could not be found.", "last-admin":"The last administrator cannot be removed.", "remove-failed":"Could not remove this account."} as Record<string,string>)[params.usersError] ?? "User management action failed."}</p>}
+      {params.usersError && <p className="admin-error">{({invalid:"Enter a valid name, email and role.", "create-failed":"Could not create the account. The email may already be registered.", "role-update-failed":"Could not update this user role.", "password-update-failed":"Role was saved, but the password could not be changed.", "self-demotion":"You cannot demote your own administrator account.", "last-admin":"The last administrator cannot be demoted or removed.", "profile-failed":"Invitation created, but profile setup failed; the invited account was rolled back.", "invalid-removal":"You cannot remove your own administrator account.", "user-not-found":"That user could not be found.", "last-admin":"The last administrator cannot be removed.", "remove-failed":"Could not remove this account."} as Record<string,string>)[params.usersError] ?? "User management action failed."}</p>}
       <section className="admin-welcome"><div><p className="admin-eyebrow">BUSINESS OVERVIEW</p><h2>Welcome back.</h2><p>Manage enquiries, leads and content from one place.</p></div><span className="admin-live">● Authenticated admin</span></section>
       <div className="admin-stats">
         <article className="admin-stat"><span>Total leads</span><strong>{leadResult.count ?? leads.length}</strong><small>Latest 50 displayed below</small></article>
@@ -75,15 +75,16 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       <section id="users" className="admin-panel admin-users-panel">
         <div className="admin-panel-heading"><div><p className="admin-eyebrow">ACCESS CONTROL</p><h2>Users & permissions</h2></div><span className="admin-count">{users.length} accounts shown</span></div>
-        <form action={inviteDashboardUser} className="admin-user-invite">
+        <form action={createDashboardUser} className="admin-user-invite">
           <label>Full name<input name="full_name" type="text" required maxLength={120} placeholder="Team member name"/></label>
           <label>Email address<input name="email" type="email" required placeholder="name@company.com"/></label>
+          <label>Initial password<input name="password" type="password" required minLength={12} maxLength={128} autoComplete="new-password" placeholder="At least 12 characters"/></label>
           <label>Role<select name="role" defaultValue="member"><option value="member">Member</option><option value="marketing">Marketing</option><option value="admin">Administrator</option></select></label>
-          <button type="submit">Invite user</button><p>Invitations are sent by email. Marketing users receive read-only access to CRM, Blogs and Work, with no Payments access. Members have standard restricted access.</p>
+          <button type="submit">Create user</button><p>Creates the Supabase Auth account immediately with the password entered. Marketing is intended to have read-only CRM, Blogs and Work access, without Payments access. Use a unique password and share it securely.</p>
         </form>
         {userResult.error || profileResult.error ? <p className="admin-muted">Could not load user accounts. Check the server secret key and profiles permissions.</p> : users.length === 0 ? <div className="admin-empty"><strong>No user accounts found</strong></div> :
-          <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>User</th><th>Role</th><th>Joined</th><th>Action</th></tr></thead><tbody>
-            {users.map(item => <tr key={item.id}><td><strong>{item.profile?.full_name || item.user_metadata?.full_name || "Unnamed user"}</strong><small>{item.email || "No email"}{item.id === user.id ? " · You" : ""}</small></td><td><span className="admin-status">{item.profile?.role || "No profile"}</span></td><td>{date(item.created_at)}</td><td>{item.id === user.id ? <span className="admin-muted">Current account</span> : <form action={removeDashboardUser}><input type="hidden" name="user_id" value={item.id}/><button className="admin-danger-button" type="submit">Remove</button></form>}</td></tr>)}
+          <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>User</th><th>Role / password</th><th>Joined</th><th>Actions</th></tr></thead><tbody>
+            {users.map(item => <tr key={item.id}><td><strong>{item.profile?.full_name || item.user_metadata?.full_name || "Unnamed user"}</strong><small>{item.email || "No email"}{item.id === user.id ? " · You" : ""}</small></td><td><form action={updateDashboardUser} className="admin-user-update"><input type="hidden" name="user_id" value={item.id}/><select name="role" defaultValue={item.profile?.role || "member"} aria-label={"Role for " + (item.email || item.id)}><option value="member">Member</option><option value="marketing">Marketing</option><option value="admin">Administrator</option></select><input name="password" type="password" minLength={12} maxLength={128} autoComplete="new-password" placeholder="New password (optional)" aria-label="Optional new password"/><button type="submit">Save changes</button></form></td><td>{date(item.created_at)}</td><td>{item.id === user.id ? <span className="admin-muted">Current account</span> : <form action={removeDashboardUser}><input type="hidden" name="user_id" value={item.id}/><button className="admin-danger-button" type="submit">Remove</button></form>}</td></tr>)}
           </tbody></table></div>}
         {userResult.data?.users && userResult.data.users.length >= 100 && <p className="admin-muted">Showing the first 100 accounts.</p>}
       </section>
