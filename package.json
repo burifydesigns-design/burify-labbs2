@@ -35,7 +35,7 @@
     "sharp": "^0.35.5",
     "tailwindcss": "^4.3.5",
     "turbo": "^2.11.7",
-    "typescript": "^7.0.2"
+    "typescript": "^5.9.3"
   },
   "overrides": {
     "tar": "^7.5.8"
