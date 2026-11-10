@@ -54,7 +54,7 @@ export default async function ProspectCrmPage({ searchParams }: { searchParams: 
       <Link className="admin-nav" href="/admin/work">Work / portfolio</Link>
       <Link className="admin-nav" href="/admin/blog">Blog management</Link>
       <Link className="admin-nav" href="/admin/analytics">Analytics</Link>
-      <Link className="admin-nav" href="/admin/payments">Payments</Link>
+      {profile?.role === "admin" && <Link className="admin-nav" href="/admin/payments">Payments</Link>}
     </aside>
     <section className="admin-main prospect-main">
       <header className="admin-topbar"><div><p className="admin-eyebrow">BURIFY / SALES WORKSPACE</p><h1>Prospect CRM</h1></div><Link className="admin-logout" href="/admin">← Dashboard</Link></header>
