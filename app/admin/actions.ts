@@ -246,7 +246,7 @@ export async function updateDashboardUser(formData: FormData) {
   const userId = String(formData.get("user_id") ?? "");
   const role = String(formData.get("role") ?? "");
   const password = String(formData.get("password") ?? "");
-  if (role === "admin" && actor?.id !== userId) { const { data: actorProfile } = await supabase.from("profiles").select("role").eq("id", actor?.id ?? "").maybeSingle(); if (actorProfile?.role !== "admin") redirect("/admin?usersError=admin-role-required"); }
+  if (role === "admin") { const { data: actorProfile } = await supabase.from("profiles").select("role").eq("id", actor?.id ?? "").maybeSingle(); if (actorProfile?.role !== "admin") redirect("/admin?usersError=admin-role-required"); }
   if (!userId || !["admin", "member", "marketing"].includes(role) ||
       (password && (password.length < 12 || password.length > 128))) {
     redirect("/admin?usersError=invalid");
@@ -281,6 +281,8 @@ export async function removeDashboardUser(formData: FormData) {
   const { data: target, error: lookupError } = await admin.from("profiles").select("id,role").eq("id", userId).maybeSingle();
   if (lookupError || !target) redirect("/admin?usersError=user-not-found");
   if (target.role === "admin") {
+    const { data: actorProfile } = await supabase.from("profiles").select("role").eq("id", actor?.id ?? "").maybeSingle();
+    if (actorProfile?.role !== "admin") redirect("/admin?usersError=admin-role-required");
     const { count, error: countError } = await admin.from("profiles").select("id", { count: "exact", head: true }).eq("role", "admin");
     if (countError || (count ?? 0) <= 1) redirect("/admin?usersError=last-admin");
   }
