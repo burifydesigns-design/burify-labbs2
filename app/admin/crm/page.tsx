@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 
 export const metadata = { title: "Prospect CRM | Burify Admin", robots: { index: false, follow: false } };
 
-type SearchParams = Promise<{ page?: string; q?: string; status?: string; source?: string }>;
+type SearchParams = Promise<{ page?: string; q?: string; status?: string; source?: string; market?: string; fit?: string }>;
 
 const STATUSES = ["NEW", "QUALIFIED", "CONTACTED", "REPLIED", "POSITIVE REPLY", "SALES CONVERSATION", "PROPOSAL SENT", "NEGOTIATION", "WON", "LOST", "FOLLOW-UP", "NOT A FIT"];
 const SOURCES = ["Google Maps", "Instagram", "LinkedIn", "Referral", "Cold Email", "Other"];
@@ -21,23 +21,23 @@ export default async function ProspectCrmPage({ searchParams }: { searchParams: 
   const pageSize = 30;
   const q = (params.q || "").trim().slice(0, 120);
   const status = params.status || "";
-  const source = params.source || "";
+  const source = params.source || "";\n  const market = params.market || "international";\n  const fit = params.fit || "";
   let query = supabase.from("notion_crm_leads")
-    .select("id,company,contact_channel,date_added,date_contacted,deal_value,decision_maker,email,email_subject,email_draft,email_draft_status,email_drafted_at,email_sent_at,email_reply_at,email_reply_summary,estimated_value,final_follow_up,follow_up_1,follow_up_2,follow_up_3,industry,instagram,last_contact,lead_source,linkedin,location,lost_reason,next_follow_up,notes,offer_recommended,personalization,phone,problem_identified,problem_severity,proposal_date,reply,role,sales_call_date,status,website,website_status,whatsapp,won_lost", { count: "exact" })
+    .select("id,company,contact_channel,date_added,date_contacted,deal_value,decision_maker,email,email_subject,email_draft,email_draft_status,email_drafted_at,email_sent_at,email_reply_at,email_reply_summary,estimated_value,final_follow_up,follow_up_1,follow_up_2,follow_up_3,industry,instagram,last_contact,lead_source,linkedin,location,lost_reason,next_follow_up,notes,offer_recommended,personalization,phone,problem_identified,problem_severity,proposal_date,reply,role,sales_call_date,status,website,website_status,whatsapp,won_lost,market_scope,icp_fit", { count: "exact" })
     .order("company", { ascending: true })
     .range((page - 1) * pageSize, page * pageSize - 1);
   if (q) query = query.ilike("company", "%" + q.replace(/[%_]/g, "") + "%");
   if (status) query = query.eq("status", status);
-  if (source) query = query.eq("lead_source", source);
+  if (source) query = query.eq("lead_source", source);\n  if (market) query = query.eq("market_scope", market);\n  if (fit) query = query.eq("icp_fit", fit);
   const { data, count, error } = await query;
   const total = count ?? 0;
   const pages = Math.max(1, Math.ceil(total / pageSize));
   const leads = data ?? [];
   const fmt = (v: string | null) => v ? new Date(v + (v.length === 10 ? "T00:00:00" : "")).toLocaleDateString() : "—";
   const money = (v: number | null) => v == null ? "—" : "KES " + new Intl.NumberFormat("en-KE", { maximumFractionDigits: 0 }).format(v);
-  const href = (p: number) => "/admin/crm?page=" + p + "&q=" + encodeURIComponent(q) + "&status=" + encodeURIComponent(status) + "&source=" + encodeURIComponent(source);
+  const href = (p: number) => "/admin/crm?page=" + p + "&q=" + encodeURIComponent(q) + "&status=" + encodeURIComponent(status) + "&source=" + encodeURIComponent(source) + "&market=" + encodeURIComponent(market) + "&fit=" + encodeURIComponent(fit);
   const resetHref = "/admin/crm";
-  const activeFilters = [q, status, source].filter(Boolean).length;
+  const activeFilters = [q, status, source, market !== "international" ? market : "", fit].filter(Boolean).length;
 
   return <main className="admin-shell">
     <aside className="admin-sidebar">
@@ -68,7 +68,7 @@ export default async function ProspectCrmPage({ searchParams }: { searchParams: 
         <form method="get" className="prospect-filters">
           <label className="prospect-search"><span>Search company</span><input name="q" defaultValue={q} placeholder="Try a company name…" /></label>
           <label><span>Lead status</span><select name="status" defaultValue={status}><option value="">All statuses</option>{STATUSES.map(v=><option key={v} value={v}>{v}</option>)}</select></label>
-          <label><span>Lead source</span><select name="source" defaultValue={source}><option value="">All sources</option>{SOURCES.map(v=><option key={v} value={v}>{v}</option>)}</select></label>
+          <label><span>Market</span><select name="market" defaultValue={market}><option value="international">International only</option><option value="local_excluded">Local market (excluded)</option><option value="needs_review">Market needs review</option><option value="">All markets</option></select></label>\n          <label><span>Strategic fit</span><select name="fit" defaultValue={fit}><option value="">All fit categories</option><option value="primary_dental">Primary · Dental</option><option value="secondary_medical">Secondary · Medical</option><option value="outside_current_icp">Outside current ICP</option><option value="needs_review">Needs review</option></select></label>\n          <label><span>Lead source</span><select name="source" defaultValue={source}><option value="">All sources</option>{SOURCES.map(v=><option key={v} value={v}>{v}</option>)}</select></label>
           <div className="prospect-filter-actions"><button type="submit">Apply filters</button>{activeFilters > 0 ? <Link href={resetHref}>Clear</Link> : null}</div>
         </form>
         {error ? <div className="prospect-state prospect-state-error"><strong>We couldn’t load your prospects.</strong><p>Please check the CRM table permissions and try again.</p></div> : leads.length === 0 ? <div className="prospect-state"><strong>No prospects found</strong><p>Try another search or clear the active filters.</p></div> :
@@ -78,9 +78,9 @@ export default async function ProspectCrmPage({ searchParams }: { searchParams: 
               <div className="prospect-company"><span className="prospect-company-avatar">{(lead.company || "—").trim().slice(0,1).toUpperCase()}</span><div><h4>{lead.company || "Unnamed company"}</h4><p>{lead.industry || "Industry not specified"}{lead.location ? " · " + lead.location : ""}</p></div></div>
               <div className="prospect-contact"><strong>{lead.decision_maker || lead.role || "Contact not specified"}</strong><span>{lead.email || lead.phone || lead.whatsapp || "No direct contact details"}</span></div>
               <div className="prospect-source"><span>{lead.lead_source || "Source unknown"}</span><small>{lead.contact_channel || "Channel not specified"}</small></div>
-              <div className="prospect-status-wrap"><span className="prospect-status">{lead.status || "Unclassified"}</span><small>{lead.next_follow_up ? "Next: " + fmt(lead.next_follow_up) : "No follow-up date"}</small></div>
+              <div className="prospect-status-wrap"><span className="prospect-status">{lead.status || "Unclassified"}</span><small>{lead.next_follow_up ? "Next: " + fmt(lead.next_follow_up) : "No follow-up date"}</small><small>{lead.market_scope === "local_excluded" ? "Local market · Excluded" : "International market"}</small><small>{lead.icp_fit === "primary_dental" ? "Primary ICP · Dental" : lead.icp_fit === "secondary_medical" ? "Secondary ICP · Medical" : lead.icp_fit === "outside_current_icp" ? "Outside current clinic ICP" : "ICP review needed"}</small></div>
               <details className="prospect-details"><summary>View details <span>＋</span></summary><div className="prospect-detail-grid">
-                <section><small>Recommended offer</small><p>{lead.offer_recommended || "—"}</p></section>
+                <section><small>Strategic market</small><p>{lead.market_scope === "local_excluded" ? "Local market — excluded from prospecting" : lead.market_scope === "international" ? "International" : "Needs review"}</p></section>\n                <section><small>Patient Growth ICP fit</small><p>{lead.icp_fit === "primary_dental" ? "Primary — Dental clinic" : lead.icp_fit === "secondary_medical" ? "Secondary — Medical clinic" : lead.icp_fit === "outside_current_icp" ? "Outside current ICP" : "Needs review"}</p></section>\n                <section><small>Recommended offer</small><p>{lead.offer_recommended || "—"}</p></section>
                 <section><small>Website</small><p>{lead.website ? <a href={lead.website} target="_blank" rel="noreferrer">{lead.website}</a> : "—"}</p></section>
                 <section><small>Estimated value</small><p>{lead.estimated_value != null ? money(lead.estimated_value) : "—"}</p></section>
                 <section><small>Deal value</small><p>{lead.deal_value != null ? money(lead.deal_value) : "—"}</p></section>
