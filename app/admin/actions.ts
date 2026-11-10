@@ -10,7 +10,7 @@ async function requireAdmin() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
   const { data: profile, error } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (error || profile?.role !== "admin") redirect("/admin/login?error=unauthorized");
+  if (error || !(["admin", "marketing"].includes(profile?.role ?? ""))) redirect("/admin/login?error=unauthorized");
   return supabase;
 }
 
@@ -24,7 +24,7 @@ export async function signIn(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login?error=invalid");
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (profile?.role !== "admin") {
+  if (!(["admin", "marketing"].includes(profile?.role ?? ""))) {
     await supabase.auth.signOut();
     redirect("/admin/login?error=unauthorized");
   }
@@ -209,16 +209,25 @@ export async function deleteCaseStudy(formData: FormData) {
 }
 
 
-export async function inviteDashboardUser(formData: FormData) {
+export async function createDashboardUser(formData: FormData) {
   await requireAdmin();
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const fullName = String(formData.get("full_name") ?? "").trim();
+  const password = String(formData.get("password") ?? "");
   const role = String(formData.get("role") ?? "member");
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !fullName || fullName.length > 120 || !["admin", "member", "marketing"].includes(role)) redirect("/admin?usersError=invalid");
+  const { data: { user: actor } } = await (await createClient()).auth.getUser();
+  const actorProfile = actor ? await createAdminClient().from("profiles").select("role").eq("id", actor.id).maybeSingle() : { data: null };
+  if (role === "admin" && actorProfile.data?.role !== "admin") redirect("/admin?usersError=admin-role-required");
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !fullName || fullName.length > 120 ||
+      password.length < 12 || password.length > 128 || !["admin", "member", "marketing"].includes(role)) {
+    redirect("/admin?usersError=invalid");
+  }
 
   const admin = createAdminClient();
-  const { data, error } = await admin.auth.admin.inviteUserByEmail(email, { data: { full_name: fullName } });
-  if (error || !data.user) redirect("/admin?usersError=invite-failed");
+  const { data, error } = await admin.auth.admin.createUser({
+    email, password, email_confirm: true, user_metadata: { full_name: fullName },
+  });
+  if (error || !data.user) redirect("/admin?usersError=create-failed");
 
   const { error: profileError } = await admin.from("profiles").upsert({
     id: data.user.id, full_name: fullName, role, updated_at: new Date().toISOString(),
@@ -231,6 +240,37 @@ export async function inviteDashboardUser(formData: FormData) {
   redirect("/admin?userAdded=1");
 }
 
+export async function updateDashboardUser(formData: FormData) {
+  const supabase = await requireAdmin();
+  const { data: { user: actor } } = await supabase.auth.getUser();
+  const userId = String(formData.get("user_id") ?? "");
+  const role = String(formData.get("role") ?? "");
+  const password = String(formData.get("password") ?? "");
+  if (role === "admin") { const { data: actorProfile } = await supabase.from("profiles").select("role").eq("id", actor?.id ?? "").maybeSingle(); if (actorProfile?.role !== "admin") redirect("/admin?usersError=admin-role-required"); }
+  if (!userId || !["admin", "member", "marketing"].includes(role) ||
+      (password && (password.length < 12 || password.length > 128))) {
+    redirect("/admin?usersError=invalid");
+  }
+
+  const admin = createAdminClient();
+  const { data: target, error: lookupError } = await admin.from("profiles").select("id,role").eq("id", userId).maybeSingle();
+  if (lookupError || !target) redirect("/admin?usersError=user-not-found");
+  if (userId === actor?.id && role !== "admin") redirect("/admin?usersError=self-demotion");
+  if (target.role === "admin" && role !== "admin") {
+    const { count, error: countError } = await admin.from("profiles").select("id", { count: "exact", head: true }).eq("role", "admin");
+    if (countError || (count ?? 0) <= 1) redirect("/admin?usersError=last-admin");
+  }
+
+  const { error: roleError } = await admin.from("profiles").update({ role, updated_at: new Date().toISOString() }).eq("id", userId);
+  if (roleError) redirect("/admin?usersError=role-update-failed");
+  if (password) {
+    const { error: passwordError } = await admin.auth.admin.updateUserById(userId, { password });
+    if (passwordError) redirect("/admin?usersError=password-update-failed");
+  }
+  revalidatePath("/admin");
+  redirect("/admin?userUpdated=1");
+}
+
 export async function removeDashboardUser(formData: FormData) {
   const supabase = await requireAdmin();
   const { data: { user: actor } } = await supabase.auth.getUser();
@@ -241,6 +281,8 @@ export async function removeDashboardUser(formData: FormData) {
   const { data: target, error: lookupError } = await admin.from("profiles").select("id,role").eq("id", userId).maybeSingle();
   if (lookupError || !target) redirect("/admin?usersError=user-not-found");
   if (target.role === "admin") {
+    const { data: actorProfile } = await supabase.from("profiles").select("role").eq("id", actor?.id ?? "").maybeSingle();
+    if (actorProfile?.role !== "admin") redirect("/admin?usersError=admin-role-required");
     const { count, error: countError } = await admin.from("profiles").select("id", { count: "exact", head: true }).eq("role", "admin");
     if (countError || (count ?? 0) <= 1) redirect("/admin?usersError=last-admin");
   }

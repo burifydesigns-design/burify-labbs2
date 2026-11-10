@@ -14,7 +14,7 @@ export default async function ProspectCrmPage({ searchParams }: { searchParams: 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (profile?.role !== "admin") { await supabase.auth.signOut(); redirect("/admin/login?error=unauthorized"); }
+  if (!(["admin", "marketing"].includes(profile?.role ?? ""))) { await supabase.auth.signOut(); redirect("/admin/login?error=unauthorized"); }
 
   const params = await searchParams;
   const page = Math.max(1, Number.parseInt(params.page || "1", 10) || 1);
@@ -54,7 +54,7 @@ export default async function ProspectCrmPage({ searchParams }: { searchParams: 
       <Link className="admin-nav" href="/admin/work">Work / portfolio</Link>
       <Link className="admin-nav" href="/admin/blog">Blog management</Link>
       <Link className="admin-nav" href="/admin/analytics">Analytics</Link>
-      <Link className="admin-nav" href="/admin/payments">Payments</Link>
+      {profile?.role === "admin" && <Link className="admin-nav" href="/admin/payments">Payments</Link>}
     </aside>
     <section className="admin-main prospect-main">
       <header className="admin-topbar"><div><p className="admin-eyebrow">BURIFY / SALES WORKSPACE</p><h1>Prospect CRM</h1></div><Link className="admin-logout" href="/admin">← Dashboard</Link></header>
