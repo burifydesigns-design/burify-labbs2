@@ -215,7 +215,7 @@ export async function createDashboardUser(formData: FormData) {
   const fullName = String(formData.get("full_name") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const role = String(formData.get("role") ?? "member");
-  if (!email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email) || !fullName || fullName.length > 120 ||
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !fullName || fullName.length > 120 ||
       password.length < 12 || password.length > 128 || !["admin", "member", "marketing"].includes(role)) {
     redirect("/admin?usersError=invalid");
   }
