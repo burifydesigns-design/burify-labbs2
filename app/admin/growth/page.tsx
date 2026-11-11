@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { addGrowthProspect, updateGrowthProspect, updateGrowthTask, reviewGrowthMessage } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -18,11 +19,13 @@ export default async function GrowthEnginePage({ searchParams }: { searchParams:
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
   if (!profile || !["admin", "marketing"].includes(profile.role)) redirect("/admin/login?error=unauthorized");
 
+  const admin = createAdminClient();
+  const rpc = (p_action: string) => admin.rpc("growth_admin_api", { p_actor: user.id, p_action, p_payload: {} });
   const [dashboardResult, prospectsResult, tasksResult, approvalsResult, params] = await Promise.all([
-    supabase.rpc("growth_admin_api", { p_action:"dashboard", p_payload:{} }),
-    supabase.rpc("growth_admin_api", { p_action:"prospects", p_payload:{} }),
-    supabase.rpc("growth_admin_api", { p_action:"tasks", p_payload:{} }),
-    supabase.rpc("growth_admin_api", { p_action:"approvals", p_payload:{} }),
+    rpc("dashboard"),
+    rpc("prospects"),
+    rpc("tasks"),
+    rpc("approvals"),
     searchParams
   ]);
 
