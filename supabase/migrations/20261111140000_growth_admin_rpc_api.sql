@@ -1,8 +1,7 @@
 -- Secure server-side access to the private Growth Engine schema.
--- The schema remains unexposed to the Supabase Data API; all access goes
--- through this authenticated RPC and the caller's profiles.role.
-
+-- The website verifies the user's Supabase session and role before invoking this function.
 create or replace function public.growth_admin_api(
+  p_actor uuid,
   p_action text,
   p_payload jsonb default '{}'::jsonb
 )
@@ -12,9 +11,8 @@ security definer
 set search_path = pg_catalog, public, growth, auth
 as $function$
 declare
-  v_user_id uuid := auth.uid();
+  v_user_id uuid := p_actor;
   v_status text;
-  v_id uuid;
   v_rows integer;
   v_result jsonb;
   v_score integer;
@@ -43,39 +41,28 @@ begin
         'kpis', coalesce((select jsonb_agg(to_jsonb(k) order by k.id) from growth.kpis k), '[]'::jsonb),
         'tasks', coalesce((select jsonb_agg(to_jsonb(t) order by t.week, t.day_index) from (
           select id, week, day_index, day_name, title, status, due_date
-          from growth.plan_tasks
-          where status <> 'done'
-          order by week, day_index
-          limit 8
+          from growth.plan_tasks where status <> 'done'
+          order by week, day_index limit 8
         ) t), '[]'::jsonb)
       ) into v_result;
-
     when 'prospects' then
       select coalesce(jsonb_agg(to_jsonb(p) order by p.created_at desc), '[]'::jsonb)
-      into v_result from (
-        select * from growth.prospects order by created_at desc limit 300
-      ) p;
-
+      into v_result from (select * from growth.prospects order by created_at desc limit 300) p;
     when 'tasks' then
       select coalesce(jsonb_agg(to_jsonb(t) order by t.week, t.day_index), '[]'::jsonb)
       into v_result from growth.plan_tasks t;
-
     when 'approvals' then
       select coalesce(jsonb_agg(to_jsonb(m) || jsonb_build_object(
         'clinic_name', p.clinic_name, 'contact_name', p.contact_name, 'email', p.email
       ) order by m.created_at desc), '[]'::jsonb)
-      into v_result
-      from growth.outreach_messages m
+      into v_result from growth.outreach_messages m
       join growth.prospects p on p.id = m.prospect_id
       where m.status in ('draft', 'approved');
-
     when 'settings' then
       select coalesce(jsonb_object_agg(s.key, s.value), '{}'::jsonb)
       into v_result from growth.settings s;
-
     when 'add_prospect' then
-      if nullif(trim(p_payload->>'clinic_name'), '') is null
-         or length(p_payload->>'clinic_name') > 180 then
+      if nullif(trim(p_payload->>'clinic_name'), '') is null or length(p_payload->>'clinic_name') > 180 then
         raise exception 'A valid clinic name is required' using errcode = '22023';
       end if;
       if nullif(trim(p_payload->>'email'), '') is not null
@@ -86,10 +73,8 @@ begin
       if v_status not in ('high_value_dental','multi_location','paid_ads','medical','other') then
         raise exception 'Invalid prospect segment' using errcode = '22023';
       end if;
-      insert into growth.prospects (
-        clinic_name, contact_name, role, email, website, location, country,
-        segment, lead_source, personalization_note, notes
-      ) values (
+      insert into growth.prospects (clinic_name, contact_name, role, email, website, location, country, segment, lead_source, personalization_note, notes)
+      values (
         left(trim(p_payload->>'clinic_name'),180),
         nullif(left(trim(p_payload->>'contact_name'),180),''),
         nullif(left(trim(p_payload->>'role'),120),''),
@@ -105,12 +90,9 @@ begin
       insert into growth.activity_log(actor, action, detail)
       values (v_user_id::text, 'add_prospect', jsonb_build_object('clinic_name', left(trim(p_payload->>'clinic_name'),180)));
       v_result := jsonb_build_object('ok', true);
-
     when 'update_task' then
       v_status := p_payload->>'status';
-      if v_status not in ('todo','in_progress','done','skipped') then
-        raise exception 'Invalid task status' using errcode = '22023';
-      end if;
+      if v_status not in ('todo','in_progress','done','skipped') then raise exception 'Invalid task status' using errcode = '22023'; end if;
       update growth.plan_tasks
       set status = v_status,
           completed_at = case when v_status = 'done' then now() else null end,
@@ -121,7 +103,6 @@ begin
       insert into growth.activity_log(actor, action, detail)
       values (v_user_id::text, 'update_task', jsonb_build_object('id', p_payload->>'id', 'status', v_status));
       v_result := jsonb_build_object('ok', true);
-
     when 'update_prospect' then
       v_status := p_payload->>'status';
       if v_status not in ('new','queued','contacted','replied','positive','call_booked','audit_sold','won','lost','unsubscribed') then
@@ -139,35 +120,30 @@ begin
       insert into growth.activity_log(actor, action, detail)
       values (v_user_id::text, 'update_prospect', jsonb_build_object('id', p_payload->>'id', 'status', v_status));
       v_result := jsonb_build_object('ok', true);
-
     when 'approve_message' then
-      update growth.outreach_messages
-      set status = 'approved', approved_at = now()
+      update growth.outreach_messages set status = 'approved', approved_at = now()
       where id = (p_payload->>'id')::uuid and status = 'draft';
       get diagnostics v_rows = row_count;
       if v_rows = 0 then raise exception 'Draft not found or already reviewed' using errcode = 'P0002'; end if;
       insert into growth.activity_log(actor, action, detail)
       values (v_user_id::text, 'approve_message', jsonb_build_object('id', p_payload->>'id'));
       v_result := jsonb_build_object('ok', true);
-
     when 'reject_message' then
-      update growth.outreach_messages
-      set status = 'rejected'
+      update growth.outreach_messages set status = 'rejected'
       where id = (p_payload->>'id')::uuid and status = 'draft';
       get diagnostics v_rows = row_count;
       if v_rows = 0 then raise exception 'Draft not found or already reviewed' using errcode = 'P0002'; end if;
       insert into growth.activity_log(actor, action, detail)
       values (v_user_id::text, 'reject_message', jsonb_build_object('id', p_payload->>'id'));
       v_result := jsonb_build_object('ok', true);
-
     else
       raise exception 'Unsupported Growth Engine action' using errcode = '22023';
   end case;
-
   return coalesce(v_result, '{}'::jsonb);
 end;
 $function$;
 
-revoke all on function public.growth_admin_api(text, jsonb) from public;
-revoke all on function public.growth_admin_api(text, jsonb) from anon;
-grant execute on function public.growth_admin_api(text, jsonb) to authenticated;
+revoke all on function public.growth_admin_api(uuid, text, jsonb) from public;
+revoke all on function public.growth_admin_api(uuid, text, jsonb) from anon;
+revoke all on function public.growth_admin_api(uuid, text, jsonb) from authenticated;
+grant execute on function public.growth_admin_api(uuid, text, jsonb) to service_role;
