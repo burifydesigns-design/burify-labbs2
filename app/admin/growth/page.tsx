@@ -33,6 +33,24 @@ export default async function GrowthEnginePage({ searchParams }: { searchParams:
   const counts = dashboard?.counts;
   const prospects = (prospectsResult.data ?? []) as Prospect[];
   const tasks = (tasksResult.data ?? []) as Task[];
+  const weekGroups = Array.from(
+    tasks.reduce((weeks, task) => {
+      const days = weeks.get(task.week) ?? new Map<number, Task[]>();
+      const dayTasks = days.get(task.day_index) ?? [];
+      dayTasks.push(task);
+      days.set(task.day_index, dayTasks);
+      weeks.set(task.week, days);
+      return weeks;
+    }, new Map<number, Map<number, Task[]>>()),
+    ([week, days]) => ({
+      week,
+      days: Array.from(days, ([dayIndex, dayTasks]) => ({
+        dayIndex,
+        dayName: dayTasks[0]?.day_name ?? `Day ${dayIndex}`,
+        tasks: dayTasks,
+      })).sort((a, b) => a.dayIndex - b.dayIndex),
+    }),
+  ).sort((a, b) => a.week - b.week);
   const approvals = (approvalsResult.data ?? []) as Message[];
   const errors = [dashboardResult.error, prospectsResult.error, tasksResult.error, approvalsResult.error].filter(Boolean);
   const fmt = (value:string) => new Date(value).toLocaleDateString(undefined, { day:"numeric", month:"short", year:"numeric" });
@@ -80,7 +98,36 @@ export default async function GrowthEnginePage({ searchParams }: { searchParams:
       </section>
       <section className="growth-two-col">
         <section className="admin-panel growth-panel"><div className="admin-panel-heading"><div><p className="admin-eyebrow">EXECUTION</p><h2>90-day plan</h2></div><span className="admin-count">{tasks.length} tasks</span></div>
-          <div className="growth-task-list">{tasks.map(t => <article className="growth-task" key={t.id}><div><small>WEEK {t.week} · {t.day_name}</small><strong>{t.title}</strong><p>{t.description || t.category}</p></div><form action={updateGrowthTask}><input type="hidden" name="id" value={t.id}/><select name="status" defaultValue={t.status} aria-label={"Status for "+t.title}><option value="todo">To do</option><option value="in_progress">In progress</option><option value="done">Done</option><option value="skipped">Skipped</option></select><button type="submit">Save</button></form></article>)}</div>
+          <div className="growth-week-list">
+            {weekGroups.map(({ week, days }) => {
+              const weekTasks = days.flatMap(day => day.tasks);
+              const completed = weekTasks.filter(task => task.status === "done").length;
+              return <details className="growth-week" key={week}>
+                <summary className="growth-week-summary">
+                  <span className="growth-week-chevron" aria-hidden="true">⌄</span>
+                  <span className="growth-week-title"><strong>Week {week}</strong><small>{days.length} days · {weekTasks.length} tasks</small></span>
+                  <span className="growth-week-progress">{completed}/{weekTasks.length} complete</span>
+                </summary>
+                <div className="growth-day-list">
+                  {days.map(day => {
+                    const dayDone = day.tasks.filter(task => task.status === "done").length;
+                    return <details className="growth-day" key={day.dayIndex}>
+                      <summary className="growth-day-summary">
+                        <span><strong>Day {day.dayIndex} · {day.dayName}</strong><small>{day.tasks.length} tasks · {dayDone} complete</small></span>
+                        <span className="growth-day-chevron" aria-hidden="true">+</span>
+                      </summary>
+                      <div className="growth-task-list">
+                        {day.tasks.map(t => <article className="growth-task" key={t.id}>
+                          <div><small>{t.category.replaceAll("_"," ")}</small><strong>{t.title}</strong><p>{t.description || t.category}</p>{t.due_date && <small className="growth-task-due">Due {fmt(t.due_date)}</small>}</div>
+                          <form action={updateGrowthTask}><input type="hidden" name="id" value={t.id}/><select name="status" defaultValue={t.status} aria-label={"Status for "+t.title}><option value="todo">To do</option><option value="in_progress">In progress</option><option value="done">Done</option><option value="skipped">Skipped</option></select><button type="submit">Save</button></form>
+                        </article>)}
+                      </div>
+                    </details>;
+                  })}
+                </div>
+              </details>;
+            })}
+          </div>
         </section>
         <section className="admin-panel growth-panel"><div className="admin-panel-heading"><div><p className="admin-eyebrow">HUMAN REVIEW</p><h2>Outreach approvals</h2></div><span className="admin-count">{approvals.filter(m=>m.status==="draft").length} drafts</span></div>
           {approvals.length === 0 ? <div className="admin-empty"><strong>No messages awaiting review</strong><p>Draft outreach messages will appear here before approval.</p></div> : <div className="growth-approval-list">{approvals.map(m=><article className="growth-approval" key={m.id}><div className="growth-approval-head"><strong>{m.clinic_name}</strong><span className="admin-status">{m.status}</span></div><small>{m.contact_name || "Clinic contact"}{m.email ? " · "+m.email : ""}</small><h3>{m.subject || "Outreach message"}</h3><p>{m.body}</p>{m.status==="draft" && <form action={reviewGrowthMessage}><input type="hidden" name="id" value={m.id}/><button name="decision" value="approve_message" type="submit">Approve draft</button><button name="decision" value="reject_message" type="submit" className="growth-reject">Reject</button></form>}</article>)}</div>}
