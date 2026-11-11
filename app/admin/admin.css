@@ -215,3 +215,116 @@
 .growth-day .growth-task{background:#fff}
 .growth-task-due{display:block;margin-top:6px;letter-spacing:0!important}
 @media(max-width:650px){.growth-week-summary{padding:13px 11px;gap:8px}.growth-week-progress{font-size:9px}.growth-day-list{padding:0 8px 8px}.growth-day-summary{padding:11px 9px}}
+
+
+/* Dashboard-wide responsive pass: overview, CRM, Growth, analytics, payments, blog and work. */
+.admin-shell,.admin-shell *,.growth-main *,.prospect-main *{box-sizing:border-box}
+.admin-shell{min-width:0;width:100%}
+.admin-main{width:100%;max-width:100%;min-width:0;overflow-x:clip}
+.admin-panel,.admin-stat,.admin-content-note,.prospect-workspace,.growth-kpi{min-width:0}
+.admin-panel{overflow:hidden}
+.admin-panel-heading>div,.admin-panel-heading>span{min-width:0}
+.admin-panel-heading h2,.admin-topbar h1,.admin-welcome h2{overflow-wrap:anywhere}
+.admin-topbar-actions,.growth-header-actions{min-width:0;flex-wrap:wrap}
+.admin-topbar-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px}
+.admin-topbar-actions form{margin:0}
+.admin-table-wrap,.analytics-traffic-tables>div{width:100%;max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+.admin-table{max-width:100%}
+.admin-blog-toolbar,.admin-blog-actions,.admin-blog-row-actions{flex-wrap:wrap}
+.admin-blog-row-title,.admin-blog-row-meta{min-width:0;overflow-wrap:anywhere}
+.admin-blog-fields,.admin-user-invite,.admin-crm-filters,.prospect-filters,.growth-prospect-form{min-width:0}
+.admin-blog-field input,.admin-blog-field select,.admin-blog-field textarea,
+.admin-user-invite input,.admin-user-invite select,
+.admin-crm-filters input,.admin-crm-filters select,
+.prospect-filters input,.prospect-filters select,
+.growth-prospect-form input,.growth-prospect-form select{max-width:100%}
+.analytics-chart,.analytics-traffic-chart{max-width:100%;overflow:hidden}
+.growth-two-col>*{min-width:0}
+.growth-approval,.growth-task,.prospect-card{min-width:0}
+.admin-crm-pagination,.prospect-pagination{flex-wrap:wrap}
+.admin-sidebar{min-width:0}
+@media(max-width:1100px){
+  .admin-stats,.growth-stats,.growth-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .prospect-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .payment-health-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .admin-user-invite{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .growth-two-col{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:760px){
+  .admin-shell{display:block}
+  .admin-sidebar{
+    position:sticky;top:0;z-index:50;width:100%;height:auto;max-height:none;
+    display:flex;flex-direction:row;align-items:center;flex-wrap:nowrap;gap:7px;
+    padding:10px 12px;overflow-x:auto;overflow-y:hidden;
+    scrollbar-width:thin;-webkit-overflow-scrolling:touch;
+  }
+  .admin-sidebar .admin-brand{position:sticky;left:0;z-index:2;flex:0 0 auto;padding:0 10px 0 0;background:#211d30}
+  .admin-side-label,.admin-sidebar-bottom{display:none}
+  .admin-sidebar .admin-nav{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;margin:0;padding:9px 11px;font-size:11px;white-space:nowrap}
+  .admin-main{padding:18px 14px}
+  .admin-topbar{flex-wrap:wrap;align-items:flex-start;gap:12px}
+  .admin-topbar-actions{width:100%;justify-content:flex-start}
+  .admin-welcome{flex-wrap:wrap;align-items:flex-start}
+  .admin-content-note{align-items:flex-start;flex-direction:column}
+  .admin-panel{padding:16px}
+  .admin-panel-heading{flex-wrap:wrap}
+  .admin-blog-toolbar{align-items:stretch;flex-direction:column}
+  .admin-blog-toolbar>*{max-width:100%}
+  .admin-blog-editor{padding:16px}
+  .admin-blog-fields{grid-template-columns:minmax(0,1fr)}
+  .admin-blog-field-full{grid-column:auto}
+  .admin-user-invite{grid-template-columns:minmax(0,1fr)}
+  .admin-user-invite p{grid-column:auto}
+  .admin-crm-filters,.prospect-filters{grid-template-columns:minmax(0,1fr)}
+  .prospect-intro{align-items:flex-start}
+  .prospect-card-main{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .prospect-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .growth-prospect-form{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .growth-form-wide{grid-column:1/-1}
+  .growth-two-col{grid-template-columns:minmax(0,1fr)}
+  .growth-task{align-items:flex-start;flex-direction:column}
+  .growth-task form{width:100%;flex-wrap:wrap}
+  .growth-task form select{flex:1;min-width:0}
+  .growth-approval form{flex-wrap:wrap}
+  .analytics-traffic-tables{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:520px){
+  .admin-main{padding:14px 10px}
+  .admin-topbar{padding-bottom:15px}
+  .admin-topbar h1{font-size:21px}
+  .admin-logout{padding:9px 11px}
+  .admin-welcome{padding:20px 0}
+  .admin-welcome h2{font-size:22px}
+  .admin-stats,.growth-stats,.growth-kpis,.prospect-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .admin-stat{padding:12px}
+  .admin-stat strong{font-size:23px}
+  .admin-stat span,.admin-stat small{font-size:10px}
+  .admin-panel{padding:12px}
+  .admin-panel-heading{margin-bottom:14px}
+  .admin-panel h2,.admin-content-note h2{font-size:17px}
+  .admin-count{font-size:10px}
+  .prospect-intro{padding:19px 15px}
+  .prospect-stats article{padding:12px}
+  .prospect-workspace{padding:12px 9px}
+  .prospect-card-main{grid-template-columns:minmax(0,1fr)}
+  .prospect-company,.prospect-status-wrap,.prospect-details{grid-column:1}
+  .prospect-detail-grid{grid-template-columns:minmax(0,1fr)}
+  .prospect-detail-wide{grid-column:1}
+  .growth-prospect-form{grid-template-columns:minmax(0,1fr)}
+  .growth-form-wide{grid-column:auto}
+  .growth-intro h2{font-size:22px}
+  .growth-header-actions{align-items:flex-start}
+  .growth-readiness{white-space:normal}
+  .growth-week-summary{gap:8px;padding:12px 10px}
+  .growth-week-progress{font-size:9px}
+  .growth-day-list{padding:0 7px 8px}
+  .payment-health-grid{grid-template-columns:minmax(0,1fr)}
+  .admin-crm-pagination{align-items:flex-start;flex-direction:column}
+  .admin-crm-pagination>div{width:100%;justify-content:space-between}
+  .admin-blog-row summary{gap:10px;align-items:flex-start}
+}
+@media(max-width:360px){
+  .admin-stats,.growth-stats,.growth-kpis,.prospect-stats{grid-template-columns:minmax(0,1fr)}
+  .admin-sidebar .admin-nav{padding:8px 9px;font-size:10px}
+  .admin-main{padding-inline:8px}
+}
