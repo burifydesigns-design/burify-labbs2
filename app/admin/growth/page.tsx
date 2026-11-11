@@ -9,7 +9,7 @@ export const metadata = { title: "Growth Engine | Burify Labs", robots: { index:
 type Counts = { prospects:number; new_prospects:number; messages_draft:number; messages_sent:number; replies:number; audits:number; clients:number; tasks_done:number; tasks_total:number };
 type Prospect = { id:string; clinic_name:string; contact_name:string|null; role:string|null; email:string|null; website:string|null; location:string|null; country:string|null; segment:string; status:string; score:number; notes:string|null; lead_source:string|null; created_at:string };
 type Task = { id:number; week:number; day_index:number; day_name:string; title:string; description:string|null; category:string; automation:string; status:string; due_date:string|null; notes:string|null };
-type Message = { id:string; clinic_name:string; contact_name:string|null; email:string|null; subject:string|null; body:string; status:string; created_at:string };
+type Message = { id:string; clinic_name:string; contact_name:string|null; email:string|null; subject:string|null; body:string; status:string; created_at:string; approved_at:string|null; approved_by:string|null; rejected_at:string|null; rejected_by:string|null; rejection_reason:string|null };
 type Kpi = { id:number; category:string; metric:string; target_label:string; target_value:number|null; current_value:number; unit:string|null; higher_is_better:boolean };
 
 export default async function GrowthEnginePage({ searchParams }: { searchParams: Promise<{ error?:string; added?:string; updated?:string; taskUpdated?:string; reviewed?:string }> }) {
@@ -17,7 +17,8 @@ export default async function GrowthEnginePage({ searchParams }: { searchParams:
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (!profile || !["admin", "marketing"].includes(profile.role)) redirect("/admin/login?error=unauthorized");
+  if (!profile || !["admin", "super_admin", "marketing"].includes(profile.role)) redirect("/admin/login?error=unauthorized");
+  const canReview = ["admin", "super_admin"].includes(profile.role);
 
   const admin = createAdminClient();
   const rpc = (p_action: string) => admin.rpc("growth_admin_api", { p_actor: user.id, p_action, p_payload: {} });
@@ -60,7 +61,7 @@ export default async function GrowthEnginePage({ searchParams }: { searchParams:
       <div><p className="admin-eyebrow">BURIFY / WORKSPACE / GROWTH</p><h1>Growth Engine</h1></div>
       <div className="growth-header-actions"><span className="admin-live">● Shared production database</span><a className="growth-back-link" href="/admin">← Dashboard</a></div>
     </header>
-    {params.error && <p className="admin-error">The Growth Engine action could not be completed. Check your access and try again.</p>}
+    {params.error && <p className="admin-error">{params.error === "approval-forbidden" ? "Only Admin and Super Admin can approve or reject drafts." : "The Growth Engine action could not be completed. Check your access and try again."}</p>}
     {params.added && <p className="admin-success">Prospect added.</p>}
     {params.updated && <p className="admin-success">Prospect updated.</p>}
     {params.taskUpdated && <p className="admin-success">Task updated.</p>}
@@ -130,8 +131,8 @@ export default async function GrowthEnginePage({ searchParams }: { searchParams:
           </div>
         </section>
         <section className="admin-panel growth-panel"><div className="admin-panel-heading"><div><p className="admin-eyebrow">HUMAN REVIEW</p><h2>Outreach approvals</h2></div><span className="admin-count">{approvals.filter(m=>m.status==="draft").length} drafts</span></div>
-          {approvals.length === 0 ? <div className="admin-empty"><strong>No messages awaiting review</strong><p>Draft outreach messages will appear here before approval.</p></div> : <div className="growth-approval-list">{approvals.map(m=><article className="growth-approval" key={m.id}><div className="growth-approval-head"><strong>{m.clinic_name}</strong><span className="admin-status">{m.status}</span></div><small>{m.contact_name || "Clinic contact"}{m.email ? " · "+m.email : ""}</small><h3>{m.subject || "Outreach message"}</h3><p>{m.body}</p>{m.status==="draft" && <form action={reviewGrowthMessage}><input type="hidden" name="id" value={m.id}/><button name="decision" value="approve_message" type="submit">Approve draft</button><button name="decision" value="reject_message" type="submit" className="growth-reject">Reject</button></form>}</article>)}</div>}
-          <p className="admin-muted growth-note">Approving a draft does not send it. Outbound sending remains disabled until the sender, consent, suppression and delivery controls are verified.</p>
+          {approvals.length === 0 ? <div className="admin-empty"><strong>No messages awaiting review</strong><p>Draft outreach messages will appear here before approval.</p></div> : <div className="growth-approval-list">{approvals.map(m=><article className="growth-approval" key={m.id}><div className="growth-approval-head"><strong>{m.clinic_name}</strong><span className="admin-status">{m.status}</span></div><small>{m.contact_name || "Clinic contact"}{m.email ? " · "+m.email : ""}</small><h3>{m.subject || "Outreach message"}</h3><p>{m.body}</p>{m.status==="approved" && m.approved_at && <small>Approved {new Date(m.approved_at).toLocaleString()}</small>}{m.status==="draft" && canReview && <form action={reviewGrowthMessage}><input type="hidden" name="id" value={m.id}/><button name="decision" value="approve_message" type="submit">Approve draft</button><button name="decision" value="reject_message" type="submit" className="growth-reject">Reject</button></form>}</article>)}</div>}
+          <p className="admin-muted growth-note">{canReview ? "Only Admin and Super Admin can approve or reject drafts. Approval records the reviewer and time; it does not send an email." : "Marketing access is read-only for outreach approvals. Ask an Admin or Super Admin to review a draft."} Outbound email delivery is not triggered by this workflow.</p>
         </section>
       </section>
     </>}

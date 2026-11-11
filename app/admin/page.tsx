@@ -11,7 +11,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (!(["admin", "marketing"].includes(profile?.role ?? ""))) { await supabase.auth.signOut(); redirect("/admin/login?error=unauthorized"); }
+  if (!(["admin", "super_admin", "marketing"].includes(profile?.role ?? ""))) { await supabase.auth.signOut(); redirect("/admin/login?error=unauthorized"); }
 
   const admin = createAdminClient();
   const [leadResult, contactResult, postResult, serviceResult, workResult, userResult, profileResult, params] = await Promise.all([
@@ -42,7 +42,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       <a className="admin-nav" href="/admin/work">Work / portfolio</a>
       <a className="admin-nav" href="/admin/blog">Blog management</a>
       <a className="admin-nav" href="/admin/analytics">Analytics</a>
-      {profile?.role === "admin" && <a className="admin-nav" href="/admin/payments">Payments</a>}
+      {["admin", "super_admin"].includes(profile?.role ?? "") && <a className="admin-nav" href="/admin/payments">Payments</a>}
       <div className="admin-sidebar-bottom"><span className="admin-avatar">{(user.email?.[0] ?? "A").toUpperCase()}</span><div><strong>Administrator</strong><small>{user.email}</small></div></div>
     </aside>
     <section className="admin-main">
