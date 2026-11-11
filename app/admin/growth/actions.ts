@@ -10,7 +10,8 @@ async function growthRpc(action: string, payload: Record<string, unknown> = {}) 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (!profile || !["admin", "marketing"].includes(profile.role)) redirect("/admin/login?error=unauthorized");
+  if (!profile || !["admin", "super_admin", "marketing"].includes(profile.role)) redirect("/admin/login?error=unauthorized");
+  if (["approve_message", "reject_message"].includes(action) && !["admin", "super_admin"].includes(profile.role)) redirect("/admin/growth?error=approval-forbidden");
   const admin = createAdminClient();
   const { error } = await admin.rpc("growth_admin_api", { p_actor: user.id, p_action: action, p_payload: payload });
   if (error) redirect("/admin/growth?error=action-failed");
