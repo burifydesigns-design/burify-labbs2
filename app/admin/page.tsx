@@ -35,7 +35,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       <a className="admin-brand" href="/">BURIFY<span>LABS</span></a>
       <p className="admin-side-label">WORKSPACE</p>
       <a className="admin-nav active" href="/admin">Overview</a>
-      <a className="admin-nav" href="/admin/crm">Prospect CRM</a>
+      <a className="admin-nav" href="/admin/crm">Prospect CRM</a>\n      <a className="admin-nav" href="/admin/growth">Growth Engine</a>
       <a className="admin-nav" href="#leads">Lead pipeline</a>
       <a className="admin-nav" href="#contacts">Contact inbox</a>
       <a className="admin-nav" href="#users">User management</a>
