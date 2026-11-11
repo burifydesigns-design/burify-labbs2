@@ -105,7 +105,7 @@ export async function createInvoice(formData: FormData): Promise<InvoiceActionRe
   const { data: { user } } = await session.auth.getUser();
   if (!user) return { ok: false, error: "Please sign in again." };
   const { data: profile } = await session.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (profile?.role !== "admin") return { ok: false, error: "Administrator access is required." };
+  if (!["admin", "super_admin"].includes(profile?.role ?? "")) return { ok: false, error: "Administrator access is required." };
 
   const name = String(formData.get("customer_name") || "").trim().slice(0, 160);
   const email = String(formData.get("customer_email") || "").trim().toLowerCase();
