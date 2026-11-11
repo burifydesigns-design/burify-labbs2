@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 async function growthRpc(action: string, payload: Record<string, unknown> = {}) {
   const supabase = await createClient();
@@ -10,7 +11,8 @@ async function growthRpc(action: string, payload: Record<string, unknown> = {}) 
   if (!user) redirect("/admin/login");
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
   if (!profile || !["admin", "marketing"].includes(profile.role)) redirect("/admin/login?error=unauthorized");
-  const { error } = await supabase.rpc("growth_admin_api", { p_action: action, p_payload: payload });
+  const admin = createAdminClient();
+  const { error } = await admin.rpc("growth_admin_api", { p_actor: user.id, p_action: action, p_payload: payload });
   if (error) redirect("/admin/growth?error=action-failed");
   revalidatePath("/admin/growth");
 }
