@@ -15,16 +15,17 @@ export default async function GrowthProposalsPage({searchParams}:{searchParams:P
  const [dashboard,pipeline,params,proposalLinks]=await Promise.all([
   admin.rpc("growth_client_ops_api",{p_actor:user.id,p_action:"dashboard",p_payload:{}}),
   loadPipeline(supabase),searchParams,
-  admin.schema("growth").from("proposals").select("id,invoice_id")
+  admin.rpc("growth_proposal_invoice_status_api",{p_actor:user.id})
  ]);
  const data=(dashboard.data??{}) as {clients?:Client[];proposals?:Proposal[]};
  const clients=data.clients??[];
- const linkMap=new Map((proposalLinks.data??[]).map((row:{id:string;invoice_id:string|null})=>[row.id,row.invoice_id]));
+ const linkRows=(Array.isArray(proposalLinks.data)?proposalLinks.data:[]) as {id:string;invoice_id:string|null}[];
+ const linkMap=new Map<string,string|null>(linkRows.map(row=>[row.id,row.invoice_id] as const));
  const invoiceIds=[...new Set([...linkMap.values()].filter((v):v is string=>Boolean(v)))];
  const {data:linkedInvoices}=invoiceIds.length
   ? await admin.from("invoices").select("id,invoice_number,status").in("id",invoiceIds)
   : {data:[] as {id:string;invoice_number:string;status:string}[]};
- const invoiceMap=new Map((linkedInvoices??[]).map((row:{id:string;invoice_number:string;status:string})=>[row.id,row]));
+ const invoiceMap=new Map<string,{id:string;invoice_number:string;status:string}>((linkedInvoices??[]).map((row:{id:string;invoice_number:string;status:string})=>[row.id,row] as const));
  const proposals=(data.proposals??[]).map(p=>{const invoiceId=linkMap.get(p.id)??null;const invoice=invoiceId?invoiceMap.get(invoiceId):null;return {...p,invoice_id:invoiceId,invoice_number:invoice?.invoice_number??null,invoice_status:invoice?.status??null};});
  return <GrowthShell title="Proposals" eyebrow="BURIFY / GROWTH" email={user.email} pending={pipeline.pending}>
   {params.error?<p className="admin-error">The proposal action could not be completed.</p>:null}
