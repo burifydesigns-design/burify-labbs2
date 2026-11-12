@@ -1,0 +1,1 @@
+update public.notion_crm_leads set icp_fit=icp_fit;
