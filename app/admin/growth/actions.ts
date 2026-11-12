@@ -182,3 +182,87 @@ export async function markReplied(id: string): Promise<GrowthActionResult> {
   revalidatePath("/admin/growth/outreach");
   return { ok: true };
 }
+
+
+export async function createGrowthClient(formData: FormData) {
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) redirect("/admin/growth/clients?error=unauthorized");
+  const payload = {
+    clinic_name: String(formData.get("clinic_name") ?? "").trim(),
+    contact_name: String(formData.get("contact_name") ?? "").trim(),
+    email: String(formData.get("email") ?? "").trim().toLowerCase(),
+    website: String(formData.get("website") ?? "").trim(),
+    package: String(formData.get("package") ?? "patient_growth_system"),
+    value: String(formData.get("value") ?? "").trim(),
+    start_date: String(formData.get("start_date") ?? "").trim(),
+    notes: String(formData.get("notes") ?? "").trim(),
+  };
+  if (!payload.clinic_name || payload.clinic_name.length > 180 || (payload.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) || (payload.website && !/^https?:\/\//i.test(payload.website))) redirect("/admin/growth/clients?error=invalid");
+  const { error } = await context.admin.rpc("growth_client_ops_api", { p_actor: context.user.id, p_action: "create_client", p_payload: payload });
+  if (error) redirect("/admin/growth/clients?error=create");
+  revalidatePath("/admin/growth/clients");
+  redirect("/admin/growth/clients?created=1");
+}
+
+export async function createGrowthProposal(formData: FormData) {
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) redirect("/admin/growth/proposals?error=unauthorized");
+  const scope = String(formData.get("scope") ?? "").split(/\r?\n/).map(v => v.trim()).filter(Boolean).slice(0,30);
+  const payload = {
+    client_id: String(formData.get("client_id") ?? ""),
+    title: String(formData.get("title") ?? "").trim(),
+    summary: String(formData.get("summary") ?? "").trim(),
+    scope,
+    amount: String(formData.get("amount") ?? ""),
+    currency: String(formData.get("currency") ?? "KES"),
+    valid_until: String(formData.get("valid_until") ?? ""),
+  };
+  if (!payload.client_id || !payload.title || !Number.isFinite(Number(payload.amount)) || Number(payload.amount) <= 0) redirect("/admin/growth/proposals?error=invalid");
+  const { error } = await context.admin.rpc("growth_client_ops_api", { p_actor: context.user.id, p_action: "create_proposal", p_payload: payload });
+  if (error) redirect("/admin/growth/proposals?error=create");
+  revalidatePath("/admin/growth/proposals");
+  revalidatePath("/portal");
+  redirect("/admin/growth/proposals?created=1");
+}
+
+export async function updateGrowthOnboardingTask(formData: FormData) {
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) redirect("/admin/growth/clients?error=unauthorized");
+  const { error } = await context.admin.rpc("growth_client_ops_api", {
+    p_actor: context.user.id, p_action: "update_onboarding",
+    p_payload: { id: String(formData.get("id") ?? ""), status: String(formData.get("status") ?? "") },
+  });
+  if (error) redirect("/admin/growth/clients?error=task");
+  revalidatePath("/admin/growth/clients");
+  revalidatePath("/portal");
+  redirect("/admin/growth/clients?taskUpdated=1");
+}
+
+export async function recordGrowthMetrics(formData: FormData) {
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) redirect("/admin/growth/clients?error=unauthorized");
+  const payload = Object.fromEntries(["client_id","period_start","enquiries","avg_response_minutes","bookings","no_shows","cancellations_recovered","workflow_runs","workflow_successes"].map(key => [key, String(formData.get(key) ?? "").trim()]));
+  if (!payload.client_id || !payload.period_start) redirect("/admin/growth/clients?error=metrics");
+  const { error } = await context.admin.rpc("growth_client_ops_api", { p_actor: context.user.id, p_action: "save_metrics", p_payload: payload });
+  if (error) redirect("/admin/growth/clients?error=metrics");
+  revalidatePath("/admin/growth/clients");
+  revalidatePath("/portal");
+  redirect("/admin/growth/clients?metricsSaved=1");
+}
+
+export async function inviteGrowthClientMember(formData: FormData) {
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) redirect("/admin/growth/clients?error=unauthorized");
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const clientId = String(formData.get("client_id") ?? "");
+  if (!clientId || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) redirect("/admin/growth/clients?error=invite");
+  const { data, error } = await context.admin.auth.admin.inviteUserByEmail(email);
+  if (error || !data.user) redirect("/admin/growth/clients?error=invite");
+  const { error: linkError } = await context.admin.rpc("growth_client_ops_api", {
+    p_actor: context.user.id, p_action: "link_member",
+    p_payload: { client_id: clientId, user_id: data.user.id, member_role: "owner" },
+  });
+  if (linkError) redirect("/admin/growth/clients?error=invite-link");
+  revalidatePath("/admin/growth/clients");
+  redirect("/admin/growth/clients?invited=1");
+}
