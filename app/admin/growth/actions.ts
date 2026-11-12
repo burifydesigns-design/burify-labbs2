@@ -61,3 +61,63 @@ export async function reviewGrowthMessage(formData: FormData) {
   await growthRpc(decision, { id });
   redirect("/admin/growth?reviewed=1");
 }
+
+
+type GrowthActionResult = { ok: boolean; error?: string };
+
+async function requireGrowthAdminAction() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Your session has expired. Sign in again." as const };
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
+  if (profile?.role !== "admin") return { error: "Only an administrator can change Growth Engine settings." as const };
+  return { user, admin: createAdminClient() };
+}
+
+export async function setTaskStatus(id: number, status: "todo" | "in_progress" | "done" | "skipped"): Promise<GrowthActionResult> {
+  if (!Number.isInteger(id) || id < 1 || !["todo", "in_progress", "done", "skipped"].includes(status)) {
+    return { ok: false, error: "Invalid task update." };
+  }
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) return { ok: false, error: context.error };
+  const { error } = await context.admin.rpc("growth_admin_api", {
+    p_actor: context.user.id,
+    p_action: "update_task",
+    p_payload: { id, status },
+  });
+  if (error) return { ok: false, error: "The task could not be saved. Please try again." };
+  revalidatePath("/admin/growth");
+  revalidatePath("/admin/growth/plan");
+  return { ok: true };
+}
+
+export async function saveGrowthSettings(input: {
+  senderName: string;
+  postalAddress: string;
+  dailyCap: number;
+  sendingEnabled: boolean;
+}): Promise<GrowthActionResult> {
+  const senderName = String(input.senderName ?? "").trim();
+  const postalAddress = String(input.postalAddress ?? "").trim();
+  const dailyCap = Number(input.dailyCap);
+  const sendingEnabled = Boolean(input.sendingEnabled);
+  if (!senderName || senderName.length > 80 || !postalAddress || postalAddress.length > 240 || !Number.isInteger(dailyCap) || dailyCap < 1 || dailyCap > 100) {
+    return { ok: false, error: "Check the sender name, postal address and daily sending limit." };
+  }
+  if (sendingEnabled && (!process.env.RESEND_API_KEY || !process.env.RESEND_FROM_EMAIL || !process.env.CRON_SECRET)) {
+    return { ok: false, error: "Scheduled sending cannot be enabled until the email provider and cron secrets are configured." };
+  }
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) return { ok: false, error: context.error };
+  const { error } = await context.admin.rpc("growth_save_settings", {
+    p_actor: context.user.id,
+    p_sender_name: senderName,
+    p_postal_address: postalAddress,
+    p_daily_cap: dailyCap,
+    p_sending_enabled: sendingEnabled,
+  });
+  if (error) return { ok: false, error: "Settings could not be saved. Please verify your administrator access." };
+  revalidatePath("/admin/growth");
+  revalidatePath("/admin/growth/settings");
+  return { ok: true };
+}
