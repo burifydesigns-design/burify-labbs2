@@ -45,8 +45,9 @@ export async function GET(request: Request) {
   const queue = data as QueueResponse;
   if (queue.skipped) return NextResponse.json({ sent: 0, failed: 0, skipped: queue.skipped });
   const settings = queue.settings ?? {};
-  const senderName = String(settings.sender_name ?? "").trim();
-  const postalAddress = String(settings.postal_address ?? "").trim();
+  const sender = (settings.sender && typeof settings.sender === "object" ? settings.sender : {}) as Record<string, unknown>;
+  const senderName = String(sender.name ?? "").trim();
+  const postalAddress = String(sender.postal_address ?? "").trim();
   if (settings.sending_enabled !== true || !senderName || !postalAddress) {
     return NextResponse.json({ sent: 0, failed: 0, skipped: "Sending is disabled or sender details are incomplete." });
   }
