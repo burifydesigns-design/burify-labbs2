@@ -5,16 +5,12 @@ import GrowthShell from "../GrowthShell";
 import GenerateDrafts from "../GenerateDrafts";
 import ApprovalQueue from "../ApprovalQueue";
 import SentList from "../SentList";
-import SetupNeeded from "../SetupNeeded";
 
 export const metadata: Metadata = { title: "Outreach | Burify Admin", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 
 export default async function OutreachPage() {
   const { supabase, user } = await requireGrowthAdmin();
-  const probe = await supabase.from("growth_settings").select("key", { head: true, count: "exact" });
-  if (probe.error) return <GrowthShell title="Outreach" eyebrow="BURIFY / GROWTH" email={user.email} pending={0}><SetupNeeded /></GrowthShell>;
-
   const [pipeline, drafts, sent, settings] = await Promise.all([loadPipeline(supabase), loadDrafts(supabase), loadSent(supabase), loadSettings(supabase)]);
   return <GrowthShell title="Outreach" eyebrow="BURIFY / GROWTH" email={user.email} pending={pipeline.pending}>
     <GenerateDrafts ready={pipeline.ready} />

@@ -1,0 +1,15 @@
+alter table growth.clients add column if not exists contact_name text;
+alter table growth.clients add column if not exists email text;
+alter table growth.clients add column if not exists website text;
+alter table growth.clients add column if not exists updated_at timestamptz not null default now();
+create table if not exists growth.proposals (id uuid primary key default gen_random_uuid(),client_id uuid not null references growth.clients(id) on delete cascade,proposal_code text not null unique,title text not null,summary text,scope jsonb not null default '[]'::jsonb,amount numeric(12,2) not null check(amount>0),currency text not null default 'KES' check(currency in ('KES','USD')),status text not null default 'draft' check(status in ('draft','sent','accepted','declined','expired')),valid_until date,created_at timestamptz not null default now(),updated_at timestamptz not null default now(),sent_at timestamptz,accepted_at timestamptz);
+create table if not exists growth.onboarding_tasks (id uuid primary key default gen_random_uuid(),client_id uuid not null references growth.clients(id) on delete cascade,title text not null,description text,status text not null default 'todo' check(status in ('todo','in_progress','done','blocked')),due_date date,completed_at timestamptz,sort_order integer not null default 0,created_at timestamptz not null default now(),updated_at timestamptz not null default now());
+create table if not exists growth.client_members (id uuid primary key default gen_random_uuid(),client_id uuid not null references growth.clients(id) on delete cascade,user_id uuid not null references auth.users(id) on delete cascade,member_role text not null default 'owner' check(member_role in ('owner','viewer')),created_at timestamptz not null default now(),unique(client_id,user_id));
+create index if not exists growth_proposals_client_status_idx on growth.proposals(client_id,status);
+create index if not exists growth_onboarding_client_status_idx on growth.onboarding_tasks(client_id,status);
+create index if not exists growth_client_members_user_idx on growth.client_members(user_id);
+alter table growth.proposals enable row level security;
+alter table growth.onboarding_tasks enable row level security;
+alter table growth.client_members enable row level security;
+revoke all on growth.proposals,growth.onboarding_tasks,growth.client_members from anon,authenticated;
+grant all on growth.proposals,growth.onboarding_tasks,growth.client_members to service_role;
