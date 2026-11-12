@@ -8,7 +8,7 @@ import { MobileMenu } from "@/components/layout/MobileMenu";
 
 const navLinks = [
   { label: "Patient Growth", href: "/patient-growth" },
-  { label: "Industries", href: "/industries/dental-practices" },
+  { label: "Industries", href: "/industries" },
   { label: "Services", href: "/services" },
   { label: "Work", href: "/work" },
   { label: "Resources", href: "/resources" },
