@@ -121,3 +121,42 @@ export async function saveGrowthSettings(input: {
   revalidatePath("/admin/growth/settings");
   return { ok: true };
 }
+
+
+export async function approveDraft(id: string, subject: string, body: string): Promise<GrowthActionResult> {
+  if (!/^[0-9a-f-]{36}$/i.test(id) || !subject.trim() || !body.trim() || /\{\{[A-Za-z0-9_]+\}\}/.test(subject + body)) {
+    return { ok: false, error: "Complete the subject and body and replace all placeholders." };
+  }
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) return { ok: false, error: context.error };
+  const { error } = await context.admin.rpc("growth_review_message", {
+    p_actor: context.user.id, p_message_id: id, p_decision: "approve", p_subject: subject, p_body: body,
+  });
+  if (error) return { ok: false, error: "Draft could not be approved. It may have already been reviewed." };
+  revalidatePath("/admin/growth");
+  revalidatePath("/admin/growth/outreach");
+  return { ok: true };
+}
+
+export async function rejectDraft(id: string): Promise<GrowthActionResult> {
+  if (!/^[0-9a-f-]{36}$/i.test(id)) return { ok: false, error: "Invalid draft." };
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) return { ok: false, error: context.error };
+  const { error } = await context.admin.rpc("growth_review_message", {
+    p_actor: context.user.id, p_message_id: id, p_decision: "reject",
+  });
+  if (error) return { ok: false, error: "Draft could not be rejected. It may have already been reviewed." };
+  revalidatePath("/admin/growth");
+  revalidatePath("/admin/growth/outreach");
+  return { ok: true };
+}
+
+export async function approveAllDrafts(): Promise<GrowthActionResult & { count?: number }> {
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) return { ok: false, error: context.error };
+  const { data, error } = await context.admin.rpc("growth_approve_ready_messages", { p_actor: context.user.id });
+  if (error) return { ok: false, error: "Eligible drafts could not be approved." };
+  revalidatePath("/admin/growth");
+  revalidatePath("/admin/growth/outreach");
+  return { ok: true, count: Number((data as { count?: number } | null)?.count ?? 0) };
+}
