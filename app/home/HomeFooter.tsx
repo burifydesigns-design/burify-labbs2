@@ -10,8 +10,12 @@ const services = [
 
 const navigation = [
   { label: "Patient Growth Systems", href: "/patient-growth" },
-  { label: "Dental Practice Growth", href: "/industries" },
+  { label: "All Industries", href: "/industries" },
+  { label: "Dental Practices", href: "/industries/dental-practices" },
+  { label: "Physiotherapy", href: "/industries/physiotherapy" },
+  { label: "Private Healthcare", href: "/industries/private-healthcare" },
   { label: "Resources", href: "/resources" },
+  { label: "Growth Assessment", href: "/growth-assessment" },
   { label: "Services", href: "/services" },
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
