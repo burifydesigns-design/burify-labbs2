@@ -11,9 +11,9 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#77746B",
+          DEFAULT: "#A65336",
           light: "#C47A5B",
-          dark: "#5D5B55",
+          dark: "#87432D",
         },
         accent: {
           pink: "#8B9476",
@@ -23,13 +23,13 @@ const config: Config = {
           DEFAULT: "#FBFAF7",
           secondary: "#F3F1EA",
           dark: "#292A26",
-          "dark-secondary": "#241E33",
+          "dark-secondary": "#34352F",
         },
         text: {
           primary: "#292A26",
           secondary: "#5D5B55",
           muted: "#77746B",
-          inverse: "#FBFAF7",
+          inverse: "#FFFFFF",
         },
         border: {
           DEFAULT: "#E5E2D9",
@@ -113,8 +113,8 @@ const config: Config = {
         xl: "0 20px 25px -5px rgba(26, 22, 37, 0.1), 0 10px 10px -5px rgba(26, 22, 37, 0.04)",
         "2xl": "0 25px 50px -12px rgba(26, 22, 37, 0.25)",
         inner: "inset 0 2px 4px 0 rgba(26, 22, 37, 0.06)",
-        glow: "0 0 20px rgba(166, 83, 54, 0.0)",
-        "glow-lg": "0 0 40px rgba(166, 83, 54, 0.0)",
+        glow: "none",
+        "glow-lg": "none",
       },
       transitionDuration: {
         fast: "150ms",
@@ -232,9 +232,9 @@ const config: Config = {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-primary": "linear-gradient(135deg, #77746B 0%, #8B9476 100%)",
+        "gradient-primary": "linear-gradient(135deg, #A65336 0%, #8B9476 100%)",
         "gradient-subtle": "linear-gradient(135deg, rgba(166, 83, 54, 0.04) 0%, rgba(139, 148, 118, 0.04) 100%)",
-        "gradient-dark": "linear-gradient(180deg, #292A26 0%, #241E33 100%)",
+        "gradient-dark": "linear-gradient(180deg, #292A26 0%, #34352F 100%)",
         "gradient-to-br": "linear-gradient(to bottom right, var(--tw-gradient-stops))",
         "gradient-to-tr": "linear-gradient(to top right, var(--tw-gradient-stops))",
         "gradient-to-bl": "linear-gradient(to bottom left, var(--tw-gradient-stops))",
