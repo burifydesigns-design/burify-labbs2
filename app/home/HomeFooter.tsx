@@ -10,7 +10,7 @@ const services = [
 
 const navigation = [
   { label: "Patient Growth Systems", href: "/patient-growth" },
-  { label: "Dental Practice Growth", href: "/industries/dental-practices" },
+  { label: "Dental Practice Growth", href: "/industries" },
   { label: "Resources", href: "/resources" },
   { label: "Services", href: "/services" },
   { label: "Work", href: "/work" },
