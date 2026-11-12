@@ -27,11 +27,12 @@ export async function loadTasks(supabase: SupabaseClient) {
 export async function loadSettings(supabase: SupabaseClient) {
   const { data } = await growthRead(supabase, "settings");
   const map = (data && typeof data === "object" ? data : {}) as Record<string, unknown>;
+  const sender = (map.sender && typeof map.sender === "object" ? map.sender : {}) as Record<string, unknown>;
   return {
     sendingEnabled: map.sending_enabled === true,
     dailyCap: Number(map.daily_send_cap ?? 30) || 30,
-    senderName: String(map.sender_name ?? ""),
-    postalAddress: String(map.postal_address ?? ""),
+    senderName: String(sender.name ?? map.sender_name ?? ""),
+    postalAddress: String(sender.postal_address ?? map.postal_address ?? ""),
     kpiCurrent: (map.kpi_current && typeof map.kpi_current === "object" ? map.kpi_current : {}) as Record<string, number>,
   };
 }
