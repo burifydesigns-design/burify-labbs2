@@ -34,7 +34,7 @@ export default async function GrowthClientsPage({ searchParams }: { searchParams
     <section className="gw-card">
       <p className="gw-kicker">CLIENT SETUP</p><h2>Create a client workspace</h2>
       <p className="gw-muted">Create the client record and generate a standard onboarding checklist. Add client portal access after creation.</p>
-      <form action={createGrowthClient} className="growth-prospect-form">
+      <form action={createGrowthClient} className="gw-fields">
         <label>Clinic / business name *<input name="clinic_name" required maxLength={180}/></label>
         <label>Primary contact<input name="contact_name" maxLength={160}/></label>
         <label>Contact email<input name="email" type="email" maxLength={254}/></label>
@@ -43,20 +43,20 @@ export default async function GrowthClientsPage({ searchParams }: { searchParams
         <label>Contract value<input name="value" type="number" min="0" step="0.01"/></label>
         <label>Start date<input name="start_date" type="date"/></label>
         <label className="growth-form-wide">Notes<input name="notes" maxLength={5000}/></label>
-        <button type="submit">Create client workspace</button>
+        <button className="gw-btn gw-btn-primary" type="submit">Create client workspace</button>
       </form>
     </section>
     <section className="gw-card">
       <p className="gw-kicker">CLIENT DIRECTORY</p><h2>{clients.length} client workspaces</h2>
-      {clients.length===0 ? <p className="gw-muted">No clients created yet.</p> : <div className="gw-stack">{clients.map(client=><article className="gw-sent" key={client.id}><div className="gw-sent-main"><strong>{client.clinic_name}</strong><small>{client.contact_name || "Contact not set"} · {client.email || "No email"} · {client.package.replaceAll("_"," ")}</small><small>{client.status} · {client.start_date || "Start date not set"}{client.value!=null ? " · "+client.value : ""}</small></div><form action={inviteGrowthClientMember} className="growth-inline-form"><input type="hidden" name="client_id" value={client.id}/><input name="email" type="email" required placeholder="Client login email" aria-label={"Invite client for "+client.clinic_name}/><button type="submit">Invite to portal</button></form></article>)}</div>}
+      {clients.length===0 ? <p className="gw-muted">No clients created yet.</p> : <div className="gw-stack">{clients.map(client=><article className="gw-sent" key={client.id}><div className="gw-sent-main"><strong>{client.clinic_name}</strong><small>{client.contact_name || "Contact not set"} · {client.email || "No email"} · {client.package.replaceAll("_"," ")}</small><small>{client.status} · {client.start_date || "Start date not set"}{client.value!=null ? " · "+client.value : ""}</small></div><form action={inviteGrowthClientMember} className="gw-actions"><input type="hidden" name="client_id" value={client.id}/><input name="email" type="email" required placeholder="Client login email" aria-label={"Invite client for "+client.clinic_name}/><button className="gw-btn gw-btn-primary" type="submit">Invite to portal</button></form></article>)}</div>}
     </section>
     <section className="gw-card">
       <p className="gw-kicker">ONBOARDING</p><h2>Delivery checklist</h2>
-      {tasks.length===0 ? <p className="gw-muted">Onboarding tasks appear when you create a client.</p> : <div className="gw-stack">{tasks.map(task=><article className="gw-sent" key={task.id}><div className="gw-sent-main"><strong>{task.client_name} · {task.title}</strong><small>{task.description || ""}</small></div><form action={updateGrowthOnboardingTask} className="growth-inline-form"><input type="hidden" name="id" value={task.id}/><select name="status" defaultValue={task.status}><option value="todo">To do</option><option value="in_progress">In progress</option><option value="done">Done</option><option value="blocked">Blocked</option></select><button type="submit">Save</button></form></article>)}</div>}
+      {tasks.length===0 ? <p className="gw-muted">Onboarding tasks appear when you create a client.</p> : <div className="gw-stack">{tasks.map(task=><article className="gw-sent" key={task.id}><div className="gw-sent-main"><strong>{task.client_name} · {task.title}</strong><small>{task.description || ""}</small></div><form action={updateGrowthOnboardingTask} className="gw-actions"><input type="hidden" name="id" value={task.id}/><select name="status" defaultValue={task.status}><option value="todo">To do</option><option value="in_progress">In progress</option><option value="done">Done</option><option value="blocked">Blocked</option></select><button className="gw-btn gw-btn-primary" type="submit">Save</button></form></article>)}</div>}
     </section>
     <section className="gw-card">
       <p className="gw-kicker">MONTHLY REPORTING</p><h2>Record client performance</h2>
-      <form action={recordGrowthMetrics} className="growth-prospect-form">
+      <form action={recordGrowthMetrics} className="gw-fields">
         <label>Client<select name="client_id" required>{clients.map(c=><option key={c.id} value={c.id}>{c.clinic_name}</option>)}</select></label>
         <label>Reporting month<input name="period_start" type="date" required/></label>
         <label>Enquiries<input name="enquiries" type="number" min="0" defaultValue="0"/></label>
@@ -66,7 +66,7 @@ export default async function GrowthClientsPage({ searchParams }: { searchParams
         <label>Average response (minutes)<input name="avg_response_minutes" type="number" min="0" step="0.1"/></label>
         <label>Workflow runs<input name="workflow_runs" type="number" min="0" defaultValue="0"/></label>
         <label>Successful workflow runs<input name="workflow_successes" type="number" min="0" defaultValue="0"/></label>
-        <button type="submit" disabled={clients.length===0}>Save monthly metrics</button>
+        <button className="gw-btn gw-btn-primary" type="submit" disabled={clients.length===0}>Save monthly metrics</button>
       </form>
       <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Client</th><th>Month</th><th>Enquiries</th><th>Bookings</th><th>Recovered</th><th>Workflow success</th></tr></thead><tbody>{metrics.map((m,i)=><tr key={m.client_id+"-"+m.period_start+"-"+i}><td>{m.client_name}</td><td>{m.period_start}</td><td>{m.enquiries}</td><td>{m.bookings}</td><td>{m.cancellations_recovered}</td><td>{m.workflow_successes}/{m.workflow_runs}</td></tr>)}</tbody></table></div>
       <p className="gw-muted">Reports use metrics entered by your team. They are not independently verified or automatically attributed to marketing activity.</p>
