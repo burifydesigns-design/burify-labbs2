@@ -233,7 +233,7 @@ const config: Config = {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-primary": "linear-gradient(135deg, #77746B 0%, #8B9476 100%)",
-        "gradient-subtle": "linear-gradient(135deg, rgba(107, 95, 169, 0.05) 0%, rgba(212, 132, 178, 0.05) 100%)",
+        "gradient-subtle": "linear-gradient(135deg, rgba(166, 83, 54, 0.04) 0%, rgba(139, 148, 118, 0.04) 100%)",
         "gradient-dark": "linear-gradient(180deg, #292A26 0%, #241E33 100%)",
         "gradient-to-br": "linear-gradient(to bottom right, var(--tw-gradient-stops))",
         "gradient-to-tr": "linear-gradient(to top right, var(--tw-gradient-stops))",
