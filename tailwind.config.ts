@@ -11,30 +11,30 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#6B5FA9",
-          light: "#8D81E3",
-          dark: "#4B4275",
+          DEFAULT: "#77746B",
+          light: "#C47A5B",
+          dark: "#5D5B55",
         },
         accent: {
-          pink: "#D484B2",
+          pink: "#8B9476",
         },
-        lavender: "#CBC5DC",
+        lavender: "#E7E4D9",
         background: {
-          DEFAULT: "#FFFFFF",
-          secondary: "#F8F7FC",
-          dark: "#1A1625",
+          DEFAULT: "#FBFAF7",
+          secondary: "#F3F1EA",
+          dark: "#292A26",
           "dark-secondary": "#241E33",
         },
         text: {
-          primary: "#1A1625",
-          secondary: "#4B4275",
-          muted: "#6B5FA9",
-          inverse: "#FFFFFF",
+          primary: "#292A26",
+          secondary: "#5D5B55",
+          muted: "#77746B",
+          inverse: "#FBFAF7",
         },
         border: {
-          DEFAULT: "#E8E4F0",
-          light: "#F0EDF7",
-          dark: "#3D3457",
+          DEFAULT: "#E5E2D9",
+          light: "#F0EEE8",
+          dark: "#44443D",
         },
       },
       fontFamily: {
@@ -113,8 +113,8 @@ const config: Config = {
         xl: "0 20px 25px -5px rgba(26, 22, 37, 0.1), 0 10px 10px -5px rgba(26, 22, 37, 0.04)",
         "2xl": "0 25px 50px -12px rgba(26, 22, 37, 0.25)",
         inner: "inset 0 2px 4px 0 rgba(26, 22, 37, 0.06)",
-        glow: "0 0 20px rgba(107, 95, 169, 0.3)",
-        "glow-lg": "0 0 40px rgba(107, 95, 169, 0.4)",
+        glow: "0 0 20px rgba(166, 83, 54, 0.0)",
+        "glow-lg": "0 0 40px rgba(166, 83, 54, 0.0)",
       },
       transitionDuration: {
         fast: "150ms",
@@ -232,9 +232,9 @@ const config: Config = {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-primary": "linear-gradient(135deg, #6B5FA9 0%, #D484B2 100%)",
+        "gradient-primary": "linear-gradient(135deg, #77746B 0%, #8B9476 100%)",
         "gradient-subtle": "linear-gradient(135deg, rgba(107, 95, 169, 0.05) 0%, rgba(212, 132, 178, 0.05) 100%)",
-        "gradient-dark": "linear-gradient(180deg, #1A1625 0%, #241E33 100%)",
+        "gradient-dark": "linear-gradient(180deg, #292A26 0%, #241E33 100%)",
         "gradient-to-br": "linear-gradient(to bottom right, var(--tw-gradient-stops))",
         "gradient-to-tr": "linear-gradient(to top right, var(--tw-gradient-stops))",
         "gradient-to-bl": "linear-gradient(to bottom left, var(--tw-gradient-stops))",
