@@ -49,6 +49,7 @@ export default async function ProspectCrmPage({ searchParams }: { searchParams: 
       <p className="admin-side-label">WORKSPACE</p>
       <Link className="admin-nav" href="/admin">Overview</Link>
       <Link className="admin-nav active" href="/admin/crm">Prospect CRM</Link>
+      {profile?.role === "admin" && <Link className="admin-nav" href="/admin/growth">Growth engine</Link>}
       <Link className="admin-nav" href="/admin#leads">Lead pipeline</Link>
       <Link className="admin-nav" href="/admin#contacts">Contact inbox</Link>
       <Link className="admin-nav" href="/admin/work">Work / portfolio</Link>

@@ -36,6 +36,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       <p className="admin-side-label">WORKSPACE</p>
       <a className="admin-nav active" href="/admin">Overview</a>
       <a className="admin-nav" href="/admin/crm">Prospect CRM</a>
+      {profile?.role === "admin" && <a className="admin-nav" href="/admin/growth">Growth engine</a>}
       <a className="admin-nav" href="#leads">Lead pipeline</a>
       <a className="admin-nav" href="#contacts">Contact inbox</a>
       <a className="admin-nav" href="#users">User management</a>
