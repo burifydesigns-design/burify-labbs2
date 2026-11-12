@@ -20,7 +20,7 @@ begin
  select client_id,member_role into v_client_id,v_member_role from growth.client_members where user_id=p_user_id limit 1;
  if v_client_id is null then raise exception 'No client workspace is linked to this account' using errcode='42501'; end if;
  select jsonb_build_object(
-  'client',(select jsonb_build_object('clinic_name',c.clinic_name,'package',c.package,'status',c.status,'start_date',c.start_date,'website',c.website) from growth.clients c where c.id=v_client_id),
+  'client',(select to_jsonb(c) from growth.clients c where c.id=v_client_id),
   'member_role',v_member_role,'can_respond',v_member_role='owner',
   'tasks',coalesce((select jsonb_agg(jsonb_build_object('id',t.id,'title',t.title,'description',t.description,'status',t.status,'due_date',t.due_date) order by t.sort_order) from growth.onboarding_tasks t where t.client_id=v_client_id),'[]'::jsonb),
   'proposals',coalesce((select jsonb_agg(jsonb_build_object('id',p.id,'proposal_code',p.proposal_code,'title',p.title,'summary',p.summary,'scope',p.scope,'amount',p.amount,'currency',p.currency,'status',p.status,'valid_until',p.valid_until) order by p.created_at desc) from growth.proposals p where p.client_id=v_client_id and p.status<>'draft'),'[]'::jsonb),
