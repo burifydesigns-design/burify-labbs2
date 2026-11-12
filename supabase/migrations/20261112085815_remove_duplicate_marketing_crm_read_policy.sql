@@ -1,0 +1,1 @@
+drop policy if exists marketing_read_crm_leads on public.notion_crm_leads;
