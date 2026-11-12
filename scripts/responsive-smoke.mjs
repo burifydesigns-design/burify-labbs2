@@ -112,13 +112,25 @@ try {
     console.log(`Checked ${route} at ${widths.length} viewport widths`);
   }
 
-  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(new URL("/", baseURL).toString(), { waitUntil: "domcontentloaded" });
+  for (const width of [390, 1024, 1190]) {
+    await page.setViewportSize({ width, height: 844 });
+    const menuTrigger = page.getByRole("button", { name: "Open menu" });
+    await menuTrigger.waitFor({ state: "visible" });
+    await menuTrigger.click();
+    const menuDialog = page.getByRole("dialog", { name: "Navigation menu" });
+    await menuDialog.waitFor({ state: "visible" });
+    await assert.doesNotReject(() => menuDialog.getByRole("link", { name: "Dental practices" }).waitFor());
+    await page.keyboard.press("Escape");
+    await menuDialog.waitFor({ state: "detached" });
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
   const openMenu = page.getByRole("button", { name: "Open menu" });
   await openMenu.click();
   const dialog = page.getByRole("dialog", { name: "Navigation menu" });
   await dialog.waitFor({ state: "visible" });
   await assert.doesNotReject(() => dialog.getByRole("link", { name: "Services" }).waitFor());
+  await assert.doesNotReject(() => dialog.getByRole("link", { name: "Private healthcare" }).waitFor());
   await page.keyboard.press("Escape");
   await dialog.waitFor({ state: "detached" });
   assert.equal(await openMenu.evaluate((element) => element === document.activeElement), true,
