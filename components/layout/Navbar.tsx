@@ -24,6 +24,7 @@ export function Navbar({ variant = "light", showCta = true }: NavbarProps) {
   const background = variant === "transparent" && !isScrolled ? "bg-transparent" : isDark ? "bg-background-dark/95 backdrop-blur-md border-b border-border-dark" : "bg-background/95 backdrop-blur-md border-b border-border";
   const textColor = isDark ? "text-white" : "text-text-primary";
   const activeColor = isDark ? "text-primary-light" : "text-primary";
+  const hoverColor = isDark ? "hover:text-primary-light" : "hover:text-primary";
 
   return <>
     <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ease-out ${background}`}>
@@ -35,7 +36,7 @@ export function Navbar({ variant = "light", showCta = true }: NavbarProps) {
               const active = isActive(pathname, item.href) || item.children?.some((child) => isActive(pathname, child.href));
               return <div key={item.href} className="relative group">
                 <div className="flex items-center gap-1">
-                  <Link href={item.href} aria-current={pathname === item.href ? "page" : undefined} className={`text-nav font-medium py-3 transition-colors duration-200 ${active ? activeColor : textColor} hover:${isDark ? "text-primary-light" : "text-primary"}`}>{item.label}</Link>
+                  <Link href={item.href} aria-current={pathname === item.href ? "page" : undefined} className={`text-nav font-medium py-3 transition-colors duration-200 ${active ? activeColor : textColor} ${hoverColor}`}>{item.label}</Link>
                   {item.children && <svg aria-hidden="true" className={`w-3.5 h-3.5 transition-transform group-hover:rotate-180 group-focus-within:rotate-180 ${active ? activeColor : textColor}`} viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.09 1.032l-4.25 4.5a.75.75 0 01-1.09 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" /></svg>}
                 </div>
                 {item.children && <div className="invisible absolute left-0 top-full z-50 w-64 translate-y-2 rounded-xl border border-border bg-background p-2 opacity-0 shadow-xl transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
