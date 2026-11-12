@@ -160,3 +160,25 @@ export async function approveAllDrafts(): Promise<GrowthActionResult & { count?:
   revalidatePath("/admin/growth/outreach");
   return { ok: true, count: Number((data as { count?: number } | null)?.count ?? 0) };
 }
+
+
+export async function generateDrafts(): Promise<GrowthActionResult & { count?: number }> {
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) return { ok: false, error: context.error };
+  const { data, error } = await context.admin.rpc("growth_generate_drafts", { p_actor: context.user.id });
+  if (error) return { ok: false, error: "Draft generation failed. Check the prospect records and try again." };
+  revalidatePath("/admin/growth");
+  revalidatePath("/admin/growth/outreach");
+  return { ok: true, count: Number((data as { count?: number } | null)?.count ?? 0) };
+}
+
+export async function markReplied(id: string): Promise<GrowthActionResult> {
+  if (!/^[0-9a-f-]{36}$/i.test(id)) return { ok: false, error: "Invalid message." };
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) return { ok: false, error: context.error };
+  const { error } = await context.admin.rpc("growth_mark_replied", { p_actor: context.user.id, p_message_id: id });
+  if (error) return { ok: false, error: "Could not record this reply. Only sent messages can be marked as replied." };
+  revalidatePath("/admin/growth");
+  revalidatePath("/admin/growth/outreach");
+  return { ok: true };
+}
