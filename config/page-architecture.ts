@@ -18,15 +18,17 @@ export const pageArchitecture: Record<PageId, PageArchitecture> = {
     kind: "home",
     purpose: "Primary lead-generation entry point for the website.",
     indexable: true,
-    h1: "Burify Labs",
+    h1: "Turn more patient searches into meaningful enquiries.",
     seo: {
-      title: "Web Design & AI Automation Agency | Burify Labs",
+      title: "Patient Growth Systems, Websites & Automation | Burify",
       description:
-        "Burify Labs builds high-converting websites, AI automation, AI agents, and workflow automation that help businesses grow.",
-      primaryTopic: "web design and AI automation agency",
-      primaryKeywords: ["web design and AI automation agency"],
+        "Burify helps dental and private healthcare practices improve digital visibility, patient enquiry journeys, websites and responsible workflow automation.",
+      primaryTopic: "patient growth systems",
+      primaryKeywords: ["patient growth systems"],
       secondaryKeywords: [
-        "web design agency",
+        "dental website design",
+        "healthcare website design",
+        "patient acquisition systems",
         "website design",
         "AI automation agency",
         "AI automation services",

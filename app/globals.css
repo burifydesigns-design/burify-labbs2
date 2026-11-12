@@ -6,25 +6,25 @@
     /* ===================================
        BRAND COLORS
        =================================== */
-    --color-primary: #6B5FA9;
-    --color-primary-light: #8D81E3;
-    --color-primary-dark: #4B4275;
-    --color-accent-pink: #D484B2;
+    --color-primary: #A65336;
+    --color-primary-light: #C47A5B;
+    --color-primary-dark: #87432D;
+    --color-accent-pink: #8B9476;
     --color-white: #FFFFFF;
-    --color-light-lavender: #CBC5DC;
+    --color-light-lavender: #E7E4D9;
 
     /* ===================================
        LIGHT MODE SEMANTIC COLORS
        =================================== */
-    --color-background: #FFFFFF;
-    --color-background-secondary: #F8F7FC;
-    --color-text-primary: #1A1625;
-    --color-text-secondary: #4B4275;
-    --color-text-muted: #6B5FA9;
+    --color-background: #FBFAF7;
+    --color-background-secondary: #F3F1EA;
+    --color-text-primary: #292A26;
+    --color-text-secondary: #5D5B55;
+    --color-text-muted: #77746B;
     --color-text-inverse: #FFFFFF;
-    --color-border: #E8E4F0;
-    --color-border-light: #F0EDF7;
-    --color-border-dark: #3D3457;
+    --color-border: #E5E2D9;
+    --color-border-light: #F0EEE8;
+    --color-border-dark: #44443D;
 
     /* ===================================
        TYPOGRAPHY
@@ -132,8 +132,8 @@
     --shadow-xl: 0 20px 25px -5px rgba(26, 22, 37, 0.1), 0 10px 10px -5px rgba(26, 22, 37, 0.04);
     --shadow-2xl: 0 25px 50px -12px rgba(26, 22, 37, 0.25);
     --shadow-inner: inset 0 2px 4px 0 rgba(26, 22, 37, 0.06);
-    --shadow-glow: 0 0 20px rgba(107, 95, 169, 0.3);
-    --shadow-glow-lg: 0 0 40px rgba(107, 95, 169, 0.4);
+    --shadow-glow: 0 0 20px rgba(166, 83, 54, 0.0);
+    --shadow-glow-lg: 0 0 40px rgba(166, 83, 54, 0.0);
 
     /* ===================================
        TRANSITIONS
@@ -181,13 +181,13 @@
      DARK MODE
      =================================== */
   .dark {
-    --color-background: #1A1625;
-    --color-background-secondary: #241E33;
-    --color-text-primary: #FFFFFF;
-    --color-text-secondary: #CBC5DC;
-    --color-text-muted: #8D81E3;
-    --color-border: #3D3457;
-    --color-border-light: #4B4275;
+    --color-background: #292A26;
+    --color-background-secondary: #34352F;
+    --color-text-primary: #F7F6F1;
+    --color-text-secondary: #D1D0C8;
+    --color-text-muted: #B6B3A8;
+    --color-border: #44443D;
+    --color-border-light: #55564D;
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
@@ -518,12 +518,12 @@
   }
 
   .badge-primary {
-    background-color: rgba(107, 95, 169, 0.1);
+    background-color: rgba(166, 83, 54, 0.1);
     color: var(--color-primary);
   }
 
   .badge-accent {
-    background-color: rgba(212, 132, 178, 0.1);
+    background-color: rgba(139, 148, 118, 0.1);
     color: var(--color-accent-pink);
   }
 
@@ -677,7 +677,7 @@
   }
 
   .bg-gradient-subtle {
-    background: linear-gradient(135deg, rgba(107, 95, 169, 0.05) 0%, rgba(212, 132, 178, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(166, 83, 54, 0.04) 0%, rgba(139, 148, 118, 0.04) 100%);
   }
 
   .bg-gradient-dark {
