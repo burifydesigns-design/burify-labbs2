@@ -32,6 +32,11 @@ const routes = [
   "/blog",
   "/contact",
   "/admin/login",
+  "/admin/growth",
+  "/admin/growth/clients",
+  "/admin/growth/proposals",
+  "/portal/login",
+  "/portal",
 ];
 const widths = [320, 360, 390, 480, 640, 768, 1024, 1280, 1600];
 const startupDeadline = Date.now() + 120000;

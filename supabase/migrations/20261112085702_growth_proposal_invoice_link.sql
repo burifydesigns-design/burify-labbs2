@@ -1,0 +1,2 @@
+alter table growth.proposals add column if not exists invoice_id uuid references public.invoices(id) on delete set null;
+create unique index if not exists growth_proposals_invoice_id_unique on growth.proposals(invoice_id) where invoice_id is not null;

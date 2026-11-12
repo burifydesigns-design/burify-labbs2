@@ -9,13 +9,15 @@ import { portalRespondToProposal, portalSignOut } from "./actions";
 
 export const metadata: Metadata = { title: "Client workspace | Burify", robots: { index:false, follow:false } };
 export const dynamic = "force-dynamic";
-type PortalData = {\n can_respond?:boolean;
+type PortalData = {
+ can_respond?:boolean;
  client?:{clinic_name:string;package:string;status:string;start_date:string|null;website:string|null};
  tasks?:{id:string;title:string;description:string|null;status:string;due_date:string|null}[];
  proposals?:{id:string;proposal_code:string;title:string;summary:string|null;scope:string[];amount:number;currency:string;status:string;valid_until:string|null}[];
  metrics?:{period_start:string;enquiries:number;bookings:number;no_shows:number;cancellations_recovered:number;workflow_runs:number;workflow_successes:number;avg_response_minutes:number|null}[];
 };
-export default async function ClientPortalPage({searchParams}:{searchParams:Promise<{proposal?:string}>}){\n const params=await searchParams;
+export default async function ClientPortalPage({searchParams}:{searchParams:Promise<{proposal?:string}>}){
+ const params=await searchParams;
  const supabase=await createClient(); const {data:{user}}=await supabase.auth.getUser();
  if(!user) redirect("/portal/login");
  const {data,error}=await createAdminClient().rpc("growth_client_portal_api",{p_user_id:user.id});

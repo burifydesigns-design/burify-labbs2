@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createInvoice } from "@/app/admin/payments/actions";
 
 async function growthRpc(action: string, payload: Record<string, unknown> = {}) {
   const supabase = await createClient();
@@ -295,4 +296,71 @@ export async function setKpiValue(metric: string, value: number): Promise<Growth
   if (error) return { ok: false, error: "This KPI could not be updated. It may be calculated automatically." };
   revalidatePath("/admin/growth");
   return { ok: true };
+}
+
+
+export async function createGrowthProposalInvoice(formData: FormData) {
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) redirect("/admin/growth/proposals?error=unauthorized");
+  const proposalId = String(formData.get("id") ?? "");
+  if (!/^[0-9a-f-]{36}$/i.test(proposalId)) redirect("/admin/growth/proposals?invoiceError=invalid");
+
+  const { data: claimData, error: claimError } = await context.admin.rpc("growth_claim_proposal_invoice", {
+    p_actor: context.user.id, p_proposal_id: proposalId,
+  });
+  if (claimError || !(claimData as { claimed?: boolean } | null)?.claimed) {
+    redirect("/admin/growth/proposals?invoiceError=already");
+  }
+
+  const { data: contextData, error: contextError } = await context.admin.rpc("growth_proposal_invoice_context_api", {
+    p_actor: context.user.id, p_proposal_id: proposalId,
+  });
+  const invoiceContext = contextData as {
+    proposal?: { id:string; title:string; summary:string|null; amount:number|string; currency:string; status:string; invoice_id:string|null };
+    client?: { clinic_name:string; contact_name:string|null; email:string|null };
+  } | null;
+  const proposal = invoiceContext?.proposal;
+  const client = invoiceContext?.client;
+  if (contextError || !proposal || !client || proposal.status !== "accepted" || proposal.invoice_id) {
+    await context.admin.rpc("growth_release_proposal_invoice_claim", { p_actor: context.user.id, p_proposal_id: proposalId });
+    redirect("/admin/growth/proposals?invoiceError=proposal");
+  }
+  const email = String(client.email ?? "").trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    await context.admin.rpc("growth_release_proposal_invoice_claim", { p_actor: context.user.id, p_proposal_id: proposalId });
+    redirect("/admin/growth/proposals?invoiceMissingEmail=1");
+  }
+
+  const invoiceForm = new FormData();
+  invoiceForm.set("customer_name", String(client.contact_name || client.clinic_name));
+  invoiceForm.set("customer_email", email);
+  invoiceForm.set("company_name", String(client.clinic_name));
+  invoiceForm.set("description", [proposal.title, proposal.summary].filter(Boolean).join(" — ").slice(0, 500));
+  invoiceForm.set("currency", String(proposal.currency));
+  invoiceForm.set("amount", Number(proposal.amount).toFixed(2));
+  invoiceForm.set("due_at", "");
+
+  const invoiceResult = await createInvoice(invoiceForm);
+  if (!invoiceResult.ok || !invoiceResult.invoiceNumber) {
+    await context.admin.rpc("growth_release_proposal_invoice_claim", { p_actor: context.user.id, p_proposal_id: proposalId });
+    redirect("/admin/growth/proposals?invoiceError=create");
+  }
+
+  const { data: invoice, error: invoiceLookupError } = await context.admin.from("invoices")
+    .select("id").eq("invoice_number", invoiceResult.invoiceNumber).maybeSingle();
+  if (invoiceLookupError || !invoice) {
+    redirect("/admin/growth/proposals?invoiceLinkError=1");
+  }
+
+  const { error: linkError } = await context.admin.rpc("growth_link_proposal_invoice", {
+    p_actor: context.user.id, p_proposal_id: proposalId, p_invoice_id: invoice.id,
+  });
+  if (linkError) redirect("/admin/growth/proposals?invoiceLinkError=1");
+
+  revalidatePath("/admin/growth/proposals");
+  revalidatePath("/admin/payments");
+  revalidatePath("/portal");
+  redirect(invoiceResult.emailStatus === "sent"
+    ? "/admin/growth/proposals?invoiceCreated=1"
+    : "/admin/growth/proposals?invoiceCreated=1&invoiceEmailFailed=1");
 }
