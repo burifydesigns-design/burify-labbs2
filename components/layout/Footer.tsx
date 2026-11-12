@@ -18,8 +18,10 @@ interface FooterProps {
 
 const services: FooterLink[] = [
   { label: "Patient Growth Systems", href: "/patient-growth" },
-  { label: "Dental Practice Growth", href: "/industries/dental-practices" },
-  { label: "Physiotherapy Growth", href: "/industries/physiotherapy" },
+  { label: "All Industries", href: "/industries" },
+  { label: "Dental Practices", href: "/industries/dental-practices" },
+  { label: "Physiotherapy", href: "/industries/physiotherapy" },
+  { label: "Private Healthcare", href: "/industries/private-healthcare" },
   { label: "Web Design", href: "/services/web-design" },
   { label: "AI Automation", href: "/services/ai-automation" },
   { label: "AI Agents", href: "/services/ai-agents" },
@@ -28,6 +30,7 @@ const services: FooterLink[] = [
 
 const company: FooterLink[] = [
   { label: "Resources", href: "/resources" },
+  { label: "Growth Assessment", href: "/growth-assessment" },
   { label: "Growth Assessment", href: "/growth-assessment" },
   { label: "About Us", href: "/about" },
   { label: "Our Work", href: "/work" },
