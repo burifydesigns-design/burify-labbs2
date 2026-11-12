@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import "../../admin/admin.css";
+import "../../admin/growth/growth.css";
 import { portalSignIn } from "../actions";
 export const metadata: Metadata = { title: "Client portal sign in | Burify", robots: { index:false, follow:false } };
 export default async function PortalLogin({searchParams}:{searchParams:Promise<{error?:string}>}) {
