@@ -11,7 +11,7 @@ interface NavbarProps { variant?: "light" | "dark" | "transparent"; showCta?: bo
 
 const navLinks: NavLink[] = [
   { label: "Patient Growth", href: "/patient-growth" },
-  { label: "Industries", href: "/industries/dental-practices" },
+  { label: "Industries", href: "/industries" },
   { label: "Services", href: "/services" },
   { label: "Work", href: "/work" },
   { label: "Resources", href: "/resources" },
