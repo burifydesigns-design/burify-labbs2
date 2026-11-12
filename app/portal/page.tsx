@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import "../admin/admin.css";
+import "../admin/growth/growth.css";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
