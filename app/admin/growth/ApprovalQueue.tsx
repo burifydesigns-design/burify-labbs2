@@ -33,7 +33,7 @@ export default function ApprovalQueue({ drafts, sendingEnabled }: { drafts: Draf
     setMessage(null);
     start(async () => {
       const result = await approveDraft(id, subject, body);
-      if (result.ok) { advance(id); setMessage({ kind: "ok", text: "Approved. It will go out on the next scheduled send." }); }
+      if (result.ok) { advance(id); setMessage({ kind: "ok", text: "Approved and queued. Scheduled sending still depends on the enabled sending settings and delivery checks." }); }
       else setMessage({ kind: "error", text: result.error ?? "Could not approve." });
     });
   };
