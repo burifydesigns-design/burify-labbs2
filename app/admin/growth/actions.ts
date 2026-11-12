@@ -312,19 +312,21 @@ export async function createGrowthProposalInvoice(formData: FormData) {
     redirect("/admin/growth/proposals?invoiceError=already");
   }
 
-  const { data: proposal, error: proposalError } = await context.admin.schema("growth").from("proposals")
-    .select("id,client_id,title,summary,amount,currency,status,invoice_id")
-    .eq("id", proposalId).maybeSingle();
-  if (proposalError || !proposal || proposal.status !== "accepted" || proposal.invoice_id) {
+  const { data: contextData, error: contextError } = await context.admin.rpc("growth_proposal_invoice_context_api", {
+    p_actor: context.user.id, p_proposal_id: proposalId,
+  });
+  const invoiceContext = contextData as {
+    proposal?: { id:string; title:string; summary:string|null; amount:number|string; currency:string; status:string; invoice_id:string|null };
+    client?: { clinic_name:string; contact_name:string|null; email:string|null };
+  } | null;
+  const proposal = invoiceContext?.proposal;
+  const client = invoiceContext?.client;
+  if (contextError || !proposal || !client || proposal.status !== "accepted" || proposal.invoice_id) {
     await context.admin.rpc("growth_release_proposal_invoice_claim", { p_actor: context.user.id, p_proposal_id: proposalId });
     redirect("/admin/growth/proposals?invoiceError=proposal");
   }
-
-  const { data: client, error: clientError } = await context.admin.schema("growth").from("clients")
-    .select("clinic_name,contact_name,email")
-    .eq("id", proposal.client_id).maybeSingle();
-  const email = String(client?.email ?? "").trim().toLowerCase();
-  if (clientError || !client || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  const email = String(client.email ?? "").trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     await context.admin.rpc("growth_release_proposal_invoice_claim", { p_actor: context.user.id, p_proposal_id: proposalId });
     redirect("/admin/growth/proposals?invoiceMissingEmail=1");
   }
