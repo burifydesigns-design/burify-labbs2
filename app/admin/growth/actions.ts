@@ -280,3 +280,19 @@ export async function updateGrowthProposalStatus(formData: FormData) {
   revalidatePath("/portal");
   redirect("/admin/growth/proposals?updated=1");
 }
+
+
+export async function setKpiValue(metric: string, value: number): Promise<GrowthActionResult> {
+  const cleanMetric = String(metric ?? "").trim();
+  if (!cleanMetric || cleanMetric.length > 120 || !Number.isFinite(value) || value < 0 || value > 1000000000) {
+    return { ok: false, error: "Enter a valid KPI value." };
+  }
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) return { ok: false, error: context.error };
+  const { error } = await context.admin.rpc("growth_update_kpi", {
+    p_actor: context.user.id, p_metric: cleanMetric, p_current_value: value,
+  });
+  if (error) return { ok: false, error: "This KPI could not be updated. It may be calculated automatically." };
+  revalidatePath("/admin/growth");
+  return { ok: true };
+}
