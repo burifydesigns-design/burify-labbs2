@@ -15,13 +15,13 @@ function authorized(request: Request) {
   return timingSafeEqual(Buffer.from(supplied), Buffer.from(expected));
 }
 
-async function sendViaResend(to: string, subject: string, text: string, unsubscribe: string) {
+async function sendViaResend(id: string, to: string, subject: string, text: string, unsubscribe: string) {
   const key = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM_EMAIL;
   if (!key || !from) throw new Error("Email service is not configured.");
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", "Idempotency-Key": `burify-growth-${id}` },
     body: JSON.stringify({
       from, to: [to], subject, text,
       headers: { "List-Unsubscribe": `<${unsubscribe}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
@@ -59,10 +59,22 @@ export async function GET(request: Request) {
       await admin.rpc("growth_cron_api", { p_action: "mark_cancelled", p_payload: { id: message.id } });
       continue;
     }
+    const { data: claimData, error: claimError } = await admin.rpc("growth_cron_api", {
+      p_action: "claim", p_payload: { id: message.id },
+    });
+    const claim = claimData as { claimed?: boolean; reason?: string } | null;
+    if (claimError) {
+      failed++;
+      continue;
+    }
+    if (!claim?.claimed) {
+      if (claim?.reason === "daily_cap") break;
+      continue;
+    }
     try {
       const unsubscribe = unsubUrl(email);
       const text = `${message.body}\n\n--\n${senderName}, Burify Solutions\n${postalAddress}\nNot relevant? Unsubscribe: ${unsubscribe}`;
-      const providerId = await sendViaResend(email, message.subject, text, unsubscribe);
+      const providerId = await sendViaResend(message.id, email, message.subject, text, unsubscribe);
       const { error: markError } = await admin.rpc("growth_cron_api", {
         p_action: "mark_sent", p_payload: { id: message.id, provider_message_id: providerId },
       });
