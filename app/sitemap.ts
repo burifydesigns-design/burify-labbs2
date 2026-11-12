@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
-  const growthRoutes = ["/patient-growth", "/industries/dental-practices", "/industries/physiotherapy", "/industries/private-healthcare", "/growth-assessment", "/resources"].map((path) => ({ url: canonicalUrl(path) }));
+  const growthRoutes = ["/industries", "/patient-growth", "/industries/dental-practices", "/industries/physiotherapy", "/industries/private-healthcare", "/growth-assessment", "/resources"].map((path) => ({ url: canonicalUrl(path) }));
 
   return [...staticRoutes, ...growthRoutes, ...projectRoutes, ...blogRoutes];
 }
