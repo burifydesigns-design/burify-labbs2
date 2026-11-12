@@ -266,3 +266,17 @@ export async function inviteGrowthClientMember(formData: FormData) {
   revalidatePath("/admin/growth/clients");
   redirect("/admin/growth/clients?invited=1");
 }
+
+
+export async function updateGrowthProposalStatus(formData: FormData) {
+  const context = await requireGrowthAdminAction();
+  if ("error" in context) redirect("/admin/growth/proposals?error=unauthorized");
+  const id = String(formData.get("id") ?? "");
+  const status = String(formData.get("status") ?? "");
+  if (!/^[0-9a-f-]{36}$/i.test(id) || !["sent","accepted","declined","expired"].includes(status)) redirect("/admin/growth/proposals?error=invalid");
+  const { error } = await context.admin.rpc("growth_update_proposal_status", { p_actor: context.user.id, p_proposal_id: id, p_status: status });
+  if (error) redirect("/admin/growth/proposals?error=status");
+  revalidatePath("/admin/growth/proposals");
+  revalidatePath("/portal");
+  redirect("/admin/growth/proposals?updated=1");
+}
