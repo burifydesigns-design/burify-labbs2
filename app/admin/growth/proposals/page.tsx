@@ -3,21 +3,38 @@ import { requireGrowthAdmin } from "@/lib/growth/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { loadPipeline } from "@/lib/growth/data";
 import GrowthShell from "../GrowthShell";
-import { createGrowthProposal, updateGrowthProposalStatus } from "../actions";
+import { createGrowthProposal, createGrowthProposalInvoice, updateGrowthProposalStatus } from "../actions";
 
 export const metadata: Metadata = { title: "Proposals | Burify Admin", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 type Client={id:string;clinic_name:string};
-type Proposal={id:string;client_name:string;proposal_code:string;title:string;amount:number;currency:string;status:string;valid_until:string|null;created_at:string};
+type Proposal={id:string;client_name:string;proposal_code:string;title:string;amount:number;currency:string;status:string;valid_until:string|null;created_at:string;invoice_id?:string|null;invoice_number?:string|null;invoice_status?:string|null};
 
-export default async function GrowthProposalsPage({searchParams}:{searchParams:Promise<{error?:string;created?:string;updated?:string}>}) {
+export default async function GrowthProposalsPage({searchParams}:{searchParams:Promise<{error?:string;created?:string;updated?:string;invoiceCreated?:string;invoiceEmailFailed?:string;invoiceError?:string;invoiceMissingEmail?:string;invoiceLinkError?:string}>}) {
  const {supabase,user}=await requireGrowthAdmin(); const admin=createAdminClient();
- const [dashboard,pipeline,params]=await Promise.all([admin.rpc("growth_client_ops_api",{p_actor:user.id,p_action:"dashboard",p_payload:{}}),loadPipeline(supabase),searchParams]);
- const data=(dashboard.data??{}) as {clients?:Client[];proposals?:Proposal[]}; const clients=data.clients??[]; const proposals=data.proposals??[];
+ const [dashboard,pipeline,params,proposalLinks]=await Promise.all([
+  admin.rpc("growth_client_ops_api",{p_actor:user.id,p_action:"dashboard",p_payload:{}}),
+  loadPipeline(supabase),searchParams,
+  admin.schema("growth").from("proposals").select("id,invoice_id")
+ ]);
+ const data=(dashboard.data??{}) as {clients?:Client[];proposals?:Proposal[]};
+ const clients=data.clients??[];
+ const linkMap=new Map((proposalLinks.data??[]).map((row:{id:string;invoice_id:string|null})=>[row.id,row.invoice_id]));
+ const invoiceIds=[...new Set([...linkMap.values()].filter((v):v is string=>Boolean(v)))];
+ const {data:linkedInvoices}=invoiceIds.length
+  ? await admin.from("invoices").select("id,invoice_number,status").in("id",invoiceIds)
+  : {data:[] as {id:string;invoice_number:string;status:string}[]};
+ const invoiceMap=new Map((linkedInvoices??[]).map((row:{id:string;invoice_number:string;status:string})=>[row.id,row]));
+ const proposals=(data.proposals??[]).map(p=>{const invoiceId=linkMap.get(p.id)??null;const invoice=invoiceId?invoiceMap.get(invoiceId):null;return {...p,invoice_id:invoiceId,invoice_number:invoice?.invoice_number??null,invoice_status:invoice?.status??null};});
  return <GrowthShell title="Proposals" eyebrow="BURIFY / GROWTH" email={user.email} pending={pipeline.pending}>
   {params.error?<p className="admin-error">The proposal action could not be completed.</p>:null}
   {params.created?<p className="admin-success">Proposal created as a draft.</p>:null}
   {params.updated?<p className="admin-success">Proposal status updated.</p>:null}
+  {params.invoiceCreated?<p className="admin-success">Invoice created from the accepted proposal and linked to the client record.</p>:null}
+  {params.invoiceEmailFailed?<p className="admin-error">The invoice was created, but the email could not be delivered. Check the email configuration or resend it from Payments.</p>:null}
+  {params.invoiceMissingEmail?<p className="admin-error">Add a valid client email address before creating an invoice.</p>:null}
+  {params.invoiceLinkError?<p className="admin-error">The invoice was created but could not be linked to the proposal. Contact an administrator before retrying to avoid duplicates.</p>:null}
+  {params.invoiceError?<p className="admin-error">The invoice could not be created. The proposal may already have an invoice or may not be accepted.</p>:null}
   <section className="gw-card"><p className="gw-kicker">NEW PROPOSAL</p><h2>Prepare a client proposal</h2><p className="gw-muted">Create a proposal record with scope, amount and expiry. It remains a draft until you mark it as sent.</p>
    <form action={createGrowthProposal} className="gw-fields">
     <label>Client<select name="client_id" required>{clients.map(c=><option key={c.id} value={c.id}>{c.clinic_name}</option>)}</select></label>
@@ -31,7 +48,7 @@ export default async function GrowthProposalsPage({searchParams}:{searchParams:P
    </form>
   </section>
   <section className="gw-card"><p className="gw-kicker">PROPOSAL PIPELINE</p><h2>{proposals.length} proposals</h2>
-   {proposals.length===0?<p className="gw-muted">No proposals yet.</p>:<div className="gw-stack">{proposals.map(p=><article className="gw-sent" key={p.id}><div className="gw-sent-main"><strong>{p.proposal_code} · {p.client_name}</strong><small>{p.title}</small><small>{p.currency} {Number(p.amount).toLocaleString()} · {p.status} · {p.valid_until ? "Valid to "+p.valid_until : "No expiry"}</small></div><form action={updateGrowthProposalStatus} className="gw-actions"><input type="hidden" name="id" value={p.id}/><select name="status" defaultValue={p.status==="draft"?"sent":p.status}><option value="sent">Mark sent</option><option value="accepted">Accepted</option><option value="declined">Declined</option><option value="expired">Expired</option></select><button className="gw-btn gw-btn-primary" type="submit">Update</button></form></article>)}</div>}
+   {proposals.length===0?<p className="gw-muted">No proposals yet.</p>:<div className="gw-stack">{proposals.map(p=><article className="gw-sent" key={p.id}><div className="gw-sent-main"><strong>{p.proposal_code} · {p.client_name}</strong><small>{p.title}</small><small>{p.currency} {Number(p.amount).toLocaleString()} · {p.status} · {p.valid_until ? "Valid to "+p.valid_until : "No expiry"}</small>{p.invoice_id?<small>Invoice: {p.invoice_number ?? "Linked"} · {p.invoice_status ?? "created"}</small>:null}</div><div className="gw-actions">{p.status==="accepted" && !p.invoice_id ? <form action={createGrowthProposalInvoice}><input type="hidden" name="id" value={p.id}/><button className="gw-btn gw-btn-primary" type="submit">Create invoice</button></form> : null}<form action={updateGrowthProposalStatus}><input type="hidden" name="id" value={p.id}/><select name="status" defaultValue={p.status==="draft"?"sent":p.status}><option value="sent">Mark sent</option><option value="accepted">Accepted</option><option value="declined">Declined</option><option value="expired">Expired</option></select><button className="gw-btn" type="submit">Update</button></form></div></article>)}</div>}
   </section>
  </GrowthShell>;
 }
