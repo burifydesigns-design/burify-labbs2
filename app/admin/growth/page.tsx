@@ -1,92 +1,160 @@
-import Link from "next/link";
-import type { Metadata } from "next";
-import { requireGrowthAdmin } from "@/lib/growth/auth";
-import { daysBetween, loadActivity, loadKpis, loadPipeline, loadSettings, loadTasks, todayInNairobi } from "@/lib/growth/data";
-import { PLAN_START } from "@/lib/growth/types";
-import GrowthShell from "./GrowthShell";
-import ProgressRing from "./ProgressRing";
-import Funnel from "./Funnel";
-import KpiCards from "./KpiCards";
-import UpNext from "./UpNext";
-import SetupNeeded from "./SetupNeeded";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { addGrowthProspect, updateGrowthProspect, updateGrowthTask, reviewGrowthMessage } from "./actions";
 
-export const metadata: Metadata = { title: "Growth engine | Burify Admin", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
+export const metadata = { title: "Growth Engine | Burify Labs", robots: { index: false, follow: false } };
 
-const ACTION_LABEL: Record<string, string> = { drafts_generated: "Drafts created", settings_saved: "Settings saved", send: "Scheduled send", followups: "Follow-up drafts created" };
+type Counts = { prospects:number; new_prospects:number; messages_draft:number; messages_sent:number; replies:number; audits:number; clients:number; tasks_done:number; tasks_total:number };
+type Prospect = { id:string; clinic_name:string; contact_name:string|null; role:string|null; email:string|null; website:string|null; location:string|null; country:string|null; segment:string; status:string; score:number; notes:string|null; lead_source:string|null; created_at:string };
+type Task = { id:number; week:number; day_index:number; day_name:string; title:string; description:string|null; category:string; automation:string; status:string; due_date:string|null; notes:string|null };
+type Message = { id:string; clinic_name:string; contact_name:string|null; email:string|null; subject:string|null; body:string; status:string; created_at:string; approved_at:string|null; approved_by:string|null; rejected_at:string|null; rejected_by:string|null; rejection_reason:string|null };
+type Kpi = { id:number; category:string; metric:string; target_label:string; target_value:number|null; current_value:number; unit:string|null; higher_is_better:boolean };
 
-export default async function GrowthOverview() {
-  const { supabase, user } = await requireGrowthAdmin();
-  const today = todayInNairobi();
-  const [{ tasks, error }, pipeline, settings, activity] = await Promise.all([loadTasks(supabase), loadPipeline(supabase), loadSettings(supabase), loadActivity(supabase)]);
+export default async function GrowthEnginePage({ searchParams }: { searchParams: Promise<{ error?:string; added?:string; updated?:string; taskUpdated?:string; reviewed?:string }> }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
+  if (!profile || !["admin", "super_admin", "marketing"].includes(profile.role)) redirect("/admin/login?error=unauthorized");
+  const canReview = ["admin", "super_admin"].includes(profile.role);
 
-  if (error || tasks.length === 0) return <GrowthShell title="Growth engine" eyebrow="BURIFY / GROWTH" email={user.email} pending={0}><SetupNeeded /></GrowthShell>;
+  const admin = createAdminClient();
+  const rpc = (p_action: string) => admin.rpc("growth_admin_api", { p_actor: user.id, p_action, p_payload: {} });
+  const [dashboardResult, prospectsResult, tasksResult, approvalsResult, params] = await Promise.all([
+    rpc("dashboard"),
+    rpc("prospects"),
+    rpc("tasks"),
+    rpc("approvals"),
+    searchParams
+  ]);
 
-  const kpis = await loadKpis(supabase, settings.kpiCurrent, pipeline.conversations);
-  const done = tasks.filter(t => t.status === "done").length;
-  const offset = daysBetween(PLAN_START, today);
-  const planDay = Math.min(90, offset + 1);
-  const upNext = tasks.filter(t => t.status !== "done").slice(0, 4);
-  const dueToday = tasks.filter(t => t.due_date === today && t.status !== "done").length;
-  const weekProgress = Array.from({ length: 12 }, (_, i) => {
-    const list = tasks.filter(t => t.week === i + 1);
-    return { week: i + 1, pct: list.length ? list.filter(t => t.status === "done").length / list.length : 0 };
-  });
-  const replyRate = pipeline.sent ? Math.round((pipeline.replied / pipeline.sent) * 100) : 0;
+  const dashboard = dashboardResult.data as { counts:Counts; kpis:Kpi[]; tasks:Task[] } | null;
+  const counts = dashboard?.counts;
+  const prospects = (prospectsResult.data ?? []) as Prospect[];
+  const tasks = (tasksResult.data ?? []) as Task[];
+  const weekGroups = Array.from(
+    tasks.reduce((weeks, task) => {
+      const days = weeks.get(task.week) ?? new Map<number, Task[]>();
+      const dayTasks = days.get(task.day_index) ?? [];
+      dayTasks.push(task);
+      days.set(task.day_index, dayTasks);
+      weeks.set(task.week, days);
+      return weeks;
+    }, new Map<number, Map<number, Task[]>>()),
+    ([week, days]) => ({
+      week,
+      days: Array.from(days, ([dayIndex, dayTasks]) => ({
+        dayIndex,
+        dayName: dayTasks[0]?.day_name ?? `Day ${dayIndex}`,
+        tasks: dayTasks,
+      })).sort((a, b) => a.dayIndex - b.dayIndex),
+    }),
+  ).sort((a, b) => a.week - b.week);
+  const approvals = (approvalsResult.data ?? []) as Message[];
+  const pendingApprovals = approvals.filter(message => message.status === "draft");
+  const approvedByMonth = Array.from(
+    approvals.filter(message => message.status === "approved").reduce((months, message) => {
+      const date = new Date(message.approved_at || message.created_at);
+      const monthKey = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}`;
+      const monthLabel = date.toLocaleDateString(undefined, { month:"long", year:"numeric" });
+      const weekOfMonth = Math.ceil((date.getDate() + new Date(date.getFullYear(), date.getMonth(), 1).getDay()) / 7);
+      const group = months.get(monthKey) ?? { monthLabel, weeks:new Map<number, Message[]>() };
+      const messages = group.weeks.get(weekOfMonth) ?? [];
+      messages.push(message);
+      group.weeks.set(weekOfMonth, messages);
+      months.set(monthKey, group);
+      return months;
+    }, new Map<string, { monthLabel:string; weeks:Map<number, Message[]> }>()),
+    ([monthKey, value]) => ({ monthKey, ...value, weekGroups:Array.from(value.weeks, ([week,messages]) => ({week,messages})).sort((a,b)=>b.week-a.week) })
+  ).sort((a,b)=>b.monthKey.localeCompare(a.monthKey));
+  const errors = [dashboardResult.error, prospectsResult.error, tasksResult.error, approvalsResult.error].filter(Boolean);
+  const fmt = (value:string) => new Date(value).toLocaleDateString(undefined, { day:"numeric", month:"short", year:"numeric" });
 
-  return <GrowthShell title="Growth engine" eyebrow="BURIFY / GROWTH" email={user.email} pending={pipeline.pending}>
-    <section className="gw-hero">
-      <div className="gw-hero-copy">
-        <p className="gw-kicker">PATIENT GROWTH · 90-DAY PLAN</p>
-        <h2>{offset < 0 ? `Your plan starts in ${-offset} day${offset === -1 ? "" : "s"}` : `Day ${planDay} of 90`}</h2>
-        <p>{dueToday > 0 ? `${dueToday} task${dueToday === 1 ? " is" : "s are"} due today.` : "Nothing is due today."} {pipeline.pending > 0 ? `${pipeline.pending} email draft${pipeline.pending === 1 ? " is" : "s are"} waiting for your approval.` : ""}</p>
-        <div className="gw-hero-actions">
-          <Link className="gw-btn gw-btn-primary" href="/admin/growth/plan">Open plan</Link>
-          <Link className="gw-btn gw-btn-light" href="/admin/growth/outreach">{pipeline.pending > 0 ? `Review ${pipeline.pending} draft${pipeline.pending === 1 ? "" : "s"}` : "Go to outreach"}</Link>
-        </div>
-      </div>
-      <ProgressRing value={done} total={tasks.length} label="plan done" />
-    </section>
-
-    <section className="gw-stats" aria-label="Outreach snapshot">
-      <article><small>Ready to contact</small><strong>{pipeline.ready.toLocaleString()}</strong><p>ICP prospects not yet drafted</p></article>
-      <article><small>Awaiting approval</small><strong>{pipeline.pending}</strong><p>{pipeline.approved - pipeline.sent} approved, queued to send</p></article>
-      <article><small>Emails sent</small><strong>{pipeline.sent}</strong><p>{pipeline.sentToday} in the last 24 hours</p></article>
-      <article><small>Reply rate</small><strong>{replyRate}%</strong><p>{pipeline.replied} repl{pipeline.replied === 1 ? "y" : "ies"} recorded</p></article>
-    </section>
-
-    <div className="gw-columns">
-      <section className="gw-card">
-        <div className="gw-card-head"><div><p className="gw-kicker">UP NEXT</p><h2>Your next tasks</h2></div></div>
-        <UpNext tasks={upNext} today={today} />
+  return <main className="admin-main growth-main">
+    <header className="admin-topbar">
+      <div><p className="admin-eyebrow">BURIFY / WORKSPACE / GROWTH</p><h1>Growth Engine</h1></div>
+      <div className="growth-header-actions"><span className="admin-live">● Shared production database</span><a className="growth-back-link" href="/admin">← Dashboard</a></div>
+    </header>
+    {params.error && <p className="admin-error">{params.error === "approval-forbidden" ? "Only Admin and Super Admin can approve or reject drafts." : "The Growth Engine action could not be completed. Check your access and try again."}</p>}
+    {params.added && <p className="admin-success">Prospect added.</p>}
+    {params.updated && <p className="admin-success">Prospect updated.</p>}
+    {params.taskUpdated && <p className="admin-success">Task updated.</p>}
+    {params.reviewed && <p className="admin-success">Message review saved. Approval does not send the email.</p>}
+    {errors.length > 0 ? <section className="admin-panel"><h2>Growth data is not available</h2><p className="admin-muted">The secure Growth Engine database function is not available to this session yet. Confirm the migration and authenticated account role.</p></section> : <>
+      <section className="growth-intro"><div><p className="admin-eyebrow">PATIENT GROWTH SYSTEMS</p><h2>One workspace for growth operations.</h2><p>Manage clinic prospects, the 90-day execution plan and outreach approvals alongside your existing Burify CRM.</p></div><span className="growth-readiness">Production data · Protected access</span></section>
+      <section className="growth-stats">
+        <article className="admin-stat"><span>Growth prospects</span><strong>{counts?.prospects ?? 0}</strong><small>{counts?.new_prospects ?? 0} new prospects</small></article>
+        <article className="admin-stat"><span>Draft approvals</span><strong>{counts?.messages_draft ?? 0}</strong><small>Require human review</small></article>
+        <article className="admin-stat"><span>Outreach sent</span><strong>{counts?.messages_sent ?? 0}</strong><small>{counts?.replies ?? 0} replies recorded</small></article>
+        <article className="admin-stat"><span>Execution plan</span><strong>{counts?.tasks_done ?? 0}/{counts?.tasks_total ?? 0}</strong><small>Tasks completed</small></article>
       </section>
-      <section className="gw-card">
-        <div className="gw-card-head"><div><p className="gw-kicker">OUTREACH FUNNEL</p><h2>From prospect to reply</h2></div></div>
-        <Funnel steps={[
-          { label: "In ICP with email", value: pipeline.pool }, { label: "Drafted", value: pipeline.drafted },
-          { label: "Approved", value: pipeline.approved }, { label: "Sent", value: pipeline.sent }, { label: "Replied", value: pipeline.replied },
-        ]} />
+      <section className="growth-kpis">
+        {(dashboard?.kpis ?? []).map(kpi => <article className="growth-kpi" key={kpi.id}><span>{kpi.category}</span><strong>{kpi.current_value}{kpi.unit ? " "+kpi.unit : ""}</strong><p>{kpi.metric} · Target {kpi.target_label}</p></article>)}
       </section>
-    </div>
-
-    <section className="gw-card">
-      <div className="gw-card-head"><div><p className="gw-kicker">DAY-90 SCORECARD</p><h2>Targets</h2></div></div>
-      <KpiCards kpis={kpis} />
-    </section>
-
-    <div className="gw-columns">
-      <section className="gw-card">
-        <div className="gw-card-head"><div><p className="gw-kicker">12 WEEKS</p><h2>Plan progress</h2></div></div>
-        <div className="gw-weekbars" role="img" aria-label="Completion by week">
-          {weekProgress.map(w => <Link key={w.week} href="/admin/growth/plan" className="gw-weekbar" title={`Week ${w.week}: ${Math.round(w.pct * 100)}% done`}><i style={{ height: Math.max(4, w.pct * 100) + "%" }} /><span>W{w.week}</span></Link>)}
-        </div>
+      <section className="admin-panel growth-panel">
+        <div className="admin-panel-heading"><div><p className="admin-eyebrow">PIPELINE</p><h2>Clinic prospects</h2></div><span className="admin-count">{prospects.length} shown · up to 300</span></div>
+        <form action={addGrowthProspect} className="growth-prospect-form">
+          <label>Clinic name *<input name="clinic_name" required maxLength={180} placeholder="Clinic or dental group"/></label>
+          <label>Contact name<input name="contact_name" maxLength={180} placeholder="Decision-maker"/></label>
+          <label>Contact role<input name="role" maxLength={120} placeholder="Practice manager"/></label>
+          <label>Email<input name="email" type="email" maxLength={254} placeholder="name@clinic.com"/></label>
+          <label>Website<input name="website" type="url" maxLength={2048} placeholder="https://"/></label>
+          <label>Location<input name="location" maxLength={180} placeholder="City / region"/></label>
+          <label>Country<input name="country" maxLength={100} placeholder="Country"/></label>
+          <label>Segment<select name="segment" defaultValue="high_value_dental"><option value="high_value_dental">High-value dental</option><option value="multi_location">Multi-location</option><option value="paid_ads">Paid ads</option><option value="medical">Medical</option><option value="other">Other</option></select></label>
+          <label>Lead source<input name="lead_source" maxLength={120} placeholder="Research / referral"/></label>
+          <label className="growth-form-wide">Personalization note<input name="personalization_note" maxLength={2000} placeholder="Verified reason this clinic may be a fit"/></label>
+          <button type="submit">Add prospect</button>
+        </form>
+        {prospects.length === 0 ? <div className="admin-empty"><strong>No Growth Engine prospects yet</strong><p>Your existing CRM remains unchanged. Add new Growth Engine prospects here.</p></div> :
+          <div className="admin-table-wrap"><table className="admin-table growth-table"><thead><tr><th>Clinic</th><th>Contact</th><th>Segment</th><th>Score</th><th>Status</th><th>Update</th></tr></thead><tbody>
+            {prospects.map(p => <tr key={p.id}><td><strong>{p.clinic_name}</strong><small>{p.location || p.country || "—"}{p.website ? " · "+p.website : ""}</small></td><td>{p.contact_name || "—"}<small>{p.email || p.role || ""}</small></td><td>{p.segment.replaceAll("_"," ")}</td><td>{p.score}</td><td><span className="admin-status">{p.status.replaceAll("_"," ")}</span></td><td><form action={updateGrowthProspect} className="growth-inline-form"><input type="hidden" name="id" value={p.id}/><select name="status" defaultValue={p.status} aria-label={"Status for "+p.clinic_name}><option value="new">New</option><option value="queued">Queued</option><option value="contacted">Contacted</option><option value="replied">Replied</option><option value="positive">Positive</option><option value="call_booked">Call booked</option><option value="audit_sold">Audit sold</option><option value="won">Won</option><option value="lost">Lost</option><option value="unsubscribed">Unsubscribed</option></select><input name="score" type="number" min="0" max="100" defaultValue={p.score} aria-label="Prospect score"/><button type="submit">Save</button></form></td></tr>)}
+          </tbody></table></div>}
       </section>
-      <section className="gw-card">
-        <div className="gw-card-head"><div><p className="gw-kicker">ACTIVITY</p><h2>Recent activity</h2></div></div>
-        {activity.length === 0 ? <div className="gw-empty"><strong>No activity yet</strong><p>Drafts, sends and settings changes show up here.</p></div> :
-          <ul className="gw-activity">{activity.map(a => <li key={a.id}><span aria-hidden="true" />
-            <div><strong>{ACTION_LABEL[a.action] ?? a.action}</strong><small>{new Date(a.at).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Africa/Nairobi" })} · {a.actor}</small></div></li>)}</ul>}
+      <section className="growth-two-col">
+        <section className="admin-panel growth-panel"><div className="admin-panel-heading"><div><p className="admin-eyebrow">EXECUTION</p><h2>90-day plan</h2></div><span className="admin-count">{tasks.length} tasks</span></div>
+          <div className="growth-week-list">
+            {weekGroups.map(({ week, days }) => {
+              const weekTasks = days.flatMap(day => day.tasks);
+              const completed = weekTasks.filter(task => task.status === "done").length;
+              return <details className="growth-week" key={week}>
+                <summary className="growth-week-summary">
+                  <span className="growth-week-chevron" aria-hidden="true">⌄</span>
+                  <span className="growth-week-title"><strong>Week {week}</strong><small>{days.length} days · {weekTasks.length} tasks</small></span>
+                  <span className="growth-week-progress">{completed}/{weekTasks.length} complete</span>
+                </summary>
+                <div className="growth-day-list">
+                  {days.map(day => {
+                    const dayDone = day.tasks.filter(task => task.status === "done").length;
+                    return <details className="growth-day" key={day.dayIndex}>
+                      <summary className="growth-day-summary">
+                        <span><strong>Day {day.dayIndex} · {day.dayName}</strong><small>{day.tasks.length} tasks · {dayDone} complete</small></span>
+                        <span className="growth-day-chevron" aria-hidden="true">+</span>
+                      </summary>
+                      <div className="growth-task-list">
+                        {day.tasks.map(t => <article className="growth-task" key={t.id}>
+                          <div><small>{t.category.replaceAll("_"," ")}</small><strong>{t.title}</strong><p>{t.description || t.category}</p>{t.due_date && <small className="growth-task-due">Due {fmt(t.due_date)}</small>}</div>
+                          <form action={updateGrowthTask}><input type="hidden" name="id" value={t.id}/><select name="status" defaultValue={t.status} aria-label={"Status for "+t.title}><option value="todo">To do</option><option value="in_progress">In progress</option><option value="done">Done</option><option value="skipped">Skipped</option></select><button type="submit">Save</button></form>
+                        </article>)}
+                      </div>
+                    </details>;
+                  })}
+                </div>
+              </details>;
+            })}
+          </div>
+        </section>
+        <section className="admin-panel growth-panel"><div className="admin-panel-heading"><div><p className="admin-eyebrow">HUMAN REVIEW</p><h2>Outreach approvals</h2></div><span className="admin-count">{pendingApprovals.length} drafts · {approvals.filter(m=>m.status==="approved").length} approved</span></div>
+          {approvals.length === 0 ? <div className="admin-empty"><strong>No outreach messages yet</strong><p>New drafts will appear here for review.</p></div> : <div className="growth-approval-list">
+            {pendingApprovals.length > 0 && <section className="growth-message-bundle"><h3>Awaiting approval <small>{pendingApprovals.length}</small></h3>{pendingApprovals.map(m=><article className="growth-approval" key={m.id}><div className="growth-approval-head"><strong>{m.clinic_name}</strong><span className="admin-status">{m.status}</span></div><small>{m.contact_name || "Clinic contact"}{m.email ? " · "+m.email : ""}</small><h3>{m.subject || "Outreach message"}</h3><p>{m.body}</p>{canReview && <form action={reviewGrowthMessage}><input type="hidden" name="id" value={m.id}/><button name="decision" value="approve_message" type="submit">Approve draft</button><button name="decision" value="reject_message" type="submit" className="growth-reject">Reject</button></form>}</article>)}</section>}
+            {approvedByMonth.length > 0 && <section className="growth-message-bundle"><h3>Approved email archive</h3><p className="admin-muted">Grouped by approval month, then week. Expand a period to view its messages.</p>{approvedByMonth.map(month=><details className="growth-week" key={month.monthKey}><summary className="growth-week-summary"><span className="growth-week-chevron" aria-hidden="true">⌄</span><span className="growth-week-title"><strong>{month.monthLabel}</strong><small>{month.weekGroups.reduce((total,group)=>total+group.messages.length,0)} approved messages · {month.weekGroups.length} weeks</small></span></summary><div className="growth-day-list">{month.weekGroups.map(group=><details className="growth-day" key={group.week}><summary className="growth-day-summary"><span><strong>Week {group.week}</strong><small>{group.messages.length} approved {group.messages.length===1?"email":"emails"}</small></span><span className="growth-day-chevron" aria-hidden="true">+</span></summary><div className="growth-task-list">{group.messages.map(m=><article className="growth-approval" key={m.id}><div className="growth-approval-head"><strong>{m.clinic_name}</strong><span className="admin-status">approved</span></div><small>{m.contact_name || "Clinic contact"}{m.email ? " · "+m.email : ""}</small><h3>{m.subject || "Outreach message"}</h3><p>{m.body}</p>{m.approved_at && <small>Approved {new Date(m.approved_at).toLocaleString()}</small>}</article>)}</div></details>)}</div></details>)}</section>}
+          </div>}
+          <p className="admin-muted growth-note">{canReview ? "Only Admin and Super Admin can approve or reject drafts. Approval records the reviewer and time; it does not send an email." : "Marketing access is read-only for outreach approvals. Ask an Admin or Super Admin to review a draft."} Outbound email delivery is not triggered by this workflow.</p>
+        </section>
       </section>
-    </div>
-  </GrowthShell>;
+    </>}
+    <footer className="admin-footer">Burify Labs · Growth Engine · Shared Supabase production workspace</footer>
+  </main>;
 }

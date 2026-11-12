@@ -9,7 +9,7 @@ export default async function AdminLogin({ searchParams }: { searchParams: Promi
   const { data: { user } } = await supabase.auth.getUser();
   if (user) {
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-    if (profile?.role === "admin") redirect("/admin");
+    if (["admin", "super_admin", "marketing"].includes(profile?.role ?? "")) redirect("/admin");
   }
   const { error } = await searchParams;
   const message = error === "invalid" ? "Email or password is incorrect."

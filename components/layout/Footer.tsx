@@ -17,6 +17,9 @@ interface FooterProps {
 }
 
 const services: FooterLink[] = [
+  { label: "Patient Growth Systems", href: "/patient-growth" },
+  { label: "Dental Practice Growth", href: "/industries/dental-practices" },
+  { label: "Physiotherapy Growth", href: "/industries/physiotherapy" },
   { label: "Web Design", href: "/services/web-design" },
   { label: "AI Automation", href: "/services/ai-automation" },
   { label: "AI Agents", href: "/services/ai-agents" },
@@ -24,6 +27,8 @@ const services: FooterLink[] = [
 ];
 
 const company: FooterLink[] = [
+  { label: "Resources", href: "/resources" },
+  { label: "Growth Assessment", href: "/growth-assessment" },
   { label: "About Us", href: "/about" },
   { label: "Our Work", href: "/work" },
   { label: "Blog", href: "/blog" },
@@ -66,7 +71,7 @@ export function Footer({ variant = "dark" }: FooterProps) {
             <div className="lg:col-span-2">
               <Logo variant="light" size="md" showText={true} />
               <p className={`mt-4 text-body ${textClass} max-w-sm`}>
-                We design exceptional digital experiences and build intelligent automation systems that drive growth.
+                We connect websites, local visibility and responsible automation into practical digital growth systems.
               </p>
               <div className="flex gap-4 mt-6">
                 {socialLinks.map((social) => (

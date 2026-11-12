@@ -10,7 +10,7 @@ async function requireAdmin() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
   const { data: profile, error } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (error || !(["admin", "marketing"].includes(profile?.role ?? ""))) redirect("/admin/login?error=unauthorized");
+  if (error || !(["admin", "super_admin", "marketing"].includes(profile?.role ?? ""))) redirect("/admin/login?error=unauthorized");
   return supabase;
 }
 

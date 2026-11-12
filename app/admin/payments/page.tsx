@@ -15,7 +15,7 @@ export default async function AdminPaymentsPage({ searchParams }: { searchParams
   const { data: { user } } = await session.auth.getUser();
   if (!user) redirect("/admin/login");
   const { data: profile } = await session.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (profile?.role !== "admin") redirect("/admin/login?error=unauthorized");
+  if (!["admin", "super_admin"].includes(profile?.role ?? "")) redirect("/admin/login?error=unauthorized");
 
   const admin = createAdminClient();
   const [invoiceResult, paymentResult, subscriptionResult, emailLogResult, eventResult, receiptResult] = await Promise.all([

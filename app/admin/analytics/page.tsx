@@ -54,7 +54,7 @@ export default async function AdminAnalyticsPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-  if (!(["admin", "marketing"].includes(profile?.role ?? ""))) {
+  if (!(["admin", "super_admin", "marketing"].includes(profile?.role ?? ""))) {
     await supabase.auth.signOut();
     redirect("/admin/login?error=unauthorized");
   }
