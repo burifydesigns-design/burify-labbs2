@@ -53,6 +53,22 @@ export default async function GrowthEnginePage({ searchParams }: { searchParams:
     }),
   ).sort((a, b) => a.week - b.week);
   const approvals = (approvalsResult.data ?? []) as Message[];
+  const pendingApprovals = approvals.filter(message => message.status === "draft");
+  const approvedByMonth = Array.from(
+    approvals.filter(message => message.status === "approved").reduce((months, message) => {
+      const date = new Date(message.approved_at || message.created_at);
+      const monthKey = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}`;
+      const monthLabel = date.toLocaleDateString(undefined, { month:"long", year:"numeric" });
+      const weekOfMonth = Math.ceil((date.getDate() + new Date(date.getFullYear(), date.getMonth(), 1).getDay()) / 7);
+      const group = months.get(monthKey) ?? { monthLabel, weeks:new Map<number, Message[]>() };
+      const messages = group.weeks.get(weekOfMonth) ?? [];
+      messages.push(message);
+      group.weeks.set(weekOfMonth, messages);
+      months.set(monthKey, group);
+      return months;
+    }, new Map<string, { monthLabel:string; weeks:Map<number, Message[]> }>()),
+    ([monthKey, value]) => ({ monthKey, ...value, weekGroups:Array.from(value.weeks, ([week,messages]) => ({week,messages})).sort((a,b)=>b.week-a.week) })
+  ).sort((a,b)=>b.monthKey.localeCompare(a.monthKey));
   const errors = [dashboardResult.error, prospectsResult.error, tasksResult.error, approvalsResult.error].filter(Boolean);
   const fmt = (value:string) => new Date(value).toLocaleDateString(undefined, { day:"numeric", month:"short", year:"numeric" });
 
@@ -130,8 +146,11 @@ export default async function GrowthEnginePage({ searchParams }: { searchParams:
             })}
           </div>
         </section>
-        <section className="admin-panel growth-panel"><div className="admin-panel-heading"><div><p className="admin-eyebrow">HUMAN REVIEW</p><h2>Outreach approvals</h2></div><span className="admin-count">{approvals.filter(m=>m.status==="draft").length} drafts</span></div>
-          {approvals.length === 0 ? <div className="admin-empty"><strong>No messages awaiting review</strong><p>Draft outreach messages will appear here before approval.</p></div> : <div className="growth-approval-list">{approvals.map(m=><article className="growth-approval" key={m.id}><div className="growth-approval-head"><strong>{m.clinic_name}</strong><span className="admin-status">{m.status}</span></div><small>{m.contact_name || "Clinic contact"}{m.email ? " · "+m.email : ""}</small><h3>{m.subject || "Outreach message"}</h3><p>{m.body}</p>{m.status==="approved" && m.approved_at && <small>Approved {new Date(m.approved_at).toLocaleString()}</small>}{m.status==="draft" && canReview && <form action={reviewGrowthMessage}><input type="hidden" name="id" value={m.id}/><button name="decision" value="approve_message" type="submit">Approve draft</button><button name="decision" value="reject_message" type="submit" className="growth-reject">Reject</button></form>}</article>)}</div>}
+        <section className="admin-panel growth-panel"><div className="admin-panel-heading"><div><p className="admin-eyebrow">HUMAN REVIEW</p><h2>Outreach approvals</h2></div><span className="admin-count">{pendingApprovals.length} drafts · {approvals.filter(m=>m.status==="approved").length} approved</span></div>
+          {approvals.length === 0 ? <div className="admin-empty"><strong>No outreach messages yet</strong><p>New drafts will appear here for review.</p></div> : <div className="growth-approval-list">
+            {pendingApprovals.length > 0 && <section className="growth-message-bundle"><h3>Awaiting approval <small>{pendingApprovals.length}</small></h3>{pendingApprovals.map(m=><article className="growth-approval" key={m.id}><div className="growth-approval-head"><strong>{m.clinic_name}</strong><span className="admin-status">{m.status}</span></div><small>{m.contact_name || "Clinic contact"}{m.email ? " · "+m.email : ""}</small><h3>{m.subject || "Outreach message"}</h3><p>{m.body}</p>{canReview && <form action={reviewGrowthMessage}><input type="hidden" name="id" value={m.id}/><button name="decision" value="approve_message" type="submit">Approve draft</button><button name="decision" value="reject_message" type="submit" className="growth-reject">Reject</button></form>}</article>)}</section>}
+            {approvedByMonth.length > 0 && <section className="growth-message-bundle"><h3>Approved email archive</h3><p className="admin-muted">Grouped by approval month, then week. Expand a period to view its messages.</p>{approvedByMonth.map(month=><details className="growth-week" key={month.monthKey}><summary className="growth-week-summary"><span className="growth-week-chevron" aria-hidden="true">⌄</span><span className="growth-week-title"><strong>{month.monthLabel}</strong><small>{month.weekGroups.reduce((total,group)=>total+group.messages.length,0)} approved messages · {month.weekGroups.length} weeks</small></span></summary><div className="growth-day-list">{month.weekGroups.map(group=><details className="growth-day" key={group.week}><summary className="growth-day-summary"><span><strong>Week {group.week}</strong><small>{group.messages.length} approved {group.messages.length===1?"email":"emails"}</small></span><span className="growth-day-chevron" aria-hidden="true">+</span></summary><div className="growth-task-list">{group.messages.map(m=><article className="growth-approval" key={m.id}><div className="growth-approval-head"><strong>{m.clinic_name}</strong><span className="admin-status">approved</span></div><small>{m.contact_name || "Clinic contact"}{m.email ? " · "+m.email : ""}</small><h3>{m.subject || "Outreach message"}</h3><p>{m.body}</p>{m.approved_at && <small>Approved {new Date(m.approved_at).toLocaleString()}</small>}</article>)}</div></details>)}</div></details>)}</section>}
+          </div>}
           <p className="admin-muted growth-note">{canReview ? "Only Admin and Super Admin can approve or reject drafts. Approval records the reviewer and time; it does not send an email." : "Marketing access is read-only for outreach approvals. Ask an Admin or Super Admin to review a draft."} Outbound email delivery is not triggered by this workflow.</p>
         </section>
       </section>
