@@ -326,6 +326,9 @@ export function ContactPageClient() {
                         className="w-full px-4 py-3 bg-background text-text-primary border border-border rounded-xl text-body transition-all duration-200 ease-out focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                       >
                         <option value="">Select a service</option>
+                        <option value="Patient Growth Systems">Patient Growth Systems</option>
+                        <option value="Dental Practice Growth">Dental Practice Growth</option>
+                        <option value="Healthcare Website and SEO">Healthcare Website and SEO</option>
                         <option value="Website design and development">Website design and development</option>
                         <option value="AI automation">AI automation</option>
                         <option value="Web applications">Web applications</option>
