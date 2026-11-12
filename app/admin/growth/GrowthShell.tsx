@@ -13,6 +13,8 @@ export default function GrowthShell({ title, eyebrow, email, pending, children }
       <Link className="admin-nav" href="/admin">Overview</Link>
       <Link className="admin-nav" href="/admin/crm">Prospect CRM</Link>
       <Link className="admin-nav active" href="/admin/growth">Growth engine</Link>
+      <Link className="admin-nav" href="/admin/growth/clients">Clients & onboarding</Link>
+      <Link className="admin-nav" href="/admin/growth/proposals">Proposals</Link>
       <Link className="admin-nav" href="/admin/work">Work / portfolio</Link>
       <Link className="admin-nav" href="/admin/blog">Blog management</Link>
       <Link className="admin-nav" href="/admin/analytics">Analytics</Link>
