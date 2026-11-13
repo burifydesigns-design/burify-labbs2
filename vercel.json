@@ -6,6 +6,6 @@
   "regions": ["iad1"],
   "crons": [
     { "path": "/api/cron/paystack-reconcile", "schedule": "17 2 * * *" },
-    { "path": "/api/cron/growth", "schedule": "0 8 * * 1-5" }
+    { "path": "/api/cron/growth", "schedule": "30 9 * * 1-5" }
   ]
 }

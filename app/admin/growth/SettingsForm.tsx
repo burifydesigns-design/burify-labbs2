@@ -37,7 +37,7 @@ export default function SettingsForm({ initial, emailReady }: {
       <label className="gw-field-wide">Business postal address<input value={postalAddress} maxLength={240} onChange={e => setPostalAddress(e.target.value)} placeholder="Street, city, country" /></label>
     </div>
     <div className="gw-toggle-row">
-      <div><strong>Allow scheduled sending</strong><p>When on, approved emails are sent on weekday mornings within your daily cap. Drafts are never sent without approval.</p></div>
+      <div><strong>Allow scheduled sending</strong><p>When on, approved emails are sent once each weekday at 12:30 (Nairobi time) within your daily cap. Drafts are never sent without approval.</p></div>
       <button type="button" role="switch" aria-checked={enabled && detailsReady} className={"gw-switch" + (enabled && detailsReady ? " is-on" : "")} disabled={!detailsReady || !emailReady} onClick={() => setEnabled(v => !v)}><span /></button>
     </div>
     {message ? <p className={message.kind === "ok" ? "admin-success" : "admin-error"} role="status">{message.text}</p> : null}
